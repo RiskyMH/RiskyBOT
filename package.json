@@ -1,0 +1,22 @@
+{
+  "dependencies": {
+    "@discordjs/builders": "^0.6.0",
+    "axios": "^0.21.4",
+    "deepai": "^1.0.17",
+    "discord-rpc": "^4.0.1",
+    "discord.js": "^13.1.0",
+    "google-translate-api-browser": "^1.1.521"
+  },
+  "name": "riskybot",
+  "main": "npm run slash",
+  "scripts": {
+    "slash": "node slashCommands.js",
+    "webhook": "node webhook.js",
+    "start": "npm run slash"
+  },
+  "start": "npm run slash",
+  "author": "RiskyMH",
+  "engines": {
+    "node": "16.10"
+  }
+}
