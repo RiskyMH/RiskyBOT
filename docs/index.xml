@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Docs on RiskyBOT</title>
+    <link>https://riskymh.github.io/RiskyBOT/docs/</link>
+    <description>Recent content in Docs on RiskyBOT</description>
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://riskymh.github.io/RiskyBOT/docs/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>About</title>
+      <link>https://riskymh.github.io/RiskyBOT/docs/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://riskymh.github.io/RiskyBOT/docs/about/</guid>
+      <description>A random multi-purpose bot (well trying to be)</description>
+    </item>
+    
+    <item>
+      <title>FAQ</title>
+      <link>https://riskymh.github.io/RiskyBOT/docs/faq/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://riskymh.github.io/RiskyBOT/docs/faq/</guid>
+      <description>Possible issues  Since the bot only uses slash commands if scope of make slash commands (when adding the bot) doesn&amp;rsquo;t exist the bot is useless  </description>
+    </item>
+    
+    <item>
+      <title>Just added the bot</title>
+      <link>https://riskymh.github.io/RiskyBOT/docs/added/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://riskymh.github.io/RiskyBOT/docs/added/</guid>
+      <description>Cool information for when you just add the bot to a server</description>
+    </item>
+    
+    <item>
+      <title>Tips &amp; Tricks</title>
+      <link>https://riskymh.github.io/RiskyBOT/docs/tips-tricks/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://riskymh.github.io/RiskyBOT/docs/tips-tricks/</guid>
+      <description>Cool things that the bot can do</description>
+    </item>
+    
+  </channel>
+</rss>
