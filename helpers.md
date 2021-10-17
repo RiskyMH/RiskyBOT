@@ -26,7 +26,19 @@ if (message.author.id === client.user.id) {
     // do stuff
 }
 ```
-
+## messages:
+### send a message in all guilds
+```js 
+let toSay = "messageToSend";
+client.guilds.cache.each(guild => 
+  client.channels.cache.get(guild.systemChannelId).send(toSay))
+```
+### see all message a channel
+```js
+  const channel = channel.messages.cache;
+  console.log(channel.map((m) => m.content));
+```
+> **NOTE:** this only shows the new messages while the bot is running
 ---
 
 ## Webhook

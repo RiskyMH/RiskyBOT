@@ -1,0 +1,287 @@
+[
+    {
+        "name": "about",
+        "description": "Replies with information about a user/role",
+        "options": [
+            {
+                "type": 9,
+                "name": "input",
+                "description": "Information about a user/role",
+                "required": true
+            },
+            {
+                "type": 3,
+                "name": "extra",
+                "description": "Some more information that isn't as useful",
+                "required": false,
+                "choices": [
+                    {
+                        "name": "Advanced",
+                        "value": "advanced"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "message",
+        "description": "Uses the bot to DM yourself",
+        "options": [
+            {
+                "type": 3,
+                "name": "message",
+                "description": "Enter a message",
+                "required": true
+            }
+        ]
+    },
+    {
+        "name": "deep-ai",
+        "description": "Uses AI to produce results",
+        "options": [
+            {
+                "type": 3,
+                "name": "type",
+                "description": "The type of generation",
+                "required": true,
+                "choices": [
+                    {
+                        "name": "Text generator",
+                        "value": "text-generator"
+                    }
+                ]
+            },
+            {
+                "type": 3,
+                "name": "input",
+                "description": "The input for the AI",
+                "required": true
+            }
+        ]
+    },
+    {
+        "name": "translate",
+        "description": "Uses google translate",
+        "options": [
+            {
+                "type": 3,
+                "name": "to",
+                "description": "The language that the text is going to be translated",
+                "required": true,
+                "choices": [
+                    {
+                        "name": "English",
+                        "value": "en"
+                    },
+                    {
+                        "name": "Chinese (Simplified)",
+                        "value": "zh-cn"
+                    },
+                    {
+                        "name": "French",
+                        "value": "fr"
+                    },
+                    {
+                        "name": "Kroean",
+                        "value": "ko"
+                    },
+                    {
+                        "name": "Japanese",
+                        "value": "ja"
+                    },
+                    {
+                        "name": "Hindi",
+                        "value": "hi"
+                    },
+                    {
+                        "name": "Spanish (espagnol)",
+                        "value": "es"
+                    },
+                    {
+                        "name": "Russian",
+                        "value": "ru"
+                    }
+                ]
+            },
+            {
+                "type": 3,
+                "name": "input",
+                "description": "The input for the translator",
+                "required": true
+            },
+            {
+                "type": 3,
+                "name": "from",
+                "description": "The language that the text is from",
+                "required": false,
+                "choices": [
+                    {
+                        "name": "English",
+                        "value": "en"
+                    },
+                    {
+                        "name": "Chinese (Simplified)",
+                        "value": "zh-cn"
+                    },
+                    {
+                        "name": "French",
+                        "value": "fr"
+                    },
+                    {
+                        "name": "Kroean",
+                        "value": "ko"
+                    },
+                    {
+                        "name": "Japanese",
+                        "value": "ja"
+                    },
+                    {
+                        "name": "Hindi",
+                        "value": "hi"
+                    },
+                    {
+                        "name": "Spanish (espagnol)",
+                        "value": "es"
+                    },
+                    {
+                        "name": "Russian",
+                        "value": "ru"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "say",
+        "description": "Send a message in a channel as yourself or someone else",
+        "options": [
+            {
+                "type": 3,
+                "name": "message",
+                "description": "What will be sent in the channel",
+                "required": true
+            },
+            {
+                "type": 6,
+                "name": "user",
+                "description": "The user that will be simulated",
+                "required": false
+            }
+        ]
+    },
+    {
+        "name": "ping",
+        "description": "Replies with Pong!",
+        "options": []
+    },
+    {
+        "name": "-aboutme-credits-",
+        "description": "Replies information about me and my credits",
+        "options": []
+    },{
+        "name": "random",
+        "description": "Produces random results",
+        "options": [
+            {
+                "type": 3,
+                "name": "type",
+                "description": "The type of random",
+                "required": true,
+                "choices": [
+                    {
+                        "name": "Number (opt: num1, num2)",
+                        "value": "number"
+                    },{
+                    
+                        "name": "Cat (none)",
+                        "value": "cat"
+                    }
+                ]
+            },
+            {
+                "type": 4,
+                "name": "num1",
+                "description": "An input (opt: number)",
+                "required": false
+            },{
+                
+            "type": 4,
+            "name": "num2",
+            "description": "An input (opt: number)",
+            "required": false
+        }
+        ]
+    },
+    {
+        "name": "fun",
+        "description": "Produces fun results",
+        "options": [
+            {
+                "type": 3,
+                "name": "type",
+                "description": "The type of fun",
+                "required": true,
+                "choices": [
+                    {
+                        "name": "Clyde Say (req: text)",
+                        "value": "clyde-say"
+                    },
+                    {
+                        "name": "Ship (req: user1, user2)",
+                        "value": "ship"
+                    },
+                    {
+                        "name": "Who Would Win (req: user1, user2)",
+                        "value": "whowouldwin"
+                    },
+                    {
+                        "name": "Change My Mind (req: text)",
+                        "value": "changemymind"
+                    },
+                    {
+                        "name": "Captcha (req: user1)",
+                        "value": "captcha"
+                    },
+                    {
+                        "name": "Tweet (req: user1, text)",
+                        "value": "tweet"
+                    },
+                    {
+                        "name": "Trump Tweet (req: text)",
+                        "value": "trump-tweet"
+                    },
+                    {
+                        "name": "iPhone X (req: user1)",
+                        "value": "iphonex"
+                    },
+                    {
+                        "name": "Deepfry (req: user1)",
+                        "value": "deepfry"
+                    },
+                    {
+                        "name": "Blurpify (req: user1)",
+                        "value": "blurpify"
+                    }
+                ]
+            },
+            {
+                "type": 6,
+                "name": "user1",
+                "description": "A user",
+                "required": false
+            },
+            {
+                "type": 6,
+                "name": "user2",
+                "description": "A user",
+                "required": false
+            },
+            {
+                "type": 3,
+                "name": "text",
+                "description": "Some text",
+                "required": false
+            }
+        ]
+    }
+]

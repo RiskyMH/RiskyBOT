@@ -1,3 +1,10 @@
+# random
+_site
+*cache*
+_gen
+public
+soon.js
+
 # Logs
 logs
 *.log

@@ -1,20 +1,20 @@
 {
   "dependencies": {
     "@discordjs/builders": "^0.6.0",
+    "@discordjs/rest": "^0.1.0-canary.0",
     "axios": "^0.21.4",
     "deepai": "^1.0.17",
+    "discord-api-types": "^0.23.1",
     "discord-rpc": "^4.0.1",
     "discord.js": "^13.1.0",
-    "google-translate-api-browser": "^1.1.521"
+    "dotenv": "^10.0.0",
+    "fs": "^0.0.1-security",
+    "google-translate-api-browser": "^1.1.521",
+    "node-fetch": "^2.0.0",
+    "typescript": "^4.4.3"
   },
-  "name": "riskybot",
-  "main": "npm run slash",
-  "scripts": {
-    "slash": "node slashCommands.js",
-    "webhook": "node webhook.js",
-    "start": "npm run slash"
-  },
-  "start": "npm run slash",
+  "name": "RiskyBOT",
+  "main": "npm run src/index.js",
   "author": "RiskyMH",
   "engines": {
     "node": "16.10"

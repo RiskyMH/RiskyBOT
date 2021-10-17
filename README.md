@@ -1,16 +1,15 @@
 # RiskyBOT (code for it)
-The code for my bot and some other fun stuff with @discordjs 
+The code for my bot and some other fun stuff with @discordjs  
+This bot uses slash commands (some add buttons)
 
 ## Running
-This has many ways of use the main one is using 
-`slashCommands.js`\
-Other files:
-* `webhook.js`: makes everything new said in a channel turn into a webhook
+This bot is run by `node src/index.js`
 
-<!---
-### Glich
-The beta and running of this bot is with Glitch
-* making my bot online: https://working-antique-marmoset.glitch.me/
-* looking at the code: https://glitch.com/edit/#!/working-antique-marmoset
+## My hosted bot
+For more information see http://RiskyMH.github.io/RiskyBOT/docs/about/  
 
--->
+Everything in my GitHub Pages site is mainly for my instance of the bot but it can be used for other things
+
+Quick links
+* Bot invite: [link](https://discord.com/api/oauth2/authorize?client_id=780657028695326720&permissions=537133120&scope=bot%20applications.commands)
+* Bot Server: https://discord.gg/BanFeVWyFP
