@@ -9,7 +9,6 @@ buildDrafts: false
 buildFuture: false
 buildExpired: false
 
-
 minify:
     disableXML: true
     minifyOutput: true
@@ -29,7 +28,6 @@ params:
     ShowPostNavLinks: true
     ShowAuthor: false
     ShowToc: true
-
         
     assets:
         favicon: "./favicon.ico"
@@ -50,9 +48,11 @@ params:
 
     socialIcons:
         - name: discord
-          url: "https://discord.gg/BanFeVWyFP/"
+          url: "https://discord.gg/BanFeVWyFP"
         - name: github
           url: "https://github.com/RiskyMH/RiskyBOT"
+        - name: invite
+          url:  https://discord.com/api/oauth2/authorize?client_id=780657028695326720&scope=applications.commands
 
     # for search
     # https://fusejs.io/api/options.html
@@ -80,6 +80,6 @@ menu:
           weight: 20
         - identifier: invite
           name: Invite
-          url: https://discord.com/api/oauth2/authorize?client_id=780657028695326720&permissions=537133120&scope=bot%20applications.commands
+          url: https://discord.com/api/oauth2/authorize?client_id=780657028695326720&scope=applications.commands
           weight: 30
 

@@ -1,0 +1,12 @@
+{
+    "recommendations": [
+        "usernamehw.errorlens",
+        "streetsidesoftware.code-spell-checker",
+        "mikestead.dotenv",
+        "davidanson.vscode-markdownlint",
+        "visualstudioexptteam.vscodeintellicode",
+        "aaron-bond.better-comments",
+        "eg2.vscode-npm-script",
+        "dbaeumer.vscode-eslint"
+    ]
+}

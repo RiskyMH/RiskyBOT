@@ -1,0 +1,791 @@
+[
+    {
+        "default_permission": true,
+        "default_member_permissions": null,
+        "type": 2,
+        "name": "About user",
+        "dm_permission": null
+    },
+    {
+        "default_permission": true,
+        "default_member_permissions": null,
+        "type": 1,
+        "name": "about",
+        "description": "Replies with information about a user/role",
+        "dm_permission": null,
+        "options": [
+            {
+                "type": 1,
+                "name": "user",
+                "description": "Replies with information about a user",
+                "options": [
+                    {
+                        "type": 6,
+                        "name": "user",
+                        "description": "The User",
+                        "required": true
+                    },
+                    {
+                        "type": 3,
+                        "name": "extra",
+                        "description": "Some more information that isn't as useful",
+                        "choices": [
+                            {
+                                "name": "Advanced",
+                                "value": "advanced"
+                            },
+                            {
+                                "name": "Top.gg",
+                                "value": "top.gg"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "type": 1,
+                "name": "role",
+                "description": "Information about a role",
+                "options": [
+                    {
+                        "type": 8,
+                        "name": "role",
+                        "description": "The Role",
+                        "required": true
+                    },
+                    {
+                        "type": 3,
+                        "name": "extra",
+                        "description": "Some more information that isn't as useful",
+                        "choices": [
+                            {
+                                "name": "Advanced",
+                                "value": "advanced"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "type": 1,
+                "name": "channel",
+                "description": "Information about a channel",
+                "options": [
+                    {
+                        "type": 7,
+                        "name": "channel",
+                        "description": "The Channel",
+                        "required": true
+                    },
+                    {
+                        "type": 3,
+                        "name": "extra",
+                        "description": "Some more information that isn't as useful",
+                        "choices": [
+                            {
+                                "name": "Advanced",
+                                "value": "advanced"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "type": 1,
+                "name": "subreddit",
+                "description": "Get information about a subreddit",
+                "options": [
+                    {
+                        "type": 3,
+                        "name": "sub-reddit",
+                        "description": "The subreddit info from",
+                        "required": true,
+                        "autocomplete": true
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "default_permission": true,
+        "default_member_permissions": null,
+        "type": 1,
+        "name": "deep-ai",
+        "description": "Uses AI to produce results",
+        "dm_permission": null,
+        "options": [
+            {
+                "type": 3,
+                "name": "type",
+                "description": "The type of generation",
+                "required": true,
+                "choices": [
+                    {
+                        "name": "Text generator",
+                        "value": "text-generator"
+                    }
+                ]
+            },
+            {
+                "type": 3,
+                "name": "input",
+                "description": "The input for the AI",
+                "required": true
+            }
+        ]
+    },
+    {
+        "default_permission": true,
+        "default_member_permissions": null,
+        "type": 1,
+        "name": "translate",
+        "description": "Uses google translate",
+        "dm_permission": null,
+        "options": [
+            {
+                "type": 3,
+                "name": "to",
+                "description": "The language that the text is going to be translated",
+                "required": true,
+                "choices": [
+                    {
+                        "name": "English",
+                        "value": "en"
+                    },
+                    {
+                        "name": "Chinese (Simplified)",
+                        "value": "zh-cn"
+                    },
+                    {
+                        "name": "French",
+                        "value": "fr"
+                    },
+                    {
+                        "name": "Korean",
+                        "value": "ko"
+                    },
+                    {
+                        "name": "Japanese",
+                        "value": "ja"
+                    },
+                    {
+                        "name": "Hindi",
+                        "value": "hi"
+                    },
+                    {
+                        "name": "Spanish (espanol)",
+                        "value": "es"
+                    },
+                    {
+                        "name": "Russian",
+                        "value": "ru"
+                    }
+                ]
+            },
+            {
+                "type": 3,
+                "name": "input",
+                "description": "The input for the translator",
+                "required": true
+            },
+            {
+                "type": 3,
+                "name": "from",
+                "description": "The language that the text is from",
+                "choices": [
+                    {
+                        "name": "Auto",
+                        "value": ""
+                    },
+                    {
+                        "name": "English",
+                        "value": "en"
+                    },
+                    {
+                        "name": "Chinese (Simplified)",
+                        "value": "zh-cn"
+                    },
+                    {
+                        "name": "French",
+                        "value": "fr"
+                    },
+                    {
+                        "name": "Korean",
+                        "value": "ko"
+                    },
+                    {
+                        "name": "Japanese",
+                        "value": "ja"
+                    },
+                    {
+                        "name": "Hindi",
+                        "value": "hi"
+                    },
+                    {
+                        "name": "Spanish (espanol)",
+                        "value": "es"
+                    },
+                    {
+                        "name": "Russian",
+                        "value": "ru"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "default_permission": true,
+        "default_member_permissions": null,
+        "type": 1,
+        "name": "ping",
+        "description": "Replies with Pong!",
+        "dm_permission": null
+    },
+    {
+        "default_permission": true,
+        "default_member_permissions": null,
+        "type": 1,
+        "name": "-aboutme-credits-",
+        "description": "Replies information about me and my credits",
+        "dm_permission": null
+    },
+    {
+        "default_permission": true,
+        "default_member_permissions": null,
+        "type": 1,
+        "name": "random",
+        "description": "Produces random results",
+        "dm_permission": null,
+        "options": [
+            {
+                "type": 1,
+                "name": "number",
+                "description": "A random number",
+                "options": [
+                    {
+                        "type": 4,
+                        "name": "min",
+                        "description": "The max the random number can go"
+                    },
+                    {
+                        "type": 4,
+                        "name": "max",
+                        "description": "The min the random number can go"
+                    }
+                ]
+            },
+            {
+                "type": 1,
+                "name": "cat",
+                "description": "🐱 A random cat image"
+            },
+            {
+                "type": 1,
+                "name": "dog",
+                "description": "🐶 A random dog image"
+            },
+            {
+                "type": 1,
+                "name": "bird",
+                "description": "🐦 A random bird image"
+            },
+            {
+                "type": 1,
+                "name": "duck",
+                "description": "🦆 A random duck image"
+            },
+            {
+                "type": 1,
+                "name": "kangaroo",
+                "description": "🦘 A random kangaroo image"
+            },
+            {
+                "type": 1,
+                "name": "fox",
+                "description": "🦊 A random fox image"
+            },
+            {
+                "type": 1,
+                "name": "koala",
+                "description": "🐨 A random koala image"
+            },
+            {
+                "type": 1,
+                "name": "panda",
+                "description": "🐼 A random panda image"
+            },
+            {
+                "type": 1,
+                "name": "joke",
+                "description": "🤣 A random joke"
+            },
+            {
+                "type": 1,
+                "name": "quote",
+                "description": " A random quote"
+            },
+            {
+                "type": 1,
+                "name": "affirmation",
+                "description": "A random affirmation"
+            },
+            {
+                "type": 1,
+                "name": "fact",
+                "description": "A random fact"
+            },
+            {
+                "type": 2,
+                "name": "reddit",
+                "description": "Use Reddit to ...",
+                "options": [
+                    {
+                        "type": 1,
+                        "name": "random-post",
+                        "description": "Uses Reddit and your selected subreddit",
+                        "options": [
+                            {
+                                "type": 3,
+                                "name": "sub-reddit",
+                                "description": "The subreddit to get a random post from",
+                                "required": true,
+                                "autocomplete": true
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "default_permission": true,
+        "default_member_permissions": null,
+        "type": 1,
+        "name": "fun",
+        "description": "🤣 Produces fun results",
+        "dm_permission": null,
+        "options": [
+            {
+                "type": 1,
+                "name": "clyde-say",
+                "description": "Clyde say - ...",
+                "options": [
+                    {
+                        "type": 3,
+                        "name": "message",
+                        "description": "What clyde is saying",
+                        "required": true
+                    }
+                ]
+            },
+            {
+                "type": 1,
+                "name": "ship",
+                "description": "Ship 2 users - ...",
+                "options": [
+                    {
+                        "type": 6,
+                        "name": "user1",
+                        "description": "A user",
+                        "required": true
+                    },
+                    {
+                        "type": 6,
+                        "name": "user2",
+                        "description": "A user",
+                        "required": true
+                    }
+                ]
+            },
+            {
+                "type": 1,
+                "name": "whowouldwin",
+                "description": "Who Would Win - ...",
+                "options": [
+                    {
+                        "type": 6,
+                        "name": "user1",
+                        "description": "A user",
+                        "required": true
+                    },
+                    {
+                        "type": 6,
+                        "name": "user2",
+                        "description": "A user",
+                        "required": true
+                    }
+                ]
+            },
+            {
+                "type": 1,
+                "name": "changemymind",
+                "description": "Change My Mind - ...",
+                "options": [
+                    {
+                        "type": 3,
+                        "name": "message",
+                        "description": "The message",
+                        "required": true
+                    }
+                ]
+            },
+            {
+                "type": 1,
+                "name": "tweet",
+                "description": "Tweet a message - ...",
+                "options": [
+                    {
+                        "type": 6,
+                        "name": "user",
+                        "description": "The author for tweet",
+                        "required": true
+                    },
+                    {
+                        "type": 3,
+                        "name": "message",
+                        "description": "The message for tweet",
+                        "required": true
+                    }
+                ]
+            },
+            {
+                "type": 1,
+                "name": "trump-tweet",
+                "description": "Tweet a message as Trump - ...",
+                "options": [
+                    {
+                        "type": 3,
+                        "name": "message",
+                        "description": "The message for tweet",
+                        "required": true
+                    }
+                ]
+            },
+            {
+                "type": 1,
+                "name": "iphonex",
+                "description": "iPhone X - ...",
+                "options": [
+                    {
+                        "type": 6,
+                        "name": "user",
+                        "description": "Who's avatar to use",
+                        "required": true
+                    }
+                ]
+            },
+            {
+                "type": 1,
+                "name": "deepfry",
+                "description": "Deepfry - ...",
+                "options": [
+                    {
+                        "type": 6,
+                        "name": "user",
+                        "description": "Who's avatar to use",
+                        "required": true
+                    }
+                ]
+            },
+            {
+                "type": 1,
+                "name": "blurpify",
+                "description": "Blurpify - ...",
+                "options": [
+                    {
+                        "type": 6,
+                        "name": "user",
+                        "description": "Who's avatar to use",
+                        "required": true
+                    }
+                ]
+            },
+            {
+                "type": 1,
+                "name": "captcha",
+                "description": "Captcha - ...",
+                "options": [
+                    {
+                        "type": 6,
+                        "name": "user",
+                        "description": "Who's avatar to use",
+                        "required": true
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "default_permission": true,
+        "default_member_permissions": null,
+        "type": 1,
+        "name": "search",
+        "description": "🔍 Use the bot to search from sources",
+        "dm_permission": null,
+        "options": [
+            {
+                "type": 1,
+                "name": "urban-dictionary",
+                "description": "Use Urban Dictionary to define",
+                "options": [
+                    {
+                        "type": 3,
+                        "name": "input",
+                        "description": "The input for the search engine",
+                        "required": true,
+                        "autocomplete": true
+                    }
+                ]
+            },
+            {
+                "type": 1,
+                "name": "lyrics",
+                "description": "....",
+                "options": [
+                    {
+                        "type": 3,
+                        "name": "song-name",
+                        "description": "The song name to find lyrics for",
+                        "required": true
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "default_permission": true,
+        "default_member_permissions": null,
+        "type": 1,
+        "name": "tools",
+        "description": "🛠️ Use the bot to _____________________________",
+        "dm_permission": null,
+        "options": [
+            {
+                "type": 1,
+                "name": "choose",
+                "description": "Use the bot to choose an option",
+                "options": [
+                    {
+                        "type": 3,
+                        "name": "choices",
+                        "description": "The list to choose from (separated by ',')",
+                        "required": true
+                    }
+                ]
+            },
+            {
+                "type": 1,
+                "name": "rhymes",
+                "description": "Find words that rhyme with a provided word",
+                "options": [
+                    {
+                        "type": 3,
+                        "name": "word",
+                        "description": "The word to find rhymes for",
+                        "required": true
+                    }
+                ]
+            },
+            {
+                "type": 1,
+                "name": "8ball",
+                "description": "🎱 Ask the Magic 8 Ball a question!",
+                "options": [
+                    {
+                        "type": 3,
+                        "name": "question",
+                        "description": "Your question",
+                        "required": true
+                    }
+                ]
+            },
+            {
+                "type": 1,
+                "name": "pastebin",
+                "description": "Uses Hastebin to upload code",
+                "options": [
+                    {
+                        "type": 3,
+                        "name": "input",
+                        "description": "Your code",
+                        "required": true
+                    },
+                    {
+                        "type": 3,
+                        "name": "language",
+                        "description": "Your code's language",
+                        "required": false,
+                        "choices": [
+                            {
+                                "name": "JavaScript",
+                                "value": "js"
+                            },
+                            {
+                                "name": "CSS",
+                                "value": "css"
+                            },
+                            {
+                                "name": "Python",
+                                "value": "py"
+                            },
+                            {
+                                "name": "HTML",
+                                "value": "html"
+                            },
+                            {
+                                "name": "Java",
+                                "value": "java"
+                            },
+                            {
+                                "name": "Markdown",
+                                "value": "md"
+                            },
+                            {
+                                "name": "PHP",
+                                "value": "php"
+                            },
+                            {
+                                "name": "SQL",
+                                "value": "sql"
+                            },
+                            {
+                                "name": "Swift",
+                                "value": "swift"
+                            },
+                            {
+                                "name": "TypeScript",
+                                "value": "ts"
+                            },
+                            {
+                                "name": "YAML",
+                                "value": "yaml"
+                            },
+                            {
+                                "name": "Rust",
+                                "value": "rs"
+                            },
+                            {
+                                "name": "Perl",
+                                "value": "perl"
+                            },
+                            {
+                                "name": "JSON",
+                                "value": "json"
+                            },
+                            {
+                                "name": "Go",
+                                "value": "go"
+                            },
+                            {
+                                "name": "C",
+                                "value": "c"
+                            },
+                            {
+                                "name": "C#",
+                                "value": "csharp"
+                            },
+                            {
+                                "name": "C++",
+                                "value": "cpp"
+                            },
+                            {
+                                "name": "Shell",
+                                "value": "bash"
+                            },
+                            {
+                                "name": "R",
+                                "value": "r"
+                            },
+                            {
+                                "name": "PowerShell",
+                                "value": "ps1"
+                            },
+                            {
+                                "name": "Objective-C",
+                                "value": "objc"
+                            },
+                            {
+                                "name": "Kotlin",
+                                "value": "kt"
+                            },
+                            {
+                                "name": "cURL",
+                                "value": "curl"
+                            },
+                            {
+                                "name": "Docker",
+                                "value": "dockerfile"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "default_permission": true,
+        "default_member_permissions": null,
+        "type": 1,
+        "name": "meme",
+        "description": "🤣 Uses Reddit and r/dankmemes (or another option) to give you a random meme",
+        "dm_permission": null,
+        "options": [
+            {
+                "type": 3,
+                "name": "other-subreddit",
+                "description": "Another few meme options",
+                "choices": [
+                    {
+                        "name": "r/dankmemes",
+                        "value": "dankmemes"
+                    },
+                    {
+                        "name": "r/memes",
+                        "value": "memes"
+                    },
+                    {
+                        "name": "r/PrequelMemes",
+                        "value": "PrequelMemes"
+                    },
+                    {
+                        "name": "r/terriblefacebookmemes",
+                        "value": "terriblefacebookmemes"
+                    },
+                    {
+                        "name": "r/funny",
+                        "value": "funny"
+                    },
+                    {
+                        "name": "r/teenagers",
+                        "value": "teenagers"
+                    },
+                    {
+                        "name": "r/ComedyCemetery",
+                        "value": "ComedyCemetery"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "default_permission": true,
+        "default_member_permissions": null,
+        "type": 3,
+        "name": "Translate message",
+        "dm_permission": null
+    },
+    {
+        "default_permission": true,
+        "default_member_permissions": null,
+        "type": 3,
+        "name": "Continue message (deep ai)",
+        "dm_permission": null
+    },
+    {
+        "default_permission": true,
+        "default_member_permissions": null,
+        "type": 3,
+        "name": "Save message (pastebin)",
+        "dm_permission": null
+    }
+]

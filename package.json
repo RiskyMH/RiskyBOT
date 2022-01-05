@@ -1,22 +1,49 @@
 {
   "dependencies": {
-    "@discordjs/builders": "^0.6.0",
-    "@discordjs/rest": "^0.1.0-canary.0",
-    "axios": "^0.21.4",
-    "deepai": "^1.0.17",
-    "discord-api-types": "^0.23.1",
-    "discord-rpc": "^4.0.1",
-    "discord.js": "^13.1.0",
+    "@discordjs/builders": "^0.11.0",
+    "@discordjs/rest": "^0.2.0-canary.0",
+    "axios": "^0.24.0",
+    "deepai": "^0.0.3",
+    "discord-api-types": "^0.26.1",
+    "discord.js": "^13.5.0",
     "dotenv": "^10.0.0",
-    "fs": "^0.0.1-security",
-    "google-translate-api-browser": "^1.1.521",
-    "node-fetch": "^2.0.0",
-    "typescript": "^4.4.3"
+    "node-fetch": "^3.1.0",
+    "translatte": "^3.0.1"
   },
-  "name": "RiskyBOT",
-  "main": "npm run src/index.js",
+  "type": "module",
+  "module": "system",
+  "name": "riskybot",
+  "homepage": "https://riskymh.github.io/RiskyBOT",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "node -r dotenv/config src/main.js",
+    "start:extra": "node -r dotenv/config src/extra.js",
+    "typings-gen": "tsc",
+    "deployCommands": "node -r dotenv/config src/applicationCommands/deploy.js",
+    "deployCommands:extra": "node -r dotenv/config src/applicationCommands/deployExtra.js",
+    "ghPagesServe": "cd gh-pages && hugo serve"
+  },
   "author": "RiskyMH",
   "engines": {
-    "node": "16.10"
+    "node": "17.0"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@typescript-eslint/eslint-plugin": "^5.8.0",
+    "@typescript-eslint/parser": "^5.8.0",
+    "eslint": "^8.5.0",
+    "hugo-bin": "^0.79.2",
+    "jshint": "^2.13.1",
+    "typescript": "^4.5.4"
+  },
+  "files": [
+    "src/**/*",
+    ".env",
+    "config.json"
+  ],
+  "exports": {
+    "./functions": {
+      "import": "./src/functions/defaults.mjs"
+    }
   }
 }

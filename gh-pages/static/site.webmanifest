@@ -12,14 +12,14 @@
             "type": "image/png"
         }
     ],
-    "theme_color": "#2e2e33",
-    "background_color": "#2e2e33",
     "url": "http://RiskyMH.github.io/RiskyBOT/",
     "description": "Information for the discord bot RiskyBOT",
-    "thumbnailUrl": "http://localhost:1313/RiskyBOT/favicon.ico",
+    "thumbnailUrl": "http://RiskyMH.github.io/RiskyBOT/favicon.ico",
+    "theme_color": "#ED4245",
     "sameAs": [
-        "oauth2/authorize?client_id=780657028695326720&permissions=537133120&scope=bot%20applications.commands",
+        "https://discord.com/api/oauth2/authorize?client_id=780657028695326720&scope=applications.commands",
         "https://discord.gg/BanFeVWyFP",
         "https://github.com/RiskyMH/RiskyBOT"
+
     ]
 }
