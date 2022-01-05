@@ -15,15 +15,6 @@
     </item>
     
     <item>
-      <title>FAQ</title>
-      <link>https://riskymh.github.io/RiskyBOT/docs/faq/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://riskymh.github.io/RiskyBOT/docs/faq/</guid>
-      <description>Possible issues  Since the bot only uses slash commands if scope of make slash commands (when adding the bot) doesn&amp;rsquo;t exist the bot is useless  </description>
-    </item>
-    
-    <item>
       <title>Just added the bot</title>
       <link>https://riskymh.github.io/RiskyBOT/docs/added/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -33,12 +24,50 @@
     </item>
     
     <item>
+      <title>RiskyBOT Family</title>
+      <link>https://riskymh.github.io/RiskyBOT/docs/riskybots/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://riskymh.github.io/RiskyBOT/docs/riskybots/</guid>
+      <description>Information about all of the RiskyBOTs</description>
+    </item>
+    
+    <item>
       <title>Tips &amp; Tricks</title>
       <link>https://riskymh.github.io/RiskyBOT/docs/tips-tricks/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://riskymh.github.io/RiskyBOT/docs/tips-tricks/</guid>
       <description>Cool things that the bot can do</description>
+    </item>
+    
+    <item>
+      <title>FAQ</title>
+      <link>https://riskymh.github.io/RiskyBOT/docs/faq/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://riskymh.github.io/RiskyBOT/docs/faq/</guid>
+      <description>Q: What is the differances between the RiskyBOTs A: this is explained in this page, but in short they are do different features thus separate bot
+Q: Riskybot 2 isn&amp;rsquo;t responding to me in chat A: Make sure that it has permissions to view in that channel - can&amp;rsquo;t see what doesn&amp;rsquo;t have permissions for
+Q: Is the bot using any privileged intents A: The main bot is using no privileged intents, (but Riskybot 2 does use the message-content)</description>
+    </item>
+    
+    <item>
+      <title>About - RiskyBOT 2</title>
+      <link>https://riskymh.github.io/RiskyBOT/docs/about/riskybot-2/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://riskymh.github.io/RiskyBOT/docs/about/riskybot-2/</guid>
+      <description>A random multi-purpose bot (well trying to be)</description>
+    </item>
+    
+    <item>
+      <title>About - RiskyBOT Canary</title>
+      <link>https://riskymh.github.io/RiskyBOT/docs/about/riskybot-canary/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://riskymh.github.io/RiskyBOT/docs/about/riskybot-canary/</guid>
+      <description>A random multi-purpose bot (well trying to be)</description>
     </item>
     
   </channel>
