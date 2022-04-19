@@ -20,7 +20,7 @@
   "scripts": {
     "start": "tsc && node -r dotenv/config dist/src/main.mjs",
     "start:extra": "tsc && node -r dotenv/config dist/src/extra.mjs",
-    "//postinstall": "tsc",
+    "//postinstall": "tsc --noEmitOnError",
     "deployCommands": "node -r dotenv/config src/applicationCommands/deploy.js",
     "deployCommands:extra": "node -r dotenv/config src/applicationCommands/deployExtra.js",
     "deployCommands:ownerOnly": "node -r dotenv/config src/applicationCommands/deployOwnerOnly.js",

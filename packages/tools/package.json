@@ -23,7 +23,7 @@
         "types": "./dist/index.d.ts"
     },
     "scripts":{
-            "postinstall": "tsc --module esnext"
+            "postinstall": "tsc --module esnext --noEmitOnError"
     },
     "devDependencies": {
         "@typescript-eslint/eslint-plugin": "workplace:^",
