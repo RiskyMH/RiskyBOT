@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-//  @ts-nocheck
+// // @ts-nocheck
 import {time, hyperlink,inlineCode, userMention, bold, codeBlock, EmbedBuilder } from "@discordjs/builders";
 import { Util } from "discord.js";
 import {PermissionFlagsBits} from "discord-api-types/v10";
@@ -14,7 +14,7 @@ export default async function about(client: Client, config: Config, option: Comm
     console.log(option);
     let aboutEmbed = new EmbedBuilder().setColor(Util.resolveColor(config.getColors().ok));
     let aboutEmbedExtra = new EmbedBuilder().setColor(Util.resolveColor(config.getColors().ok));
-    trim;   
+    trim;  //test
     // USER
     if (option.user) {
         await option.user.fetch();
@@ -62,7 +62,7 @@ export default async function about(client: Client, config: Config, option: Comm
                     if (option.user.bot) {
                         aboutEmbedExtra
                             .setTitle("About - " +inlineCode("Bot:") + bold(inlineCode(option.user.username)) + inlineCode("(Top.gg)")) 
-                            .setURL("https://top.gg/bot/" + data.bots.id)// @ts-ignore //nobbot   
+                            .setURL("https://top.gg/bot/" + data.bots.id)// @ts-ignore   
                             .addFields({name: "Links", value:  `• [invite](${data.bots.invite})\n• [website](${data.bots.website})`})// @ts-ignore
                             .addFields({name: "Tags", value: data.bots.tags?.join(", ") ?? "*No tags*"})// @ts-ignore
                             .addFields({name: "Short Desc",value:  data.bots.shortdesc ?? "*No description*"})// @ts-ignore
@@ -148,7 +148,7 @@ export default async function about(client: Client, config: Config, option: Comm
         );
         // permissions for user
         //  if (option.channel.permissions) aboutEmbed.addFields(await permissionViewer(new Permissions(option.channel.permissions)))
-        aboutEmbed.addFields("Type",channelTypeEmoji[option.channel.type] ||channelTypeEmojiAlt[option.channel.type]);
+        aboutEmbed.addFields("Type",channelTypeEmoji[option.channel.type] ||channelTypeEmojiAlt[option.channel.type]); 
 
         if (extra === "advanced") {
             aboutEmbedExtra
@@ -158,7 +158,8 @@ export default async function about(client: Client, config: Config, option: Comm
     }
     if (option.name === "id") {
         let anyId = option.value.toString();
-
+        
+        // types required
         var timestampFromSnowflake = (id) => {
             return Number(id) / 4194304 + 1420070400000;
         };
@@ -193,6 +194,7 @@ export default async function about(client: Client, config: Config, option: Comm
  * @return { Promise <import("discord.js").ApplicationCommandOptionChoice[]> }
  */
 export async function autoComplete(client, type, input) {
+    // yes
     try {
         /** @type Object */
 
