@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
+// //  @ts-nocheck
 
 import { inlineCode, italic, EmbedBuilder, ButtonBuilder, ActionRowBuilder } from "@discordjs/builders";
 import { ButtonStyle } from "discord-api-types/v10";

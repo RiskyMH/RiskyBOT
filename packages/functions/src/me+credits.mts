@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
+// //  @ts-nocheck
 import { EmbedBuilder } from "discord.js";
 import { inlineCode } from "@discordjs/builders";
 import { OAuth2Routes, OAuth2Scopes, PermissionFlagsBits } from "discord-api-types/v10";

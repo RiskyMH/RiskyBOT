@@ -1,6 +1,6 @@
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
+// //  @ts-nocheck
 
 import { ActionRowBuilder, ButtonBuilder, EmbedBuilder, MessageActionRowComponentBuilder } from "@discordjs/builders";
 import {Util} from "discord.js";

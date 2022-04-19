@@ -35,7 +35,7 @@ jobs:
           node-version: ${{ matrix.node }}
 
       - run: yarn install --ignore-scripts
-      - run: yarn tsc
+      - run: yarn tsc --noEmitOnError
       - run: yarn install
       - run: yarn tsc
       # - run: yarn test

@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
+// //  @ts-nocheck
 
 import { ModalBuilder, TextInputBuilder, ActionRowBuilder, EmbedBuilder, codeBlock } from "@discordjs/builders";
 import { TextInputStyle } from "discord-api-types/v10";

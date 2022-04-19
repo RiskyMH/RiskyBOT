@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
+// //  @ts-nocheck
 import { EmbedBuilder, bold, inlineCode } from "@discordjs/builders";
 import { Client, User, CommandInteractionOption } from "discord.js";
 import fetch from "node-fetch";

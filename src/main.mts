@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
+@ts-nocheck
 
 import { codeBlock } from "@discordjs/builders";
 import { Client, EmbedBuilder, Util } from "discord.js";
@@ -180,8 +180,8 @@ client.on("interactionCreate", async (interaction) => {
                 break;
                 // OWNER ONLY COMMANDS BELOW:
                 case "eval":{
-                    await interaction.client.application.fetch();
-                    if (interaction.user.id !== client.application.owner.id){
+                    await interaction.client.application?.fetch();
+                    if (interaction.user.id !== client.application?.owner.id){
                         await interaction.reply({ embeds: [errorEmb.setTitle("You are to Evil for Eval").setDescription("You dont have the privilege to be eval")], ephemeral: true}).catch(console.log);
                         break;
                     }
