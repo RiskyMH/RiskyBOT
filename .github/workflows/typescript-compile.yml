@@ -1,0 +1,41 @@
+name: "TypeScript Compile Test"
+
+on:
+  push:
+    branches: 
+      - main
+      - v**
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches:
+      - main
+      - v**
+  schedule:
+    - cron: '0 0 * * 0'
+
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          # - macos-latest
+          - windows-latest
+        node: [ '17' ]
+        cache: ['yarn']
+    name: "OS ${{ matrix.os }} - Node ${{ matrix.node }} test"
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+
+      - run: yarn install --ignore-scripts
+      - run: yarn tsc
+      - run: yarn install
+      - run: yarn tsc
+      # - run: yarn test

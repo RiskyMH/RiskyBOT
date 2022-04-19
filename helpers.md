@@ -112,10 +112,10 @@ console.log(data); // make sure it is run
 ### make
 ```js
 // at the top of your file
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 // inside a command, event listener, etc.
-const exampleEmbed = new MessageEmbed()
+const exampleEmbed = new EmbedBuilder()
 	.setColor('#0099ff')
 	.setTitle('Some title')
 	.setURL('https://discord.js.org/')

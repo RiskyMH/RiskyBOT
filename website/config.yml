@@ -1,0 +1,114 @@
+baseURL: "http://riskymh.github.io/RiskyBOT"
+title: RiskyBOT
+paginate: 5
+theme: PaperMod
+author: RiskyMH
+
+enableRobotsTXT: true
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+
+minify:
+    disableXML: true
+    minifyOutput: true
+
+params:
+    env: production # to enable google analytics, opengraph, twitter-cards and schema.
+    title: RiskyBOT
+    description: "Information for the discord bot RiskyBOT"
+    keywords: [Discord, Bot, RiskyBOT, RiskyMH, DiscordJS, Discord, Discord-Bot]
+
+    # images: ["<link or path of image for opengraph, twitter-cards>"]
+    DateFormat: "January 2, 2006"
+    defaultTheme: auto # dark, light
+    disableThemeToggle: false
+
+    ShowReadingTime: true
+    ShowPostNavLinks: true
+    ShowAuthor: false
+    ShowToc: true
+        
+    assets:
+        favicon: "./favicon.svg"
+        favicon32x32:  "./favicon-32x32.png"
+        apple_touch_icon:  "./favicon.svg"
+
+    label:
+        text: "RiskyBOT"	
+        icon: "/RiskyBOT/robot.svg"
+        iconHeight: 35
+
+    # home-info mode
+    homeInfoParams:
+        Title: "Hi there \U0001F44B"
+        Content: "Welcome to the information for the discord bot - RiskyBOT"
+
+    socialIcons:
+        - name: discord
+          url: "https://discord.gg/BanFeVWyFP"
+        - name: github
+          url: "https://github.com/RiskyMH/RiskyBOT"
+        - name: invite
+          url:  https://discord.com/api/oauth2/authorize?client_id=780657028695326720&scope=applications.commands
+
+    # for search
+    # https://fusejs.io/api/options.html
+    fuseOpts:
+        isCaseSensitive: false
+        shouldSort: true
+        location: 0
+        distance: 1000
+        threshold: 0.4
+        minMatchCharLength: 0
+        keys: ["title", "permalink", "summary", "content"]
+outputs:
+    home:
+        - HTML
+        - RSS
+menu:
+    main:
+        - identifier: faq
+          name: FAQ
+          url: docs/faq/
+          weight: 10
+        - identifier: about
+          name: About
+          url: docs/about/
+          weight: 20
+        - identifier: invite
+          name: Invite
+          url: https://discord.com/api/oauth2/authorize?client_id=780657028695326720&scope=applications.commands
+          weight: 30
+
+minify:
+  disableCSS: false
+  disableHTML: false
+  disableJS: false
+  disableJSON: false
+  disableSVG: false
+  disableXML: false
+  minifyOutput: false
+  tdewolff:
+    css:
+      keepCSS2: true
+      precision: 0
+    html:
+      keepComments: false
+      keepConditionalComments: true
+      keepDefaultAttrVals: true
+      keepDocumentTags: true
+      keepEndTags: true
+      keepQuotes: false
+      keepWhitespace: true
+    js:
+      keepVarNames: false
+      precision: 0
+    json:
+      keepNumbers: false
+      precision: 0
+    svg:
+      precision: 0
+      decimals: -1
+    xml:
+      keepWhitespace: false

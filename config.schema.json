@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Config options",
+  "description": "The schema for the config file",
+  "type": "object",
+  "required": ["colors"],
+  "properties": {
+    "colors": {
+      "type": "object",
+      "description": "The colors used for the bot (eg embed color)",
+      "required": ["ok", "error", "good", "warning"],
+      "properties": {
+          "ok":{
+            "type": "string",
+            "title": "Config --> Colors",
+            "description": "The color when something has completed normally",
+            "default": "#5865F2"
+
+          },
+          "error": {
+            "type": "string",
+            "title": "Config --> Colors",
+            "description": "The color when something has an error",
+            "default": "#ED4245"
+          },
+          "good": {
+            "type": "string",
+            "title": "Config --> Colors",
+            "description": "The color when something has had a good outcome",
+            "default": "#57F287"
+          },
+          "warning": {
+            "type": "string",
+            "title": "Config --> Colors",
+            "description": "The color when something has not fully complected..",
+            "default": "#FEE75C"
+          }
+      }
+    }
+  }
+}

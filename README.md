@@ -22,7 +22,7 @@ To add the commands run `npm run deployCommands:extra`
 * A: you need to `deployCommands` otherwise it wont work
 
 ## How to configure
-### Using [`config.json`](./config.json)
+### Using [`config.jml`](./config.yml)
 You can currently use this file to change some UI settings (eg. colures)
 
 The available features are in the file by default
@@ -33,8 +33,8 @@ As with [`config.json`](./config.json) the file [`example.env`](./example.env) h
 This is used for extra config but it is not the best way to be using this - used for extra
 
 ### *`Next few are more technical`*
-### Using [`src/deployCommands/commands.json`](./src/deployCommands/commands.json)
-With this (and the [`commandsExtra.json`](src/deployCommands/commandsExtra.json)) file you can change how the slash commands work \
+### Using [`src/applicationCommands/commands.json`](./src/applicationCommands/commands.json)
+With this (and the [`commandsExtra.json`](src/applicationCommands/commandsExtra.json)) file you can change how the slash commands work \
 You can:
 - change their description
 - remove commands/parts of
@@ -48,7 +48,7 @@ You can change the behavior of commands by changing the code - be aware thet som
 ## My hosted bot
 For more information see http://RiskyMH.github.io/RiskyBOT/docs/about/  
 
-Everything in my GitHub Pages site is mainly for my instance of the bot but it can be used for other things
+Everything in my GitHub Pages site is mainly for my instance of the bot, but it can be used for other things
 
 Quick links:
 * Bot invite: [link](https://discord.com/api/oauth2/authorize?client_id=780657028695326720&scope=applications.commands)

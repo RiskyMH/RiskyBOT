@@ -5,8 +5,13 @@ on:
     branches:
       - main  # Set a branch to deploy
     paths:
-      - "gh-pages/**"
+      - "website/**"
   pull_request:
+    branches:
+      - main  # Set a branch to deploy
+    paths:
+      - "website/**"
+
 
 jobs:
   deploy:
@@ -23,11 +28,11 @@ jobs:
           hugo-version: 'latest'
 
       - name: Build
-        run: ( cd gh-pages && hugo --minify )
+        run: ( cd website && hugo --minify )
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         if: github.ref == 'refs/heads/main'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./gh-pages/public
+          publish_dir: ./website/public

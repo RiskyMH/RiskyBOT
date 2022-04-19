@@ -1,0 +1,278 @@
+---
+title: "Examples"
+aliases: ["/examples"]
+description: "Some examples of what the bot's responses"
+summary: "Some examples of what the bot's responses"
+weight: 13
+---
+
+<!-- <script src="https://unpkg.com/wc-discord-message@^2.0.0/dist/wc-discord-message/wc-discord-message.js"></script> -->
+
+<script type="module" src="https://unpkg.com/@skyra/discord-components-core" ></script>
+<script>
+	window.$discordMessage = {
+		profiles: {
+			riskybot: {
+				author: 'RiskyBOT',
+				avatar: 'https://riskymh.github.io/RiskyBOT/robot.png',
+				bot: true,
+				verified: true
+			},
+
+		},
+	}
+
+	function dupExample(sourceId, destId) {
+		var source = document.getElementById(sourceId)
+		var destination = document.getElementById(destId)
+
+		clone = document.importNode(source.content, true)
+		destination.appendChild(clone)
+	}
+
+
+</script>
+
+<style>
+	.discord-messages a {
+		box-shadow: 0 0;
+	}
+
+	.discord-messages img {
+		margin: 0
+	}
+
+	.discord-messages code {
+		margin: -.2em 0;
+		line-height: 1.125rem;
+		padding: .20em;
+	}
+
+	.discord-messages pre code {
+		padding: .5em;
+		border-radius: 4px;
+		font-size: 0.875rem;
+		text-size-adjust: none;
+	}
+	.discord-messages code {
+		background-color: #202225 !important;
+	}
+	.discord-messages.discord-light-theme code {
+		background-color: red;
+	}
+	.discord-messages {
+		border-radius: 8px;
+	}
+
+	.discord-messages .discord-embed-image {
+		width: 240px;
+		height: 300px;
+	}
+
+	.discord-embed-grid .discord-embed {
+		display: inline-block !important;
+	}
+	.discord-embed-grid .discord-embed .discord-embed-thumbnail{
+		display: inline-grid !important;
+	}
+	@media (max-width: 550px) {
+		.discord-embed .discord-embed-thumbnail{
+			max-height: 40px !important;
+			max-width: 40px !important;
+			margin-left: 8px;
+			/* zoom: 0.75;
+			-moz-transform: scale(0.75); */
+			/* grid-column: 3/3; */
+		}
+		.discord-embed-footer {
+			display: block
+		}
+		.discord-embed .discord-embed-field.discord-inline-field {
+			flex-grow: none;
+			flex-basis: none;
+			min-width: none;
+		}
+		
+	}
+	/* @media (max-width: 400px) {
+		 .discord-embed-thumbnail{
+			zoom: 0.4;
+			-moz-transform: scale(0.5);
+			grid-column: 4/4 !important;
+		}
+		.discord-embed-field {
+			grid-column: 2/4 !important;
+		} 
+		
+	} */
+</style>
+
+
+<template id="buttonEphemeral">
+	<discord-message timestamp="01/01/2022" profile="riskybot">
+		<discord-reply slot="reply" profile="riskybot" command>Command</discord-reply>
+		To interact with this example join the <a href="https://discord.gg/BanFeVWyFP">server</a> or <a href="https://discord.com/api/oauth2/authorize?client_id=780657028695326720&scope=applications.commands">add the bot</a>
+	</discord-message>
+</template>
+
+<h3>Disclaimer</h3>
+<p><em>I do now own any of the content shown (eg. definition from Urban Dictionary, post from Reddit)</em></p>
+<br>
+
+<h3>Search - Urban Dictionary</h3>
+<discord-messages>
+	<discord-message timestamp="01/01/2022" profile="riskybot">
+		<discord-command slot="reply" command="/search">
+		</discord-command>
+
+		<discord-embed color="#5865F2" slot="embeds" embed-title="Search - hello" author-name="Urban Dictionary"
+			url="http://hello.urbanup.com/10899178">
+
+			<discord-embed-fields slot="fields">
+				<discord-embed-field field-title="Definition">
+					a very [offensive] [curse word]
+				</discord-embed-field>
+				<discord-embed-field field-title="Example">
+					[What the] hello
+				</discord-embed-field>
+				<discord-embed-field field-title="Stats">
+					<code>👍2089</code> <code>👎233</code>
+				</discord-embed-field>
+			</discord-embed-fields>
+			<discord-embed-footer slot="footer" timestamp="01/16/2017">
+				Defined by: i am multi coloured
+			</discord-embed-footer>
+
+		</discord-embed>
+	</discord-message>
+</discord-messages>
+
+
+<h3>Random - Reddit - Random Post</h3>
+<discord-messages id="random-reddit-randompost">
+	<discord-message timestamp="01/01/2022" profile="riskybot" id="random-reddit-randompost-data">
+		<discord-command slot="reply" command="/random"></discord-command>
+
+		<discord-embed color="#5865F2" slot="embeds" embed-title="Random post - r/dankmemes" author-name="Reddit"
+			image="https://i.redd.it/4uclnxfyzpc81.jpg"
+			url="https://reddit.com/r/dankmemes/comments/s82ebw/the_meme_timeline_must_be_protected_at_all_costs/">
+
+			<discord-embed-fields slot="fields">
+				<strong>The meme timeline must be protected at all costs</strong>
+				<discord-embed-field field-title="Stats">
+					<code>👍768</code> <code>👎0</code> <code>💬12</code>
+				</discord-embed-field>
+			</discord-embed-fields>
+			<discord-embed-footer slot="footer" timestamp="01/20/2022">
+				Posted by: ZZMazinger
+			</discord-embed-footer>
+
+		</discord-embed>
+		<discord-attachments slot="components">
+			<discord-action-row>
+				<discord-button onclick="dupExample('buttonEphemeral','random-reddit-randompost')" type="primary">Again?
+				</discord-button>
+				<discord-button
+					url="https://reddit.com/r/dankmemes/comments/s82ebw/the_meme_timeline_must_be_protected_at_all_costs/">
+					Link</discord-button>
+			</discord-action-row>
+		</discord-attachments>
+
+	</discord-message>
+</discord-messages>
+<br>
+
+<h3>About - user</h3>
+<discord-messages>
+	<discord-message timestamp="01/01/2022" profile="riskybot">
+		<discord-command slot="reply" command="/about">
+		</discord-command>
+
+		<discord-embed color="#5865F2" slot="embeds" embed-title="About - User: RiskyBOT"
+			thumbnail="https://cdn.discordapp.com/avatars/780657028695326720/99489f62e18ecfe0b6c8c7b98e1b919d.webp">
+			<discord-embed-fields slot="fields">
+				<discord-embed-field field-title="Made">
+					November 24, 2020 3:52 PM (a year ago)
+				</discord-embed-field>
+
+				<discord-embed-field field-title="Username" inline=true inline-index=1>
+
+					<pre><code>RiskyBOT</code></pre>
+				</discord-embed-field>
+				<discord-embed-field field-title="Discriminator" inline=true inline-index=2>
+					<pre><code class="hl nginx"><span class="hl-attribute">2500</span></code></pre>
+				</discord-embed-field>
+				<discord-embed-field field-title="Full" inline=true inline-index=3>
+					<pre><code class="hl nginx"><span class="hl-attribute">RiskyBOT#2500</span></code></pre>
+				</discord-embed-field>
+
+				<discord-embed-field field-title="Joined at" inline=true inline-index=1>
+					January 1, 2022 00:00 AM
+				</discord-embed-field>
+				<discord-embed-field field-title="Server nickname" inline=true inline-index=2>
+					<em>No nickname set</em>
+				</discord-embed-field>
+			</discord-embed-fields>
+
+		</discord-embed>
+	</discord-message>
+</discord-messages>
+
+<br>
+<h3>Credits</h3>
+<ul>
+	<li>Discord embed visualizer: <a href="https//github.com/skyra-project/discord-components">https://github.com/skyra-project/discord-components</a></li>
+	<li>The Reddit posts, Urban Dictionary definition</li>
+</ul>
+
+<!-- 
+<script>
+	document.getElementById("theme-toggle").addEventListener("click", () => {
+		let theme = document.body.className.includes("dark") ? "discord-light-theme" : "discord-dark-theme"
+		let notTheme = !document.body.className.includes("dark") ? "discord-light-theme" : "discord-dark-theme"
+		
+		let theme2 = document.body.className.includes("dark") ? "add" : "remove"
+		for (let elem of document.getElementsByTagName("discord-messages")) {
+			elem.classList[theme2/* add/remove */]("discord-light-theme")
+			// elem.classList.add("discord-light-theme")
+		}
+		for (let elem of document.getElementsByTagName("discord-embed-footer")) {
+			elem.classList.add(theme)
+			elem.classList.remove(theme)
+		}
+	})
+
+	let theme = localStorage.getItem("pref-theme") === "dark" ? "discord-dark-theme" : "discord-light-theme"
+	console.log(theme)
+	for (let elem of document.getElementsByTagName("discord-messages")) {
+		elem.classList.add(theme)
+		elem.classList.remove(theme)
+	}
+	for (let elem of document.getElementsByTagName("discord-embed-footer")) {
+		elem.classList.add(theme)
+		elem.classList.remove(theme)
+	}
+</script> 
+-->
+
+<script>
+	
+
+	window.addEventListener("resize", function () {
+		if (window.matchMedia("(min-width: 550px)").matches) {
+				for (let elem of document.getElementsByTagName("discord-embed-field")) {
+					if (elem.attributes.getNamedItem("inline") != null) {
+						elem.setAttribute("inline", true)
+					}
+			}
+		} else {
+			for (let elem of document.getElementsByTagName("discord-embed-field")){
+				if (elem.attributes.getNamedItem("inline") != null){
+					elem.setAttribute("inline", false)
+				}
+			}
+		}
+	})
+	window.dispatchEvent(new Event("resize"))
+	
+	</script>

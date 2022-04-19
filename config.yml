@@ -1,0 +1,8 @@
+
+# The colors used for the bot (eg embed color)
+colors: 
+    ok: "#5865F2"
+    error: "#ED4245"
+    good: "#57F287"
+    warning: "#FEE75C"
+

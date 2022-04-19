@@ -1,0 +1,37 @@
+{
+    "name": "@riskybot/functions",
+    "version": "0.0.10",
+    "dependencies": {
+        "discord.js": "workplace:^",
+        "@discordjs/builders": "workplace:^",
+        "discord-api-types": "workplace:^",
+        "axios": "^0.26.0",
+        "deepai": "^0.0.3",
+        "translatte": "^3.0.1",
+        "@riskybot/tools": "file:../tools"
+    },
+    "private": true,
+    "main": "./dist/index.js",
+    "module": "./dist/index.mjs",
+    "types": "./dist/index.d.ts",
+    "type": "module",
+    "directories": {
+        "lib": "src"
+    },
+    "files": [
+        "src"
+    ],
+    "exports": {
+        "import": "./dist/index.mjs",
+        "types": "./dist/index.d.ts"
+    },    "scripts":{
+            "postinstall": "tsc"
+    },
+    "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "workplace:^",
+        "@typescript-eslint/parser": "workplace:^",
+        "eslint": "workplace:^",
+        "jshint": "workplace:^",
+        "typescript": "workplace:^"
+    }
+}

@@ -321,8 +321,23 @@
             },
             {
                 "type": 1,
+                "name": "dad-joke",
+                "description": "😂 A random dad joke "
+            },
+            {
+                "type": 1,
+                "name": "emoji",
+                "description": "A random emoji"
+            },
+            {
+                "type": 1,
+                "name": "zoo-anim",
+                "description": "A random zoo animal"
+            },
+            {
+                "type": 1,
                 "name": "quote",
-                "description": " A random quote"
+                "description": "🗨️ A random quote"
             },
             {
                 "type": 1,
@@ -333,6 +348,46 @@
                 "type": 1,
                 "name": "fact",
                 "description": "A random fact"
+            },
+            {
+                "type": 1,
+                "name": "insult",
+                "description": "😢 A random insult"
+            },
+            {
+                "type": 1,
+                "name": "excuse",
+                "description": "A random excuse",
+                "options": [
+                    {
+                        "type": 3,
+                        "name": "category",
+                        "description": "The category for the excuse",
+                        "required": false,
+                        "choices": [
+                            {
+                                "name": "Family",
+                                "value": "family"
+                            },
+                            {
+                                "name": "Office",
+                                "value": "office"
+                            },
+                            {
+                                "name": "Children",
+                                "value": "children"
+                            },
+                            {
+                                "name": "Collage",
+                                "value": "collage"
+                            },
+                            {
+                                "name": "Party",
+                                "value": "party"
+                            }
+                        ]
+                    }
+                ]
             },
             {
                 "type": 2,
@@ -365,6 +420,19 @@
         "description": "🤣 Produces fun results",
         "dm_permission": null,
         "options": [
+            {
+                "type": 1,
+                "name": "hack",
+                "description": "Hack someone - TOTALLY LEGIT AND LEGAL",
+                "options": [
+                    {
+                        "type": 6,
+                        "name": "user",
+                        "description": "Who to hack",
+                        "required": true
+                    }
+                ]
+            },
             {
                 "type": 1,
                 "name": "clyde-say",
