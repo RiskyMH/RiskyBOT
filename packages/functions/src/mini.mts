@@ -17,7 +17,7 @@ import { ButtonStyle } from "discord-api-types/v10";
 export async function ping (client, color, interMade) {
   let row = new ActionRowBuilder<MessageActionRowComponentBuilder>().setComponents(new ButtonBuilder().setLabel("Again").setCustomId("ping").setStyle(ButtonStyle.Secondary));
   let ping = new EmbedBuilder()
-    .setTitle("Pong")
+    .setTitle('Pong')
     .setColor(Util.resolveColor(color))
     .setDescription(`🏓 Latency is \`~${Date.now()-interMade}\`ms. API Latency is \`~${Math.round(client.ws.ping)}\`ms`);
 
