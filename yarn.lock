@@ -132,7 +132,7 @@
   version "0.0.11"
   dependencies:
     "@discordjs/builders" "workplace:^"
-    "@riskybot/tools" "file:../../../AppData/Local/Yarn/Cache/v6/npm-@riskybot-functions-0.0.11-d1f0a3ac-688a-4081-9b82-240e2a36b360-1650344965574/node_modules/@riskybot/tools"
+    "@riskybot/tools" "file:../../../AppData/Local/Yarn/Cache/v6/npm-@riskybot-functions-0.0.11-db3c464f-e44c-45c3-baac-4d6154213bbe-1650346143159/node_modules/@riskybot/tools"
     axios "^0.26.0"
     deepai "^0.0.3"
     discord-api-types "workplace:^"
@@ -146,6 +146,9 @@
     discord-api-types "workplace:^"
     discord.js "workplace:^"
     js-yaml "^4.1.0"
+
+"@riskybot/website@file:./website":
+  version "0.0.1"
 
 "@sapphire/async-queue@^1.2.0":
   version "1.3.0"

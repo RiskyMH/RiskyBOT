@@ -5,12 +5,9 @@
     },
     "private": true,
     "scripts": {
-        "ghPagesServe": "cd gh-pages && hugo serve"
+        "websiteServe": "hugo serve"
     },
     "author": "RiskyMH",
-    "engines": {
-        "node": "17.8.0"
-    },
     "devDependencies": {
         "hugo-bin": "^0.79.2"
     }
