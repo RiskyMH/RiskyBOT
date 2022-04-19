@@ -3,7 +3,7 @@
 
 import yaml from "js-yaml";
 import { readFileSync } from "fs";
-import {ConfigJSON} from "./types.mjs";
+import type {ConfigJSON} from "./types.mjs";
 import { ColorResolvable, Util, HexColorString } from "discord.js";
 
 

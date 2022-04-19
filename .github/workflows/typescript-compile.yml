@@ -34,12 +34,20 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
+      # - run: yarn install &&  yarn tsc --noEmitOnError
+      #   continue-on-error: true
+      #   working-directory: ./packages/tools
+      # - run: yarn install &&  yarn tsc --noEmitOnError
+      #   continue-on-error: true
+      #   working-directory: ./packages/functions
+
       # - run: yarn install --ignore-scripts
       #   continue-on-error: true
       # - run: yarn tsc --noEmitOnError
       #   continue-on-error: true
+
       - run: yarn install
-        continue-on-error: true
-      - run: yarn tsc
-        continue-on-error: true
+        # continue-on-error: true
+      - run: yarn tsc --noEmitOnError 
+        # continue-on-error: true
       # - run: yarn test

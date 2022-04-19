@@ -36,6 +36,7 @@
 
 {
 	// Mapped from https://www.typescriptlang.org/tsconfig
+	"include": ["src/**/*", "packages/**/*"],
 	"compilerOptions": {
 		// Type Checking
 		"allowUnreachableCode": false,

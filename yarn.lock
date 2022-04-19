@@ -129,10 +129,10 @@
     fastq "^1.6.0"
 
 "@riskybot/functions@file:./packages/functions":
-  version "0.0.10"
+  version "0.0.11"
   dependencies:
     "@discordjs/builders" "workplace:^"
-    "@riskybot/tools" "file:../../../AppData/Local/Yarn/Cache/v6/npm-@riskybot-functions-0.0.10-9a822299-8a8f-444c-8b9f-d5639b03bae7-1650334671890/node_modules/@riskybot/tools"
+    "@riskybot/tools" "file:../../../AppData/Local/Yarn/Cache/v6/npm-@riskybot-functions-0.0.11-d1f0a3ac-688a-4081-9b82-240e2a36b360-1650344965574/node_modules/@riskybot/tools"
     axios "^0.26.0"
     deepai "^0.0.3"
     discord-api-types "workplace:^"
@@ -140,7 +140,7 @@
     translatte "^3.0.1"
 
 "@riskybot/tools@file:./packages/tools", "@riskybot/tools@file:packages/tools":
-  version "0.0.10"
+  version "0.0.11"
   dependencies:
     "@discordjs/builders" "workplace:^"
     discord-api-types "workplace:^"
