@@ -1,10 +1,8 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// //  @ts-nocheck
-
-import yaml from "js-yaml";
+import YAML from "yaml";
 import { readFileSync } from "fs";
 import type {ConfigJSON} from "./types.mjs";
-import { ColorResolvable, Util, HexColorString } from "discord.js";
+import {  Util } from "discord.js";
+import type{ CommandInteractionOption, BaseGuildTextChannel, Webhook } from "discord.js";
 
 
 export class Config {
@@ -14,7 +12,7 @@ export class Config {
         if (!ymal){
             config = JSON.parse(readFileSync(location, "utf8"));
         } else{
-            config = yaml.load(readFileSync(location, "utf8"));
+            config = YAML.parse(readFileSync(location, "utf8"));
         }
 
         this.colors = config.colors;
@@ -31,54 +29,48 @@ export class Config {
 
 }
 
-/**
- * @param {string} str
- * @exports string
- */
-export function toTitleCase(str) {
+export function toTitleCase(str: string): string {
     return str.replace("/wS*/g", function(txt) {
         return txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase();
     });
 }
-/**
- * @param {import("discord.js").BaseGuildTextChannel} channel
- * @param {string} webhookName
- * @param {string} botID
- * @exports import("discord.js").Webhook
- */
-export async function webhookMakeOrFind(channel, webhookName, botID) {
+
+export async function webhookMakeOrFind(channel: BaseGuildTextChannel, webhookName: string, botId: string) : Promise<Webhook> {
     let webhooks = await channel.fetchWebhooks();
     let webhook = webhooks.find(
-        (u) => u.name === webhookName && u.owner.id === botID
+        (u) => u.name === webhookName && u.owner?.id === botId
     );
 
     if (!webhook) {
         channel
             .createWebhook(webhookName, {})
-            .then((webhook) => console.log(`Created webhook ${webhook}`))
+            // .then((webhook) => console.log(`Created webhook ${webhook}`))
             .catch(console.error);
 
         webhooks = await channel.fetchWebhooks();
-        webhook = await webhooks.find(
-            (u) => u.name === webhookName && u.owner.id === botID
+        webhook = webhooks.find(
+            (u) => u.name === webhookName && u.owner?.id === botId
         );
     }
+    // @ts-expect-error
     return webhook;
 }
 
-export function mergeObjs(obj1, obj2) {
+export function mergeObjs(obj1: object, obj2: object): object {
     const merged = {};
     let keys1 = Object.keys(obj1);
     keys1.forEach((k1) => {
+        // @ts-expect-error
         merged[k1] = obj2[k1] || obj1[k1]; // replace values from 2nd object, if any
     });
     Object.keys(obj2).forEach((k2) => {
+        // @ts-expect-error
         if (!keys1.includes(k2)) merged[k2] = obj1[k2]; // add additional properties from second object, if any
     });
 
     return merged;
 }
-export function dateBetter(inputUTC) {
+export function dateBetter(inputUTC: string): string {
     let UTC = new Date(inputUTC);
 
     let min = ("00" + UTC.getMinutes()).slice(-2);
@@ -92,21 +84,11 @@ export function dateBetter(inputUTC) {
     return date;
 }
 
-/**
- * @param {string} str
- * @param {number} max
- */
-export const trim = (str, max) =>
+export const trim = (str: string, max: number): string =>
     str.length > max ? `${str.slice(0, max - 1)}…` : str;
 
-/**
- * @param {string} string
- * @param {string} statChar
- * @param {string} endChar
- * @param {string} splitChar
- * @returns { Promise <string | string[] > }
- */
-export async function getBetweenStr(string, statChar, endChar, splitChar = null) {
+
+export async function getBetweenStr(string: string, statChar: string, endChar: string, splitChar: string = ""): Promise<string | string[]> {
     let string2 = string.substring(
         string.indexOf(statChar) + 1,
         string.lastIndexOf(endChar)
@@ -116,45 +98,38 @@ export async function getBetweenStr(string, statChar, endChar, splitChar = null)
     else return string2;
 }
 
-/**
- * @param {import("discord.js").CommandInteractionOption["message"]} message
- * @returns { Promise <string  > } a markdown version of the message
- */
-export async function stringFromEmbed(message) {
-    let msg = message.content || "";
 
-    for (let emb of message.embeds) {
-        msg += "\n";
-        if (emb.author) {
-            // if (emb.author.url) msg += `![Author icon](${emb.author.url}) ${emb.author.name}`;
-            msg += `\n# ${emb.author.name}${emb.author.url ? ` (url: ${emb.author.url})` : ""
-        }}`;
-        }
-        if (emb.title)
-            msg += `\n# ${emb.title}${emb.url ? ` (url: ${emb.url})` : ""}`;
-        if (emb.description) msg += `\n${emb.description}`;
-        for (let embField of emb ?.fields ?? []) {
-            msg += `\n## ${embField.name}`;
-            msg += `\n${embField.value}`;
-        }
-        if (emb.footer) msg += `\n *${emb.footer.text}*`;
-        if (emb.timestamp) msg += `\n *${emb.timestamp.toLocaleString()}*`;
-        if (emb.image) msg += `\n *Image url: ${emb.image.url}*`;
-        if (emb.video) msg += `\n *Video url: ${emb.video.url}*`;
-        if (emb.thumbnail) msg += `\n *Thumbnail url: ${emb.thumbnail.url}*`;
-        // if (emb.color) msg+= `\nColor: ${emb.color}`
-    }
+export async function stringFromEmbed(message: CommandInteractionOption["message"]): Promise <string> {
+ let msg = message?.content || "";
 
-    return msg;
+ for (let emb of message?.embeds ?? []) {
+  msg += "\n";
+  if (emb.author) {
+   // if (emb.author.url) msg += `![Author icon](${emb.author.url}) ${emb.author.name}`;
+   msg += `\n# ${emb.author.name}${
+    emb.author.url ? ` (url: ${emb.author.url})` : ""
+   }}`;
+  }
+  if (emb.title)
+   msg += `\n# ${emb.title}${emb.url ? ` (url: ${emb.url})` : ""}`;
+  if (emb.description) msg += `\n${emb.description}`;
+  for (let embField of emb?.fields ?? []) {
+   msg += `\n## ${embField.name}`;
+   msg += `\n${embField.value}`;
+  }
+  if (emb.footer) msg += `\n *${emb.footer.text}*`;
+  if (emb.timestamp) msg += `\n *${emb.timestamp.toLocaleString()}*`;
+  if (emb.image) msg += `\n *Image url: ${emb.image.url}*`;
+  if (emb.video) msg += `\n *Video url: ${emb.video.url}*`;
+  if (emb.thumbnail) msg += `\n *Thumbnail url: ${emb.thumbnail.url}*`;
+  // if (emb.color) msg+= `\nColor: ${emb.color}`
+ }
+
+ return msg;
 }
 
-/**
- * @param {string} string
- * @param { string | string[] } contains
- * @param { boolean } endsWith
- * @returns { Promise< boolean>}
- */
-export async function strIncludes(string, contains, endsWith = false) {
+
+export async function strIncludes(string: string, contains: string | string[], endsWith: boolean = false): Promise<boolean> {
     if (!endsWith) {
         if (!Array.isArray(contains)) {
             if (string.includes(contains)) return true;

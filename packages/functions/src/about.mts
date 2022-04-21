@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // // @ts-nocheck
 import {time, hyperlink,inlineCode, userMention, bold, codeBlock, EmbedBuilder } from "@discordjs/builders";
-import { Util } from "discord.js";
+import {Util } from "discord.js";
 import {PermissionFlagsBits} from "discord-api-types/v10";
 // import fetch from "node-fetch";
 import { redditAutoComplete, reddit } from "./index.mjs";

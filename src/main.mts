@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-@ts-nocheck
+//@ts-nocheck
 
 import { codeBlock } from "@discordjs/builders";
 import { Client, EmbedBuilder, Util } from "discord.js";
@@ -24,13 +24,16 @@ else console.error("\u001b[31m\u001b[1mDISCORD TOKEN REQUIRED\u001b[0m\n- put a 
 client.once("ready", async () => {
     console.info("\x1b[92mDiscord Ready!\x1b[0m");
     console.info("Name:", client.user.username);
+    throw "abc";
 });
 
 client.once("reconnecting", () => console.log("Reconnecting!"));
 client.once("disconnect", () => console.log("Disconnect!"));
 client.on("debug", console.log);
 client.on("error", console.log);
+client.on("warn", console.log);
 process.on("unhandledRejection", console.log);
+process.on("rejectionHandled", console.log);
 
 //////////////////////\\\\\\\\\\\\\\\\\\\\\
 ///////////////    COMMANDS    \\\\\\\\\\\\
