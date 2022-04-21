@@ -1,7 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // //  @ts-nocheck
-import { EmbedBuilder, bold, inlineCode } from "@discordjs/builders";
-import { Client, User, CommandInteractionOption } from "discord.js";
+import { EmbedBuilder, inlineCode } from "@discordjs/builders";
+import type { Client, User, CommandInteractionOption } from "discord.js";
+import type { Config } from "@riskybot/tools";
 import fetch from "node-fetch";
 
 const nekoBaseURL = "https://nekobot.xyz/api/";
@@ -18,24 +19,16 @@ const sraBaseURL = "https://some-random-api.ml/";
  * @return {Promise <import("discord.js").InteractionReplyOptions>}
  */
 
-export default async function fun(
- client: Client,
- type: string,
- inputUser1: User,
- inputMember1: CommandInteractionOption["member"],
- inputUser2: User,
- inputText: string,
- color: import("discord.js").HexColorString
-): Promise<import("discord.js").InteractionReplyOptions> {
- let funEmb = new EmbedBuilder().setTitle("Fun").setColor(color);
+export default async function fun(client: Client, config: Config, type: string, inputUser1: User, inputMember1: CommandInteractionOption["member"], inputUser2: User, inputText: string): Promise<import("discord.js").InteractionReplyOptions> {
+ let funEmb = new EmbedBuilder().setTitle("Fun").setColor(config.getColors().ok);
 
  /** @type Object */
- let fun: object = {};
+//  let fun: object = {};
 
  switch (type) {
   case "clyde-say":
    {
-    fun = await fetch(
+    let fun = await fetch(
      nekoBaseURL +
       "imagegen?" +
       new URLSearchParams({ type: "clyde", text: inputText })
@@ -48,7 +41,7 @@ export default async function fun(
    break;
   case "ship":
    {
-    fun = await fetch(
+    let fun = await fetch(
      nekoBaseURL +
       "imagegen?" +
       new URLSearchParams({
@@ -65,7 +58,7 @@ export default async function fun(
    break;
   case "captcha":
    {
-    fun = await fetch(
+    let fun = await fetch(
      nekoBaseURL +
       "imagegen?" +
       new URLSearchParams({
@@ -82,7 +75,7 @@ export default async function fun(
    break;
   case "whowouldwin":
    {
-    fun = await fetch(
+    let fun = await fetch(
      nekoBaseURL +
       "imagegen?" +
       new URLSearchParams({
@@ -99,7 +92,7 @@ export default async function fun(
    break;
   case "changemymind":
    {
-    fun = await fetch(
+    let fun = await fetch(
      nekoBaseURL +
       "imagegen?" +
       new URLSearchParams({ type: "changemymind", text: inputText })
@@ -112,7 +105,7 @@ export default async function fun(
    break;
   case "iphonex":
    {
-    fun = await fetch(
+    let fun = await fetch(
      nekoBaseURL +
       "imagegen?" +
       new URLSearchParams({
@@ -128,7 +121,7 @@ export default async function fun(
    break;
   case "trump-tweet":
    {
-    fun = await fetch(
+    let fun = await fetch(
      nekoBaseURL +
       "imagegen?" +
       new URLSearchParams({ type: "trumptweet", text: inputText })
@@ -141,10 +134,10 @@ export default async function fun(
    break;
   case "tweet":
    {
-    //  let fun = await fetch(nekoBaseURL+"imagegen?type=tweet&text="+inputText+"&username="+inputUser1.username).then((response) => response.json())
+    //  let let fun = await fetch(nekoBaseURL+"imagegen?type=tweet&text="+inputText+"&username="+inputUser1.username).then((response) => response.json())
     //  funEmb.setImage(await fun.message).setAuthor("nekobot", "", "http://neekobot.xyz").setTitle("Fun - `Tweet`")
     // @ts-expect-error - using types that isn't existing (vscode)
-    fun = await fetch(
+    let fun = await fetch(
      sraBaseURL +
       "canvas/tweet?" +
       new URLSearchParams({
@@ -166,7 +159,7 @@ export default async function fun(
    break;
   case "deepfry":
    {
-    fun = await fetch(
+    let fun = await fetch(
      nekoBaseURL +
       "imagegen?" +
       new URLSearchParams({
@@ -182,7 +175,7 @@ export default async function fun(
    break;
   case "blurpify":
    {
-    fun = await fetch(
+    let fun = await fetch(
      nekoBaseURL +
       "imagegen?" +
       new URLSearchParams({

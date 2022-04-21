@@ -3,22 +3,16 @@
 // //  @ts-nocheck
 
 import { ActionRowBuilder, ButtonBuilder, EmbedBuilder, MessageActionRowComponentBuilder } from "@discordjs/builders";
-import {Util} from "discord.js";
+import type {Client, InteractionReplyOptions} from "discord.js";
 import { ButtonStyle } from "discord-api-types/v10";
+import type { Config } from "@riskybot/tools";
 
 
-/**
- * @param {import("discord.js").Client} client
- * @param {import("discord.js").HexColorString} color
- * @param {number} interMade
- * @return { Promise < import("discord.js").InteractionReplyOptions > }
- */
-
-export async function ping (client, color, interMade) {
+export async function ping (client: Client, config: Config, interMade: number): Promise<InteractionReplyOptions> {
   let row = new ActionRowBuilder<MessageActionRowComponentBuilder>().setComponents(new ButtonBuilder().setLabel("Again").setCustomId("ping").setStyle(ButtonStyle.Secondary));
   let ping = new EmbedBuilder()
     .setTitle("Pong")
-    .setColor(Util.resolveColor(color))
+    .setColor(config.getColors().ok)
     .setDescription(`🏓 Latency is \`~${Date.now()-interMade}\`ms. API Latency is \`~${Math.round(client.ws.ping)}\`ms`);
 
   return {

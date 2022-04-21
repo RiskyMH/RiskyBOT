@@ -12,28 +12,21 @@ on:
 
 jobs:
   typescript-compile:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os:
-          - ubuntu-latest
-          # - macos-latest
-          # - windows-latest
-        node: [ '18' ]
-    # name: "TypeScript Compile Test - ${{ matrix.os }} Node ${{ matrix.node }}"
+    runs-on: ubuntu-latest
     name: "TypeScript Compile"
     steps:
       - uses: actions/checkout@v3
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node }}
+          node-version: 18
           cache: 'yarn'
 
       - run: yarn install
-      - run: yarn tsc --noEmitOnError 
+      - run: yarn build 
       - uses: actions/upload-artifact@v3
+      - name: Upload artifact
+        if: always()
         with:
           name: dist
           path: dist 
@@ -46,8 +39,8 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 17
+          node-version: 18
           cache: 'yarn'
 
       - run: yarn install
-      - run: yarn eslint ./src/* ./packages/functions/src/* ./packages/tools/src/*
+      - run: yarn lint

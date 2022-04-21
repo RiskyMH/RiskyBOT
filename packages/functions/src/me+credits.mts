@@ -1,25 +1,21 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // //  @ts-nocheck
-import { EmbedBuilder } from "discord.js";
+import { Client, EmbedBuilder } from "discord.js";
 import { inlineCode } from "@discordjs/builders";
 import { OAuth2Routes, OAuth2Scopes, PermissionFlagsBits } from "discord-api-types/v10";
+import type { Config } from "@riskybot/tools";
 
-/**
- * @param {import("discord.js").Client} client
- * @param {import("discord.js").HexColorString} color
- * @return {Promise <import("discord.js").InteractionReplyOptions>}
- */
 
-export default async function meCredits(client, color) {
+export default async function meCredits(client: Client, config: Config): Promise <import("discord.js").InteractionReplyOptions> {
     let aboutMe = new EmbedBuilder();
     let credits = new EmbedBuilder();
 
     const invite = client.generateInvite({scopes: [OAuth2Scopes.ApplicationsCommands]});
     const invite2 = client.generateInvite({ scopes: [OAuth2Scopes.ApplicationsCommands, OAuth2Scopes.Bot]});
     aboutMe
-        .setTitle("About - " + inlineCode(client.user.username))
-        .setDescription("This is a random multi-purpose bot. (more coming soon)"+`${client.user.username == "RiskyBOT"?"": "\n\nThis bot using [RiskyBOT](https://riskymh.github.io/RiskyBOT)"}`)
-        .setColor(color)
+        .setTitle("About - " + inlineCode(client.user?.username??"RiskyBOT"))
+        .setDescription("This is a random multi-purpose bot. (more coming soon)"+`${client.user?.username == "RiskyBOT" ? "": "\n\nThis bot using [RiskyBOT](https://riskymh.github.io/RiskyBOT)"}`)
+        .setColor(config.getColors().ok)
         .addFields({ name:
             "Links", value:
             `• [Invite](${invite})\n• [GitHub](https://github.com/RiskyMH/RiskyBOT)\n• [Help/info](https://RiskyMH.github.io/RiskyBOT)\n• [Server](https://discord.gg/34sQduaUh2)`
@@ -27,8 +23,8 @@ export default async function meCredits(client, color) {
         .addFields({ name: "Commands", value: "This bot only uses **Slash Commands**"});
 
     credits
-     .setTitle("Credits - " + inlineCode(client.user.username))
-     .setColor(color)
+     .setTitle("Credits - " + inlineCode(client.user?.username?? "RiskyBOT"))
+     .setColor(config.getColors().ok)
      .addFields({name:
       "Developers", value:
       "• RiskyMH ([GitHub](https://github.com/RiskyMH/), [Top.gg](https://top.gg/user/233066116933705728))"
@@ -44,13 +40,8 @@ export default async function meCredits(client, color) {
     return { embeds: [aboutMe, credits] };
 }
 
-/**
- * @param {import("discord.js").Client} client
- * @param {import("discord.js").HexColorString} color
- * @return {Promise <import("discord.js").InteractionReplyOptions>}
- */
 
-export async function extra(client, color) {
+export async function extra(client: Client, config: Config): Promise <import("discord.js").InteractionReplyOptions> {
     let aboutMe = new EmbedBuilder();
     let credits = new EmbedBuilder();
 
@@ -65,17 +56,17 @@ export async function extra(client, color) {
         scopes: [OAuth2Scopes.ApplicationsCommands, OAuth2Scopes.Bot],
     });
     aboutMe
-        .setTitle("About - " + inlineCode(client.user.username))
+        .setTitle("About - " + inlineCode(client.user?.username??"RiskyBOT 2"))
         .setDescription("This is a random multi-purpose bot. (more coming soon)")
-        .setColor(color)
+        .setColor(config.getColors().ok)
         .addFields({name:
             "Links", value:
             `• [Invite](${invite})\n• [GitHub](https://github.com/RiskyMH/RiskyBOT)\n• [Help/info](https://RiskyMH.github.io/RiskyBOT)\n• [Server](https://discord.gg/34sQduaUh2)\n• [All the \`RiskyBOTs\`](https://RiskyMH.github.io/RiskyBOT/RiskyBOTs)`
     })
         .addFields({name:"Commands", value:"This bot has some Slash commands,\nbut also does some text based commands\n• This bot reacts to certain words (eg `hello` reacts with `👋`"});
     credits
-        .setTitle("Credits - " + inlineCode(client.user.username))
-        .setColor(color)
+        .setTitle("Credits - " + inlineCode(client.user?.username?? "RiskyBOT 2"))
+        .setColor(config.getColors().ok)
         .addFields({name:
             "Developers",value:
             "• RiskyMH ([GitHub](https://github.com/RiskyMH/), [Top.gg](https://top.gg/user/233066116933705728))"

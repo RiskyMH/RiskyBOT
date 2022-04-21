@@ -19,7 +19,8 @@ export class Config {
         // return ;
     }
     public colors: ConfigJSON["colors"] = {ok: "#000000", error: "#000000", good: "#000000", warning: "#000000"};
-    public getColors(): {ok: number, error: number, good: number, warning: number} {
+    public colorsd: ConfigJSON["colors"] = {ok: "#000000", error: "#000000", good: "#000000", warning: "#000000"};
+    public getColors(){
         const ok = Util.resolveColor(this.colors.ok);
         const error = Util.resolveColor(this.colors.error);
         const good = Util.resolveColor(this.colors.good);

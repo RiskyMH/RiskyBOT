@@ -1,3 +1,5 @@
+// import { Config } from "./tools.mjs";
+
 // Helpers
 type colorType = import("discord.js").HexColorString;
 
@@ -8,6 +10,17 @@ id?: string
 }
 
 
+// type ConfigClass = {
+//     getColors(): {ok: number, error: number, warn: number, info: number};
+//     colors: {ok: colorType, error: colorType, warn: colorType, info: colorType};
+// }
+
+// let abcd = new Config("abc");
+
+// function adfdg (config: ConfigClass){
+//     return config;
+// }
+// adfdg(abcd);
 
 //? //////////// ?////////////////////////////
 //? Config File  ?/////////////////////////// 

@@ -4,19 +4,11 @@ import { EmbedBuilder } from "discord.js";
 import { bold, inlineCode } from "@discordjs/builders";
 import * as tools from "@riskybot/tools";
 import { default as deepaiFunc } from "deepai";
-import type { Client, CommandInteractionOption, InteractionReplyOptions } from "discord.js";
+import type { Client, InteractionReplyOptions } from "discord.js";
 import type { Config } from "@riskybot/tools";
 
-/**
- * @param {import("discord.js").Client} client
- * @param {string} input
- * @param {string} type
- * @param {import("discord.js").HexColorString} color
- * @param {string} deepaiKey
- * @return {Promise <import("discord.js").InteractionReplyOptions>}
- */
 
-export default async function deepai(client: Client, config: Config, option: CommandInteractionOption, input:string, type:string, deepaiKey:string = null): Promise <InteractionReplyOptions> {
+export default async function deepai(client: Client, config: Config, input:string, type:string, deepaiKey:string = ""): Promise <InteractionReplyOptions> {
  if (!deepaiKey) {
   console.error("DeepAI requires key");
   return { content: "DeepAI not working" };

@@ -1,20 +1,13 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // //  @ts-nocheck
 import { EmbedBuilder } from "discord.js";
-import { inlineCode } from "@discordjs/builders";
+import type { Client } from "discord.js";
 import { default as translateFunc, languages } from "translatte";
 import * as tools from "@riskybot/tools";
+import type { Config } from "@riskybot/tools";
 
-/**
- * @param {import("discord.js").Client} client
- * @param {string} input
- * @param {string} to
- * @param {string} from
- * @param {import("discord.js").HexColorString} color
- * @return {Promise <import("discord.js").InteractionReplyOptions>}
- */
 
-export default async function translate(client, input, to, from, color) {
+export default async function translate(client: Client, config: Config, input: string, to: string, from: string) {
     to = to.replace("en-US", "en");
     to = to.replace("en-GB", "en");
 
@@ -23,15 +16,15 @@ export default async function translate(client, input, to, from, color) {
     let translated = await ans.text;
 
     const exampleEmbed = new EmbedBuilder()
-        .setColor(color)
+        .setColor(config.getColors().ok)
         .setTitle("Translate")
         .setURL(tools.trim(`https://translate.google.com?sl=${await ans.from.language.iso??"en"}&tl=${to??"en"}&text=${encodeURIComponent(input)}`, 1024))
         .setAuthor({
             name: "google translate (via: github/translatte)",
             url: "https://github.com/extensionsapp/translatte/"
         })
-        .addField(await await languages[await ans.from.language.iso], tools.trim(await input, 1024), true)
-        .addField(await await languages[to], tools.trim(await translated, 1024), true);
+        .addFields({name: await languages[await ans.from.language.iso], value: tools.trim(await input, 1024), inline: true})
+        .addFields({name: await languages[to], value: tools.trim(await translated, 1024), inline: true});
 
     return { embeds: [exampleEmbed] };
 }

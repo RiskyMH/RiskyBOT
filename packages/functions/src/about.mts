@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // // @ts-nocheck
 import {time, hyperlink,inlineCode, userMention, bold, codeBlock, EmbedBuilder } from "@discordjs/builders";
-import {Util } from "discord.js";
+import {ApplicationCommandOptionChoice, EmbedFieldData, User, Util } from "discord.js";
 import {PermissionFlagsBits} from "discord-api-types/v10";
 // import fetch from "node-fetch";
 import { redditAutoComplete, reddit } from "./index.mjs";
 import type { Client, CommandInteractionOption, InteractionReplyOptions } from "discord.js";
-import type { Config } from "@riskybot/tools";
+import type { Config, topggapiResponse } from "@riskybot/tools";
 import { trim } from "@riskybot/tools";
 
-export default async function about(client: Client, config: Config, option: CommandInteractionOption, extra: string, topggKey:string = null) /*: Promise <InteractionReplyOptions> */ {
+export default async function about(client: Client, config: Config, option: CommandInteractionOption, extra: string, topggKey:string )/**: Promise <InteractionReplyOptions> */  {
 
     console.log(option);
     let aboutEmbed = new EmbedBuilder().setColor(Util.resolveColor(config.getColors().ok));
@@ -180,20 +180,15 @@ export default async function about(client: Client, config: Config, option: Comm
         }
     }
     if (option.name === "sub-reddit") {
-        return await reddit(client,"subreddit",option.value.toString(),config.getColors().ok,config.getColors().error);
+        return await reddit(client, config,"subreddit", option.value?.toString()?? "");
     }
 
     if (!extra) return { embeds: [aboutEmbed] };
     else return { embeds: [aboutEmbed, aboutEmbedExtra] };
 }
 
-/**
- * @param {import("discord.js").Client} client
- * @param {string} input
- * @param { string } type
- * @return { Promise <import("discord.js").ApplicationCommandOptionChoice[]> }
- */
-export async function autoComplete(client, type, input) {
+
+export async function autoComplete(client: Client, type: string, input: string): Promise <ApplicationCommandOptionChoice[]> {
     // yes
     try {
         /** @type Object */
@@ -204,6 +199,8 @@ export async function autoComplete(client, type, input) {
             }
         }
     } catch { console.log;}
+
+    return [];
 }
 const flagsEmoji = {
     Hypesquad: "<:HypeSquadEvents:899099369742155827>",
@@ -268,7 +265,7 @@ const channelTypeEmojiAlt = {
 };
 
 
-async function permissionViewer(permissions): Promise<import("discord.js").EmbedFieldData[]> {
+async function permissionViewer(permissions): Promise<EmbedFieldData[]> {
     let emojis = {
         none: "<:CheckNone:900615195209138186>",
         off: "<:CheckOff:900615195154612276>",
@@ -404,7 +401,7 @@ async function permissionViewer(permissions): Promise<import("discord.js").Embed
 
 const topggBaseUrl = "https://top.gg/api";
 
-async function topgg(user, topggKey) {
+async function topgg(user: User, topggKey: string): Promise<topggapiResponse> {
 
     let headersGG = {
         Authorization: topggKey,
@@ -412,13 +409,14 @@ async function topgg(user, topggKey) {
     };
     /** @typedef {import("../types").topggapiResponse} topgg */
     /**@type {object} */
+    // eslint-disable-next-line no-undef 
     let data = await fetch(
         topggBaseUrl + (user.bot ? "/bots/" : "/users/") + user.id,
         { headers: headersGG }
     ).then((response) => response.json());
 
     /**@type {topgg} */
-    let topggdata = {};
+    let topggdata: any = {};
     topggdata.bots = data;
     topggdata.users = data;
 

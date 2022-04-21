@@ -1,30 +1,23 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // //  @ts-nocheck
 import { EmbedBuilder } from "discord.js";
+import type { Client } from "discord.js";
 import fetch from "node-fetch";
 import { codeBlock, inlineCode } from "@discordjs/builders";
 import * as tools from "@riskybot/tools";
+import type { Config } from "@riskybot/tools";
 
-/**
- * @param {import("discord.js").Client} client
- * @param { string } engine
- * @param {string} input
- * @param {string} input2
- * @param {import("discord.js").HexColorString} color
- * @param {import("discord.js").HexColorString} colorErr
- * @return {Promise <import("discord.js").InteractionReplyOptions>}
- */
 
-export default async function toolsCmd(client, engine, input, input2, color, colorErr) {
-    let toolsEmb = new EmbedBuilder().setTitle("Tools").setColor(color);
-    let errorEmb = new EmbedBuilder().setTitle("Errors - tools").setColor(colorErr);
+export default async function toolsCmd(client: Client, config: Config, engine: string, input: string, input2: string) {
+    let toolsEmb = new EmbedBuilder().setTitle("Tools").setColor(config.getColors().ok);
+    let errorEmb = new EmbedBuilder().setTitle("Errors - tools").setColor(config.getColors().error);
 
     switch (engine) {
         case "rhymes": {
-            /** @type {{word:string}[]} */ // @ts-expect-error - yes
-            let rhymes = await fetch("https://rhymebrain.com/talk?" + new URLSearchParams({ function: "getRhymes", maxResults: "10", word: input })).then((response) => response.json());
+            // TODO: fix types
+            let rhymes: {word:string}[] = await fetch("https://rhymebrain.com/talk?" + new URLSearchParams({ function: "getRhymes", maxResults: "10", word: input })).then((response) => response.json()) as any;
             
-            if (await rhymes.length) {
+            if (rhymes.length) {
                 let list = [];
                 for (let rhyme in rhymes){
                     list.push(`${Number(rhyme)+1}: ${rhymes[rhyme].word}`);
@@ -57,8 +50,8 @@ export default async function toolsCmd(client, engine, input, input2, color, col
               },
              ],
             };
-            /** @type {Object} */
-            let pastegg = await fetch("https://api.paste.gg/v1/pastes", {body:JSON.stringify(data), headers: {"Content-Type": "application/json"}, method: "POST"}).then((response) => response.json());
+            // TODO: fix types
+            let pastegg: {result: {id: any, deletion_key: any }} = await fetch("https://api.paste.gg/v1/pastes", {body:JSON.stringify(data), headers: {"Content-Type": "application/json"}, method: "POST"}).then((response) => response.json()) as any;
             console.log(pastegg);
             if (await pastegg?.result) {
 
