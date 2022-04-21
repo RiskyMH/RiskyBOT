@@ -25,7 +25,7 @@ jobs:
       - run: yarn install
       - run: yarn build 
       - uses: actions/upload-artifact@v3
-      - name: Upload artifact
+        name: Upload artifact
         if: always()
         with:
           name: dist
