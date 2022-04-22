@@ -1,14 +1,33 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // //  @ts-nocheck
 
-import { Intents, Client, EmbedBuilder, Permissions } from "discord.js";
+import { Client, PermissionOverwriteManager, PermissionsBitField } from "discord.js";
+import {GatewayIntentBits, PermissionFlagsBits} from "discord-api-types/v10";
 
-import { mini, say, meCreditsExtra } from "./functions/index.mjs";
+import { mini, say, meCreditsExtra } from "@riskybot/functions";
+import tools from "@riskybot/tools";
+import { EmbedBuilder } from "@discordjs/builders";
+const config = new tools.Config("./config.yml", true);
 
 // make bot
 const client = new Client({
-    intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS],
+ intents: [
+  GatewayIntentBits.Guilds,
+  GatewayIntentBits.GuildMessages,
+  GatewayIntentBits.DirectMessages,
+  GatewayIntentBits.GuildMessageReactions,
+  GatewayIntentBits.DirectMessageReactions,
+  GatewayIntentBits.MessageContent
+ ],
 });
+
+client.once("reconnecting", () => console.log("Reconnecting!"));
+client.once("disconnect", () => console.log("Disconnect!"));
+client.on("debug", console.log);
+client.on("error", console.log);
+client.on("warn", console.log);
+process.on("unhandledRejection", console.log);
+process.on("rejectionHandled", console.log);
 
 // login to discord
 if (process.env.discordapiExtra) client.login(process.env.discordapiExtra);
@@ -19,7 +38,7 @@ if (!process.env.discordapiExtra) console.warn("This is using the main discord k
 
 client.once("ready", async () => {
     console.info("\x1b[92mDiscord Ready! (extra)\x1b[0m");
-    console.info("Name:", client.user.username + ", Servers:", client.guilds.cache.size);
+    console.info("Name:", client.user?.username + ", Servers:", client.guilds.cache.size);
 });
 
 client.once("reconnecting", () => console.log("Reconnecting!"));
@@ -29,17 +48,13 @@ client.on("error", console.log);
 process.on("unhandledRejection", console.log);
 
 client.on("guildCreate", async (guild) => {
-    if (guild.me ? new Permissions(guild.me.permissionsIn(guild.systemChannelId)).has("SEND_MESSAGES") : null) {
+    if (guild.me ? guild?.systemChannel?.permissionsFor(guild.me)?.has(PermissionFlagsBits.SendMessages) : null) {
         // make sure that the bot can sent message
-        guild.systemChannel.send("Hello, thank you for inviting me to this server. Info: https://riskymh.github.io/RiskyBOT/added/extra (btw I use `/` slash commands) ");
+        guild.systemChannel?.send("Hello, thank you for inviting me to this server. Info: https://riskymh.github.io/RiskyBOT/added/extra (btw I use `/` slash commands) ");
     }
 });
-/** 
- * @param {string} msg
- * @param {string} what 
- * @returns {Promise<boolean>}
- */
-async function msgWordHas(msg, what) {
+
+async function msgWordHas(msg: string, what: string): Promise<boolean> {
     // if (msg === what) return true
     // if (msg.includes(what + " ")) return true
     // if (msg.includes(" " + what)) return true
@@ -51,88 +66,84 @@ async function msgWordHas(msg, what) {
 
 client.on("messageCreate", async (message) => {
 
-    try {
+    const mePerms = message.guild?.me?.permissionsIn(message.channelId);
+    const serversNoMessage = (process.env.serversNoMessage ? JSON.parse(process.env.serversNoMessage) : []);
 
-        const mePerms = new Permissions(message.guild.me.permissionsIn(message.channelId));
-        const serversNoMessage = (process.env.serversNoMessage ? JSON.parse(process.env.serversNoMessage) : []);
+    if ((message.guild ? (serversNoMessage.length ? serversNoMessage.includes(message.guild.id) : !null) : null) ||
+        !message.guild ? mePerms?.has(PermissionFlagsBits.SendMessages) : null || !message.guild ? mePerms?.has(PermissionFlagsBits.AddReactions) : null ||
+        message.author.id === client.user?.id || message.author.bot || message.reactions.cache.entries.length >= 20) { return; } // we dont want these above
 
-        if ((message.guild ? (serversNoMessage.length ? serversNoMessage.includes(message.guild.id) : !null) : null) ||
-            !message.guild ? mePerms.has("SEND_MESSAGES") : null || !message.guild ? mePerms.has("ADD_REACTIONS") : null ||
-            message.author.id === client.user.id || message.author.bot || message.reactions.cache.entries.length >= 20) { return; } // we dont want these above
+    const msg = message.content.toLowerCase();
+    if (message.mentions.users.first() === client.user) {
+        message.channel.send("I use some slash `/` commands, and some text based stuff, nothing fancy.");
+    }
+    if (msg === message?.guild?.me?.displayName.toLowerCase() || msg === client?.user?.username.toLowerCase()) {
+        message.channel.send("Hello 👋");
+    }
 
-        const msg = message.content.toLowerCase();
-        if (message.mentions.users.first() === client.user) {
-            message.channel.send("I use some slash `/` commands, and some text based stuff, nothing fancy.");
+    // like CheemsBot
+    if (await msgWordHas(msg, "hello")) await message.react("👋");
+    if (await msgWordHas(msg, "bye")) await message.react("👋");
+    if (await msgWordHas(msg, "bruh")) await message.react("🍔");
+    if (await msgWordHas(msg, "what")) await message.react("🐳");
+    if (await msgWordHas(msg, "gg")) await message.channel.send("gg");
+    if (await msg === "f") await message.channel.send("F");
+
+    const serversExtraMessage: string[] = JSON.parse(process.env.serversExtraMessage?? "") ?? [];
+    if (message.guild ? (serversExtraMessage?.length ? serversExtraMessage?.includes(message?.guild?.id) : !null) : !null) {
+        if (await msgWordHas(msg, "hi")) await message.react("👋");
+        if (await msgWordHas(msg, "walk")) await message.react("🚶");
+        if (await msgWordHas(msg, "pwease")) await message.react("🙏");
+        if (await msgWordHas(msg, "umm")) await message.react("🤔");
+        if (await msgWordHas(msg, "idk")) await message.react("🤷");
+        if (await msgWordHas(msg, "idea")) await message.react("💡");
+        if (await msgWordHas(msg, "sleep")) await message.react("💤");
+        if (await msgWordHas(msg, "prince")) await message.react("🤴");
+        if (await msgWordHas(msg, "princess")) await message.react("👸");
+        if (await msgWordHas(msg, "queen")) await message.react("👑");
+        if (await msgWordHas(msg, "brushing")) await message.react("🪥");
+        if (await msgWordHas(msg, "teeth")) await message.react("🦷");
+        if (await msgWordHas(msg, "quiet")) await message.react("🤐");
+        if (await msgWordHas(msg, "secret")) await message.react("🤐");
+        if (await msgWordHas(msg, "hope")) await message.react("🤞");
+        if (await msgWordHas(msg, "sorry")) await message.react("🥺");
+        if (await msgWordHas(msg, "hewwo")) await message.react("👋");
+        if (await msgWordHas(msg, "sowwy")) await message.react("🥺");
+        if (await msgWordHas(msg, "needle")) await message.react("💉");
+        if (await msgWordHas(msg, "approve")) await message.react("✅");
+        if (await msgWordHas(msg, "disapprove")) await message.react("❎");
+        if (await msgWordHas(msg, "tea")) await message.react("🧋");
+        if (await msgWordHas(msg, "hear")) await message.react("👂");
+        if (await msgWordHas(msg, "battery")) await message.react("🔋");
+        if (await msgWordHas(msg, "dead")) await message.react("😵");
+        if (await msgWordHas(msg, "diamond")) await message.react("💎");
+        if (await msgWordHas(msg, "yee")) await message.react("🦖");
+        if (await msgWordHas(msg, "rickroll")) await message.react("<a:rick:889013459763728454>");
+
+        if (await msg === "f") await message.channel.send(message.author.username + " has paid their respects");
+        if (await msg === "good night") {
+            await message.react("☁️");
+            await message.react("🌙");
+            await message.react("✨");
+            await message.react("👑");
         }
-        if (msg === (await message.guild.members.fetch(client.user)).displayName.toLowerCase() || msg === client.user.username.toLowerCase()) {
-            message.channel.send("Hello 👋");
-        }
-
-        // like CheemsBot
-        if (await msgWordHas(msg, "hello")) await message.react("👋");
-        if (await msgWordHas(msg, "bye")) await message.react("👋");
-        if (await msgWordHas(msg, "bruh")) await message.react("🍔");
-        if (await msgWordHas(msg, "what")) await message.react("🐳");
-        if (await msgWordHas(msg, "gg")) await message.channel.send("gg");
-        if (await msg === "f") await message.channel.send("F");
-
-        const serversExtraMessage = JSON.parse(process.env.serversExtraMessage) ? process.env.serversExtraMessage : [];
-        if (message.guild ? (serversExtraMessage.length ? serversExtraMessage.includes(message.guild.id) : !null) : !null) {
-            if (await msgWordHas(msg, "hi")) await message.react("👋");
-            if (await msgWordHas(msg, "walk")) await message.react("🚶");
-            if (await msgWordHas(msg, "pwease")) await message.react("🙏");
-            if (await msgWordHas(msg, "umm")) await message.react("🤔");
-            if (await msgWordHas(msg, "idk")) await message.react("🤷");
-            if (await msgWordHas(msg, "idea")) await message.react("💡");
-            if (await msgWordHas(msg, "sleep")) await message.react("💤");
-            if (await msgWordHas(msg, "prince")) await message.react("🤴");
-            if (await msgWordHas(msg, "princess")) await message.react("👸");
-            if (await msgWordHas(msg, "queen")) await message.react("👑");
-            if (await msgWordHas(msg, "brushing")) await message.react("🪥");
-            if (await msgWordHas(msg, "teeth")) await message.react("🦷");
-            if (await msgWordHas(msg, "quiet")) await message.react("🤐");
-            if (await msgWordHas(msg, "secret")) await message.react("🤐");
-            if (await msgWordHas(msg, "hope")) await message.react("🤞");
-            if (await msgWordHas(msg, "sorry")) await message.react("🥺");
-            if (await msgWordHas(msg, "hewwo")) await message.react("👋");
-            if (await msgWordHas(msg, "sowwy")) await message.react("🥺");
-            if (await msgWordHas(msg, "needle")) await message.react("💉");
-            if (await msgWordHas(msg, "approve")) await message.react("✅");
-            if (await msgWordHas(msg, "disapprove")) await message.react("❎");
-            if (await msgWordHas(msg, "tea")) await message.react("🧋");
-            if (await msgWordHas(msg, "hear")) await message.react("👂");
-            if (await msgWordHas(msg, "battery")) await message.react("🔋");
-            if (await msgWordHas(msg, "dead")) await message.react("😵");
-            if (await msgWordHas(msg, "diamond")) await message.react("💎");
-            if (await msgWordHas(msg, "yee")) await message.react("🦖");
-            if (await msgWordHas(msg, "rickroll")) await message.react("<a:rick:889013459763728454>");
-
-            if (await msg === "f") await message.channel.send(message.author.username + " has paid their respects");
-            if (await msg === "good night") {
-                await message.react("☁️");
-                await message.react("🌙");
-                await message.react("✨");
-                await message.react("👑");
-            }
-        }
-    } catch { console.error("error"); }
+    }
 
 });
 client.on("messageReactionAdd", (messageReaction, user) => {
 
-    try {
-        const mePerms = new Permissions(messageReaction.message.guild.me.permissionsIn(messageReaction.message.channelId));
+    const mePerms = messageReaction?.message?.guild?.me?.permissionsIn(messageReaction.message.channelId);
 
-        if (!JSON.parse(process.env.serversExtraMessage) || mePerms.has("ADD_REACTIONS") ||
-            messageReaction.message.reactions.cache.entries.length <= 20 ||
-            (messageReaction.message.guild ? process.env.serversExtraMessage.includes(messageReaction.message.guild.id) : null)) {
+    if (!JSON.parse(process.env.serversExtraMessage ?? "{}") || mePerms?.has(PermissionFlagsBits.AddReactions) ||
+        messageReaction.message.reactions.cache.entries.length <= 20 ||
+        (messageReaction.message.guild ? process.env.serversExtraMessage?.includes(messageReaction.message.guild.id) : null)) {
+            
             messageReaction.message.react(messageReaction.emoji);
-        }
-    } catch { console.error("error"); }
+    }
 });
 
-client.on("messageUpdate", (oldMessage,message) => {
-message.channel.send(message.content);
+client.on("messageUpdate", (oldMessage, message) => {
+message.channel.send(oldMessage?.content ?? "");
 console.log(message.content);
 
 });
@@ -140,16 +151,13 @@ console.log(message.content);
 ///////////////    COMMANDS    \\\\\\\\\\\\
 //////////////////////\\\\\\\\\\\\\\\\\\\\\
 client.on("interactionCreate", async (interaction) => {
-    /** @typedef {import("discord.js").HexColorString} colorType */
-    /** @type   {{ ok: colorType, error: colorType, good: colorType, warning: colorType }} */
-    const colors = { ok: "#5865F2", error: "#ED4245", good: "#57F287", warning: "#FEE75C" };
 
     // the template embeds for `done` or `error`
-    const doneEmb = new EmbedBuilder().setColor(colors.good).setTitle("Done!");
-    const errorEmb = new EmbedBuilder().setColor(colors.error).setTitle("Error");
+    const doneEmb = new EmbedBuilder().setColor(config.getColors().good).setTitle("Done!");
+    const errorEmb = new EmbedBuilder().setColor(config.getColors().error).setTitle("Error");
 
     // Slash Commands
-    if (interaction.isCommand()) {
+    if (interaction.isChatInputCommand()) {
         try {
 
             /** Layout
@@ -159,11 +167,12 @@ client.on("interactionCreate", async (interaction) => {
              */
             switch (interaction.commandName) {
                 case "message": {
-                    await interaction.user
-                        .send(interaction.options.getString("message"))
-                        .catch(() => interaction.reply({
+                    try{
+                        await interaction.user
+                            .send(interaction.options.getString("message") ?? "No message specified");
+                    }catch (err) {interaction.reply({
                             embeds: [errorEmb.setTitle("Error - message").setDescription("• You don't except DMs")]
-                        }));
+                        });}
 
                     await interaction.reply({ embeds: [doneEmb.setDescription("Sent message to you")], ephemeral: true });
                 }
@@ -173,22 +182,19 @@ client.on("interactionCreate", async (interaction) => {
                 const message = interaction.options.getString("message");
                 let user = interaction.options.getUser("user");
 
-                if (!user) user = interaction.user;
-                const channel = interaction.channel;
-                // @ts-expect-error doesn't like channel
-                const data = await say(client, message, colors.good, colors.error, user, interaction.guild ? interaction.guild.me.permissions : null, channel);
+                const data = await say(client, config, user ?? interaction.user, interaction?.guild?.me, interaction.channel, message);
                 await interaction.reply(data);
             }
             break;
 
             case "ping": {
-                const data = await mini.ping(client, colors.ok, interaction.createdTimestamp);
+                const data = await mini.ping(client, config, interaction.createdTimestamp);
                 await interaction.reply(data);
             }
             break;
 
             case "-aboutme-credits-": {
-                const data = await meCreditsExtra(client, colors.ok);
+                const data = await meCreditsExtra(client, config);
                 await interaction.reply(data);
             }
             break;
@@ -202,4 +208,29 @@ client.on("interactionCreate", async (interaction) => {
             }
         }
     }
+
+
+    if (interaction.isButton()) {
+        try {
+            if (!interaction?.memberPermissions?.has(PermissionFlagsBits.SendMessages)) return;
+            
+            switch (interaction.customId.split("-")[0]) {
+
+                case "ping": {
+                    const data = await mini.ping(client, config, interaction.createdTimestamp);
+                    await interaction.update(data);
+                }
+                break;
+
+            }
+            
+        } catch (error) {
+            console.log(error);
+            if (!interaction.replied && !interaction.deferred) {
+                await interaction.reply({ embeds: [errorEmb.setDescription("A error happened")], ephemeral: true });
+            } else { await interaction.editReply({ embeds: [errorEmb.setDescription("A error happened")] }); }
+        }
+    }
+
+
 });

@@ -100,7 +100,7 @@
 "@riskybot/functions@file:./packages/functions":
   version "0.0.11"
   dependencies:
-    "@riskybot/tools" "file:../../../AppData/Local/Yarn/Cache/v6/npm-@riskybot-functions-0.0.11-319f53e8-0dc6-40f6-bd4d-e44fc8c81f66-1650546951162/node_modules/@riskybot/tools"
+    "@riskybot/tools" "file:../../../AppData/Local/Yarn/Cache/v6/npm-@riskybot-functions-0.0.11-63946e0e-f1ee-4f9b-8c0e-ba9755dbb1dd-1650600390131/node_modules/@riskybot/tools"
     axios "^0.26.0"
     deepai "^0.0.3"
     translatte "^3.0.1"
