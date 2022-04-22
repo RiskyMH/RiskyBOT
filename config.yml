@@ -1,3 +1,4 @@
+#! Make sure to add your token into .env
 
 # The colors used for the bot (eg embed color)
 colors: 

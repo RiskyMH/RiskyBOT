@@ -179,10 +179,10 @@ client.on("interactionCreate", async (interaction) => {
                 break;
 
             case "say": {
-                const message = interaction.options.getString("message");
+                const message = interaction.options.getString("message")?? "no message specified";
                 let user = interaction.options.getUser("user");
-
-                const data = await say(client, config, user ?? interaction.user, interaction?.guild?.me, interaction.channel, message);
+                // @ts-expect-error
+                const data = await say(client, config, user ?? interaction.user, message, interaction.guild?.me?? undefined, interaction?.channel );
                 await interaction.reply(data);
             }
             break;

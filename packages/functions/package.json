@@ -4,8 +4,7 @@
     "dependencies": {
         "axios": "^0.26.0",
         "deepai": "^0.0.3",
-        "translatte": "^3.0.1",
-        "@riskybot/tools": "file:../tools"
+        "translatte": "^3.0.1"
     },
     "private": true,
     "main": "./dist/index.js",

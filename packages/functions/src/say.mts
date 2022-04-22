@@ -1,14 +1,15 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // //  @ts-nocheck
 
-import { BaseGuildTextChannel, EmbedBuilder, GuildMember, PermissionFlags, PermissionsBitField } from "discord.js";
-import type { Channel, Client, User } from "discord.js";
-import { PermissionFlagsBits } from "discord-api-types/v10";
-import * as tools from "@riskybot/tools";
+import { EmbedBuilder } from "discord.js";
+import type {BaseGuildTextChannel, Client, User, GuildMember } from "discord.js";
+import 
+{ PermissionFlagsBits } from "discord-api-types/v10";
+import tools from "@riskybot/tools";
 import type { Config } from "@riskybot/tools";
 
 
-export default async function say(client: Client, config: Config, user: User, botMember?: GuildMember, channel?: BaseGuildTextChannel, message: string) {
+export default async function say(client: Client, config: Config, user: User, message: string, botMember?: GuildMember, channel?: BaseGuildTextChannel) {
     let doneEmb = new EmbedBuilder()
         .setColor(config.getColors().ok)
         .setTitle("Done!");
@@ -16,7 +17,7 @@ export default async function say(client: Client, config: Config, user: User, bo
     let errorEmb = new EmbedBuilder().setTitle("Errors - say").setColor(config.getColors().error);
     let errors = [];
 
-    if (!channel || !botMember) {
+    if (!channel || !botMember || channel.isDM()) {
         errors.push("This command doesn't work in `DMs`");
     } else if (!botMember.permissions.has(PermissionFlagsBits.ManageWebhooks)) {
         errors.push("This bot doesn't have permissions to to this (`MANAGE_WEBHOOKS`)");
