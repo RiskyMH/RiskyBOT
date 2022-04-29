@@ -5,12 +5,14 @@ The code for my bot and some other fun stuff with @discordjs
 This bot uses slash commands (some buttons, and context menu)
 
 ## Running
-This bot is run by `npm start`\
-To add the commands run `npm run deployCommands`
+This bot is run by `yarn start`\
+To add the commands run `yarn deployCommands`
+
+NOTE: this uses yarn, so you need to have [yarn](https://classic.yarnpkg.com/lang/en/docs/install) installed
 
 ### Running Extra
-This bot is run by `npm run start:extra`\
-To add the commands run `npm run deployCommands:extra`
+This bot is run by `yarn start:extra`\
+To add the commands run `yarn deployCommands:extra`
 
 *ps. don't use normal and extra at same time*
 
@@ -22,28 +24,33 @@ To add the commands run `npm run deployCommands:extra`
 * A: you need to `deployCommands` otherwise it wont work
 
 ## How to configure
-### Using [`config.jml`](./config.yml)
+### Using [`config.yml`](./config.yml)
 You can currently use this file to change some UI settings (eg. colures)
 
 The available features are in the file by default
 
 ### Using [`.env`](./.env)
-As with [`config.json`](./config.json) the file [`example.env`](./example.env) has the necessary options - copy `example.env` to `.env` and put in your discord key
+As with [`config.yml`](./config.yml) the file [`example.env`](./example.env) has the necessary options - copy `example.env` to `.env` and put in your discord key
 
 This is used for extra config but it is not the best way to be using this - used for extra
-
 ### *`Next few are more technical`*
+<!-- 
 ### Using [`src/applicationCommands/commands.json`](./src/applicationCommands/commands.json)
 With this (and the [`commandsExtra.json`](src/applicationCommands/commandsExtra.json)) file you can change how the slash commands work \
 You can:
 - change their description
 - remove commands/parts of
-- add more (see below)
+- add more (see below) -->
 
-### Using [`src/main.js`](./src/main.js) (Actually modifying the files)
-You can do changes to bot by going into the `.js` or `.mjs` files and changing stuff
+### Using [`src/main.mts`](./src/main.mts) (Actually modifying the files)
+You can do changes to bot by going into the `.mts` or `.ts` or `.js` files and changing stuff
 
-You can change the behavior of commands by changing the code - be aware thet somethings to change also have to be changed in the [commands](./src/applicationCommands) and the [functions](./src/functions)
+### Using [`packages/*`](./packages) (Actually modifying the files)
+**APIs**: these are for functions to use mainly   
+**Functions**: these the responses for application commands - also has the command builder   
+**Utils**: these are for everything's help
+
+NOTE: if you change anything in those above you must run `yarn --force` to update the files
 
 ## My hosted bot
 For more information see http://RiskyMH.github.io/RiskyBOT/docs/about/  

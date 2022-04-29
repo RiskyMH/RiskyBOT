@@ -43,7 +43,7 @@
     "deployCommands": "node -r dotenv/config src/applicationCommands/deploy.js",
     "deployCommands:extra": "node -r dotenv/config src/applicationCommands/deployExtra.js",
     "deployCommands:ownerOnly": "node -r dotenv/config src/applicationCommands/deployOwnerOnly.js",
-    "lint": "eslint ./src/* ./packages/functions/src/* ./packages/tools/src/*",
+    "lint": "eslint ./src/* ./packages/functions/src/* ./packages/tools/src/* ./packages/apis/src/* ",
     "//postinstall": "tsc",
     "start": "tsc  && node -r dotenv/config dist/src/main.mjs --experimental-fetch",
     "start:extra": "tsc && node -r dotenv/config dist/src/extra.mjs",
