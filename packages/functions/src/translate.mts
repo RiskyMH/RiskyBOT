@@ -1,10 +1,11 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// //  @ts-nocheck
-import { EmbedBuilder } from "discord.js";
+import { EmbedBuilder } from "@discordjs/builders";
 import type { Client } from "discord.js";
 import { default as translateFunc, languages } from "translatte";
 import * as tools from "@riskybot/tools";
 import type { Config } from "@riskybot/tools";
+
+
+//TODO: Make sure everything works...
 
 
 export default async function translate(client: Client, config: Config, input: string, to: string, from: string) {

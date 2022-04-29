@@ -1,11 +1,13 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// //  @ts-nocheck
 import { EmbedBuilder } from "discord.js";
 import type { Client } from "discord.js";
 import fetch from "node-fetch";
 import { codeBlock, inlineCode } from "@discordjs/builders";
 import * as tools from "@riskybot/tools";
 import type { Config } from "@riskybot/tools";
+
+
+//TODO: Make sure everything works...
+//TODO: Migrate the fetch into `@riskybot/apis`
 
 
 export default async function toolsCmd(client: Client, config: Config, engine: string, input: string, input2: string) {

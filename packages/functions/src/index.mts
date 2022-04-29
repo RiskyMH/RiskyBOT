@@ -1,5 +1,6 @@
 // multi functions
 export * as mini from "./mini.mjs";
+export * as defaultApplicationCommands from "./defaultApplicationCommands.mjs";
 
 // default functions
 export { default as about, autoComplete as aboutAutoComplete } from "./about.mjs";

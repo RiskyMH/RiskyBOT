@@ -1,6 +1,5 @@
 [
     {
-        "default_permission": true,
         "default_member_permissions": null,
         "type": 1,
         "name": "ping",
@@ -8,7 +7,6 @@
         "dm_permission": null
     },
     {
-        "default_permission": true,
         "default_member_permissions": null,
         "type": 1,
         "name": "-aboutme-credits-",
@@ -16,12 +14,11 @@
         "dm_permission": null
     },
     {
-        "default_permission": true,
         "default_member_permissions": null,
         "type": 1,
         "name": "message",
         "description": "Uses the bot to DM yourself",
-        "dm_permission": false,
+        "dm_permission": null,
         "options": [
             {
                 "type": 3,
@@ -32,7 +29,6 @@
         ]
     },
     {
-        "default_permission": true,
         "default_member_permissions": null,
         "type": 1,
         "name": "say",

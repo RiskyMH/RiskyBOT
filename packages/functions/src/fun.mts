@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// //  @ts-nocheck
 import { EmbedBuilder, inlineCode } from "@discordjs/builders";
 import type { Client, User, CommandInteractionOption } from "discord.js";
 import type { Config } from "@riskybot/tools";
@@ -7,6 +5,9 @@ import fetch from "node-fetch";
 
 const nekoBaseURL = "https://nekobot.xyz/api/";
 const sraBaseURL = "https://some-random-api.ml/";
+
+//TODO: Make sure everything works...
+//TODO: Migrate the fetch into `@riskybot/apis`
 
 /**
  * @param {import("discord.js").Client} client

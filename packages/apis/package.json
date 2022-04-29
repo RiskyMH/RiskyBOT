@@ -1,9 +1,9 @@
 {
-    "name": "@riskybot/tools",
+    "name": "@riskybot/apis",
     "description": "A collection of tools for building and maintaining the RiskyBOT project",
     "version": "4.0.0",
     "dependencies": {
-        "yaml": "^2.0.1"
+        "node-fetch": "^3.2.3"
     },
     "directories": {
         "lib": "src"

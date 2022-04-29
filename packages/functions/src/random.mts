@@ -1,14 +1,14 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// //  @ts-nocheck
-
 import { inlineCode, italic, EmbedBuilder, ButtonBuilder, ActionRowBuilder } from "@discordjs/builders";
 import { ButtonStyle } from "discord-api-types/v10";
-import type { Client } from "discord.js";
+import type { ApplicationCommandOptionChoiceData, Client, InteractionReplyOptions } from "discord.js";
 import fetch from "node-fetch";
 import { getBetweenStr } from "@riskybot/tools";
 import type { Config } from "@riskybot/tools";
 import { reddit, redditAutoComplete } from "./index.mjs";
 
+
+//TODO: Make sure everything works...
+//TODO: Migrate the fetch into `@riskybot/apis`
 
 
 export default async function random(client: Client, config: Config, type: string, num1: number, num2: number, text1: string) {
@@ -16,13 +16,13 @@ export default async function random(client: Client, config: Config, type: strin
     let errorEmb = new EmbedBuilder()
         .setTitle("Errors - random")
         .setColor(config.getColors().error);
-    let row = new ActionRowBuilder().addComponents(
+    let row = new ActionRowBuilder().addComponents([
         new ButtonBuilder()
         .setCustomId("random-again")
         .setLabel("Another?")
         .setStyle(ButtonStyle.Primary)
         .setDisabled(false)
-    );
+    ]);
     
     let errors: any[] = [];
 
@@ -357,7 +357,7 @@ export default async function random(client: Client, config: Config, type: strin
                   url: "https://emojihub.herokuapp.com/",
                  })
                  .setColor(config.getColors().ok)
-                 .addFields({name: str, value:`⤷ ${emojies.name}\n⤷ (${emojies.category})\n⤷ [[emojipedia](https://emojipedia.org/${str})] `})
+                 .addFields([{name: str, value:`⤷ ${emojies.name}\n⤷ (${emojies.category})\n⤷ [[emojipedia](https://emojipedia.org/${str})] `}])
                  .setFooter({ text: str + str + str + str + str });
 //                  .setDescription(
 //                   str +
@@ -400,13 +400,8 @@ export default async function random(client: Client, config: Config, type: strin
     
 }
 
-/**
- * @param {import("discord.js").Client} client
- * @param {string} input
- * @param { string } engine
- * @return { Promise <import("discord.js").ApplicationCommandOptionChoice[]> }
- */
-export async function autoComplete(client, engine, input) {
+
+export async function autoComplete(client: Client, engine: string, input: string ): ApplicationCommandOptionChoiceData[] {
     try {
         switch (engine) {
             case "random-post": {
@@ -417,13 +412,8 @@ export async function autoComplete(client, engine, input) {
 
 }
 
-/**
- * @param {import("discord.js").Client} client
- * @param {import("../types").ConfigJSON} config
- * @param {string} id
- * @returns {Promise< import("discord.js").InteractionReplyOptions>}
- */
-export async function button(client, config, id) {
+
+export async function button(client: Client, config: Config, id: string): Promise<InteractionReplyOptions> {
     let num1 = 0;
     let num2 = 0;
     let text1 = "";
@@ -439,6 +429,6 @@ export async function button(client, config, id) {
         text1 = String(await getBetweenStr(id, "(", ")")) || "";
     }
 
-    let data = await random(client, config.colors.ok, config.colors.error, idActual, num1, num2, text1);
+    let data = await random(client, config, idActual, num1, num2, text1);
     return data;
 }

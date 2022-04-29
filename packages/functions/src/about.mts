@@ -1,30 +1,30 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-// // @ts-nocheck
-import {time, hyperlink,inlineCode, userMention, bold, codeBlock, EmbedBuilder } from "@discordjs/builders";
-import {ApplicationCommandOptionChoice, EmbedFieldData, User, Util } from "discord.js";
+import {time, hyperlink,inlineCode, userMention, bold, codeBlock, EmbedBuilder, roleMention } from "@discordjs/builders";
+import type {ApplicationCommandOptionChoiceData, EmbedFieldData, Client, CommandInteractionOption } from "discord.js";
+import { PermissionsBitField } from "discord.js";
 import {PermissionFlagsBits} from "discord-api-types/v10";
-// import fetch from "node-fetch";
-import { redditAutoComplete, reddit } from "./index.mjs";
-import type { Client, CommandInteractionOption, InteractionReplyOptions } from "discord.js";
-import type { Config, topggapiResponse } from "@riskybot/tools";
+import { redditAutoComplete, reddit } from "@riskybot/functions";
+import type { Config } from "@riskybot/tools";
 import { trim } from "@riskybot/tools";
+import { topgg } from "@riskybot/apis";
+
+
+//TODO: Make sure everything works...
+
 
 export default async function about(client: Client, config: Config, option: CommandInteractionOption, extra: string, topggKey:string )/**: Promise <InteractionReplyOptions> */  {
 
     console.log(option);
-    let aboutEmbed = new EmbedBuilder().setColor(Util.resolveColor(config.getColors().ok));
-    let aboutEmbedExtra = new EmbedBuilder().setColor(Util.resolveColor(config.getColors().ok));
+    let aboutEmbed = new EmbedBuilder().setColor(config.getColors().ok);
+    let aboutEmbedExtra = new EmbedBuilder().setColor(config.getColors().ok);
     trim;  //test
     // USER
     if (option.user) {
         await option.user.fetch();
         aboutEmbed
-            .setTitle(
-                "About - " + inlineCode("User:") + bold(inlineCode(option.user.username))
-            )
-            .setThumbnail(option.user.avatarURL())
-            .addFields({name: "Made", value: time(new Date(option.user.createdAt)) +" (" +time(option.user.createdAt, "R") +")"})
-            .addFields(
+            .setTitle("About - " + inlineCode("User:") + bold(inlineCode(option.user.username)))
+            .setThumbnail(option.user.avatarURL({extension: "png", size: 512}))
+            .addFields([{name: "Made", value: time(new Date(option.user.createdAt)) +" (" +time(option.user.createdAt, "R") +")"}])
+            .addFields([
                 { name: "Username", value: codeBlock(option.user.username), inline: true },
                 {
                     name: "Discriminator",
@@ -32,54 +32,61 @@ export default async function about(client: Client, config: Config, option: Comm
                     inline: true,
                 },
                 { name: "Full", value: codeBlock(option.user.tag), inline: true }
-            );
-        if (option.user.banner) aboutEmbed.setImage(option.user?.bannerURL() ?? "");
+            ]);
+        if (option.user.banner) aboutEmbed.setImage(option.user?.bannerURL({extension: "png", size:512}) ?? "");
         option.user.fetchFlags();
         if (option.user.flags?.toArray().length)
         // @ts-expect-error because not added all flags
-            aboutEmbed.addFields({ name: "Badges", value: option.user.flags?.toArray()?.map((e) => flagsEmoji?.[e] ?? e).join("  ")??"none"});
+            aboutEmbed.addFields([{ name: "Badges", value: option.user.flags?.toArray()?.map((e) => flagsEmoji?.[e] ?? e).join("  ")??"none"}]);
             
 
         if (extra === "advanced") {
             aboutEmbedExtra
                 .setTitle("About - " +inlineCode("User:") + bold(inlineCode(option.user.username)) + inlineCode("(advanced)"))
-                .addFields({name: "Default Avatar URL", value: option.user.defaultAvatarURL})
-                .addFields({ name: "Current Avatar URL", value: hyperlink( "https://cdn.discordapp.com/avatars/...", option.user.displayAvatarURL())});
+                .addFields([{name:"ID", value: codeBlock(option.user.id)}])
+                .addFields([{name: "Default Avatar URL", value: option.user.defaultAvatarURL}])
+                .addFields([{ name: "Current Avatar URL", value: hyperlink( "https://cdn.discordapp.com/avatars/...", option.user.displayAvatarURL())}]);
             if (option.user.banner)
-                aboutEmbedExtra.addFields({name: "Banner URL", value: hyperlink("https://cdn.discordapp.com/banners/...", option.user?.bannerURL()?? "")});
-            aboutEmbedExtra.addFields({name:"ID", value: codeBlock(option.user.id)});
+                aboutEmbedExtra.addFields([{name: "Banner URL", value: hyperlink("https://cdn.discordapp.com/banners/...", option.user?.bannerURL()?? "")}]);
 
         } else if (extra === "top.gg") {
             if (topggKey) {
-                let data = await topgg(option.user, topggKey);
-                // @ts-expect-error - error not in type
-                if ((await data.bots.error?.toLowerCase()) === "not found") {
-                    aboutEmbedExtra
-                        .setTitle("About - " + inlineCode("user/bot:") + bold(inlineCode(option.user.username)) + inlineCode("(Top.gg)"))
-                        .addFields({ name: "Not found", value: "Not in top.gg\n• *Note: not all bots and users are on [top.gg](https://top.gg)*" })
-                        .setColor(config.getColors().warning);
-                } else {
+                
                     if (option.user.bot) {
-                        aboutEmbedExtra
-                            .setTitle("About - " +inlineCode("Bot:") + bold(inlineCode(option.user.username)) + inlineCode("(Top.gg)")) 
-                            .setURL("https://top.gg/bot/" + data.bots.id)// @ts-ignore   
-                            .addFields({name: "Links", value:  `• [invite](${data.bots.invite})\n• [website](${data.bots.website})`})// @ts-ignore
-                            .addFields({name: "Tags", value: data.bots.tags?.join(", ") ?? "*No tags*"})// @ts-ignore
-                            .addFields({name: "Short Desc",value:  data.bots.shortdesc ?? "*No description*"})// @ts-ignore
-                            .addFields({name: "Information",value: `• Prefix: ${inlineCode(data.bots.prefix ?? "*None*")}\n• Votes: ${inlineCode(data.bots?.points.toLocaleString() ?? "*None*")} (Month: ${inlineCode(data.bots?.monthlyPoints.toLocaleString() ?? "*None*")})\n• Server count: ${inlineCode(data.bots?.server_count?.toString() ?? "*None*") ||"*Not specified*"}`});
-                        // @ts-expect-error - bannerUrl not official
-                        if (await data.bots.bannerUrl) aboutEmbedExtra.setThumbnail(await data.bots.bannerUrl);
+                        let data = await topgg.rawBot(option.user.id, topggKey);
+                        // @ts-expect-error - error not in type
+                        if ((await data.error?.toLowerCase()) === "not found") {
+                            aboutEmbedExtra
+                                .setTitle("About - " + inlineCode("user/bot:") + bold(inlineCode(option.user.username)) + inlineCode("(Top.gg)"))
+                                .addFields([{ name: "Not found", value: "Not in top.gg\n• *Note: not all bots and users are on [top.gg](https://top.gg)*" }])
+                                .setColor(config.getColors().warning);
+                        } else{
+
+                            aboutEmbedExtra
+                                .setTitle("About - " +inlineCode("Bot:") + bold(inlineCode(option.user.username)) + inlineCode("(Top.gg)")) 
+                                .setURL("https://top.gg/bot/" + data.id)   
+                                .addFields([{name: "Links", value:  `• [invite](${data.invite})\n• [website](${data.website})`}])
+                                .addFields([{name: "Tags", value: data.tags?.join(", ") ?? "*No tags*"}])
+                                .addFields([{name: "Short Desc",value:  data.shortdesc ?? "*No description*"}])
+                                .addFields([{name: "Information",value: `• Prefix: ${inlineCode(data.prefix ?? "*None*")}\n• Votes: ${inlineCode(data?.points.toLocaleString() ?? "*None*")} (Month: ${inlineCode(data?.monthlyPoints.toLocaleString() ?? "*None*")})\n• Server count: ${inlineCode(data?.server_count?.toString() ?? "*None*") ||"*Not specified*"}`}]);
+                            // @ts-expect-error - bannerUrl not official
+                            if (await data.bannerUrl) aboutEmbedExtra.setImage(await data.bannerUrl);
+                        }
                     } else {
+                        let data = await topgg.rawUser(option.user.id, topggKey);
+                        // @ts-expect-error - error not in type
+                        if ((await data.error?.toLowerCase()) === "not found") {
+                            aboutEmbedExtra
+                                .setTitle("About - " + inlineCode("user/bot:") + bold(inlineCode(option.user.username)) + inlineCode("(Top.gg)"))
+                                .addFields([{ name: "Not found", value: "Not in top.gg\n• *Note: not all bots and users are on [top.gg](https://top.gg)*" }])
+                                .setColor(config.getColors().warning);
+                        } else{
+
                         aboutEmbedExtra
-                            .setTitle(
-                                "About - " +
-                                inlineCode("User:") +
-                                bold(inlineCode(option.user.username)) +
-                                inlineCode("(Top.gg)")
-                            )// @ts-ignore
-                            .addFields({name: "Bio", value: data.users.bio ?? "*No bio*"});
+                            .setTitle("About - " + inlineCode("User:") + bold(inlineCode(option.user.username)) + inlineCode("(Top.gg)"))
+                            .addFields([{name: "Bio", value: data.bio ?? "*No bio*"}]);
+                        }
                     }
-                }
             } else {
                 aboutEmbedExtra
                     .setTitle(
@@ -95,10 +102,17 @@ export default async function about(client: Client, config: Config, option: Comm
     }
     // MEMBER
     if (option.member) {
+        try{
+            // @ts-expect-error - using types that isn't existing (vscode)
+            option.member?.fetch();
+            // @ts-expect-error - using types that isn't existing (vscode)
+            aboutEmbed.setThumbnail(option.member?.avatarURL({extension: "png", size: 512}) ?? option?.user?.avatarURL({extension: "png", size: 512}));
+        }catch(e){console.log;}
+        
         aboutEmbed
             // @ts-expect-error - using types that isn't existing (vscode)
             .setTitle("About - " +inlineCode("User:") +bold(inlineCode((option.member?.nick ?? option.member?.nickname) ?? option.user.username)))
-            .addFields(
+            .addFields([
                 {
                     name: "Joined at", // @ts-expect-error - using types that isn't existing (vscode)
                     value: time(new Date(option.member?.joined_at ?? option.member.joinedAt)),
@@ -109,19 +123,27 @@ export default async function about(client: Client, config: Config, option: Comm
                     value: (option.member?.nick ?? option.member?.nickname)? inlineCode(option.member?.nick ?? option.member?.nickname): "*No nickname set*",
                     inline: true,
                 },
-            );
+            ]);
+
         // @ts-expect-error - using types that isn't existing (vscode)
-        if (option.member?.communicationDisabledUntilTimestamp) aboutEmbed.addField("Time out until",time(new Date(option.member.communicationDisabledUntilTimestamp)));
+        if (option.member?.roles?.length) aboutEmbed.addFields([{name: "Roles", value: option.member.roles.map((e) => (roleMention(String(e)))).join(" ")}]);
         // @ts-expect-error - using types that isn't existing (vscode)
-        if (option.member?.communication_disabled_until) aboutEmbed.addField("Time out until",time(new Date(option.member.communication_disabled_until)));
+        if (option.member?._roles?.length) aboutEmbed.addFields([{name: "Roles", value: option.member._roles.map((e) => (roleMention(String(e)))).join(" ")}]);
+        // @ts-expect-error - using types that isn't existing (vscode)
+        if (option.member?.communicationDisabledUntilTimestamp) aboutEmbed.addFields([{name: "Time out until", value: time(new Date(option.member.communicationDisabledUntilTimestamp))}]);
+        // @ts-expect-error - using types that isn't existing (vscode)
+        if (option.member?.communication_disabled_until) aboutEmbed.addFields([{name: "Time out until", value: time(new Date(option.member.communication_disabled_until))}]);
 
         if (extra === "advanced") {
             aboutEmbedExtra
                 // @ts-expect-error - using types that isn't existing (vscode)
                 .setTitle("About - " +inlineCode("User:") +bold(inlineCode(option.member?.nick ?? option.user.username)) +inlineCode("(advanced)"));
+            if (option.member?.avatar)
+                // @ts-expect-error - using types that isn't existing (vscode)
+                aboutEmbedExtra.addFields([{name: "Guild Avatar URL", value: hyperlink("https://cdn.discordapp.com/guilds/.../users/.../avatars/...", option.member?.avatarURL()?? "")}]);
 
             // @ts-expect-error - using types that isn't existing (vscode)
-            if (!option.member.guild) aboutEmbedExtra.addFields(await permissionViewer((option.member.permissions)));
+            if (!option.member.guild) aboutEmbedExtra.addFields(await permissionViewer(new PermissionsBitField(option.member.permissions)));
         }
         // ROLE
     } else if (option.role) {
@@ -130,53 +152,53 @@ export default async function about(client: Client, config: Config, option: Comm
         );
         // @ts-expect-error - using types that isn't existing (vscode)
         // .addField("Permissions", option.role.permissions ? (new Permissions(option.role.permissions).toArray().length ? codeBlock((new Permissions(option.role.permissions).toArray().join(", "))) : "*No permissions*") : "*No permissions*")
-        aboutEmbed.addFields(await permissionViewer((option.role.permissions)))
-                  .addFields("Position", codeBlock(option.role.position.toString()));
+        aboutEmbed.addFields(await permissionViewer(new PermissionsBitField(option.role.permissions)))
+                  .addFields([{name: "Position", value: codeBlock(option.role.position.toString())}]);
 
         // @ts-expect-error - using types that isn't existing (vscode)
-        if (option.role.tags?.bot_id ?? option.role.tags?.botId) aboutEmbed.addField("Bot role",userMention(option.role.tags?.bot_id ?? option.role.tags?.botId));
+        if (option.role.tags?.bot_id ?? option.role.tags?.botId) aboutEmbed.addFields([{name: "Bot role", value: userMention(option.role.tags?.bot_id ?? option.role.tags?.botId)}]);
 
         if (extra === "advanced") {
             aboutEmbedExtra
                 .setTitle("About - " +inlineCode("Role:") +bold(inlineCode(option.role.name)) +inlineCode("(advanced)"))
-                .addFields("ID", codeBlock(option.role.id))
-                .addField("Notes", `Pinned in the user listing: \`${option.role.hoist}\``);
+                .addFields([{name: "ID", value: codeBlock(option.role.id)}])
+                .addFields([{name: "Notes", value:`Pinned in the user listing: \`${option.role.hoist}\``}]);
         }
     } else if (option.channel) {
         aboutEmbed.setTitle(
             "About - " + inlineCode("Channel:") + bold(inlineCode(option.channel.name))
         );
-        // permissions for user
-        //  if (option.channel.permissions) aboutEmbed.addFields(await permissionViewer(new Permissions(option.channel.permissions)))
-        aboutEmbed.addFields("Type",channelTypeEmoji[option.channel.type] ||channelTypeEmojiAlt[option.channel.type]); 
+        // @ts-expect-error - using types that isn't existing (vscode)
+        aboutEmbed.addFields([{name: "Type", value: channelTypeEmoji[option.channel.type] ||channelTypeEmojiAlt[option.channel.type]}]); 
 
         if (extra === "advanced") {
             aboutEmbedExtra
                 .setTitle("About - " +inlineCode("Channel:") +bold(inlineCode(option.channel.name)) +inlineCode("(advanced)"))
-                .addFields("ID", codeBlock(option.channel.id));
+                .addFields([{name: "ID", value: codeBlock(option.channel.id)}]);
         }
     }
     if (option.name === "id") {
-        let anyId = option.value.toString();
+        let anyId = option?.value?.toString()?? "123456789";
         
         // types required
-        var timestampFromSnowflake = (id) => {
+        var timestampFromSnowflake = (id: string) => {
             return Number(id) / 4194304 + 1420070400000;
         };
         let list = [];
         for (let str in channelTypeEmoji) {
+            // @ts-expect-error - using types that isn't existing (vscode)
             list.push(channelTypeEmoji[str]);
         }
         aboutEmbed
             .setTitle("About - " + inlineCode("id:") + bold(inlineCode(anyId)))
             .setDescription("*Because this is only the ID, limited information*")
-            .addFields("Made", time(new Date(timestampFromSnowflake(anyId))))
-            .addField("emoji", list.toLocaleString());
+            .addFields([{name: "Made", value: time(new Date(timestampFromSnowflake(anyId)))}])
+            .addFields([{name: "emoji", value: list.toLocaleString()}]);
 
         if (extra === "advanced") {
             aboutEmbedExtra
                 .setTitle("About - " +inlineCode("id:") +bold(inlineCode(anyId)) +inlineCode("(advanced)"))
-                .addFields("ID", codeBlock(anyId));
+                .addFields([{name: "ID", value: codeBlock(anyId)}]);
         }
     }
     if (option.name === "sub-reddit") {
@@ -188,7 +210,7 @@ export default async function about(client: Client, config: Config, option: Comm
 }
 
 
-export async function autoComplete(client: Client, type: string, input: string): Promise <ApplicationCommandOptionChoice[]> {
+export async function autoComplete(client: Client, type: string, input: string): Promise <ApplicationCommandOptionChoiceData[]> {
     // yes
     try {
         /** @type Object */
@@ -202,6 +224,7 @@ export async function autoComplete(client: Client, type: string, input: string):
 
     return [];
 }
+
 const flagsEmoji = {
     Hypesquad: "<:HypeSquadEvents:899099369742155827>",
     BugHunterLevel2: "<:BugHunterLevel2:899099369767313429>",
@@ -265,7 +288,7 @@ const channelTypeEmojiAlt = {
 };
 
 
-async function permissionViewer(permissions): Promise<EmbedFieldData[]> {
+async function permissionViewer(permissions: PermissionsBitField): Promise<EmbedFieldData[]> {
     let emojis = {
         none: "<:CheckNone:900615195209138186>",
         off: "<:CheckOff:900615195154612276>",
@@ -397,28 +420,4 @@ async function permissionViewer(permissions): Promise<EmbedFieldData[]> {
         { name: "Test Permissions", value: listText.join("\n"), inline: true },
         { name: "Voice Permissions", value: listVoice.join("\n"), inline: true },
     ];
-}
-
-const topggBaseUrl = "https://top.gg/api";
-
-async function topgg(user: User, topggKey: string): Promise<topggapiResponse> {
-
-    let headersGG = {
-        Authorization: topggKey,
-        "Content-Type": "application/json",
-    };
-    /** @typedef {import("../types").topggapiResponse} topgg */
-    /**@type {object} */
-    // eslint-disable-next-line no-undef 
-    let data = await fetch(
-        topggBaseUrl + (user.bot ? "/bots/" : "/users/") + user.id,
-        { headers: headersGG }
-    ).then((response) => response.json());
-
-    /**@type {topgg} */
-    let topggdata: any = {};
-    topggdata.bots = data;
-    topggdata.users = data;
-
-    return topggdata;
 }

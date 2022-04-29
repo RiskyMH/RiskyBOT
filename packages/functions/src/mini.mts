@@ -1,11 +1,10 @@
-
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// //  @ts-nocheck
-
 import { ActionRowBuilder, ButtonBuilder, EmbedBuilder, MessageActionRowComponentBuilder } from "@discordjs/builders";
 import type {Client, InteractionReplyOptions} from "discord.js";
 import { ButtonStyle } from "discord-api-types/v10";
 import type { Config } from "@riskybot/tools";
+
+
+//TODO: Make sure everything works...
 
 
 export async function ping (client: Client, config: Config, interMade: number): Promise<InteractionReplyOptions> {
@@ -25,3 +24,5 @@ export async function ping (client: Client, config: Config, interMade: number): 
   //   ephemeral: true,
   // });
 }
+
+//TODO: Add message command

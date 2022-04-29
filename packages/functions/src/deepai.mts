@@ -1,11 +1,12 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// //  @ts-nocheck
 import { EmbedBuilder } from "discord.js";
 import { bold, inlineCode } from "@discordjs/builders";
 import * as tools from "@riskybot/tools";
 import { default as deepaiFunc } from "deepai";
 import type { Client, InteractionReplyOptions } from "discord.js";
 import type { Config } from "@riskybot/tools";
+
+
+//TODO: Make sure everything works...
 
 
 export default async function deepai(client: Client, config: Config, input:string, type:string, deepaiKey:string = ""): Promise <InteractionReplyOptions> {

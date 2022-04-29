@@ -9,6 +9,10 @@ import tools from "@riskybot/tools";
 import { EmbedBuilder } from "@discordjs/builders";
 const config = new tools.Config("./config.yml", true);
 
+
+//TODO: Fix errors
+
+
 // make bot
 const client = new Client({
  intents: [

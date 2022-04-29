@@ -1,12 +1,12 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// //  @ts-nocheck
-
 import { EmbedBuilder } from "discord.js";
 import type {BaseGuildTextChannel, Client, User, GuildMember } from "discord.js";
-import 
-{ PermissionFlagsBits } from "discord-api-types/v10";
-import tools from "@riskybot/tools";
-import type { Config } from "@riskybot/tools";
+import { PermissionFlagsBits } from "discord-api-types/v10";
+import * as tools from "@riskybot/tools";
+import type { Config, EnvEnabled } from "@riskybot/tools";
+import { SlashCommandBuilder, SlashCommandStringOption, SlashCommandUserOption } from "@discordjs/builders";
+
+
+//TODO: Make sure everything works...
 
 
 export default async function say(client: Client, config: Config, user: User, message: string, botMember?: GuildMember, channel?: BaseGuildTextChannel) {
@@ -48,4 +48,24 @@ export default async function say(client: Client, config: Config, user: User, me
 
         return { embeds: [errorEmb], ephemeral: true };
     }
+}
+export function applicationCommands(config: Config, envEnabledList?:EnvEnabled) {
+    let searchSlashCommand = new SlashCommandBuilder()
+        .setName("say")
+        .setDescription("Send a message in a channel as yourself or someone else")
+        .setDmPermission(false)
+        .addStringOption(
+            new SlashCommandStringOption()
+                .setName("message")
+                .setDescription("What will be sent in the channel")
+                .setRequired(true)
+                .setAutocomplete(true)
+        )
+        .addUserOption(
+            new SlashCommandUserOption()
+                .setName("user")
+                .setDescription("The user that will be simulated")
+                .setRequired(true)
+        );
+    return [searchSlashCommand];
 }

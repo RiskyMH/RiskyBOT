@@ -1,10 +1,10 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// //  @ts-nocheck
 import { Client, EmbedBuilder } from "discord.js";
 import { inlineCode } from "@discordjs/builders";
 import { OAuth2Routes, OAuth2Scopes, PermissionFlagsBits } from "discord-api-types/v10";
 import type { Config } from "@riskybot/tools";
 
+//TODO: Make sure everything works...
+//TODO: Make sure all apis listed
 
 export default async function meCredits(client: Client, config: Config): Promise <import("discord.js").InteractionReplyOptions> {
     let aboutMe = new EmbedBuilder();

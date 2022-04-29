@@ -1,12 +1,12 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// //  @ts-nocheck
-
 import { ModalBuilder, TextInputBuilder, ActionRowBuilder, EmbedBuilder, codeBlock } from "@discordjs/builders";
 import type { ModalActionRowComponentBuilder } from "@discordjs/builders";
 import { TextInputStyle } from "discord-api-types/v10";
 import type { Client, InteractionReplyOptions } from "discord.js";
 import { trim } from "@riskybot/tools";
 import type { Config } from "@riskybot/tools";
+
+
+//TODO: Make sure everything works...
 
 
 export async function evalShowModal(client: Client): Promise<ModalBuilder> {

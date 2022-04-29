@@ -1,6 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// //  @ts-nocheck
-
 import type { Client } from "discord.js";
 import fetch from "node-fetch";
 import { bold, hyperlink, inlineCode, time, ActionRowBuilder, ButtonBuilder, EmbedBuilder, MessageActionRowComponentBuilder } from "@discordjs/builders";
@@ -9,6 +6,10 @@ import * as tools from "@riskybot/tools";
 import type { Config } from "@riskybot/tools";
 
 const redditBaseURL = "https://reddit.com/";
+
+
+//TODO: Make sure everything works...
+//TODO: Migrate the fetch into `@riskybot/apis`
 
 
 export default async function search(client: Client, config: Config, subEngine: string, input: string) {

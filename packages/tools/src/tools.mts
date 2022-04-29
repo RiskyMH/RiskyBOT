@@ -1,7 +1,7 @@
 import YAML from "yaml";
 import { readFileSync } from "fs";
 import type {ConfigJSON} from "./types.mjs";
-import {  Util } from "discord.js";
+import {Util} from "discord.js";
 import type{ CommandInteractionOption, BaseGuildTextChannel, Webhook } from "discord.js";
 
 
@@ -28,6 +28,32 @@ export class Config {
         return {ok, error, good, warning};
     }
 
+}
+/** Some of these vars are also controlled by the `config.yml` */
+export class EnvEnabled {
+    constructor(env: typeof process["env"], config?: Config){
+        
+        if (env.discordapi != null) this.hasDiscordApi = true;
+        if (env.discordapiExtra != null) this.hasDiscordApiExtra = true;
+        if (env.topggapi != null) this.HasTopggApi = true;
+        if (env.deepapi != null) this.HasDeepApi = true;
+        if (env.production != null) this.hasProductionBool = true;
+        if (env.ownerGuildId != null) this.hasOwnerGuildId = true;
+        // return ;
+    }
+    // [key: string]: boolean;
+    /**  Has a entry in `discordapi`? */
+    public hasDiscordApi: boolean = false;
+    /**  Has a entry in `discordapiExtra`? */
+    public hasDiscordApiExtra: boolean = false;
+    /** Has a entry in `production`? - is it in testing or in release mode*/
+    public hasProductionBool: boolean = false;
+    /** Has a entry in `deepapi`? */
+    public HasTopggApi: boolean = false;
+    /** Has a entry in `HasDeepApi`? */
+    public HasDeepApi: boolean = false;
+    /** Has a entry in `ownerGuildId`? */
+    public hasOwnerGuildId: boolean = false;
 }
 
 export function toTitleCase(str: string): string {

@@ -1,43 +1,24 @@
 {
+  "name": "riskybot",
+  "description": "A random multi-purpose bot",
+  "version": "4.0.0",
+  "author": "RiskyMH",
   "dependencies": {
-    "@discordjs/builders": "^0.14.0-dev.1650413406-585169f",
+    "@discordjs/builders": "^0.14.0-dev.1651147747-679dcda",
     "@discordjs/rest": "^0.4.1",
-    "@riskybot/functions": "file:./packages/functions",
-    "@riskybot/tools": "file:./packages/tools",
+    "@riskybot/apis": "./packages/apis",
+    "@riskybot/functions": "./packages/functions",
+    "@riskybot/tools": "./packages/tools",
     "discord-api-types": "^0.31.2",
-    "discord.js": "^14.0.0-dev.1650413390-585169f",
+    "discord.js": "^14.0.0-dev.1651147765-679dcda",
     "dotenv": "^16.0.0",
     "node-fetch": "^3.2.3",
     "tslib": "^2.3.1"
   },
-  "type": "module",
-  "module": "system",
-  "private": true,
-  "name": "riskybot",
-  "version": "3.0.0",
-  "homepage": "https://riskymh.github.io/RiskyBOT",
-  "main": "src/main.js",
-  "scripts": {
-    "build": "tsc",
-    "lint": "eslint ./src/* ./packages/functions/src/* ./packages/tools/src/*",
-    "start": "tsc  && node -r dotenv/config dist/src/main.mjs",
-    "start:extra": "tsc && node -r dotenv/config dist/src/extra.mjs",
-    "start:website:dev": "cd website && hugo serve",
-    "//postinstall": "tsc --noEmitOnError",
-    "deployCommands": "node -r dotenv/config src/applicationCommands/deploy.js",
-    "deployCommands:extra": "node -r dotenv/config src/applicationCommands/deployExtra.js",
-    "deployCommands:ownerOnly": "node -r dotenv/config src/applicationCommands/deployOwnerOnly.js"
-  },
-  "workspaces": [
-    "packages/*"
-  ],
-  "author": "RiskyMH",
-  "engines": {
-    "node": ">=17.0.0"
-  },
   "devDependencies": {
     "@riskybot/website": "file:./website",
     "@types/dotenv": "^8.2.0",
+    "@types/node": "^17.0.30",
     "@typescript-eslint/eslint-plugin": "^5.8.0",
     "@typescript-eslint/parser": "^5.8.0",
     "eslint": "^8.5.0",
@@ -47,7 +28,29 @@
     "turbo": "1.1.4",
     "typescript": "^4.5.4"
   },
+  "engines": {
+    "node": ">=17.0.0"
+  },
   "files": [
     "src/"
+  ],
+  "homepage": "https://riskymh.github.io/RiskyBOT",
+  "main": "src/main.js",
+  "module": "system",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "deployCommands": "node -r dotenv/config src/applicationCommands/deploy.js",
+    "deployCommands:extra": "node -r dotenv/config src/applicationCommands/deployExtra.js",
+    "deployCommands:ownerOnly": "node -r dotenv/config src/applicationCommands/deployOwnerOnly.js",
+    "lint": "eslint ./src/* ./packages/functions/src/* ./packages/tools/src/*",
+    "//postinstall": "tsc",
+    "start": "tsc  && node -r dotenv/config dist/src/main.mjs --experimental-fetch",
+    "start:extra": "tsc && node -r dotenv/config dist/src/extra.mjs",
+    "start:website:dev": "cd website && hugo serve"
+  },
+  "type": "module",
+  "workspaces": [
+    "packages/*"
   ]
 }
