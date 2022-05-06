@@ -20,7 +20,7 @@ const sraBaseURL = "https://some-random-api.ml/";
  * @return {Promise <import("discord.js").InteractionReplyOptions>}
  */
 
-export default async function fun(client: Client, config: Config, type: string, inputUser1: User, inputMember1: CommandInteractionOption["member"], inputUser2: User, inputText: string): Promise<import("discord.js").InteractionReplyOptions> {
+export default async function fun(config: Config, type: string, inputUser1: User, inputMember1: CommandInteractionOption["member"], inputUser2: User, inputText: string): Promise<import("discord.js").InteractionReplyOptions> {
  let funEmb = new EmbedBuilder().setTitle("Fun").setColor(config.getColors().ok);
 
  /** @type Object */

@@ -7,12 +7,12 @@ import type { Config } from "@riskybot/tools";
 //TODO: Make sure everything works...
 
 
-export async function ping (client: Client, config: Config, interMade: number): Promise<InteractionReplyOptions> {
-  let row = new ActionRowBuilder<MessageActionRowComponentBuilder>().setComponents(new ButtonBuilder().setLabel("Again").setCustomId("ping").setStyle(ButtonStyle.Secondary));
+export async function ping (config: Config, interMade: number, pingNum: number): Promise<InteractionReplyOptions> {
+  let row = new ActionRowBuilder<MessageActionRowComponentBuilder>().setComponents([new ButtonBuilder().setLabel("Again").setCustomId("ping").setStyle(ButtonStyle.Secondary)]);
   let ping = new EmbedBuilder()
     .setTitle("Pong")
     .setColor(config.getColors().ok)
-    .setDescription(`🏓 Latency is \`~${Date.now()-interMade}\`ms. API Latency is \`~${Math.round(client.ws.ping)}\`ms`);
+    .setDescription(`🏓 Latency is \`~${Date.now()-interMade}\`ms. API Latency is \`~${Math.round(pingNum)}\`ms`);
 
   return {
     embeds: [ping],

@@ -4,13 +4,13 @@
   "version": "4.0.0",
   "author": "RiskyMH",
   "dependencies": {
-    "@discordjs/builders": "^0.14.0-dev.1651147747-679dcda",
+    "@discordjs/builders": "^0.14.0-dev.1651493044-4ba0f56",
     "@discordjs/rest": "^0.4.1",
     "@riskybot/apis": "./packages/apis",
     "@riskybot/functions": "./packages/functions",
     "@riskybot/tools": "./packages/tools",
     "discord-api-types": "^0.31.2",
-    "discord.js": "^14.0.0-dev.1651147765-679dcda",
+    "discord.js": "^14.0.0-dev.1651493371-4ba0f56",
     "dotenv": "^16.0.0",
     "node-fetch": "^3.2.3",
     "tslib": "^2.3.1"
@@ -46,6 +46,7 @@
     "lint": "eslint ./src/* ./packages/functions/src/* ./packages/tools/src/* ./packages/apis/src/* ",
     "//postinstall": "tsc",
     "start": "tsc  && node -r dotenv/config dist/src/main.mjs --experimental-fetch",
+    "start:force": "yarn --force && yarn start || node -r dotenv/config dist/src/main.mjs --experimental-fetch",
     "start:extra": "tsc && node -r dotenv/config dist/src/extra.mjs",
     "start:website:dev": "cd website && hugo serve"
   },

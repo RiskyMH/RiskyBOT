@@ -4,7 +4,7 @@
     "version": "4.0.0",
     "dependencies": {
         "axios": "^0.26.0",
-        "deepai": "^0.0.3",
+        "deepai": "^1.0.21",
         "translatte": "^3.0.1"
     },
     "directories": {

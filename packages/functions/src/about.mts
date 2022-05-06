@@ -1,22 +1,21 @@
 import {time, hyperlink,inlineCode, userMention, bold, codeBlock, EmbedBuilder, roleMention } from "@discordjs/builders";
-import type {ApplicationCommandOptionChoiceData, EmbedFieldData, Client, CommandInteractionOption } from "discord.js";
+import type {ApplicationCommandOptionChoiceData, EmbedFieldData, CommandInteractionOption } from "discord.js";
 import { PermissionsBitField } from "discord.js";
 import {PermissionFlagsBits} from "discord-api-types/v10";
 import { redditAutoComplete, reddit } from "@riskybot/functions";
 import type { Config } from "@riskybot/tools";
-import { trim } from "@riskybot/tools";
 import { topgg } from "@riskybot/apis";
 
 
 //TODO: Make sure everything works...
 
 
-export default async function about(client: Client, config: Config, option: CommandInteractionOption, extra: string, topggKey:string )/**: Promise <InteractionReplyOptions> */  {
+export default async function about(config: Config, option: CommandInteractionOption, extra: string, topggKey?:string )/**: Promise <InteractionReplyOptions> */  {
 
     console.log(option);
     let aboutEmbed = new EmbedBuilder().setColor(config.getColors().ok);
     let aboutEmbedExtra = new EmbedBuilder().setColor(config.getColors().ok);
-    trim;  //test
+
     // USER
     if (option.user) {
         await option.user.fetch();
@@ -39,7 +38,6 @@ export default async function about(client: Client, config: Config, option: Comm
         // @ts-expect-error because not added all flags
             aboutEmbed.addFields([{ name: "Badges", value: option.user.flags?.toArray()?.map((e) => flagsEmoji?.[e] ?? e).join("  ")??"none"}]);
             
-
         if (extra === "advanced") {
             aboutEmbedExtra
                 .setTitle("About - " +inlineCode("User:") + bold(inlineCode(option.user.username)) + inlineCode("(advanced)"))
@@ -53,9 +51,10 @@ export default async function about(client: Client, config: Config, option: Comm
             if (topggKey) {
                 
                     if (option.user.bot) {
-                        let data = await topgg.rawBot(option.user.id, topggKey);
+                        let data = await topgg.rawBotInfo(option.user.id, topggKey);
+                        console.log(data);
                         // @ts-expect-error - error not in type
-                        if ((await data.error?.toLowerCase()) === "not found") {
+                        if (!data || (await data?.error?.toLowerCase()) === "not found") {
                             aboutEmbedExtra
                                 .setTitle("About - " + inlineCode("user/bot:") + bold(inlineCode(option.user.username)) + inlineCode("(Top.gg)"))
                                 .addFields([{ name: "Not found", value: "Not in top.gg\n• *Note: not all bots and users are on [top.gg](https://top.gg)*" }])
@@ -69,22 +68,23 @@ export default async function about(client: Client, config: Config, option: Comm
                                 .addFields([{name: "Tags", value: data.tags?.join(", ") ?? "*No tags*"}])
                                 .addFields([{name: "Short Desc",value:  data.shortdesc ?? "*No description*"}])
                                 .addFields([{name: "Information",value: `• Prefix: ${inlineCode(data.prefix ?? "*None*")}\n• Votes: ${inlineCode(data?.points.toLocaleString() ?? "*None*")} (Month: ${inlineCode(data?.monthlyPoints.toLocaleString() ?? "*None*")})\n• Server count: ${inlineCode(data?.server_count?.toString() ?? "*None*") ||"*Not specified*"}`}]);
-                            // @ts-expect-error - bannerUrl not official
-                            if (await data.bannerUrl) aboutEmbedExtra.setImage(await data.bannerUrl);
+                            if (data.bannerUrl) aboutEmbedExtra.setImage(data.bannerUrl);
                         }
                     } else {
-                        let data = await topgg.rawUser(option.user.id, topggKey);
+                        let data = await topgg.rawUserInfo(option.user.id, topggKey);
                         // @ts-expect-error - error not in type
-                        if ((await data.error?.toLowerCase()) === "not found") {
+                        if (!data || (await data.error?.toLowerCase()) === "not found") {
                             aboutEmbedExtra
                                 .setTitle("About - " + inlineCode("user/bot:") + bold(inlineCode(option.user.username)) + inlineCode("(Top.gg)"))
                                 .addFields([{ name: "Not found", value: "Not in top.gg\n• *Note: not all bots and users are on [top.gg](https://top.gg)*" }])
                                 .setColor(config.getColors().warning);
                         } else{
 
-                        aboutEmbedExtra
-                            .setTitle("About - " + inlineCode("User:") + bold(inlineCode(option.user.username)) + inlineCode("(Top.gg)"))
-                            .addFields([{name: "Bio", value: data.bio ?? "*No bio*"}]);
+                            aboutEmbedExtra
+                                .setTitle("About - " + inlineCode("User:") + bold(inlineCode(option.user.username)) + inlineCode("(Top.gg)"))
+                                .addFields([{name: "Bio", value: data.bio ?? "*No bio*"}]);
+                            if (data.banner) aboutEmbedExtra.setImage(data.banner);
+
                         }
                     }
             } else {
@@ -104,7 +104,7 @@ export default async function about(client: Client, config: Config, option: Comm
     if (option.member) {
         try{
             // @ts-expect-error - using types that isn't existing (vscode)
-            option.member?.fetch();
+            await option.member?.fetch();
             // @ts-expect-error - using types that isn't existing (vscode)
             aboutEmbed.setThumbnail(option.member?.avatarURL({extension: "png", size: 512}) ?? option?.user?.avatarURL({extension: "png", size: 512}));
         }catch(e){console.log;}
@@ -202,7 +202,7 @@ export default async function about(client: Client, config: Config, option: Comm
         }
     }
     if (option.name === "sub-reddit") {
-        return await reddit(client, config,"subreddit", option.value?.toString()?? "");
+        return await reddit(config,"subreddit", option.value?.toString()?? "");
     }
 
     if (!extra) return { embeds: [aboutEmbed] };
@@ -210,14 +210,14 @@ export default async function about(client: Client, config: Config, option: Comm
 }
 
 
-export async function autoComplete(client: Client, type: string, input: string): Promise <ApplicationCommandOptionChoiceData[]> {
+export async function autoComplete(type: string, input: string): Promise <ApplicationCommandOptionChoiceData[]> {
     // yes
     try {
         /** @type Object */
 
         switch (type) {
             case "subreddit": {
-                return await redditAutoComplete(client, "sub-reddit", input);
+                return await redditAutoComplete( "sub-reddit", input);
             }
         }
     } catch { console.log;}

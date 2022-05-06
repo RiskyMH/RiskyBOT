@@ -1,6 +1,6 @@
 import { inlineCode, italic, EmbedBuilder, ButtonBuilder, ActionRowBuilder } from "@discordjs/builders";
 import { ButtonStyle } from "discord-api-types/v10";
-import type { ApplicationCommandOptionChoiceData, Client, InteractionReplyOptions } from "discord.js";
+import type { ApplicationCommandOptionChoiceData, InteractionReplyOptions } from "discord.js";
 import fetch from "node-fetch";
 import { getBetweenStr } from "@riskybot/tools";
 import type { Config } from "@riskybot/tools";
@@ -11,7 +11,7 @@ import { reddit, redditAutoComplete } from "./index.mjs";
 //TODO: Migrate the fetch into `@riskybot/apis`
 
 
-export default async function random(client: Client, config: Config, type: string, num1: number, num2: number, text1: string) {
+export default async function random(config: Config, type: string, num1?: number, num2?: number, text1?: string) {
     let randomEmb = new EmbedBuilder();
     let errorEmb = new EmbedBuilder()
         .setTitle("Errors - random")
@@ -392,7 +392,7 @@ export default async function random(client: Client, config: Config, type: strin
         case "randomPost":
         case "random-post": 
         {
-                let data = await reddit(client, config, type, text1);
+                let data = await reddit(config, type, text1);
             return data;
         }
 
@@ -401,11 +401,11 @@ export default async function random(client: Client, config: Config, type: strin
 }
 
 
-export async function autoComplete(client: Client, engine: string, input: string ): ApplicationCommandOptionChoiceData[] {
+export async function autoComplete(engine: string, input: string ): ApplicationCommandOptionChoiceData[] {
     try {
         switch (engine) {
             case "random-post": {
-                return await redditAutoComplete(client, "sub-reddit", input);
+                return await redditAutoComplete("sub-reddit", input);
         }
         }
     } catch {console.log;}
@@ -413,7 +413,7 @@ export async function autoComplete(client: Client, engine: string, input: string
 }
 
 
-export async function button(client: Client, config: Config, id: string): Promise<InteractionReplyOptions> {
+export async function button(config: Config, id: string): Promise<InteractionReplyOptions> {
     let num1 = 0;
     let num2 = 0;
     let text1 = "";
@@ -429,6 +429,6 @@ export async function button(client: Client, config: Config, id: string): Promis
         text1 = String(await getBetweenStr(id, "(", ")")) || "";
     }
 
-    let data = await random(client, config, idActual, num1, num2, text1);
+    let data = await random(config, idActual, num1, num2, text1);
     return data;
 }

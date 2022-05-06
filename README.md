@@ -16,6 +16,11 @@ To add the commands run `yarn deployCommands:extra`
 
 *ps. don't use normal and extra at same time*
 
+### Hosting online
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template/ltDq6H?referralCode=4kwikB)
+
+You can use Railway to host your bot.
+
 ## FAQ
 * Q: What is the Extra file (Riskybot 2)
 * A: It is has some extra commands and does stuff with text input (reaction to some words)

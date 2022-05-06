@@ -1,5 +1,7 @@
 {
     // Mapped from https://www.typescriptlang.org/tsconfig
+    "include": ["src"],
+    "exclude": ["dist"],
     "compilerOptions": {
         // Type Checking
         "allowUnreachableCode": false,
@@ -7,7 +9,7 @@
         // if true: conflicts with discord-api-types
         "exactOptionalPropertyTypes": false,
         "noFallthroughCasesInSwitch": true,
-        "noImplicitOverride": true,
+        // "noImplicitOverride": true,
         "noImplicitReturns": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
@@ -15,7 +17,7 @@
         "useUnknownInCatchVariables": true,
 
         // Modules
-		"module": "es2020",
+        "module": "es2020",
         "moduleResolution": "node",
         "resolveJsonModule": true,
 
@@ -39,6 +41,7 @@
         "lib": ["ESNext"],
         "target": "ES2021",
         "useDefineForClassFields": true,
+
         // Output Formatting
         "pretty": false,
 

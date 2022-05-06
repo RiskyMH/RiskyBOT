@@ -1,5 +1,4 @@
 import { EmbedBuilder } from "discord.js";
-import type { Client } from "discord.js";
 import fetch from "node-fetch";
 import { codeBlock, inlineCode } from "@discordjs/builders";
 import * as tools from "@riskybot/tools";
@@ -10,7 +9,7 @@ import type { Config } from "@riskybot/tools";
 //TODO: Migrate the fetch into `@riskybot/apis`
 
 
-export default async function toolsCmd(client: Client, config: Config, engine: string, input: string, input2: string) {
+export default async function toolsCmd(config: Config, engine: string, input: string, input2: string) {
     let toolsEmb = new EmbedBuilder().setTitle("Tools").setColor(config.getColors().ok);
     let errorEmb = new EmbedBuilder().setTitle("Errors - tools").setColor(config.getColors().error);
 

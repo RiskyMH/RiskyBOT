@@ -1,4 +1,3 @@
-import type { Client } from "discord.js";
 import fetch from "node-fetch";
 import { bold, hyperlink, inlineCode, time, ActionRowBuilder, ButtonBuilder, EmbedBuilder, MessageActionRowComponentBuilder } from "@discordjs/builders";
 import {ButtonStyle} from "discord-api-types/v10";
@@ -12,17 +11,17 @@ const redditBaseURL = "https://reddit.com/";
 //TODO: Migrate the fetch into `@riskybot/apis`
 
 
-export default async function search(client: Client, config: Config, subEngine: string, input: string) {
+export default async function search(config: Config, subEngine: string, input: string) {
     let searEmb = new EmbedBuilder().setTitle("Fun").setColor(config.getColors().ok);
     let errorEmb = new EmbedBuilder().setTitle("Errors - search").setColor(config.getColors().error);
-    let row = new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(
+    let row = new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents([
      new ButtonBuilder()
       .setLabel("Another?")
       .setStyle(ButtonStyle.Primary)
       .setDisabled(false),
 
      new ButtonBuilder().setLabel("Link").setStyle(ButtonStyle.Link).setDisabled(false)
-    );
+    ]);
 
     switch (subEngine) {
         case "random-post": {
@@ -52,7 +51,7 @@ export default async function search(client: Client, config: Config, subEngine: 
                 row.components[0].setCustomId(`random-again-randomPost-reddit-(${filtered.data.subreddit})`);
                 // @ts-expect-error - .setURL() errors
                 row.components[1].setURL(redditBaseURL.slice(0, -1) + await filtered.data.permalink);
-                searEmb.addFields({name:"Stats", value:`\`👍${filtered.data.ups}\` \`👎${filtered.data.downs}\` \`💬${filtered.data.num_comments}\``});
+                searEmb.addFields([{name:"Stats", value:`\`👍${filtered.data.ups}\` \`👎${filtered.data.downs}\` \`💬${filtered.data.num_comments}\``}]);
 
                 if (filtered.data.selftext) searEmb.setDescription(tools.trim(searEmb.data.description + "\n" + filtered.data.selftext, 1024));
 
@@ -88,9 +87,9 @@ export default async function search(client: Client, config: Config, subEngine: 
                 .setAuthor({ name: "Reddit", url: "https://www.reddit.com/", iconURL: "https://www.reddit.com/favicon.ico" })
                 .setURL(redditBaseURL.slice(0, -1) + await redditChosen.url)
                 .setTitle("About - " + inlineCode(tools.trim(await redditChosen.display_name_prefixed, 15)))
-                .addFields({ name:"Title", value: tools.trim(await redditChosen.title, 1024)})
-                .addFields({name: "Short description", value: tools.trim(await redditChosen.public_description, 1024)})
-                .addFields({name: "Made", value: time(await redditChosen.created_utc)});
+                .addFields([{ name:"Title", value: tools.trim(await redditChosen.title, 1024)}])
+                .addFields([{name: "Short description", value: tools.trim(await redditChosen.public_description, 1024)}])
+                .addFields([{name: "Made", value: time(await redditChosen.created_utc)}]);
             // @ts-expect-error - .setLabel() errors
             row.components[0].setCustomId(`random-again-randomPost-reddit-(${input})`).setLabel("Random post in subreddit").setStyle("SECONDARY");
             // @ts-expect-error - .setLabel() errors
@@ -98,7 +97,7 @@ export default async function search(client: Client, config: Config, subEngine: 
 
             if (await redditChosen?.community_icon) searEmb.setThumbnail(await redditChosen.community_icon.split("?")[0]);
             if (await redditChosen?.icon_img) searEmb.setThumbnail(await redditChosen.icon_img);
-            searEmb.addFields({name:"Stats", value:`\`🧑${redditChosen.subscribers.toLocaleString()}\``});
+            searEmb.addFields([{name:"Stats", value:`\`🧑${redditChosen.subscribers.toLocaleString()}\``}]);
 
         } else {
             errorEmb.setDescription("no findings :(");
@@ -111,7 +110,7 @@ export default async function search(client: Client, config: Config, subEngine: 
 }
 
 
-export async function autoComplete(client: Client, subEngine: string, input: string) {
+export async function autoComplete(subEngine: string, input: string) {
 
     switch (subEngine) {
         case "sub-reddit": {

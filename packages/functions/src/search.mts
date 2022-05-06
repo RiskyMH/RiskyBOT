@@ -1,5 +1,5 @@
 import { ApplicationCommandType } from "discord-api-types/v10";
-import type { Client, ApplicationCommandOptionChoiceData } from "discord.js";
+import type { ApplicationCommandOptionChoiceData } from "discord.js";
 import fetch from "node-fetch";
 import { inlineCode, italic, EmbedBuilder, SlashCommandBuilder, SlashCommandSubcommandBuilder, ContextMenuCommandBuilder } from "@discordjs/builders";
 import * as tools from "@riskybot/tools";
@@ -12,7 +12,7 @@ import { SlashCommandStringOption } from "@discordjs/builders";
 //TODO: Migrate the fetch into `@riskybot/apis`
 
 
-export default async function search(client: Client, config: Config, engine: string, input: string) {
+export default async function search(config: Config, engine: string, input: string) {
     let searEmb = new EmbedBuilder().setTitle("Fun").setColor(config.getColors().ok);
     let errorEmb = new EmbedBuilder().setTitle("Errors - search").setColor(config.getColors().error);
 
@@ -78,7 +78,7 @@ console.log(newDef);
 }
 
 
-export async function autoComplete(client: Client, engine: string, input: string): Promise<ApplicationCommandOptionChoiceData[]> {
+export async function autoComplete(engine: string, input: string): Promise<ApplicationCommandOptionChoiceData[]> {
 
     switch (engine) {
         case "urban-dictionary": {

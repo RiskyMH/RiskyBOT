@@ -9,7 +9,7 @@ import type { Config } from "@riskybot/tools";
 //TODO: Make sure everything works...
 
 
-export default async function deepai(client: Client, config: Config, input:string, type:string, deepaiKey:string = ""): Promise <InteractionReplyOptions> {
+export default async function deepai(config: Config, input:string, type:string, deepaiKey:string = ""): Promise <InteractionReplyOptions> {
  if (!deepaiKey) {
   console.error("DeepAI requires key");
   return { content: "DeepAI not working" };

@@ -1,5 +1,7 @@
 {
     // Mapped from https://www.typescriptlang.org/tsconfig
+    "include": ["src"],
+    "exclude": ["dist"],
     "compilerOptions": {
         // Type Checking
         "allowUnreachableCode": false,
@@ -15,7 +17,7 @@
         "useUnknownInCatchVariables": true,
 
         // Modules
-		"module": "es2020",
+        "module": "es2020",
         "moduleResolution": "node",
         "resolveJsonModule": true,
 
@@ -40,10 +42,10 @@
         "target": "ES2021",
         "useDefineForClassFields": true,
 
-            // Output Formatting
-            "pretty": false,
+        // Output Formatting
+        "pretty": false,
 
-            // Completeness
-            "skipDefaultLibCheck": true
+        // Completeness
+        "skipDefaultLibCheck": true
     }
 }
