@@ -31,6 +31,7 @@ jobs:
         run: ( cd website && hugo --minify )
 
       - name: Upload artifact
+        uses: actions/upload-artifact@v3
         with:
           name: Website
           path: ./website/public 
