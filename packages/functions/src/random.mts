@@ -1,4 +1,4 @@
-import { inlineCode, italic, EmbedBuilder, ButtonBuilder, ActionRowBuilder } from "@discordjs/builders";
+import { inlineCode, italic, EmbedBuilder, ButtonBuilder, ActionRowBuilder, MessageActionRowComponentBuilder } from "@discordjs/builders";
 import { ButtonStyle } from "discord-api-types/v10";
 import type { ApplicationCommandOptionChoiceData, InteractionReplyOptions } from "discord.js";
 import fetch from "node-fetch";
@@ -11,12 +11,12 @@ import { reddit, redditAutoComplete } from "./index.mjs";
 //TODO: Migrate the fetch into `@riskybot/apis`
 
 
-export default async function random(config: Config, type: string, num1?: number, num2?: number, text1?: string) {
+export default async function random(config: Config, type: string, num1?: number, num2?: number, text1?: string): Promise<InteractionReplyOptions> {
     let randomEmb = new EmbedBuilder();
     let errorEmb = new EmbedBuilder()
         .setTitle("Errors - random")
         .setColor(config.getColors().error);
-    let row = new ActionRowBuilder().addComponents([
+    let row = new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents([
         new ButtonBuilder()
         .setCustomId("random-again")
         .setLabel("Another?")
@@ -31,7 +31,7 @@ export default async function random(config: Config, type: string, num1?: number
             row.components[0].setCustomId("random-again-cat");
 
             if (!errors.length) {
-                let cat: object = await fetch("https://aws.random.cat/meow").then(response => response.json()) as object;
+                let cat: any = await fetch("https://aws.random.cat/meow").then(response => response.json()) as object;
 
                 randomEmb
                     .setTitle("Random - Cat")
@@ -304,9 +304,9 @@ export default async function random(config: Config, type: string, num1?: number
                 let duck: any = await fetch("https://random-d.uk/api/v2/quack").then(response => response.json());
 
                 randomEmb
-                    .setTitle("Random - Duck")
+                    .setTitle("🦆 Duck")
                     .setURL("https://random-d.uk/")
-                    .setAuthor({name: "random-d.uk", url: "https://random-d.uk/", iconURL: "https://random-d.uk/static/favicon-dark.png"})
+                    // .setAuthor({name: "random-d.uk", url: "https://random-d.uk/", iconURL: "https://random-d.uk/static/favicon-dark.png"})
                     .setColor(config.getColors().ok)
                     .setImage(await duck.url);
                 return { embeds: [randomEmb], components: [row] };
@@ -345,8 +345,7 @@ export default async function random(config: Config, type: string, num1?: number
                 let str="";
                 
                 for (let emoji of emojies.htmlCode) {
-                 console.log(`\\u{${emoji.replace("U+", "")}}`.toString());
-                 str += String.fromCodePoint(Number(emoji.replace("&#", "").replace(";", "")));
+                    str += String.fromCodePoint(Number(emoji.replace("&#", "").replace(";", "")));
                 }
                 
                 randomEmb
@@ -365,7 +364,6 @@ export default async function random(config: Config, type: string, num1?: number
 //                    emojies.name +
 //                    `\n[[emojipedia](https://emojipedia.org/${str})] `
 //                  );
-                 console.log(randomEmb.data.description);
                 return { embeds: [randomEmb], components: [row] };
             } else {
 
@@ -392,28 +390,27 @@ export default async function random(config: Config, type: string, num1?: number
         case "randomPost":
         case "random-post": 
         {
-                let data = await reddit(config, type, text1);
+            let data = await reddit(config, type, text1||"");
             return data;
         }
 
         }
-    
+    return { embeds: [errorEmb] };
 }
 
 
-export async function autoComplete(engine: string, input: string ): ApplicationCommandOptionChoiceData[] {
-    try {
-        switch (engine) {
-            case "random-post": {
-                return await redditAutoComplete("sub-reddit", input);
+export async function autoComplete(engine: string, input: string ): Promise<ApplicationCommandOptionChoiceData[]> {
+    switch (engine) {
+        case "random-post": {
+            return await redditAutoComplete("sub-reddit", input);
         }
-        }
-    } catch {console.log;}
+    }
+    return [];
 
 }
 
 
-export async function button(config: Config, id: string): Promise<InteractionReplyOptions> {
+export async function button(config: Config, id: string, userId?: string): Promise<InteractionReplyOptions> {
     let num1 = 0;
     let num2 = 0;
     let text1 = "";
@@ -430,5 +427,8 @@ export async function button(config: Config, id: string): Promise<InteractionRep
     }
 
     let data = await random(config, idActual, num1, num2, text1);
-    return data;
+    // if (userId) data?.components?.[0].data?.components?.find(b => b.type === ComponentType.Button && b.style === ButtonStyle.Primary && (b.custom_id += ("-"+userId)));
+    //  console.log(data?.components?.[0].components[0]);
+
+    return data as InteractionReplyOptions;
 }

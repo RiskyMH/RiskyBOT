@@ -56,6 +56,8 @@ export class EnvEnabled {
     public hasOwnerGuildId: boolean = false;
 }
 
+export const listFormatter: Intl.ListFormat = new Intl.ListFormat("en", { style: "long" });
+
 export function toTitleCase(str: string): string {
     return str.replace("/wS*/g", function(txt) {
         return txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase();

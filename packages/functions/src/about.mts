@@ -3,7 +3,7 @@ import type {ApplicationCommandOptionChoiceData, EmbedFieldData, CommandInteract
 import { PermissionsBitField } from "discord.js";
 import {PermissionFlagsBits} from "discord-api-types/v10";
 import { redditAutoComplete, reddit } from "@riskybot/functions";
-import type { Config } from "@riskybot/tools";
+import { Config, listFormatter } from "@riskybot/tools";
 import { topgg } from "@riskybot/apis";
 
 
@@ -12,7 +12,6 @@ import { topgg } from "@riskybot/apis";
 
 export default async function about(config: Config, option: CommandInteractionOption, extra: string, topggKey?:string )/**: Promise <InteractionReplyOptions> */  {
 
-    console.log(option);
     let aboutEmbed = new EmbedBuilder().setColor(config.getColors().ok);
     let aboutEmbedExtra = new EmbedBuilder().setColor(config.getColors().ok);
 
@@ -51,10 +50,8 @@ export default async function about(config: Config, option: CommandInteractionOp
             if (topggKey) {
                 
                     if (option.user.bot) {
-                        let data = await topgg.rawBotInfo(option.user.id, topggKey);
-                        console.log(data);
-                        // @ts-expect-error - error not in type
-                        if (!data || (await data?.error?.toLowerCase()) === "not found") {
+                        let data = await topgg.botInfo(option.user.id, topggKey);
+                        if (!data) {
                             aboutEmbedExtra
                                 .setTitle("About - " + inlineCode("user/bot:") + bold(inlineCode(option.user.username)) + inlineCode("(Top.gg)"))
                                 .addFields([{ name: "Not found", value: "Not in top.gg\n• *Note: not all bots and users are on [top.gg](https://top.gg)*" }])
@@ -65,15 +62,14 @@ export default async function about(config: Config, option: CommandInteractionOp
                                 .setTitle("About - " +inlineCode("Bot:") + bold(inlineCode(option.user.username)) + inlineCode("(Top.gg)")) 
                                 .setURL("https://top.gg/bot/" + data.id)   
                                 .addFields([{name: "Links", value:  `• [invite](${data.invite})\n• [website](${data.website})`}])
-                                .addFields([{name: "Tags", value: data.tags?.join(", ") ?? "*No tags*"}])
+                                .addFields([{name: "Tags", value: listFormatter.format(data.tags) ?? "*No tags*"}])
                                 .addFields([{name: "Short Desc",value:  data.shortdesc ?? "*No description*"}])
                                 .addFields([{name: "Information",value: `• Prefix: ${inlineCode(data.prefix ?? "*None*")}\n• Votes: ${inlineCode(data?.points.toLocaleString() ?? "*None*")} (Month: ${inlineCode(data?.monthlyPoints.toLocaleString() ?? "*None*")})\n• Server count: ${inlineCode(data?.server_count?.toString() ?? "*None*") ||"*Not specified*"}`}]);
                             if (data.bannerUrl) aboutEmbedExtra.setImage(data.bannerUrl);
                         }
                     } else {
-                        let data = await topgg.rawUserInfo(option.user.id, topggKey);
-                        // @ts-expect-error - error not in type
-                        if (!data || (await data.error?.toLowerCase()) === "not found") {
+                        let data = await topgg.userInfo(option.user.id, topggKey);
+                        if (!data ) {
                             aboutEmbedExtra
                                 .setTitle("About - " + inlineCode("user/bot:") + bold(inlineCode(option.user.username)) + inlineCode("(Top.gg)"))
                                 .addFields([{ name: "Not found", value: "Not in top.gg\n• *Note: not all bots and users are on [top.gg](https://top.gg)*" }])
@@ -107,7 +103,7 @@ export default async function about(config: Config, option: CommandInteractionOp
             await option.member?.fetch();
             // @ts-expect-error - using types that isn't existing (vscode)
             aboutEmbed.setThumbnail(option.member?.avatarURL({extension: "png", size: 512}) ?? option?.user?.avatarURL({extension: "png", size: 512}));
-        }catch(e){console.log;}
+        }catch(e){console.warn(e);}
         
         aboutEmbed
             // @ts-expect-error - using types that isn't existing (vscode)
@@ -220,10 +216,11 @@ export async function autoComplete(type: string, input: string): Promise <Applic
                 return await redditAutoComplete( "sub-reddit", input);
             }
         }
-    } catch { console.log;}
+    } catch { console.warn;}
 
     return [];
 }
+
 
 const flagsEmoji = {
     Hypesquad: "<:HypeSquadEvents:899099369742155827>",

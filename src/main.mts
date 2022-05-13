@@ -30,11 +30,10 @@ client.once("ready", async () => {
     throw "abc";
 });
 
-client.on("debug", console.log);
-client.on("error", console.log);
-client.on("warn", console.log);
-process.on("unhandledRejection", console.log);
-process.on("rejectionHandled", console.log);
+client.on("debug", console.warn);
+client.on("error", console.warn);
+client.on("warn", console.warn);
+process.on("uncaughtException", console.warn);
 
 //////////////////////\\\\\\\\\\\\\\\\\\\\\
 ///////////////    COMMANDS    \\\\\\\\\\\\
@@ -88,8 +87,9 @@ client.on("interactionCreate", async (interaction) => {
                 option ||= interaction.options.get("sub-reddit");
                 option ||= interaction.options.get("id");
 
-                const advanced = interaction.options.getString("extra");
+                const advanced = interaction.options.getString("extra")||"";
                 if (!option) return;
+
                 const data = await about(config, option, advanced, process.env.topggapi);
                 await interaction.reply(data);
 
@@ -108,14 +108,12 @@ client.on("interactionCreate", async (interaction) => {
                 break;
 
             case "translate": {
+                const to = interaction.options.getString("to", true);
+                const msg = interaction.options.getString("input", true);
                 const from = interaction.options.getString("from");
-                const to = interaction.options.getString("to");
-                const msg = interaction.options.getString("input");
 
-                await interaction.deferReply();
-                if (!from || !to || !msg) return;
-                const data = await translate(config, msg, to, from);
-                await interaction.editReply(data);
+                const data = await translate(config, msg, to, from || undefined);
+                await interaction.reply(data);
             }
                 break;
 
@@ -136,29 +134,28 @@ client.on("interactionCreate", async (interaction) => {
                 let num2 = interaction.options.getInteger("num2");
                 num1 ||= interaction.options.getInteger("min");
                 num2 ||= interaction.options.getInteger("max");
+                num1 ||= 0; num2 ||= 0;
                 let text1 = interaction.options.getString("sub-reddit");
                 text1 ||= interaction.options.getString("category");
+                text1 ||= "";
 
-                if (["cat", "random-post"].includes(type)) await interaction.deferReply();
-
-                if (!type) return;
                 const data = await random(config, type, num1, num2, text1);
-                if (interaction?.deferred) await interaction.editReply(data);
-                else await interaction.reply(data);
+                await interaction.reply(data);
             }
                 break;
 
             case "fun": {
-                // let type = interaction.options.getString("type");
                 const type = interaction.options.getSubcommand(true);
                 let user1 = interaction.options.getUser("user1");
                 user1 ||= interaction.options.getUser("user");
+                user1 ||= interaction.user;
                 let member1 = interaction.options.getMember("user1");
                 member1 ||= interaction.options.getMember("user");
-                const user2 = interaction.options.getUser("user2");
-                const text = interaction.options.getString("message");
+                member1 ||= interaction.member;
+                let user2 = interaction.options.getUser("user2");
+                user2 ||= interaction.user;
+                const text = interaction.options.getString("message") || "";
 
-                if (!type) return;
                 if (type === "hack") {
                     await interaction.deferReply();
                     for (let i = 0; i < 17; i++) {
@@ -168,9 +165,8 @@ client.on("interactionCreate", async (interaction) => {
                     } break;
                 }
 
-                await interaction.deferReply();
                 const data = await fun(config, type, user1, member1, user2, text);
-                await interaction.editReply(data);
+                await interaction.reply(data);
             }
                 break;
 
@@ -178,32 +174,31 @@ client.on("interactionCreate", async (interaction) => {
                 const type = interaction.options.getSubcommand(true);
                 let input = interaction.options.getString("input");
                 input ||= interaction.options.getString("song-name");
-
-                await interaction.deferReply();
+                input ||= "";
 
                 const data = await search(config, type, input);
 
-                await interaction.editReply(data);
+                await interaction.reply(data);
             }
                 break;
 
             case "meme": {
-                await interaction.deferReply();
                 const otherSubreddit = interaction.options.getString("other-subreddit") || "dankmemes";
 
                 const data = await reddit(config, "random-post", otherSubreddit);
-                await interaction.editReply(data);
+                await interaction.reply(data);
 
             }
                 break;
 
             case "tools": {
                 const type = interaction.options.getSubcommand(true);
-                const input2 = interaction.options.getString("language");
                 let input = interaction.options.getString("input");
                 input ||= interaction.options.getString("word");
                 input ||= interaction.options.getString("question");
                 input ||= interaction.options.getString("choices");
+                let input2 = interaction.options.getString("language");
+                input ||= ""; input2 ||= "";
 
                 const data = await toolsCmd(config, type, input, input2);
                 await interaction.reply(data);
@@ -213,7 +208,7 @@ client.on("interactionCreate", async (interaction) => {
             case "eval": {
                 await interaction.client.application?.fetch();
                 if (interaction.user.id !== client?.application?.owner?.id) {
-                    await interaction.reply({ embeds: [errorEmb.setTitle("You are to Evil for Eval").setDescription("You dont have the privilege to be eval")], ephemeral: true }).catch(console.log);
+                    await interaction.reply({ embeds: [errorEmb.setTitle("You are to Evil for Eval").setDescription("You dont have the privilege to be eval")], ephemeral: true }).catch(console.warn);
                     break;
                 }
                 const data = await evalShowModal();
@@ -229,10 +224,9 @@ client.on("interactionCreate", async (interaction) => {
 
         switch (interaction.customId.split("-")[0]) {
             case "random": {
-                if (["cat", "randomPost"].includes(interaction.customId.split("-")[2])) await interaction.deferReply({ fetchReply: true });
-                const data = await randomButton(config, interaction?.customId);
-                if (interaction?.deferred) await interaction.editReply({ content: interaction.user.toString(), embeds: data.embeds, components: data.components, allowedMentions: { repliedUser: true, users: [interaction.user.id] } });
-                else await interaction.reply({ content: interaction.user.toString(), embeds: data.embeds, components: data.components, allowedMentions: { repliedUser: true, users: [interaction.user.id] } });
+                let wasOrigUsr = interaction.message.interaction?.user.id === interaction.user.id ||interaction.customId.split("-")[-1] === interaction.user.id ;
+                const data = await randomButton(config, interaction.customId, interaction.user.id);
+                interaction.reply({ embeds: data.embeds, components: data.components, ephemeral: !wasOrigUsr });
                 break;
             }
 
@@ -267,9 +261,8 @@ client.on("interactionCreate", async (interaction) => {
                         const to = interaction.locale;
                         const msg = codeBlock("md", await tools.stringFromEmbed(interaction.options.getMessage("message", true)));
 
-                        await interaction.deferReply();
                         const data = await translate(config, msg, to, from);
-                        await interaction.editReply(data);
+                        await interaction.reply(data);
 
                     }
                         break;
@@ -278,9 +271,8 @@ client.on("interactionCreate", async (interaction) => {
                         const type = "text-generator";
                         const input = codeBlock("md", await tools.stringFromEmbed(interaction.options.getMessage("message", true)));
 
-                        await interaction.deferReply();
                         const data = await deepai(config, input, type, process.env.deepapi);
-                        await interaction.editReply(data);
+                        await interaction.reply(data);
 
                     }
                         break;
@@ -332,7 +324,6 @@ client.on("interactionCreate", async (interaction) => {
             }
 
         } else if (interaction.isModalSubmit()) {
-            console.log(interaction);
             switch (interaction.customId) {
                 case "eval": {
                     await interaction.client?.application?.fetch();
@@ -343,10 +334,8 @@ client.on("interactionCreate", async (interaction) => {
                     try {
                         const discordBuilders = await import("@discordjs/builders");
                         const discordJs = await import("discord.js");
-                        console.log(evalRes);
                         evalRes = await eval(input);
-                        console.log(evalRes);
-                    } catch (err) { evalRes = err; hasError = true; console.log(err); }
+                    } catch (err) { evalRes = err; hasError = true; console.warn(err); }
 
                     const data = await evalResult(config, input, evalRes, hasError);
 

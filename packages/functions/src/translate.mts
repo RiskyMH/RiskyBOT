@@ -7,7 +7,7 @@ import type { Config } from "@riskybot/tools";
 //TODO: Make sure everything works...
 
 
-export default async function translate(config: Config, input: string, to: string, from: string) {
+export default async function translate(config: Config, input: string, to: string, from?: string) {
     to = to.replace("en-US", "en");
     to = to.replace("en-GB", "en");
 

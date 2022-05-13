@@ -7,7 +7,6 @@ import {GatewayIntentBits, PermissionFlagsBits} from "discord-api-types/v10";
 import { mini, say, meCreditsExtra } from "@riskybot/functions";
 import tools from "@riskybot/tools";
 import { EmbedBuilder } from "@discordjs/builders";
-const config = new tools.Config("./config.yml", true);
 
 
 //TODO: Fix errors
@@ -24,14 +23,8 @@ const client = new Client({
   GatewayIntentBits.MessageContent
  ],
 });
-
-client.once("reconnecting", () => console.log("Reconnecting!"));
-client.once("disconnect", () => console.log("Disconnect!"));
-client.on("debug", console.log);
-client.on("error", console.log);
-client.on("warn", console.log);
-process.on("unhandledRejection", console.log);
-process.on("rejectionHandled", console.log);
+const config = new tools.Config("./config.yml", true);
+const envEnabled = new tools.EnvEnabled(process.env, config);
 
 // login to discord
 if (process.env.discordapiExtra) client.login(process.env.discordapiExtra);
@@ -45,11 +38,11 @@ client.once("ready", async () => {
     console.info("Name:", client.user?.username + ", Servers:", client.guilds.cache.size);
 });
 
-client.once("reconnecting", () => console.log("Reconnecting!"));
-client.once("disconnect", () => console.log("Disconnect!"));
-client.on("debug", console.log);
-client.on("error", console.log);
-process.on("unhandledRejection", console.log);
+client.once("reconnecting", () => console.warn("Reconnecting!"));
+client.once("disconnect", () => console.warn("Disconnect!"));
+client.on("debug", console.warn);
+client.on("error", console.warn);
+process.on("uncaughtException", console.warn);
 
 client.on("guildCreate", async (guild) => {
     if (guild.me ? guild?.systemChannel?.permissionsFor(guild.me)?.has(PermissionFlagsBits.SendMessages) : null) {
@@ -148,7 +141,6 @@ client.on("messageReactionAdd", (messageReaction, user) => {
 
 client.on("messageUpdate", (oldMessage, message) => {
 message.channel.send(oldMessage?.content ?? "");
-console.log(message.content);
 
 });
 //////////////////////\\\\\\\\\\\\\\\\\\\\\
@@ -192,7 +184,7 @@ client.on("interactionCreate", async (interaction) => {
             break;
 
             case "ping": {
-                const data = await mini.ping(client, config, interaction.createdTimestamp);
+                const data = await mini.ping(config, interaction.createdTimestamp, client.ws.ping);
                 await interaction.reply(data);
             }
             break;
@@ -204,7 +196,7 @@ client.on("interactionCreate", async (interaction) => {
             break;
             }
         } catch (error) {
-            console.log(error);
+            console.warn(error);
             if (!interaction.deferred) {
                 interaction.reply({ embeds: [errorEmb.setDescription("A error happened")], ephemeral: true });
             } else {
@@ -221,7 +213,7 @@ client.on("interactionCreate", async (interaction) => {
             switch (interaction.customId.split("-")[0]) {
 
                 case "ping": {
-                    const data = await mini.ping(client, config, interaction.createdTimestamp);
+                    const data = await mini.ping(config, interaction.createdTimestamp, client.ws.ping);
                     await interaction.update(data);
                 }
                 break;
@@ -229,7 +221,7 @@ client.on("interactionCreate", async (interaction) => {
             }
             
         } catch (error) {
-            console.log(error);
+            console.warn(error);
             if (!interaction.replied && !interaction.deferred) {
                 await interaction.reply({ embeds: [errorEmb.setDescription("A error happened")], ephemeral: true });
             } else { await interaction.editReply({ embeds: [errorEmb.setDescription("A error happened")] }); }

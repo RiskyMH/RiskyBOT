@@ -2,37 +2,47 @@ import fetch from "node-fetch";
 
 const urbanBaseURL = "https://api.urbandictionary.com/v0/";
 
-export async function rawDefine(term: string): Promise<RawDefineResult> {
-    let result: RawDefineResult = await fetch(urbanBaseURL + "define?" + new URLSearchParams({ term })).then((response) => response.json()) as RawDefineResult;
+export async function rawDefine(term: string): Promise<RawDefineResult|null> {
+    let rawResult = await fetch(urbanBaseURL + "define?" + new URLSearchParams({ term })).catch(null);
+
+    if (!rawResult || rawResult.status !== 200) {
+        return null;
+    }
+
+    let result: RawDefineResult = await rawResult.json() as RawDefineResult;
 
     if (!result.list.length) {
-        console.log("Can't find term");
+        return null;
     }
 
     return result;
 }
 
-export async function rawAutoComplete(term: string): Promise<RawAutoCompleteResult> {
-    let result: RawAutoCompleteResult = await fetch(urbanBaseURL + "autocomplete?" + new URLSearchParams({ term })).then((response) => response.json()) as RawAutoCompleteResult;
+export async function rawAutoComplete(term: string): Promise<RawAutoCompleteResult|null> {
+    let rawResult = await fetch(urbanBaseURL + "autocomplete?" + new URLSearchParams({ term })).catch(null);
+    
+    if (!rawResult || rawResult.status !== 200) {
+        return null;
+    }
+
+    let result: RawAutoCompleteResult = await rawResult.json() as RawAutoCompleteResult;
 
     if (!result.length) {
-         console.log("Cant find term");
+         return null;
     }
 
     return result;
 }
 
-/** Always returns a list of strings - list of none if error or no results */
-export async function define(term: string): Promise<DefineResult> {
-    let result: RawDefineResult;
-    
+/** Always returns a list of strings - null if error or no results */
+export async function define(term: string): Promise<DefineResult|null> {
+    let result: RawDefineResult | null;
     try{
         result = await rawDefine(term);
-        console.log(result);
-    } catch(e){ console.log(e); return [];}
+    } catch (e) {console.warn(e); return null;}
 
-    if (!result || !result?.list) {
-        return [];
+    if (!result || !result.list) {
+        return null;
     }
 
     let safeResult: DefineResult = [];
@@ -56,7 +66,7 @@ export async function define(term: string): Promise<DefineResult> {
             safeDefinition.thumbs_down = Number(res?.thumbs_down || 0);
 
             safeResult.push(safeDefinition);
-        } catch {continue;}
+        } catch {return null;}
 
     }
 
@@ -64,15 +74,11 @@ export async function define(term: string): Promise<DefineResult> {
 }
 
 /** Always returns a list of strings - list of none if error or no results */
-export async function autoComplete(term: string): Promise<AutoCompleteResult> {
-    let result: RawAutoCompleteResult;
+export async function autoComplete(term: string): Promise<AutoCompleteResult|null> {
+    let result = await rawAutoComplete(term);
 
-    try{
-        result = await rawAutoComplete(term);
-    } catch(e){ return [];}
-
-    if (!result.length) {
-        return [];
+    if (!result || !result.length) {
+        return null;
     }
 
     let safeResult: AutoCompleteResult = [];
@@ -80,7 +86,7 @@ export async function autoComplete(term: string): Promise<AutoCompleteResult> {
     for (let res of result){
         try{
             safeResult.push(String(res));
-        } catch {continue;}
+        } catch {return null;}
 
     }
 
@@ -119,5 +125,5 @@ type DefineResult = {
 
 /** These are from the api docs - they might not all exist */
 type RawAutoCompleteResult = string[]
-/** Always returns a list of strings - list of none if error or no results */
+/** a list of strings */
 type AutoCompleteResult = string[]

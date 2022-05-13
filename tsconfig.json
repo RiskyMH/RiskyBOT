@@ -54,7 +54,7 @@
 		"useUnknownInCatchVariables": true,
 
 		// Modules
-		"module": "es2020",
+		"module": "esnext",
 		"moduleResolution": "node",
 		"resolveJsonModule": true,
 
@@ -75,7 +75,7 @@
 		// Language and Environment
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
-		"lib": ["ESNext"],
+		"lib": ["ESNext", "es2021.intl"],
 		"target": "ES2021",
 		"useDefineForClassFields": true,
 	}

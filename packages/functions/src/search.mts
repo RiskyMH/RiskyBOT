@@ -1,28 +1,24 @@
 import { ApplicationCommandType } from "discord-api-types/v10";
-import type { ApplicationCommandOptionChoiceData } from "discord.js";
-import fetch from "node-fetch";
+import type { ApplicationCommandOptionChoiceData, InteractionReplyOptions } from "discord.js";
 import { inlineCode, italic, EmbedBuilder, SlashCommandBuilder, SlashCommandSubcommandBuilder, ContextMenuCommandBuilder } from "@discordjs/builders";
 import * as tools from "@riskybot/tools";
 import type { Config, EnvEnabled } from "@riskybot/tools";
-import { urbanDictionary } from "@riskybot/apis";
+import { urbanDictionary, someRandomApi } from "@riskybot/apis";
 import { SlashCommandStringOption } from "@discordjs/builders";
 
 
 //TODO: Make sure everything works...
-//TODO: Migrate the fetch into `@riskybot/apis`
 
 
-export default async function search(config: Config, engine: string, input: string) {
+export default async function search(config: Config, engine: string, input: string): Promise<InteractionReplyOptions> {
     let searEmb = new EmbedBuilder().setTitle("Fun").setColor(config.getColors().ok);
     let errorEmb = new EmbedBuilder().setTitle("Errors - search").setColor(config.getColors().error);
 
     switch (engine) {
         case "urban-dictionary": {
-            console.log("searching urban dictionary");
             let urbanDef = await urbanDictionary.define(input);
-            console.log(urbanDef);
             
-            if (urbanDef.length) {
+            if (urbanDef && urbanDef.length) {
                 let urbanChosen = urbanDef[0];
 
                 const regex1 = /\[([\S\s][^\]]*)\]/g;
@@ -38,38 +34,36 @@ export default async function search(config: Config, engine: string, input: stri
                     newExam = newExam.replace(array1[0], `[${term}](https://www.urbandictionary.com/define.php?term=${encodeURI(term)})`);
                 }
 
-console.log(newDef);
                 searEmb
+                    .setAuthor({name: "Urban Dictionary", url: "https://www.urbandictionary.com/", iconURL: "https://www.urbandictionary.com/apple-touch-icon.png"})
+                    .setTitle("Urban Dictionary result for " + inlineCode(tools.trim(urbanChosen.word, 15)))
+                    .setURL(urbanChosen.permalink)
                     .addFields([{name: "Definition", value: tools.trim(newDef, 1024)}])
                     .addFields([{name: "Example", value: italic(tools.trim(newExam, 1024-2))}])
                     .addFields([{name: "Stats", value: `\`👍${urbanChosen.thumbs_up}\` \`👎${urbanChosen.thumbs_down}\``}])
-                    .setAuthor({name: "Urban Dictionary", url: "https://www.urbandictionary.com/"})
-                    .setURL(urbanChosen.permalink)
                     .setTimestamp(urbanChosen.written_on)
-                    .setFooter({text: "Defined by: " + urbanChosen.author})
-                    .setTitle("Search - " + inlineCode(tools.trim(urbanChosen.word, 15)));
+                    .setFooter({text: "Defined by: " + urbanChosen.author});
             } else {
                 errorEmb.setDescription("no findings :(");
-                return { embeds: [errorEmb] };
+                return { embeds: [errorEmb], ephemeral: true };
             }
         }
         break;
 
         case "lyrics": {
-            // TODO: fix types
-            let lyrics: any = await fetch("https://some-random-api.ml/" + "lyrics?" + new URLSearchParams({ title: input })).then((response) => response.json());
-            if (await lyrics?.lyrics) {
+            let lyrics = await someRandomApi.getLyrics(input);
+            if (lyrics && lyrics.lyrics) {
                 searEmb
-                    .setThumbnail(await lyrics.thumbnail?.genius)
+                    .setThumbnail(lyrics.thumbnail?.genius??"")
                     .setAuthor({ name: "Some Random Api", url: "https://some-random-api.ml", iconURL: "https://i.some-random-api.ml/logo.png" })
-                    .setURL(await lyrics.links?.genius)
+                    .setURL(lyrics.links?.genius??"")
                     .setDescription(tools.trim(lyrics.lyrics, 4096 ))
-                    .setTitle("Search - " + inlineCode(tools.trim(await lyrics.title + " ("+await lyrics.author+")", 25)));
+                    .setTitle("Lyrics for " + inlineCode(tools.trim(lyrics.title + " ("+lyrics.author+")", 25)));
                 if (lyrics.links?.genius) searEmb.setFooter({text: "Powered by Genius"});
 
             } else {
                 errorEmb.setDescription("no findings :(");
-                return { embeds: [errorEmb] };
+                return { embeds: [errorEmb], ephemeral: true };
             }
         }
 
@@ -82,12 +76,11 @@ export async function autoComplete(engine: string, input: string): Promise<Appli
 
     switch (engine) {
         case "urban-dictionary": {
-            // TODO: fix types
             let complete = await urbanDictionary.autoComplete(input);
 
-            let wordList = complete.map((word: string) => ({ name: word, value: word })).slice(0, 25);
+            if (!complete || !complete.length) return [];
 
-            if (!wordList.length) return [];
+            let wordList = complete.map((word: string) => ({ name: word, value: word })).slice(0, 25);
 
             if ((wordList[0].name.toLowerCase() !== input.toLowerCase())) {
                 wordList.unshift({ name: input, value: input });

@@ -1,6 +1,6 @@
 import type { Client, InteractionReplyOptions } from "discord.js";
 import { EmbedBuilder, inlineCode } from "@discordjs/builders";
-import { OAuth2Routes, OAuth2Scopes, PermissionFlagsBits } from "discord-api-types/v10";
+import { OAuth2Scopes, PermissionFlagsBits } from "discord-api-types/v10";
 import type { Config } from "@riskybot/tools";
 
 //TODO: Make sure everything works...

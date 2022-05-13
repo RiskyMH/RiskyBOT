@@ -53,7 +53,6 @@ export default async function toolsCmd(config: Config, engine: string, input: st
             };
             // TODO: fix types
             let pastegg: {result: {id: any, deletion_key: any }} = await fetch("https://api.paste.gg/v1/pastes", {body:JSON.stringify(data), headers: {"Content-Type": "application/json"}, method: "POST"}).then((response) => response.json()) as any;
-            console.log(pastegg);
             if (await pastegg?.result) {
 
                 toolsEmb

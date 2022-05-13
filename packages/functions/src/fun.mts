@@ -1,5 +1,5 @@
 import { EmbedBuilder, inlineCode } from "@discordjs/builders";
-import type { Client, User, CommandInteractionOption } from "discord.js";
+import type { User, CommandInteractionOption, InteractionReplyOptions } from "discord.js";
 import type { Config } from "@riskybot/tools";
 import fetch from "node-fetch";
 
@@ -9,18 +9,8 @@ const sraBaseURL = "https://some-random-api.ml/";
 //TODO: Make sure everything works...
 //TODO: Migrate the fetch into `@riskybot/apis`
 
-/**
- * @param {import("discord.js").Client} client
- * @param {string} type
- * @param {import("discord.js").User} inputUser1
- * @param {import("discord.js").CommandInteractionOption["member"]} inputMember1
- * @param {import("discord.js").User} inputUser2
- * @param {string} inputText
- * @param {import("discord.js").HexColorString} color
- * @return {Promise <import("discord.js").InteractionReplyOptions>}
- */
 
-export default async function fun(config: Config, type: string, inputUser1: User, inputMember1: CommandInteractionOption["member"], inputUser2: User, inputText: string): Promise<import("discord.js").InteractionReplyOptions> {
+export default async function fun(config: Config, type: string, inputUser1: User, inputMember1: CommandInteractionOption["member"], inputUser2: User, inputText: string): Promise<InteractionReplyOptions> {
  let funEmb = new EmbedBuilder().setTitle("Fun").setColor(config.getColors().ok);
 
  /** @type Object */
@@ -29,7 +19,7 @@ export default async function fun(config: Config, type: string, inputUser1: User
  switch (type) {
   case "clyde-say":
    {
-    let fun = await fetch(
+    let fun: any = await fetch(
      nekoBaseURL +
       "imagegen?" +
       new URLSearchParams({ type: "clyde", text: inputText })
@@ -42,7 +32,7 @@ export default async function fun(config: Config, type: string, inputUser1: User
    break;
   case "ship":
    {
-    let fun = await fetch(
+    let fun: any = await fetch(
      nekoBaseURL +
       "imagegen?" +
       new URLSearchParams({
@@ -59,7 +49,7 @@ export default async function fun(config: Config, type: string, inputUser1: User
    break;
   case "captcha":
    {
-    let fun = await fetch(
+    let fun: any = await fetch(
      nekoBaseURL +
       "imagegen?" +
       new URLSearchParams({
@@ -76,7 +66,7 @@ export default async function fun(config: Config, type: string, inputUser1: User
    break;
   case "whowouldwin":
    {
-    let fun = await fetch(
+    let fun: any = await fetch(
      nekoBaseURL +
       "imagegen?" +
       new URLSearchParams({
@@ -93,7 +83,7 @@ export default async function fun(config: Config, type: string, inputUser1: User
    break;
   case "changemymind":
    {
-    let fun = await fetch(
+    let fun: any = await fetch(
      nekoBaseURL +
       "imagegen?" +
       new URLSearchParams({ type: "changemymind", text: inputText })
@@ -106,7 +96,7 @@ export default async function fun(config: Config, type: string, inputUser1: User
    break;
   case "iphonex":
    {
-    let fun = await fetch(
+    let fun: any = await fetch(
      nekoBaseURL +
       "imagegen?" +
       new URLSearchParams({
@@ -122,7 +112,7 @@ export default async function fun(config: Config, type: string, inputUser1: User
    break;
   case "trump-tweet":
    {
-    let fun = await fetch(
+    let fun: any = await fetch(
      nekoBaseURL +
       "imagegen?" +
       new URLSearchParams({ type: "trumptweet", text: inputText })
@@ -135,18 +125,13 @@ export default async function fun(config: Config, type: string, inputUser1: User
    break;
   case "tweet":
    {
-    //  let let fun = await fetch(nekoBaseURL+"imagegen?type=tweet&text="+inputText+"&username="+inputUser1.username).then((response) => response.json())
+    //  let let fun: any = await fetch(nekoBaseURL+"imagegen?type=tweet&text="+inputText+"&username="+inputUser1.username).then((response) => response.json())
     //  funEmb.setImage(await fun.message).setAuthor("nekobot", "", "http://neekobot.xyz").setTitle("Fun - `Tweet`")
-    // @ts-expect-error - using types that isn't existing (vscode)
-    let fun = await fetch(
+    let fun: any = await fetch(
      sraBaseURL +
       "canvas/tweet?" +
-      new URLSearchParams({
-       comment: inputText,
-       username: inputUser1.username,
-       avatar: inputUser1.displayAvatarURL({ format: "png" }),
-       displayname: inputMember1?.displayName ?? inputUser1.username,
-      })
+      // @ts-expect-error - using types that isn't existing (vscode)
+      new URLSearchParams({comment: inputText,username: inputUser1.username, avatar: inputUser1.displayAvatarURL({ format: "png" }), displayname: inputMember1?.displayName ?? inputUser1.username,})
     ).then((response) => response.url);
     funEmb
      .setImage(await fun)
@@ -160,7 +145,7 @@ export default async function fun(config: Config, type: string, inputUser1: User
    break;
   case "deepfry":
    {
-    let fun = await fetch(
+    let fun: any = await fetch(
      nekoBaseURL +
       "imagegen?" +
       new URLSearchParams({
@@ -176,7 +161,7 @@ export default async function fun(config: Config, type: string, inputUser1: User
    break;
   case "blurpify":
    {
-    let fun = await fetch(
+    let fun: any = await fetch(
      nekoBaseURL +
       "imagegen?" +
       new URLSearchParams({
@@ -198,9 +183,7 @@ export default async function fun(config: Config, type: string, inputUser1: User
    switch (inputText) {
     case "0":
      // @ts-expect-error - using types that isn't existing (vscode)
-     funEmb.setDescription(
-      `Hacking ${inputMember1?.displayName ?? inputUser1.username} now...`
-     );
+     funEmb.setDescription(`Hacking ${inputMember1?.displayName ?? inputUser1.username} now...`);
      break;
     case "1":
      funEmb.setDescription(
@@ -302,10 +285,7 @@ export default async function fun(config: Config, type: string, inputUser1: User
      break;
     case "15":
      // @ts-expect-error - using types that isn't existing (vscode)
-     funEmb.setDescription(
-      `[**${randomNum(100, 100)}%**] Finished hacking ${
-       inputMember1?.displayName ?? inputUser1.username
-      }`
+     funEmb.setDescription(`[**${randomNum(100, 100)}%**] Finished hacking ${inputMember1?.displayName ?? inputUser1.username}`
      );
      break;
     case "16":
