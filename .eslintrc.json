@@ -27,6 +27,12 @@
             "always"
         ],
         "no-unused-vars":"warn",
-        "no-warning-comments": "warn"
+        "no-warning-comments": "warn",
+        "no-console": [
+            "warn",
+            {
+                "allow": ["warn", "error", "info"]
+            }
+        ]
     }
 }

@@ -18,7 +18,7 @@ const wait = (await import("util")).promisify(setTimeout);
 // make bot
 const client: Client = new Client({ intents: 0 }); // doesn't need any intents
 const config = new tools.Config("./config.yml", true);
-const EnvEnabled = new tools.EnvEnabled(process.env);
+const envEnabled = new tools.EnvEnabled(process.env, config);
 
 // login to discord
 if (process.env.discordapi) client.login(process.env.discordapi);
@@ -30,8 +30,6 @@ client.once("ready", async () => {
     throw "abc";
 });
 
-client.once("reconnecting", () => console.log("Reconnecting!"));
-client.once("disconnect", () => console.log("Disconnect!"));
 client.on("debug", console.log);
 client.on("error", console.log);
 client.on("warn", console.log);
@@ -50,16 +48,36 @@ client.on("interactionCreate", async (interaction) => {
     const doneEmb = new EmbedBuilder().setColor(config.getColors().good).setTitle("Done!");
     const errorEmb = new EmbedBuilder().setColor(config.getColors().error).setTitle("Error");
 
+    // Nothing really intreating, just to see what commands used
+    if (interaction.isChatInputCommand() && interaction.commandName) {
+        if (interaction.options.getSubcommand(false)) {
+            console.info(`SLASH: ${interaction.commandName} (${interaction.options.getSubcommand()})`);
+        } else {
+            console.info(`SLASH: ${interaction.commandName}`);
+        }
+    } else if (interaction.isContextMenuCommand() && interaction.commandName){
+        console.info(`CONTEXT: ${interaction.commandName}`);
+    } else if (interaction.isButton() && interaction.customId){
+        console.info(`BUTTON: ${interaction.customId.split("-")[0]}`);
+    } else if (interaction.isSelectMenu() && interaction.customId){
+        console.info(`SELECT: ${interaction.customId.split("-")[0]}`);
+    } else if (interaction.isModalSubmit() && interaction.customId){
+        console.info(`MODAL: ${interaction.customId.split("-")[0]}`);
+    } else if (interaction.isAutocomplete() && interaction.commandName){
+        console.info(`AUTOCOMPLETE: ${interaction.commandName}`);
+    } else {
+        console.info(`UNKNOWN: ${interaction}`);
+    }
+
+
     // Slash Commands
     if (interaction.isChatInputCommand()) {
 
-        // try {
         /** Layout
          *  - get data
          *  - use functions
          *  - return data
          */
-        // interaction.followUp("hi");
 
         switch (interaction.commandName) {
             case "about": {
@@ -203,13 +221,6 @@ client.on("interactionCreate", async (interaction) => {
             }
                 break;
         }
-
-        // } catch (error) {
-        //     console.log(error);
-        //     if (!interaction.replied && !interaction.deferred) {
-        //         await interaction.reply({ embeds: [errorEmb.setDescription("A error happened")], ephemeral: true, options: {avatarURL: "https://google.com/favicon.ico"}  }).catch(console.log);
-        //     } else { await interaction.editReply({ embeds: [errorEmb.setDescription("A error happened")],options: {username: "oof"} }); }
-        // }
     }
     // Buttons
     if (interaction.isButton()) {
@@ -232,13 +243,6 @@ client.on("interactionCreate", async (interaction) => {
             }
 
         }
-
-        // } catch (error) {
-        //     console.log(error);
-        //     if (!interaction.replied && !interaction.deferred) {
-        //         await interaction.reply({ embeds: [errorEmb.setDescription("A error happened")], ephemeral: true });
-        //     } else { await interaction.editReply({ embeds: [errorEmb.setDescription("A error happened")] }); }
-        // }
     }
 
     // User/message menu
@@ -294,15 +298,8 @@ client.on("interactionCreate", async (interaction) => {
                         break;
                 }
             }
-            // } catch (error) {
-            //     console.log(error);
-            //     if (!interaction.replied && !interaction.deferred) {
-            //         await interaction.reply({ embeds: [errorEmb.setDescription("A error happened")], ephemeral: true });
-            //     } else { await interaction.editReply({ embeds: [errorEmb.setDescription("A error happened")] }); }
-            // }
-        } else if (interaction.isAutocomplete()) {
 
-            // try {
+        } else if (interaction.isAutocomplete()) {
 
             switch (interaction.commandName) {
                 case "search": {
@@ -334,11 +331,6 @@ client.on("interactionCreate", async (interaction) => {
                     break;
             }
 
-            // } catch (err) {
-            //     console.log(err);
-            //     // interaction.respond([{name: "ERROR. There has been a issue...", value: ""}]);
-            // }
-
         } else if (interaction.isModalSubmit()) {
             console.log(interaction);
             switch (interaction.customId) {
@@ -351,9 +343,9 @@ client.on("interactionCreate", async (interaction) => {
                     try {
                         const discordBuilders = await import("@discordjs/builders");
                         const discordJs = await import("discord.js");
-                        console.log(evalRes)
+                        console.log(evalRes);
                         evalRes = await eval(input);
-                        console.log(evalRes)
+                        console.log(evalRes);
                     } catch (err) { evalRes = err; hasError = true; console.log(err); }
 
                     const data = await evalResult(config, input, evalRes, hasError);

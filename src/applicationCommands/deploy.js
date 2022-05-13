@@ -19,9 +19,9 @@ else console.error("\u001b[31m\u001b[1mDISCORD TOKEN REQUIRED\u001b[0m\n- put a 
 
 client.once("ready", async () => {
 
-    // let data = JSON.parse(readFileSync("src/applicationCommands/commands.json").toString());
-    let builders = [...commands.search(Config, EnvEnabled), ...commands.say(Config, EnvEnabled)];
-    let data = builders.map(command => command.toJSON());
+    let data = JSON.parse(readFileSync("src/applicationCommands/commands.json").toString());
+    // let builders = [...commands.search(Config, EnvEnabled), ...commands.say(Config, EnvEnabled)];
+    // let data = builders.map(command => command.toJSON());
     console.log(data, EnvEnabled);
     const rest = new REST({ version: "10" }).setToken(client.token);
 
