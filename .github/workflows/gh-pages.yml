@@ -29,12 +29,15 @@ jobs:
 
       - name: Build
         run: ( cd website && hugo --minify )
+        
+      - name: Build artifact page
+        run: ( cd website && hugo -b https://localhost -d publicLocalhost ) 
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: Website
-          path: ./website/public 
+          path: ./website/publicLocalhost 
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3

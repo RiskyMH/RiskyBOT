@@ -21,7 +21,8 @@
     "module": "./dist/index.mjs",
     "private": true,
     "scripts": {
-        "postinstall": "tsc || exit 0"
+        "build": "tsc",
+        "postinstall": "yarn build || exit 0"
     },
     "type": "module",
     "types": "./dist/index.d.ts"

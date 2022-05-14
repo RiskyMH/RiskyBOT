@@ -3,7 +3,7 @@
     "description": "A collection of functions (commands) for use in the RiskyBOT project",
     "version": "4.0.0",
     "dependencies": {
-        "axios": "^0.26.0",
+        "axios": "^0.27.2",
         "deepai": "^1.0.21",
         "translatte": "^3.0.1"
     },
@@ -21,7 +21,8 @@
     "module": "./dist/index.mjs",
     "private": true,
     "scripts": {
-        "postinstall": "tsc || exit 0"
+        "build": "tsc",
+        "postinstall": "yarn build || exit 0"
     },
     "type": "module",
     "types": "./dist/index.d.ts"

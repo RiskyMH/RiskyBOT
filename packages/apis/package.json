@@ -3,7 +3,7 @@
     "description": "A collection of tools for building and maintaining the RiskyBOT project",
     "version": "4.0.0",
     "dependencies": {
-        "node-fetch": "^3.2.3"
+        "node-fetch": "^3.2.4"
     },
     "directories": {
         "lib": "src"
@@ -21,7 +21,8 @@
     "module": "./dist/index.mjs",
     "private": true,
     "scripts": {
-        "postinstall": "tsc || exit 0"
+        "build": "tsc",
+        "postinstall": "yarn build || exit 0"
     },
     "type": "module",
     "types": "./dist/index.d.ts"

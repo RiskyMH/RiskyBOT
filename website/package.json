@@ -1,15 +1,17 @@
 {
     "name": "@riskybot/website",
-    "version": "0.0.1",
+    "version": "4.0.0",
     "dependencies": {
+        "hugo-bin": "^0.86.0"
     },
     "private": true,
     "scripts": {
-        "websiteServe": "hugo serve"
+        "serve:dev": "npx hugo serve",
+        "build": "npx hugo --minify"
     },
     "author": "RiskyMH",
     "devDependencies": {
-        "hugo-bin": "^0.79.2"
+        "hugo-bin": "^0.86.0"
     }
 }
 
