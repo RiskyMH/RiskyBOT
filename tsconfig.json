@@ -40,6 +40,7 @@
 // Type definitions for json-schema 4.0, 6.0 and 7.0
 	"exclude": ["dist/**/*", "src/**/dist/**/*", "packages/**/dist/**/*", "node_modules/**/*"],
 	"compilerOptions": {
+		"skipLibCheck": true,
 		// Type Checking
 		"allowUnreachableCode": false,
 		"allowUnusedLabels": false,
@@ -75,7 +76,7 @@
 		// Language and Environment
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
-		"lib": ["ESNext", "es2021.intl"],
+		"lib": ["ESNext", "esnext.intl"],
 		"target": "ES2021",
 		"useDefineForClassFields": true,
 	}

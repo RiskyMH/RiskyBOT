@@ -12,6 +12,7 @@ This bot is run by:
 * adding your token to [`.env`](.env) (using [`example.env`](example.env))
 * Optional: changing things, see [below](#how-to-configure) for some examples
 * `yarn deployCommands` (deploying the application commands)
+* `yarn build` (building the `ts` files)
 * `yarn start` (finally running it)
 
 NOTE: this uses yarn, so you need to have [yarn](https://classic.yarnpkg.com/lang/en/docs/install) installed

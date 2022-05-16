@@ -31,7 +31,7 @@ jobs:
         run: ( cd website && hugo --minify )
         
       - name: Build artifact page
-        run: ( cd website && hugo -b https://localhost -d publicLocalhost ) 
+        run: ( cd website && hugo -b http://localhost -d publicLocalhost ) 
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3

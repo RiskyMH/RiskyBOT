@@ -1,9 +1,10 @@
 import { EmbedBuilder } from "discord.js";
 import { bold, inlineCode } from "@discordjs/builders";
 import * as tools from "@riskybot/tools";
-import { default as deepaiFunc } from "deepai";
 import type { InteractionReplyOptions } from "discord.js";
 import type { Config } from "@riskybot/tools";
+// @ts-expect-error The function has no types :(
+import { default as deepaiFunc } from "deepai";
 
 
 //TODO: Make sure everything works...

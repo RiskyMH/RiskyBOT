@@ -411,6 +411,7 @@ export async function autoComplete(engine: string, input: string ): Promise<Appl
 
 
 export async function button(config: Config, id: string, userId?: string): Promise<InteractionReplyOptions> {
+    userId;
     let num1 = 0;
     let num2 = 0;
     let text1 = "";

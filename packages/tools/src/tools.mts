@@ -1,4 +1,4 @@
-import YAML from "yaml";
+import YAML from "js-yaml";
 import { readFileSync } from "fs";
 import type {ConfigJSON} from "./types.mjs";
 import {Util} from "discord.js";
@@ -12,7 +12,7 @@ export class Config {
         if (!ymal){
             config = JSON.parse(readFileSync(location, "utf8"));
         } else{
-            config = YAML.parse(readFileSync(location, "utf8"));
+            config = YAML.load(readFileSync(location, "utf8")) as ConfigJSON;
         }
 
         this.colors = config.colors;
@@ -32,7 +32,7 @@ export class Config {
 /** Some of these vars are also controlled by the `config.yml` */
 export class EnvEnabled {
     constructor(env: typeof process["env"], config?: Config){
-        
+        config;
         if (env.discordapi != null) this.hasDiscordApi = true;
         if (env.discordapiExtra != null) this.hasDiscordApiExtra = true;
         if (env.topggapi != null) this.HasTopggApi = true;
@@ -56,6 +56,7 @@ export class EnvEnabled {
     public hasOwnerGuildId: boolean = false;
 }
 
+// @ts-ignore
 export const listFormatter: Intl.ListFormat = new Intl.ListFormat("en", { style: "long" });
 
 export function toTitleCase(str: string): string {
@@ -114,7 +115,7 @@ export function dateBetter(inputUTC: string): string {
 }
 
 export const trim = (str: string, max: number): string =>
-    str.length > max ? `${str.slice(0, max - 1)}…` : str;
+    (str.length ?? "") > max ? `${str.slice(0, max - 1)}…` : str;
 
 
 export async function getBetweenStr(string: string, statChar: string, endChar: string, splitChar: string = ""): Promise<string | string[]> {

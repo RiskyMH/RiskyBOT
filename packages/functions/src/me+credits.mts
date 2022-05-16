@@ -10,8 +10,9 @@ export default async function meCredits(client: Client, config: Config): Promise
     let aboutMe = new EmbedBuilder();
     let credits = new EmbedBuilder();
 
+    // @ts-expect-error weird errors
     const invite = client.generateInvite({scopes: [OAuth2Scopes.ApplicationsCommands]});
-    const invite2 = client.generateInvite({ scopes: [OAuth2Scopes.ApplicationsCommands, OAuth2Scopes.Bot]});
+    // const invite2 = client.generateInvite({ scopes: [OAuth2Scopes.ApplicationsCommands, OAuth2Scopes.Bot]});
     aboutMe
         .setTitle("About - " + inlineCode(client.user?.username??"RiskyBOT"))
         .setDescription("This is a random multi-purpose bot. (more coming soon)"+`${client.user?.username == "RiskyBOT" ? "": "\n\nThis bot using [RiskyBOT](https://riskymh.github.io/RiskyBOT)"}`)
@@ -53,6 +54,7 @@ export async function extra(client: Client, config: Config): Promise <import("di
             PermissionFlagsBits.SendMessages,
             PermissionFlagsBits.ViewChannel
         ],
+        // @ts-expect-error weird errors
         scopes: [OAuth2Scopes.ApplicationsCommands, OAuth2Scopes.Bot],
     });
     aboutMe

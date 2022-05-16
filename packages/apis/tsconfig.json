@@ -38,7 +38,7 @@
         // Language and Environment
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "lib": ["ESNext"],
+        "lib": ["ESNext", "es2021.intl"],
         "target": "ES2021",
         "useDefineForClassFields": true,
 

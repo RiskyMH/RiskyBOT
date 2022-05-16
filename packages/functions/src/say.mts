@@ -50,6 +50,7 @@ export default async function say(client: Client, config: Config, user: User, me
     }
 }
 export function applicationCommands(config: Config, envEnabledList?:EnvEnabled) {
+    config; envEnabledList; // Just so it is used
     let searchSlashCommand = new SlashCommandBuilder()
         .setName("say")
         .setDescription("Send a message in a channel as yourself or someone else")

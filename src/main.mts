@@ -18,7 +18,7 @@ const wait = (await import("util")).promisify(setTimeout);
 // make bot
 const client: Client = new Client({ intents: 0 }); // doesn't need any intents
 const config = new tools.Config("./config.yml", true);
-const envEnabled = new tools.EnvEnabled(process.env, config);
+// const envEnabled = new tools.EnvEnabled(process.env, config);
 
 // login to discord
 if (process.env.discordapi) client.login(process.env.discordapi);
@@ -44,7 +44,7 @@ client.on("interactionCreate", async (interaction) => {
     // const colors = config.colors;
 
     // the template embeds for `done` or `error`
-    const doneEmb = new EmbedBuilder().setColor(config.getColors().good).setTitle("Done!");
+    // const doneEmb = new EmbedBuilder().setColor(config.getColors().good).setTitle("Done!");
     const errorEmb = new EmbedBuilder().setColor(config.getColors().error).setTitle("Error");
 
     // Nothing really intreating, just to see what commands used
@@ -332,7 +332,11 @@ client.on("interactionCreate", async (interaction) => {
                     // let input = interaction.fields.getTextInputValue("code");
                     let hasError = false; let evalRes;
                     try {
+                        //@ts-ignore
+                        // eslint-disable-next-line no-unused-vars 
                         const discordBuilders = await import("@discordjs/builders");
+                        //@ts-ignore
+                        // eslint-disable-next-line no-unused-vars 
                         const discordJs = await import("discord.js");
                         evalRes = await eval(input);
                     } catch (err) { evalRes = err; hasError = true; console.warn(err); }

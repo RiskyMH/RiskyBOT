@@ -1,7 +1,8 @@
 import { EmbedBuilder } from "@discordjs/builders";
-import { default as translateFunc, languages } from "translatte";
 import * as tools from "@riskybot/tools";
 import type { Config } from "@riskybot/tools";
+// @ts-expect-error The function has no types :(
+import { default as translateFunc, languages } from "translatte";
 
 
 //TODO: Make sure everything works...

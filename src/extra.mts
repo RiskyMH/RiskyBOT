@@ -1,7 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// //  @ts-nocheck
-
-import { Client, PermissionOverwriteManager, PermissionsBitField } from "discord.js";
+import { Client } from "discord.js";
 import {GatewayIntentBits, PermissionFlagsBits} from "discord-api-types/v10";
 
 import { mini, say, meCreditsExtra } from "@riskybot/functions";
@@ -24,7 +21,7 @@ const client = new Client({
  ],
 });
 const config = new tools.Config("./config.yml", true);
-const envEnabled = new tools.EnvEnabled(process.env, config);
+// const envEnabled = new tools.EnvEnabled(process.env, config);
 
 // login to discord
 if (process.env.discordapiExtra) client.login(process.env.discordapiExtra);
@@ -45,7 +42,7 @@ client.on("error", console.warn);
 process.on("uncaughtException", console.warn);
 
 client.on("guildCreate", async (guild) => {
-    if (guild.me ? guild?.systemChannel?.permissionsFor(guild.me)?.has(PermissionFlagsBits.SendMessages) : null) {
+    if (await guild.members.fetch(client?.user?.id ??"1") ? guild?.systemChannel?.permissionsFor(await guild.members.fetch(client?.user?.id ??"1"))?.has(PermissionFlagsBits.SendMessages) : null) {
         // make sure that the bot can sent message
         guild.systemChannel?.send("Hello, thank you for inviting me to this server. Info: https://riskymh.github.io/RiskyBOT/added/extra (btw I use `/` slash commands) ");
     }
@@ -63,7 +60,7 @@ async function msgWordHas(msg: string, what: string): Promise<boolean> {
 
 client.on("messageCreate", async (message) => {
 
-    const mePerms = message.guild?.me?.permissionsIn(message.channelId);
+    const mePerms = await (await message?.guild?.members.fetch(client?.user?.id ??"1"))?.permissionsIn(message.channelId);
     const serversNoMessage = (process.env.serversNoMessage ? JSON.parse(process.env.serversNoMessage) : []);
 
     if ((message.guild ? (serversNoMessage.length ? serversNoMessage.includes(message.guild.id) : !null) : null) ||
@@ -74,7 +71,7 @@ client.on("messageCreate", async (message) => {
     if (message.mentions.users.first() === client.user) {
         message.channel.send("I use some slash `/` commands, and some text based stuff, nothing fancy.");
     }
-    if (msg === message?.guild?.me?.displayName.toLowerCase() || msg === client?.user?.username.toLowerCase()) {
+    if (msg === (await message?.guild?.members.fetch(client?.user?.id ??"1"))?.displayName.toLowerCase() || msg === client?.user?.username.toLowerCase()) {
         message.channel.send("Hello 👋");
     }
 
@@ -127,9 +124,10 @@ client.on("messageCreate", async (message) => {
     }
 
 });
-client.on("messageReactionAdd", (messageReaction, user) => {
+client.on("messageReactionAdd", async (messageReaction, user) => {
+    user;
 
-    const mePerms = messageReaction?.message?.guild?.me?.permissionsIn(messageReaction.message.channelId);
+    const mePerms = await (await messageReaction.message?.guild?.members.fetch(client?.user?.id ??"1"))?.permissionsIn(messageReaction.message.channelId);
 
     if (!JSON.parse(process.env.serversExtraMessage ?? "{}") || mePerms?.has(PermissionFlagsBits.AddReactions) ||
         messageReaction.message.reactions.cache.entries.length <= 20 ||

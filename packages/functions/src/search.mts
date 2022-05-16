@@ -96,6 +96,7 @@ export async function autoComplete(engine: string, input: string): Promise<Appli
 
 
 export function applicationCommands(config: Config, envEnabledList?:EnvEnabled) {
+    config; envEnabledList; // Just so it is used
     let searchSlashCommand = new SlashCommandBuilder()
         .setName("search")
         .setDescription("🔍 Use the bot to search from sources")

@@ -1,5 +1,5 @@
 import fetch from "node-fetch";
-import { bold, hyperlink, inlineCode, time, ActionRowBuilder, ButtonBuilder, EmbedBuilder, MessageActionRowComponentBuilder } from "@discordjs/builders";
+import { hyperlink, inlineCode, time, ActionRowBuilder, ButtonBuilder, EmbedBuilder, MessageActionRowComponentBuilder } from "@discordjs/builders";
 import {ButtonStyle} from "discord-api-types/v10";
 import * as tools from "@riskybot/tools";
 import type { Config } from "@riskybot/tools";
@@ -41,19 +41,18 @@ export default async function search(config: Config, subEngine: string, input: s
             if (filtered && !filtered?.data?.over_18 && !(redditPostList?. [0]?.error == 404 || redditPostList?. [0]?.error == 403)) {
 
                 searEmb
-                    .setAuthor({name: "Reddit", url:"https://www.reddit.com/", iconURL: "https://www.reddit.com/favicon.ico"})
+                    .setAuthor({name: "Reddit post in "+tools.trim(filtered.data.subreddit_name_prefixed, 15), url:"https://www.reddit.com/"+filtered.data.subreddit_name_prefixed, iconURL: "https://www.reddit.com/favicon.ico"})
                     .setURL(redditBaseURL.slice(0, -1) + filtered.data.permalink)
                     .setTimestamp(filtered.data.created_utc * 1000)
                     .setFooter({text: "Posted by: " + filtered.data.author})
-                    .setTitle("Random post - " + inlineCode(tools.trim(filtered.data.subreddit_name_prefixed, 15)))
-                    .setDescription(tools.trim(bold(filtered.data.title), 1024));
+                    .setTitle(filtered.data.title);
 
                 row.components[0].setCustomId(`random-again-randomPost-reddit-(${filtered.data.subreddit})`);
                 // @ts-expect-error - .setURL() errors
                 row.components[1].setURL(redditBaseURL.slice(0, -1) + await filtered.data.permalink);
                 searEmb.addFields([{name:"Stats", value:`\`👍${filtered.data.ups}\` \`👎${filtered.data.downs}\` \`💬${filtered.data.num_comments}\``}]);
 
-                if (filtered.data.selftext) searEmb.setDescription(tools.trim(searEmb.data.description + "\n" + filtered.data.selftext, 1024));
+                if (filtered.data.selftext) searEmb.setDescription(tools.trim(filtered.data.selftext||"", 1024));
 
                 // Image
                 if (/\.(jpe?g|png|tiff?|(webp)!|bmp|gifv?)(\?.*)?$/i.test(filtered.data ?.url)) searEmb.setImage(filtered.data.url);
@@ -88,10 +87,10 @@ export default async function search(config: Config, subEngine: string, input: s
                 .setURL(redditBaseURL.slice(0, -1) + await redditChosen.url)
                 .setTitle("About - " + inlineCode(tools.trim(await redditChosen.display_name_prefixed, 15)))
                 .addFields([{ name:"Title", value: tools.trim(await redditChosen.title, 1024)}])
-                .addFields([{name: "Short description", value: tools.trim(await redditChosen.public_description, 1024)}])
+                .addFields([{name: "Short description", value: tools.trim(await redditChosen.public_description||"*No description provided*", 1024)}])
                 .addFields([{name: "Made", value: time(await redditChosen.created_utc)}]);
             // @ts-expect-error - .setLabel() errors
-            row.components[0].setCustomId(`random-again-randomPost-reddit-(${input})`).setLabel("Random post in subreddit").setStyle("SECONDARY");
+            row.components[0].setCustomId(`random-again-randomPost-reddit-(${input})`).setLabel("Random post in subreddit").setStyle(ButtonStyle.Secondary);
             // @ts-expect-error - .setLabel() errors
             row.components[1].setURL(redditBaseURL.slice(0, -1) + await redditChosen.url);
 
