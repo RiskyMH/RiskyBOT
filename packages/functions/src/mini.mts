@@ -24,4 +24,5 @@ export async function ping (config: Config, interMade: number, pingNum: number) 
   // });
 }
 
+
 //TODO: Add message command

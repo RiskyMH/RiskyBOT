@@ -15,7 +15,6 @@
             "title": "Config --> Colors",
             "description": "The color when something has completed normally",
             "default": "#5865F2"
-
           },
           "error": {
             "type": "string",
@@ -34,6 +33,145 @@
             "title": "Config --> Colors",
             "description": "The color when something has not fully complected..",
             "default": "#FEE75C"
+          }
+      }
+    },
+    "apiEnabled": {
+      "type": "object",
+      "description": "Which APIs will be enabled",
+      "properties": {
+          "reddit":{
+            "type": "boolean",
+            "title": "apiEnabled --> Reddit",
+            "description": "Should Reddit api be used?",
+            "default": "true"
+          },
+          "urbandictionary":{
+            "type": "boolean",
+            "title": "apiEnabled --> UrbanDictionary",
+            "description": "Should UrbanDictionary api be used?",
+            "default": "true"
+          },
+          "nekobot":{
+            "type": "boolean",
+            "title": "apiEnabled --> Nekobot",
+            "description": "Should Nekobot.xyz api be used?",
+            "default": "true"
+          },
+          "someRandomApi":{
+            "type": "boolean",
+            "title": "apiEnabled --> someRandomApi",
+            "description": "Should some-random-api.ml api be used?",
+            "default": "true"
+          },
+          "topgg": {
+            "type": "boolean",
+            "title": "apiEnabled --> Top.gg",
+            "description": "Should Top.gg api be used? (if token not in `.env` then still disabled)",
+            "default": "false"
+          },
+          "googletranslate": {
+            "type": "boolean",
+            "title": "apiEnabled --> Google Translate",
+            "description": "Should Google Translate api be used?",
+            "default": "false"
+          },
+          "deepai": {
+            "type": "boolean",
+            "title": "apiEnabled --> Deepai",
+            "description": "Should Deepai api be used? (if token not in `.env` then still disabled)",
+            "default": "false"
+          },
+          "randomSmallOnes": {
+            "type": "object",
+            "title": "apiEnabled --> randomSmallOnes",
+            "description": "Should Deepai api be used? (if token not in `.env` then still disabled)",
+            "properties": {
+              "pastegg": {
+                "type": "boolean",
+                "title": "apiEnabled --> randomSmallOnes --> pastegg",
+                "description": "Should paste.gg api be used?",
+                "default": "true"
+              },
+              "rhymebrain": {
+                "type": "boolean",
+                "title": "apiEnabled --> randomSmallOnes --> rhymebrain",
+                "description": "Should aws.random.cat api be used?",
+                "default": "true"
+              },
+              "awsrandomcat": {
+                "type": "boolean",
+                "title": "apiEnabled --> randomSmallOnes --> awsrandomcat",
+                "description": "Should aws.random.cat api be used?",
+                "default": "true"
+              },
+              "someRandomApi": {
+                "type": "boolean",
+                "title": "apiEnabled --> randomSmallOnes --> dogceo",
+                "description": "Should dog.ceo api be used?",
+                "default": "true"
+              },
+              "icanhazdadjoke": {
+                "type": "boolean",
+                "title": "apiEnabled --> randomSmallOnes --> icanhazdadjoke",
+                "description": "Should icanhazdadjoke.com api be used?",
+                "default": "true"
+              },
+              "forismatic": {
+                "type": "boolean",
+                "title": "apiEnabled --> randomSmallOnes --> forismatic",
+                "description": "Should forismatic.com api be used?",
+                "default": "true"
+              },
+              "affirmationsdev": {
+                "type": "boolean",
+                "title": "apiEnabled --> randomSmallOnes --> affirmationsdev",
+                "description": "Should affirmations.dev api be used?",
+                "default": "true"
+              },
+              "evilinsultcom": {
+                "type": "boolean",
+                "title": "apiEnabled --> randomSmallOnes --> evilinsultcom",
+                "description": "Should evilinsult.com api be used?",
+                "default": "true"
+              },
+              "excuserheroku": {
+                "type": "boolean",
+                "title": "apiEnabled --> randomSmallOnes --> excuserheroku",
+                "description": "Should excuser.herokuapp.com api be used?",
+                "default": "true"
+              },
+              "uselessfactspl": {
+                "type": "boolean",
+                "title": "apiEnabled --> randomSmallOnes --> uselessfactspl",
+                "description": "Should uselessfacts.jsph.pl api be used?",
+                "default": "true"
+              },
+              "shibeonline": {
+                "type": "boolean",
+                "title": "apiEnabled --> randomSmallOnes --> shibeonline",
+                "description": "Should shibe.online api be used?",
+                "default": "true"
+              },
+              "randomduk": {
+                "type": "boolean",
+                "title": "apiEnabled --> randomSmallOnes --> randomduk",
+                "description": "Should random.d.uk api be used?",
+                "default": "true"
+              },
+              "zooanimalapiheroku": {
+                "type": "boolean",
+                "title": "apiEnabled --> randomSmallOnes --> zooanimalapiheroku",
+                "description": "Should zoo-animal-api.herokuapp.com api be used?",
+                "default": "true"
+              },
+              "emojihubheroku": {
+                "type": "boolean",
+                "title": "apiEnabled --> randomSmallOnes --> emojihubheroku",
+                "description": "Should emojihub.herokuapp.com api be used?",
+                "default": "true"
+              }
+            }
           }
       }
     }

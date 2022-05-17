@@ -1,8 +1,8 @@
-import { inlineCode, italic, EmbedBuilder, ButtonBuilder, ActionRowBuilder, MessageActionRowComponentBuilder } from "@discordjs/builders";
+import { inlineCode, italic, EmbedBuilder, ButtonBuilder, ActionRowBuilder, MessageActionRowComponentBuilder, SlashCommandBuilder, SlashCommandSubcommandBuilder, SlashCommandNumberOption, SlashCommandSubcommandGroupBuilder, SlashCommandStringOption } from "@discordjs/builders";
 import { ButtonStyle } from "discord-api-types/v10";
 import type { ApplicationCommandOptionChoiceData, InteractionReplyOptions } from "discord.js";
 import fetch from "node-fetch";
-import { getBetweenStr } from "@riskybot/tools";
+import { EnvEnabled, getBetweenStr } from "@riskybot/tools";
 import type { Config } from "@riskybot/tools";
 import { reddit, redditAutoComplete } from "./index.mjs";
 
@@ -432,4 +432,171 @@ export async function button(config: Config, id: string, userId?: string): Promi
     //  console.log(data?.components?.[0].components[0]);
 
     return data as InteractionReplyOptions;
+}
+
+
+export function applicationCommands(config: Config, envEnabledList?: EnvEnabled) {
+    config; envEnabledList; // Just so it is used
+
+    let randomSlashCommand = new SlashCommandBuilder()
+        .setName("random")
+        .setDescription("Produces random results")
+        .addSubcommand(
+            new SlashCommandSubcommandBuilder()
+                .setName("number")
+                .setDescription("A random number")
+                .addNumberOption(
+                    new SlashCommandNumberOption()
+                        .setName("min")
+                        .setDescription("The min the random number can go")
+                ).addNumberOption(
+                    new SlashCommandNumberOption()
+                        .setName("max")
+                        .setDescription("The max the random number can go")
+                )
+        );
+    if (config.apiEnabled.randomSmallOnes.awsrandomcat){
+        randomSlashCommand.addSubcommand(
+            new SlashCommandSubcommandBuilder()
+                .setName("cat")
+                .setDescription("🐱 A random cat image")
+        );
+    }
+    if (config.apiEnabled.randomSmallOnes.dogceo){
+        randomSlashCommand.addSubcommand(
+            new SlashCommandSubcommandBuilder()
+                .setName("dog")
+                .setDescription("🐶 A random dog image")
+        );
+    }
+    if (config.apiEnabled.someRandomApi){
+        randomSlashCommand.addSubcommand(
+            new SlashCommandSubcommandBuilder()
+                .setName("kangaroo")
+                .setDescription("🦘 A random kangaroo image")
+        );
+        randomSlashCommand.addSubcommand(
+            new SlashCommandSubcommandBuilder()
+                .setName("fox")
+                .setDescription("🦊 A random fox image")
+        );
+        randomSlashCommand.addSubcommand(
+            new SlashCommandSubcommandBuilder()
+                .setName("panda")
+                .setDescription("🐼 A random panda image")
+        );
+        randomSlashCommand.addSubcommand(
+            new SlashCommandSubcommandBuilder()
+                .setName("joke")
+                .setDescription("🤣 A random joke")
+        );
+        randomSlashCommand.addSubcommand(
+         new SlashCommandSubcommandBuilder()
+          .setName("koala")
+          .setDescription("🐨 A random koala image")
+        );
+    }
+    if (config.apiEnabled.randomSmallOnes.icanhazdadjoke){
+        randomSlashCommand.addSubcommand(
+            new SlashCommandSubcommandBuilder()
+                .setName("dad-joke")
+                .setDescription("🤣 A random dad joke")
+        );
+    }
+    if (config.apiEnabled.randomSmallOnes.forismatic){
+        randomSlashCommand.addSubcommand(
+            new SlashCommandSubcommandBuilder()
+                .setName("quote")
+                .setDescription("🗨️ A random quote")
+        );
+    }
+    if (config.apiEnabled.randomSmallOnes.affirmationsdev){
+        randomSlashCommand.addSubcommand(
+            new SlashCommandSubcommandBuilder()
+                .setName("affirmation")
+                .setDescription("A random affirmation")
+        );
+    }
+    if (config.apiEnabled.randomSmallOnes.evilinsultcom){
+        randomSlashCommand.addSubcommand(
+            new SlashCommandSubcommandBuilder()
+                .setName("insult")
+                .setDescription("😢 A random insult")
+        );
+    }
+    if (config.apiEnabled.randomSmallOnes.excuserheroku){
+        randomSlashCommand.addSubcommand(
+            new SlashCommandSubcommandBuilder()
+                .setName("excuse")
+                .setDescription("A random excuse")
+                .addStringOption(
+                    new SlashCommandStringOption()
+                        .setName("category")
+                        .setDescription("The category of the excuse")
+                        .setRequired(false)
+                        .addChoices(
+                            {name: "Family", value: "family"},
+                            {name: "Office", value: "office"},
+                            {name: "Children", value: "children"},
+                            {name: "Collage", value: "collage"},
+                            {name: "Party", value: "party"}
+                        )
+                )
+        );
+    }
+    if (config.apiEnabled.randomSmallOnes.uselessfactspl){
+        randomSlashCommand.addSubcommand(
+            new SlashCommandSubcommandBuilder()
+                .setName("fact")
+                .setDescription("A random fact")
+        );
+    }
+    if (config.apiEnabled.randomSmallOnes.shibeonline){
+        randomSlashCommand.addSubcommand(
+            new SlashCommandSubcommandBuilder()
+                .setName("bird")
+                .setDescription("🐦 A random bird image")
+        );
+    }
+    if (config.apiEnabled.randomSmallOnes.randomduk){
+        randomSlashCommand.addSubcommand(
+            new SlashCommandSubcommandBuilder()
+                .setName("duck")
+                .setDescription("🦆 A random duck image")
+        );
+    }
+    if (config.apiEnabled.randomSmallOnes.zooanimalapiheroku){
+        randomSlashCommand.addSubcommand(
+            new SlashCommandSubcommandBuilder()
+                .setName("zoo-anim")
+                .setDescription("A random zoo animal")
+        );
+    }
+    if (config.apiEnabled.randomSmallOnes.emojihubheroku){
+        randomSlashCommand.addSubcommand(
+            new SlashCommandSubcommandBuilder()
+                .setName("emoji")
+                .setDescription("A random emoji")
+        );
+    }
+    if (config.apiEnabled.reddit){
+        randomSlashCommand.addSubcommandGroup(
+            new SlashCommandSubcommandGroupBuilder()
+                .setName("reddit")
+                .setDescription("Use Reddit to ...")
+                .addSubcommand(
+                    new SlashCommandSubcommandBuilder()
+                        .setName("random-post")
+                        .setDescription("Uses Reddit and your selected subreddit")
+                        .addStringOption(
+                            new SlashCommandStringOption()
+                                .setName("sub-reddit")
+                                .setDescription("The subreddit to get a random post from")
+                                .setRequired(true)
+                                .setAutocomplete(true)
+                        )
+                )
+        );
+    }
+    return [randomSlashCommand];
 }

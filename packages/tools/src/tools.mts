@@ -16,10 +16,29 @@ export class Config {
         }
 
         this.colors = config.colors;
+        this.apiEnabled = config.apiEnabled;
         // return ;
     }
     public colors: ConfigJSON["colors"] = {ok: "#000000", error: "#000000", good: "#000000", warning: "#000000"};
-    public colorsd: ConfigJSON["colors"] = {ok: "#000000", error: "#000000", good: "#000000", warning: "#000000"};
+    public apiEnabled: ConfigJSON["apiEnabled"] = 
+        {reddit: true, topgg: false, deepai: false, nekobot: true, someRandomApi: true, urbandictionary: true, googletranslate: true,
+            randomSmallOnes: {
+                pastegg: true,
+                rhymebrain: true,
+                awsrandomcat: true,
+                dogceo: true,
+                icanhazdadjoke: true,
+                forismatic: true,
+                affirmationsdev: true,
+                evilinsultcom: true,
+                excuserheroku: true,
+                uselessfactspl: true,
+                shibeonline: true,
+                randomduk: true,
+                zooanimalapiheroku: true,
+                emojihubheroku: true,
+            }
+        };
     public getColors(){
         const ok = Util.resolveColor(this.colors.ok);
         const error = Util.resolveColor(this.colors.error);

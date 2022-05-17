@@ -49,6 +49,7 @@ export default async function say(client: Client, config: Config, user: User, me
         return { embeds: [errorEmb], ephemeral: true };
     }
 }
+
 export function applicationCommands(config: Config, envEnabledList?:EnvEnabled) {
     config; envEnabledList; // Just so it is used
     let searchSlashCommand = new SlashCommandBuilder()
@@ -60,7 +61,6 @@ export function applicationCommands(config: Config, envEnabledList?:EnvEnabled) 
                 .setName("message")
                 .setDescription("What will be sent in the channel")
                 .setRequired(true)
-                .setAutocomplete(true)
         )
         .addUserOption(
             new SlashCommandUserOption()

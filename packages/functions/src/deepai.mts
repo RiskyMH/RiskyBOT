@@ -1,10 +1,10 @@
-import { EmbedBuilder } from "discord.js";
-import { bold, inlineCode } from "@discordjs/builders";
+import { bold, ContextMenuCommandBuilder, inlineCode, SlashCommandBuilder, SlashCommandStringOption, SlashCommandSubcommandBuilder, EmbedBuilder } from "@discordjs/builders";
 import * as tools from "@riskybot/tools";
 import type { InteractionReplyOptions } from "discord.js";
-import type { Config } from "@riskybot/tools";
+import type { Config, EnvEnabled } from "@riskybot/tools";
 // @ts-expect-error The function has no types :(
 import { default as deepaiFunc } from "deepai";
+import { ApplicationCommandType } from "discord-api-types/v10";
 
 
 //TODO: Make sure everything works...
@@ -21,9 +21,8 @@ export default async function deepai(config: Config, input:string, type:string, 
 
  switch (type) {
   case "text-generator":
-   var resp = await deepaiFunc.callStandardApi("text-generator", {
-    text: input,
-   });
+   var resp = await deepaiFunc.callStandardApi("text-generator", {text: input});
+   console.log(resp);
    deepEmbed
     .setTitle("Text generation - " + inlineCode(tools.trim(input, 15)))
     .setURL("https://deepai.org/machine-learning-model/text-generator")
@@ -41,4 +40,31 @@ export default async function deepai(config: Config, input:string, type:string, 
   .setColor(config.getColors().ok);
 
  return { embeds: [deepEmbed] };
+}
+
+
+export function applicationCommands(config: Config, envEnabledList?: EnvEnabled) {
+
+    if (config.apiEnabled.deepai && envEnabledList?.HasDeepApi) {
+        let deepaiSlashCommand = new SlashCommandBuilder()
+            .setName("deep-ai")
+            .setDescription("Uses AI to produce results")
+            .addSubcommand(
+                new SlashCommandSubcommandBuilder()
+                    .setName("text-generator")
+                    .setDescription("Generates text from a given text")
+                    .addStringOption(
+                        new SlashCommandStringOption()
+                            .setName("text")
+                            .setDescription("The text to generate")
+                            .setRequired(true)
+                    )
+            );
+        let deepaiUserCommand = new ContextMenuCommandBuilder()
+            .setName("Continue message - Deepai")
+            .setType(ApplicationCommandType.User);
+        return [deepaiSlashCommand, deepaiUserCommand];
+  }
+  return [];
+
 }

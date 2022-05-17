@@ -1,8 +1,8 @@
 import fetch from "node-fetch";
-import { hyperlink, inlineCode, time, ActionRowBuilder, ButtonBuilder, EmbedBuilder, MessageActionRowComponentBuilder } from "@discordjs/builders";
+import { hyperlink, inlineCode, time, ActionRowBuilder, ButtonBuilder, EmbedBuilder, MessageActionRowComponentBuilder, SlashCommandBuilder, SlashCommandStringOption } from "@discordjs/builders";
 import {ButtonStyle} from "discord-api-types/v10";
 import * as tools from "@riskybot/tools";
-import type { Config } from "@riskybot/tools";
+import type { Config, EnvEnabled } from "@riskybot/tools";
 
 const redditBaseURL = "https://reddit.com/";
 
@@ -130,4 +130,28 @@ export async function autoComplete(subEngine: string, input: string) {
         }
     }
 
+}
+
+
+export function applicationCommands(config: Config, envEnabledList?:EnvEnabled) {
+    config; envEnabledList; // Just so it is used
+    let searchSlashCommand = new SlashCommandBuilder()
+        .setName("meme")
+        .setDescription("🤣 Uses Reddit and r/dankmemes (or another option) to give you a random meme")
+        .addStringOption(
+            new SlashCommandStringOption()
+                .setName("other-subreddit")
+                .setDescription("Another few meme options")
+                .setRequired(false)
+                .setChoices(
+                    {name: "r/dankmemes", value: "dankmemes"},
+                    {name: "r/memes", value: "memes"},
+                    {name: "r/PrequelMemes", value: "PrequelMemes"},
+                    {name: "r/terriblefacebookmemes", value: "terriblefacebookmemes"},
+                    {name: "r/funny", value: "funny"},
+                    {name: "r/teenagers", value: "teenagers"},
+                    {name: "r/ComedyCemetery", value: "ComedyCemetery"}
+                )
+        );
+    return [searchSlashCommand];
 }

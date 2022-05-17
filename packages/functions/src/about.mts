@@ -1,9 +1,9 @@
-import {time, hyperlink,inlineCode, userMention, bold, codeBlock, EmbedBuilder, roleMention } from "@discordjs/builders";
-import type {ApplicationCommandOptionChoiceData, EmbedFieldData, CommandInteractionOption } from "discord.js";
+import {time, hyperlink,inlineCode, userMention, bold, codeBlock, EmbedBuilder, roleMention, SlashCommandSubcommandBuilder, SlashCommandBuilder, SlashCommandUserOption, SlashCommandStringOption, SlashCommandRoleOption, SlashCommandChannelOption } from "@discordjs/builders";
+import {ApplicationCommandOptionChoiceData, EmbedFieldData, CommandInteractionOption, ContextMenuCommandBuilder } from "discord.js";
 import { PermissionsBitField } from "discord.js";
-import {PermissionFlagsBits} from "discord-api-types/v10";
+import {ApplicationCommandType, PermissionFlagsBits} from "discord-api-types/v10";
 import { redditAutoComplete, reddit } from "@riskybot/functions";
-import { Config, listFormatter } from "@riskybot/tools";
+import { Config, EnvEnabled, listFormatter } from "@riskybot/tools";
 import { topgg } from "@riskybot/apis";
 
 
@@ -417,4 +417,84 @@ async function permissionViewer(permissions: PermissionsBitField): Promise<Embed
         { name: "Test Permissions", value: listText.join("\n"), inline: true },
         { name: "Voice Permissions", value: listVoice.join("\n"), inline: true },
     ];
+}
+
+
+export function applicationCommands(config: Config, envEnabledList?: EnvEnabled) {
+
+    let aboutUserCommand = new ContextMenuCommandBuilder()
+        .setName("About user")
+        .setType(ApplicationCommandType.User);
+
+    let userAboutOptions = [{name: "Advanced", value: "advanced"}];
+
+    if (envEnabledList?.HasTopggApi && config?.apiEnabled?.topgg) userAboutOptions.push({name: "Top.gg", value: "top.gg"});
+
+    let  aboutSlashCommand = new SlashCommandBuilder()
+        .setName("about")
+        .setDescription("Replies with information about a user/role")
+        .addSubcommand( 
+            new SlashCommandSubcommandBuilder()
+                .setName("user")
+                .setDescription("Replies with information about a user")
+                .addUserOption(
+                    new SlashCommandUserOption()
+                        .setName("user")
+                        .setRequired(true)
+                        .setDescription("The user to get information about")
+                ).addStringOption(
+                    new SlashCommandStringOption()
+                        .setName("extra")
+                        .setDescription("Some more information that isn't as useful")
+                        .addChoices(...userAboutOptions)
+                )
+        ).addSubcommand( 
+            new SlashCommandSubcommandBuilder()
+                .setName("role")
+                .setDescription("Replies with information about a role")
+                .addRoleOption(
+                    new SlashCommandRoleOption()
+                        .setName("role")
+                        .setRequired(true)
+                        .setDescription("The role to get information about")
+                ).addStringOption(
+                    new SlashCommandStringOption()
+                        .setName("extra")
+                        .setDescription("Some more information that isn't as useful")
+                        .addChoices(
+                            {name: "Advanced", value: "advanced"}
+                        )
+                )   
+        ).addSubcommand( 
+            new SlashCommandSubcommandBuilder()
+                .setName("channel")
+                .setDescription("Replies with information about a channel")
+                .addChannelOption(
+                    new SlashCommandChannelOption()
+                        .setName("role")
+                        .setRequired(true)
+                        .setDescription("The channel to get information about")
+                ).addStringOption(
+                    new SlashCommandStringOption()
+                        .setName("extra")
+                        .setDescription("Some more information that isn't as useful")
+                        .addChoices(
+                            {name: "Advanced", value: "advanced"}
+                        )
+                )  
+        );
+    if (config?.apiEnabled?.reddit){
+        aboutSlashCommand.addSubcommand( 
+            new SlashCommandSubcommandBuilder()
+                .setName("subreddit")
+                .setDescription("Get information about a subreddit")
+                .addStringOption(
+                    new SlashCommandStringOption()
+                        .setName("extra")
+                        .setDescription("Some more information that isn't as useful")
+                        .setRequired(true)
+                )
+        );  
+    }  
+    return [aboutUserCommand, aboutSlashCommand];
 }

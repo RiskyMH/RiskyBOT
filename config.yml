@@ -7,3 +7,29 @@ colors:
     good: "#57F287"
     warning: "#FEE75C"
 
+# The api's enabled for the bot
+apiEnabled:
+  reddit: true
+  urbandictionary: true
+  # (below) requires it in .env 
+  topgg: true
+  # (below) requires it in .env  
+  deepai: true
+  nekobot: true
+  someRandomApi: true
+  googletranslate: true
+  randomSmallOnes: 
+    pastegg: true
+    rhymebrain: true
+    awsrandomcat: true
+    dogceo: true
+    icanhazdadjoke: true
+    forismatic: true
+    affirmationsdev: true
+    evilinsultcom: true
+    excuserheroku: true
+    uselessfactspl: true
+    shibeonline: true
+    randomduk: true
+    zooanimalapiheroku: true
+    emojihubheroku: true

@@ -1,7 +1,7 @@
 import type { Client, InteractionReplyOptions } from "discord.js";
-import { EmbedBuilder, inlineCode } from "@discordjs/builders";
+import { EmbedBuilder, inlineCode, SlashCommandBuilder } from "@discordjs/builders";
 import { OAuth2Scopes, PermissionFlagsBits } from "discord-api-types/v10";
-import type { Config } from "@riskybot/tools";
+import type { Config, EnvEnabled } from "@riskybot/tools";
 
 //TODO: Make sure everything works...
 //TODO: Make sure all apis listed
@@ -84,4 +84,12 @@ export async function extra(client: Client, config: Config): Promise <import("di
 
     return { embeds: [aboutMe, credits] };
 
+}
+
+export function applicationCommands(config: Config, envEnabledList?:EnvEnabled) {
+    config; envEnabledList; // Just so it is used
+    let aboutmeSlashCommand = new SlashCommandBuilder()
+        .setName("-aboutme-credits-")
+        .setDescription("Replies information about me and my credits");
+    return [aboutmeSlashCommand];
 }

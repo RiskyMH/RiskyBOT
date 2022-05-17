@@ -1,6 +1,6 @@
-import { EmbedBuilder, inlineCode } from "@discordjs/builders";
+import { EmbedBuilder, inlineCode, SlashCommandBuilder, SlashCommandStringOption, SlashCommandSubcommandBuilder, SlashCommandUserOption } from "@discordjs/builders";
 import type { User, CommandInteractionOption, InteractionReplyOptions } from "discord.js";
-import type { Config } from "@riskybot/tools";
+import type { Config, EnvEnabled } from "@riskybot/tools";
 import fetch from "node-fetch";
 
 const nekoBaseURL = "https://nekobot.xyz/api/";
@@ -330,4 +330,149 @@ function randomNum(min: number, max: number): string {
  */
 function getRandom(list: Array<any>): any {
  return list[Math.floor(Math.random() * list.length)];
+}
+
+
+export function applicationCommands(config: Config, envEnabledList?: EnvEnabled) {
+
+  envEnabledList; // Just so it is used
+  let funSlashCommand = new SlashCommandBuilder()
+    .setName("fun")
+    .setDescription("🤣 Produces fun results")
+    .addSubcommand(
+      new SlashCommandSubcommandBuilder()
+        .setName("hack")
+        .setDescription("Hack someone - TOTALLY LEGIT AND LEGAL")
+        .addUserOption(
+          new SlashCommandUserOption()
+            .setName("user")
+            .setDescription("The user to hack")
+            .setRequired(true)
+        )
+    );
+
+  if (config.apiEnabled.someRandomApi) {
+    funSlashCommand.addSubcommand(
+        new SlashCommandSubcommandBuilder()
+          .setName("tweet")
+          .setDescription("Tweet a message - ...")
+          .addUserOption(
+            new SlashCommandUserOption()
+              .setName("user")
+              .setDescription("The author for tweet")
+              .setRequired(true)
+          ).addStringOption(
+            new SlashCommandStringOption()
+              .setName("message")
+              .setDescription("The message for tweet")
+              .setRequired(true)
+          )
+      );
+  }
+  if (config.apiEnabled.nekobot) {
+    funSlashCommand
+      .addSubcommand(
+        new SlashCommandSubcommandBuilder()
+          .setName("clyde-say")
+          .setDescription("Clyde say - ...")
+          .addStringOption(
+            new SlashCommandStringOption()
+              .setName("message")
+              .setDescription("What clyde is saying")
+              .setRequired(true)
+          )
+      ).addSubcommand(
+        new SlashCommandSubcommandBuilder()
+          .setName("ship")
+          .setDescription("Ship 2 users - ...")
+          .addUserOption(
+            new SlashCommandUserOption()
+              .setName("user1")
+              .setDescription("A user")
+              .setRequired(true)
+          ).addUserOption(
+            new SlashCommandUserOption()
+              .setName("user2")
+              .setDescription("Another user")
+              .setRequired(true)
+          )
+      ).addSubcommand(
+        new SlashCommandSubcommandBuilder()
+          .setName("whowouldwin")
+          .setDescription("Who Would Win - ...")
+          .addUserOption(
+            new SlashCommandUserOption()
+              .setName("user1")
+              .setDescription("A user")
+              .setRequired(true)
+          ).addUserOption(
+            new SlashCommandUserOption()
+              .setName("user2")
+              .setDescription("Another user")
+              .setRequired(true)
+          )
+      ).addSubcommand(
+        new SlashCommandSubcommandBuilder()
+          .setName("changemymind")
+          .setDescription("Change My Mind - ...")
+          .addStringOption(
+            new SlashCommandStringOption()
+              .setName("message")
+              .setDescription("The message")
+              .setRequired(true)
+          )
+      ).addSubcommand(
+        new SlashCommandSubcommandBuilder()
+          .setName("trump-tweet")
+          .setDescription("Tweet a message as Trump - ...")
+          .addStringOption(
+            new SlashCommandStringOption()
+              .setName("message")
+              .setDescription("The message for tweet")
+              .setRequired(true)
+          )
+      ).addSubcommand(
+        new SlashCommandSubcommandBuilder()
+          .setName("iphonex")
+          .setDescription("iPhone X - ...")
+          .addUserOption(
+            new SlashCommandUserOption()
+              .setName("user")
+              .setDescription("Who's avatar to use")
+              .setRequired(true)
+          )
+      ).addSubcommand(
+        new SlashCommandSubcommandBuilder()
+          .setName("deepfry")
+          .setDescription("Deepfry - ...")
+          .addUserOption(
+            new SlashCommandUserOption()
+              .setName("user")
+              .setDescription("Who's avatar to use")
+              .setRequired(true)
+          )
+      ).addSubcommand(
+        new SlashCommandSubcommandBuilder()
+          .setName("blurpify")
+          .setDescription("Blurpify - ...")
+          .addUserOption(
+            new SlashCommandUserOption()
+              .setName("user")
+              .setDescription("Who's avatar to use")
+              .setRequired(true)
+          )
+      ).addSubcommand(
+        new SlashCommandSubcommandBuilder()
+          .setName("captcha")
+          .setDescription("Captcha - ...")
+          .addUserOption(
+            new SlashCommandUserOption()
+              .setName("user")
+              .setDescription("Who's avatar to use")
+              .setRequired(true)
+          )
+      );
+  }
+
+  return [funSlashCommand];
 }

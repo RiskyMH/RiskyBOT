@@ -1,6 +1,5 @@
-import { ApplicationCommandType } from "discord-api-types/v10";
 import type { ApplicationCommandOptionChoiceData, InteractionReplyOptions } from "discord.js";
-import { inlineCode, italic, EmbedBuilder, SlashCommandBuilder, SlashCommandSubcommandBuilder, ContextMenuCommandBuilder } from "@discordjs/builders";
+import { inlineCode, italic, EmbedBuilder, SlashCommandBuilder, SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import * as tools from "@riskybot/tools";
 import type { Config, EnvEnabled } from "@riskybot/tools";
 import { urbanDictionary, someRandomApi } from "@riskybot/apis";
@@ -97,33 +96,39 @@ export async function autoComplete(engine: string, input: string): Promise<Appli
 
 export function applicationCommands(config: Config, envEnabledList?:EnvEnabled) {
     config; envEnabledList; // Just so it is used
-    let searchSlashCommand = new SlashCommandBuilder()
-        .setName("search")
-        .setDescription("🔍 Use the bot to search from sources")
-        .addSubcommand( 
-            new SlashCommandSubcommandBuilder()
-                .setName("urban-dictionary")
-                .setDescription("Use Urban Dictionary to define")
-                .addStringOption(
-            new SlashCommandStringOption()
-                        .setName("input")
-                        .setDescription("The input for the search engine")
-                        .setRequired(true)
-                        .setAutocomplete(true)
-                )
-        ).addSubcommand( 
-            new SlashCommandSubcommandBuilder()
-                .setName("lyrics")
-                .setDescription("Use Lyrics to search for lyrics")
-                .addStringOption(
-            new SlashCommandStringOption()
-                        .setName("song-name")
-                        .setDescription("The song name to find lyrics for")
-                        .setRequired(true)
-                )
-        );
-    let menu = new ContextMenuCommandBuilder()
-        .setName("search")
-        .setType(ApplicationCommandType.User);
-    return [searchSlashCommand, menu];
+    if (config.apiEnabled.someRandomApi || config.apiEnabled.urbandictionary) {
+        let searchSlashCommand = new SlashCommandBuilder()
+            .setName("search")
+            .setDescription("🔍 Use the bot to search from sources");
+            
+        if (config.apiEnabled.urbandictionary){
+            searchSlashCommand.addSubcommand( 
+                new SlashCommandSubcommandBuilder()
+                    .setName("urban-dictionary")
+                    .setDescription("Use Urban Dictionary to define")
+                    .addStringOption(
+                new SlashCommandStringOption()
+                            .setName("input")
+                            .setDescription("The input for the search engine")
+                            .setRequired(true)
+                            .setAutocomplete(true)
+                    )
+            );
+        }
+        if (config.apiEnabled.someRandomApi){
+            searchSlashCommand.addSubcommand( 
+                new SlashCommandSubcommandBuilder()
+                    .setName("lyrics")
+                    .setDescription("Use Lyrics to search for lyrics")
+                    .addStringOption(
+                new SlashCommandStringOption()
+                            .setName("song-name")
+                            .setDescription("The song name to find lyrics for")
+                            .setRequired(true)
+                    )
+            );
+        }
+        return [searchSlashCommand];
+    }
+    return [];
 }

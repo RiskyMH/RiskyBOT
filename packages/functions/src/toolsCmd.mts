@@ -1,8 +1,9 @@
 import { EmbedBuilder } from "discord.js";
 import fetch from "node-fetch";
-import { codeBlock, inlineCode } from "@discordjs/builders";
+import { codeBlock, ContextMenuCommandBuilder, inlineCode, SlashCommandBuilder, SlashCommandStringOption, SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import * as tools from "@riskybot/tools";
-import type { Config } from "@riskybot/tools";
+import type { Config, EnvEnabled } from "@riskybot/tools";
+import { ApplicationCommandType } from "discord-api-types/v10";
 
 
 //TODO: Make sure everything works...
@@ -119,3 +120,98 @@ const ballResponses = [
     "Very doubtful. ",
 ];
 
+
+
+export function applicationCommands(config: Config, envEnabledList?:EnvEnabled) {
+    config; envEnabledList; // Just so it is used
+    let toolsSlashCommand = new SlashCommandBuilder()
+        .setName("tools")
+        .setDescription("🛠️ Use the bot to _____________________________")
+        .addSubcommand(
+            new SlashCommandSubcommandBuilder()
+                .setName("choose")
+                .setDescription("Use the bot to choose an option")
+                .addStringOption(
+                    new SlashCommandStringOption()
+                        .setName("choices")
+                        .setDescription("The list to choose from (separated by ',')")
+                        .setRequired(true)
+                )
+        ).addSubcommand(
+            new SlashCommandSubcommandBuilder()
+                .setName("8ball")
+                .setDescription("🎱 Ask the Magic 8 Ball a question!")
+                .addStringOption(
+                    new SlashCommandStringOption()
+                        .setName("question")
+                        .setDescription("Your question")
+                        .setRequired(true)
+                )
+        );
+    if (config.apiEnabled.randomSmallOnes.rhymebrain){
+        toolsSlashCommand.addSubcommand(
+            new SlashCommandSubcommandBuilder()
+                .setName("rhymes")
+                .setDescription("Find words that rhyme with a provided word")
+                .addStringOption(
+                    new SlashCommandStringOption()
+                        .setName("word")
+                        .setDescription("The word to find rhymes for")
+                        .setRequired(true)
+                )
+        );
+    }
+    
+    if (config.apiEnabled.randomSmallOnes.pastegg){
+        toolsSlashCommand.addSubcommand(
+            new SlashCommandSubcommandBuilder()
+                .setName("pastebin")
+                .setDescription("Uses Paste.gg to upload code")
+                .addStringOption(
+                    new SlashCommandStringOption()
+                        .setName("input")
+                        .setDescription("Your code")
+                        .setRequired(true)
+                ).addStringOption(
+                    new SlashCommandStringOption()
+                        .setName("language")
+                        .setDescription("Your code's language")
+                        .setRequired(false)
+                        .setChoices(
+                            {name: "JavaScript", value: "js"},
+                            {name: "CSS", value: "css"},
+                            {name: "Python", value: "py"},
+                            {name: "HTML", value: "html"},
+                            {name: "Java", value: "java"},
+                            {name: "Markdown", value: "md"},
+                            {name: "PHP", value: "php"},
+                            {name: "SQL", value: "sql"},
+                            {name: "Swift", value: "swift"},
+                            {name: "TypeScript", value: "ts"},
+                            {name: "YAML", value: "yaml"},
+                            {name: "Rust", value: "rs"},
+                            {name: "Perl", value: "perl"},
+                            {name: "JSON", value: "json"},
+                            {name: "Go", value: "go"},
+                            {name: "C", value: "c"},
+                            {name: "C#", value: "csharp"},
+                            {name: "C++", value: "cpp"},
+                            {name: "Shell", value: "bash"},
+                            {name: "R", value: "r"},
+                            {name: "PowerShell", value: "ps1"},
+                            {name: "Objective-C", value: "objc"},
+                            {name: "Kotlin", value: "kt"},
+                            {name: "cURL", value: "curl"},
+                            {name: "Docker", value: "dockerfile"}
+
+                        )
+                )
+        );
+        let pastbinMessageMenu = new ContextMenuCommandBuilder()
+            .setName("Save message - Pastebin")
+            .setType(ApplicationCommandType.Message);
+        return [toolsSlashCommand, pastbinMessageMenu];
+    }
+    
+    return [toolsSlashCommand];
+}

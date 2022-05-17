@@ -97,8 +97,8 @@ client.on("interactionCreate", async (interaction) => {
                 break;
 
             case "deep-ai": {
-                const type = interaction.options.getString("type");
-                const input = interaction.options.getString("input");
+                const type = interaction.options.getSubcommand(true);
+                const input = interaction.options.getString("input") || interaction.options.getString("text");
 
                 await interaction.deferReply();
                 if (!type || !input) return;

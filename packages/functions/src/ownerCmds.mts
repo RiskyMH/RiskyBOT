@@ -1,8 +1,8 @@
-import { ModalBuilder, TextInputBuilder, ActionRowBuilder, EmbedBuilder, codeBlock } from "@discordjs/builders";
+import { ModalBuilder, TextInputBuilder, ActionRowBuilder, EmbedBuilder, codeBlock, SlashCommandBuilder } from "@discordjs/builders";
 import type { ModalActionRowComponentBuilder } from "@discordjs/builders";
 import { TextInputStyle } from "discord-api-types/v10";
 import type { InteractionReplyOptions } from "discord.js";
-import { trim } from "@riskybot/tools";
+import { EnvEnabled, trim } from "@riskybot/tools";
 import type { Config } from "@riskybot/tools";
 
 
@@ -34,4 +34,13 @@ export async function evalResult(config: Config, input: string, evalResult: any,
     }
 
     return { embeds: [evalResultEmbed] };
+}
+
+export function applicationCommands(config: Config, envEnabledList?: EnvEnabled) {
+    config; envEnabledList; // Just so it is used
+
+    let evalSlashCommand = new SlashCommandBuilder()
+        .setName("eval")
+        .setDescription("Eval is Evil.");
+    return [evalSlashCommand];
 }
