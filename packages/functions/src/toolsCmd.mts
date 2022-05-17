@@ -1,6 +1,6 @@
 import { EmbedBuilder } from "discord.js";
 import fetch from "node-fetch";
-import { codeBlock, ContextMenuCommandBuilder, inlineCode, SlashCommandBuilder, SlashCommandStringOption, SlashCommandSubcommandBuilder } from "@discordjs/builders";
+import { codeBlock, ContextMenuCommandBuilder, inlineCode, SlashCommandBuilder, SlashCommandStringOption, SlashCommandSubcommandBuilder, spoiler } from "@discordjs/builders";
 import * as tools from "@riskybot/tools";
 import type { Config, EnvEnabled } from "@riskybot/tools";
 import { ApplicationCommandType } from "discord-api-types/v10";
@@ -60,7 +60,7 @@ export default async function toolsCmd(config: Config, engine: string, input: st
                     .setAuthor({name: "Paste.gg", url: "https://paste.gg"})
                     .setURL(`https://paste.gg/p/anonymous/${pastegg.result.id}`)
                     .setTitle("Upload code - `Paste.gg`")
-                    .setDescription(`Code: ${codeBlock(input2, input)}\nURL: https://paste.gg/p/anonymous/${pastegg.result.id}\n||Deleation key: ${inlineCode(pastegg.result.deletion_key)}||`);
+                    .setDescription(`Code: ${codeBlock(input2, input)}\nURL: https://paste.gg/p/anonymous/${pastegg.result.id}\nDeleation key: ${spoiler(inlineCode(pastegg.result.deletion_key))}`);
             } else {
                 errorEmb.setDescription("no findings :(");
                 return { embeds: [errorEmb], ephemeral: true };

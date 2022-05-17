@@ -267,7 +267,7 @@ client.on("interactionCreate", async (interaction) => {
                     }
                         break;
 
-                    case "Continue message (deep ai)": {
+                    case "Continue message - Deepai": {
                         const type = "text-generator";
                         const input = codeBlock("md", await tools.stringFromEmbed(interaction.options.getMessage("message", true)));
 
@@ -277,8 +277,7 @@ client.on("interactionCreate", async (interaction) => {
                     }
                         break;
 
-                    case "Save message (pastebin)": {
-
+                    case "Save message - Pastebin": {
                         const type = "pastebin";
                         const input2 = "md";
                         const input = await tools.stringFromEmbed(interaction.options.getMessage("message", true));

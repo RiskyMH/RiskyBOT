@@ -37,8 +37,8 @@ export default async function fun(config: Config, type: string, inputUser1: User
       "imagegen?" +
       new URLSearchParams({
        type: "ship",
-       user1: inputUser1.displayAvatarURL(),
-       user2: inputUser2.displayAvatarURL(),
+       user1: inputUser1.displayAvatarURL({ extension: "png", size: 512 }),
+       user2: inputUser2.displayAvatarURL({ extension: "png", size: 512 }),
       })
     ).then((response) => response.json());
     funEmb
@@ -54,7 +54,7 @@ export default async function fun(config: Config, type: string, inputUser1: User
       "imagegen?" +
       new URLSearchParams({
        type: "captcha",
-       url: inputUser1.displayAvatarURL(),
+       url: inputUser1.displayAvatarURL({ extension: "png", size: 512 }),
        username: inputUser1.username,
       })
     ).then((response) => response.json());
@@ -71,8 +71,8 @@ export default async function fun(config: Config, type: string, inputUser1: User
       "imagegen?" +
       new URLSearchParams({
        type: "whowouldwin",
-       user1: inputUser1.displayAvatarURL(),
-       user2: inputUser2.displayAvatarURL(),
+       user1: inputUser1.displayAvatarURL({ extension: "png", size: 512 }),
+       user2: inputUser2.displayAvatarURL({ extension: "png", size: 512 }),
       })
     ).then((response) => response.json());
     funEmb
@@ -101,7 +101,7 @@ export default async function fun(config: Config, type: string, inputUser1: User
       "imagegen?" +
       new URLSearchParams({
        type: "iphonex",
-       url: inputUser1.displayAvatarURL(),
+       url: inputUser1.displayAvatarURL({ extension: "png", size: 512 }),
       })
     ).then((response) => response.json());
     funEmb
@@ -131,7 +131,7 @@ export default async function fun(config: Config, type: string, inputUser1: User
      sraBaseURL +
       "canvas/tweet?" +
       // @ts-expect-error - using types that isn't existing (vscode)
-      new URLSearchParams({comment: inputText,username: inputUser1.username, avatar: inputUser1.displayAvatarURL({ format: "png" }), displayname: inputMember1?.displayName ?? inputUser1.username,})
+      new URLSearchParams({comment: inputText,username: inputUser1.username, avatar: inputUser1.displayAvatarURL({extension: "png", size:512}), displayname: inputMember1?.displayName ?? inputUser1.username,})
     ).then((response) => response.url);
     funEmb
      .setImage(await fun)
@@ -150,7 +150,7 @@ export default async function fun(config: Config, type: string, inputUser1: User
       "imagegen?" +
       new URLSearchParams({
        type: "deepfry",
-       image: inputUser1.displayAvatarURL(),
+       image: inputUser1.displayAvatarURL({extension: "png", size:512}),
       })
     ).then((response) => response.json());
     funEmb
@@ -166,7 +166,7 @@ export default async function fun(config: Config, type: string, inputUser1: User
       "imagegen?" +
       new URLSearchParams({
        type: "blurpify",
-       image: inputUser1.displayAvatarURL(),
+       image: inputUser1.displayAvatarURL({ extension: "png", size: 512 }),
       })
     ).then((response) => response.json());
     funEmb

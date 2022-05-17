@@ -32,6 +32,7 @@ export function message(config: Config, envEnabledList?: EnvEnabled) {
             new SlashCommandStringOption()
                 .setName("message")
                 .setDescription("Enter a message")
+                .setRequired(true)
         );
         return [messageSlashCommand];
 }

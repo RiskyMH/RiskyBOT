@@ -148,29 +148,26 @@ export async function getBetweenStr(string: string, statChar: string, endChar: s
 }
 
 
-export async function stringFromEmbed(message: CommandInteractionOption["message"]): Promise <string> {
- let msg = message?.content || "";
+export async function stringFromEmbed(message: CommandInteractionOption["message"]): Promise<string> {
+    let msg = message?.content || "";
 
- for (let emb of message?.embeds ?? []) {
-  msg += "\n";
-  if (emb.author) {
-   // if (emb.author.url) msg += `![Author icon](${emb.author.url}) ${emb.author.name}`;
-   msg += `\n# ${emb.author.name}${
-    emb.author.url ? ` (url: ${emb.author.url})` : ""
-   }}`;
-  }
-  if (emb.title)
-   msg += `\n# ${emb.title}${emb.url ? ` (url: ${emb.url})` : ""}`;
-  if (emb.description) msg += `\n${emb.description}`;
-  for (let embField of emb?.fields ?? []) {
-   msg += `\n## ${embField.name}`;
-   msg += `\n${embField.value}`;
-  }
-  if (emb.footer) msg += `\n *${emb.footer.text}*`;
-  if (emb.timestamp) msg += `\n *${emb.timestamp.toLocaleString()}*`;
-  if (emb.image) msg += `\n *Image url: ${emb.image.url}*`;
-  if (emb.video) msg += `\n *Video url: ${emb.video.url}*`;
-  if (emb.thumbnail) msg += `\n *Thumbnail url: ${emb.thumbnail.url}*`;
+    for (let emb of message?.embeds ?? []) {
+        msg += "\n";
+        if (emb.author) {
+            // if (emb.author.url) msg += `![Author icon](${emb.author.url}) ${emb.author.name}`;
+            msg += `\n# ${emb.author.name}${emb.author.url ? ` (url: ${emb.author.url})` : ""}`;
+        }
+        if (emb.title) msg += `\n# ${emb.title}${emb.url ? ` (url: ${emb.url})` : ""}`;
+        if (emb.description) msg += `\n${emb.description}`;
+        for (let embField of emb?.fields ?? []) {
+            msg += `\n## ${embField.name}`;
+            msg += `\n${embField.value}`;
+        }
+        if (emb.footer) msg += `\n *${emb.footer.text}*`;
+        if (emb.timestamp) msg += `\n *${emb.timestamp.toLocaleString()}*`;
+        if (emb.image) msg += `\n *Image url: ${emb.image.url}*`;
+        if (emb.video) msg += `\n *Video url: ${emb.video.url}*`;
+        if (emb.thumbnail) msg += `\n *Thumbnail url: ${emb.thumbnail.url}*`;
   // if (emb.color) msg+= `\nColor: ${emb.color}`
  }
 

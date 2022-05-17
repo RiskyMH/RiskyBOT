@@ -62,7 +62,7 @@ export function applicationCommands(config: Config, envEnabledList?: EnvEnabled)
             );
         let deepaiUserCommand = new ContextMenuCommandBuilder()
             .setName("Continue message - Deepai")
-            .setType(ApplicationCommandType.User);
+            .setType(ApplicationCommandType.Message);
         return [deepaiSlashCommand, deepaiUserCommand];
   }
   return [];
