@@ -65,7 +65,7 @@ export class EnvEnabled {
     public hasDiscordApi: boolean = false;
     /**  Has a entry in `discordapiExtra`? */
     public hasDiscordApiExtra: boolean = false;
-    /** Has a entry in `production`? - is it in testing or in release mode*/
+    /** Has a entry in `production`? - is it in testing or in release mode - useless rn*/
     public hasProductionBool: boolean = false;
     /** Has a entry in `deepapi`? */
     public HasTopggApi: boolean = false;
@@ -77,12 +77,6 @@ export class EnvEnabled {
 
 // @ts-ignore
 export const listFormatter: Intl.ListFormat = new Intl.ListFormat("en", { style: "long" });
-
-export function toTitleCase(str: string): string {
-    return str.replace("/wS*/g", function(txt) {
-        return txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase();
-    });
-}
 
 export async function webhookMakeOrFind(channel: BaseGuildTextChannel, webhookName: string, botId: string) : Promise<Webhook> {
     let webhooks = await channel.fetchWebhooks();
@@ -105,33 +99,6 @@ export async function webhookMakeOrFind(channel: BaseGuildTextChannel, webhookNa
     return webhook;
 }
 
-export function mergeObjs(obj1: object, obj2: object): object {
-    const merged = {};
-    let keys1 = Object.keys(obj1);
-    keys1.forEach((k1) => {
-        // @ts-expect-error
-        merged[k1] = obj2[k1] || obj1[k1]; // replace values from 2nd object, if any
-    });
-    Object.keys(obj2).forEach((k2) => {
-        // @ts-expect-error
-        if (!keys1.includes(k2)) merged[k2] = obj1[k2]; // add additional properties from second object, if any
-    });
-
-    return merged;
-}
-export function dateBetter(inputUTC: string): string {
-    let UTC = new Date(inputUTC);
-
-    let min = ("00" + UTC.getMinutes()).slice(-2);
-    let hour = ("00" + UTC.getHours()).slice(-2);
-    let daynum = ("00" + UTC.getDate()).slice(-2);
-    let month = ("00" + UTC.getMonth()).slice(-2);
-    let year = ("0000" + UTC.getFullYear()).slice(-2);
-
-    let date = `${hour}:${min} ${daynum}/${month}/${year}`;
-
-    return date;
-}
 
 export const trim = (str: string, max: number): string =>
     (str.length ?? "") > max ? `${str.slice(0, max - 1)}…` : str;
@@ -172,27 +139,5 @@ export async function stringFromEmbed(message: CommandInteractionOption["message
  }
 
  return msg;
-}
-
-
-export async function strIncludes(string: string, contains: string | string[], endsWith: boolean = false): Promise<boolean> {
-    if (!endsWith) {
-        if (!Array.isArray(contains)) {
-            if (string.includes(contains)) return true;
-        } else {
-            for (let str of contains) {
-                if (string.includes(str)) return true;
-            }
-        }
-    } else {
-        if (!Array.isArray(contains)) {
-            if (string.endsWith(contains)) return true;
-        } else {
-            for (let str of contains) {
-                if (string.endsWith(str)) return true;
-            }
-        }
-    }
-    return false;
 }
 

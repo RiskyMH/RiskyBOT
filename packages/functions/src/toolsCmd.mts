@@ -1,5 +1,5 @@
 import { EmbedBuilder } from "discord.js";
-import fetch from "node-fetch";
+import {fetch} from "undici";
 import { codeBlock, ContextMenuCommandBuilder, inlineCode, SlashCommandBuilder, SlashCommandStringOption, SlashCommandSubcommandBuilder, spoiler } from "@discordjs/builders";
 import * as tools from "@riskybot/tools";
 import type { Config, EnvEnabled } from "@riskybot/tools";

@@ -22,7 +22,6 @@ export default async function deepai(config: Config, input:string, type:string, 
  switch (type) {
   case "text-generator":
    var resp = await deepaiFunc.callStandardApi("text-generator", {text: input});
-   console.log(resp);
    deepEmbed
     .setTitle("Text generation - " + inlineCode(tools.trim(input, 15)))
     .setURL("https://deepai.org/machine-learning-model/text-generator")

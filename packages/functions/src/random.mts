@@ -1,7 +1,7 @@
 import { inlineCode, italic, EmbedBuilder, ButtonBuilder, ActionRowBuilder, MessageActionRowComponentBuilder, SlashCommandBuilder, SlashCommandSubcommandBuilder, SlashCommandNumberOption, SlashCommandSubcommandGroupBuilder, SlashCommandStringOption } from "@discordjs/builders";
 import { ButtonStyle } from "discord-api-types/v10";
 import type { ApplicationCommandOptionChoiceData, InteractionReplyOptions } from "discord.js";
-import fetch from "node-fetch";
+import {fetch} from "undici";
 import { EnvEnabled, getBetweenStr } from "@riskybot/tools";
 import type { Config } from "@riskybot/tools";
 import { reddit, redditAutoComplete } from "./index.mjs";

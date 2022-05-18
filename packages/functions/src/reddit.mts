@@ -1,4 +1,4 @@
-import fetch from "node-fetch";
+import {fetch} from "undici";
 import { hyperlink, inlineCode, time, ActionRowBuilder, ButtonBuilder, EmbedBuilder, MessageActionRowComponentBuilder, SlashCommandBuilder, SlashCommandStringOption } from "@discordjs/builders";
 import {ButtonStyle} from "discord-api-types/v10";
 import * as tools from "@riskybot/tools";
@@ -25,7 +25,6 @@ export default async function search(config: Config, subEngine: string, input: s
 
     switch (subEngine) {
         case "random-post": {
-            /** @type {import("../types").RedditRandomSubredditPosts[0]} */
             let redditPostList = await fetch(redditBaseURL + "r/" + (encodeURIComponent(input.replace("r/", ""))) + "/random.json?" + new URLSearchParams({ sort: "top", t: "daily", limit: "500", include_over_18: "false" })).then((response) => response.json()).then((e: any) => e[0]);
             // let redditPostList = await fetch("https://www.reddit.com/r/teenagers/comments/rvl8e2/what_are_your_views_on_marijuana/.json").then((response) => response.json()).then(e => e[0])
             // let redditPostList = await fetch("https://www.reddit.com/r/JackSucksAtLife/comments/rrznxn/on_one_tlc_drpimple_popper_episode_theres_an_og/.json?utm_campaign=redirect&utm_medium=desktop&utm_source=reddit&utm_name=random_link").then((response) => response.json()).then(e => e[0])
@@ -76,7 +75,6 @@ export default async function search(config: Config, subEngine: string, input: s
         break;
 
     case "subreddit": {
-        /** @type {object} */
         let redditPostList: any = await fetch(redditBaseURL + "r/" + (encodeURIComponent(input.replace("r/", ""))) + "/about.json?" + new URLSearchParams()).then((response) => response.json());
 
         if (await redditPostList?.name || redditPostList.error != 404 || redditPostList.error != 403) {
@@ -135,6 +133,9 @@ export async function autoComplete(subEngine: string, input: string) {
 
 export function applicationCommands(config: Config, envEnabledList?:EnvEnabled) {
     config; envEnabledList; // Just so it is used
+
+    // Some of the commands that use this file (reddit.mts) are in about.mts, random.mts
+
     let searchSlashCommand = new SlashCommandBuilder()
         .setName("meme")
         .setDescription("🤣 Uses Reddit and r/dankmemes (or another option) to give you a random meme")

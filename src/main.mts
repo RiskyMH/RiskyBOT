@@ -2,7 +2,7 @@
 // // @ts-nocheck
 
 import { codeBlock, EmbedBuilder } from "@discordjs/builders";
-import { Client } from "discord.js";
+import { Client, Team } from "discord.js";
 
 import { mini, about, deepai, translate, meCredits, random, fun, search, searchAutoComplete, reddit, randomAutoComplete, aboutAutoComplete, toolsCmd, randomButton, evalShowModal, evalResult } from "@riskybot/functions";
 import * as tools from "@riskybot/tools";
@@ -12,8 +12,7 @@ import { PermissionFlagsBits } from "discord-api-types/v10";
 const wait = (await import("util")).promisify(setTimeout);
 
 
-//TODO: Fix errors
-
+//TODO: Test everything!
 
 // make bot
 const client: Client = new Client({ intents: 0 }); // doesn't need any intents
@@ -27,21 +26,26 @@ else console.error("\u001b[31m\u001b[1mDISCORD TOKEN REQUIRED\u001b[0m\n- put a 
 client.once("ready", async () => {
     console.info("\x1b[92mDiscord Ready!\x1b[0m");
     console.info("Name:", client.user?.username);
-    throw "abc";
+    console.info();
 });
 
-client.on("debug", console.warn);
-client.on("error", console.warn);
+client.on("debug", console.info);
+client.on("error", console.error);
 client.on("warn", console.warn);
-process.on("uncaughtException", console.warn);
+process.on("unhandledRejection", error => {
+  console.error("Unhandled promise rejection:");
+  console.error(error);
+});
+
+process.on("uncaughtException", error => {
+  console.error("Uncaught exception:");
+  console.error(error);
+});
 
 //////////////////////\\\\\\\\\\\\\\\\\\\\\
 ///////////////    COMMANDS    \\\\\\\\\\\\
 //////////////////////\\\\\\\\\\\\\\\\\\\\\
 client.on("interactionCreate", async (interaction) => {
-
-    // console.log(interaction)
-    // const colors = config.colors;
 
     // the template embeds for `done` or `error`
     // const doneEmb = new EmbedBuilder().setColor(config.getColors().good).setTitle("Done!");
@@ -98,11 +102,11 @@ client.on("interactionCreate", async (interaction) => {
 
             case "deep-ai": {
                 const type = interaction.options.getSubcommand(true);
-                const input = interaction.options.getString("input") || interaction.options.getString("text");
+                let input = interaction.options.getString("input");
+                input ||= interaction.options.getString("text");
 
                 await interaction.deferReply();
-                if (!type || !input) return;
-                const data = await deepai(config, input, type, process.env.deepapi);
+                const data = await deepai(config, input || "", type, process.env.deepapi);
                 await interaction.editReply(data);
             }
                 break;
@@ -134,12 +138,10 @@ client.on("interactionCreate", async (interaction) => {
                 let num2 = interaction.options.getInteger("num2");
                 num1 ||= interaction.options.getInteger("min");
                 num2 ||= interaction.options.getInteger("max");
-                num1 ||= 0; num2 ||= 0;
                 let text1 = interaction.options.getString("sub-reddit");
                 text1 ||= interaction.options.getString("category");
-                text1 ||= "";
 
-                const data = await random(config, type, num1, num2, text1);
+                const data = await random(config, type, num1 || 0, num2 || 0, text1 || "");
                 await interaction.reply(data);
             }
                 break;
@@ -174,9 +176,8 @@ client.on("interactionCreate", async (interaction) => {
                 const type = interaction.options.getSubcommand(true);
                 let input = interaction.options.getString("input");
                 input ||= interaction.options.getString("song-name");
-                input ||= "";
 
-                const data = await search(config, type, input);
+                const data = await search(config, type, input || "");
 
                 await interaction.reply(data);
             }
@@ -198,9 +199,8 @@ client.on("interactionCreate", async (interaction) => {
                 input ||= interaction.options.getString("question");
                 input ||= interaction.options.getString("choices");
                 let input2 = interaction.options.getString("language");
-                input ||= ""; input2 ||= "";
 
-                const data = await toolsCmd(config, type, input, input2);
+                const data = await toolsCmd(config, type, input || "", input2 || "");
                 await interaction.reply(data);
             }
                 break;
@@ -219,12 +219,13 @@ client.on("interactionCreate", async (interaction) => {
     }
     // Buttons
     if (interaction.isButton()) {
-        // try {
+
         if (!interaction?.memberPermissions?.has(PermissionFlagsBits.SendMessages)) return;
 
         switch (interaction.customId.split("-")[0]) {
             case "random": {
-                let wasOrigUsr = interaction.message.interaction?.user.id === interaction.user.id ||interaction.customId.split("-")[-1] === interaction.user.id ;
+                // TODO: Actually implement this
+                let wasOrigUsr = interaction.message.interaction?.user.id === interaction.user.id ||interaction.customId.split("-")[-1] === interaction.user.id;
                 const data = await randomButton(config, interaction.customId, interaction.user.id);
                 interaction.reply({ embeds: data.embeds, components: data.components, ephemeral: !wasOrigUsr });
                 break;
@@ -324,26 +325,23 @@ client.on("interactionCreate", async (interaction) => {
 
         } else if (interaction.isModalSubmit()) {
             switch (interaction.customId) {
+
+                // OWNER ONLY COMMANDS BELOW:
                 case "eval": {
                     await interaction.client?.application?.fetch();
                     if (interaction.user.id !== client.application?.owner?.id) return;
+                    if (client.application?.owner instanceof Team && !client.application?.owner.members.has(interaction.user.id)) return;
+
                     const input = interaction.components[0].components[0].data.value ?? "";
                     // let input = interaction.fields.getTextInputValue("code");
                     let hasError = false; let evalRes;
                     try {
-                        //@ts-ignore
-                        // eslint-disable-next-line no-unused-vars 
-                        const discordBuilders = await import("@discordjs/builders");
-                        //@ts-ignore
-                        // eslint-disable-next-line no-unused-vars 
-                        const discordJs = await import("discord.js");
                         evalRes = await eval(input);
-                    } catch (err) { evalRes = err; hasError = true; console.warn(err); }
+                    } catch (err) { evalRes = err; hasError = true; console.error("EVAL RESULT ERROR BELOW:"); console.error(err); }
 
                     const data = await evalResult(config, input, evalRes, hasError);
 
                     await interaction.reply(data);
-
 
                 }
             }

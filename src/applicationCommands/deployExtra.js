@@ -32,7 +32,6 @@ client.once("ready", async () => {
 
     await rest.put(Routes.applicationCommands(client.user.id, ), { body: data });
     console.info("\x1b[92mReloaded `extra` application (/) commands.\x1b[0m");
-    console.log(await rest.get(Routes.applicationCommands(client.user.id)));
 
     if (!process.env.discordapiExtra) console.warn("This is using the main discord key - if this used it could override the main's commands");
 

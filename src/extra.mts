@@ -1,12 +1,11 @@
 import { Client } from "discord.js";
 import {GatewayIntentBits, PermissionFlagsBits} from "discord-api-types/v10";
-
 import { mini, say, meCreditsExtra } from "@riskybot/functions";
-import tools from "@riskybot/tools";
+import * as tools from "@riskybot/tools";
 import { EmbedBuilder } from "@discordjs/builders";
 
 
-//TODO: Fix errors
+// LATER-TODO: Make actually useful
 
 
 // make bot
@@ -40,11 +39,12 @@ client.once("disconnect", () => console.warn("Disconnect!"));
 client.on("debug", console.warn);
 client.on("error", console.warn);
 process.on("uncaughtException", console.warn);
+process.on("unhandledRejection", console.warn);
 
 client.on("guildCreate", async (guild) => {
     if (await guild.members.fetch(client?.user?.id ??"1") ? guild?.systemChannel?.permissionsFor(await guild.members.fetch(client?.user?.id ??"1"))?.has(PermissionFlagsBits.SendMessages) : null) {
         // make sure that the bot can sent message
-        guild.systemChannel?.send("Hello, thank you for inviting me to this server. Info: https://riskymh.github.io/RiskyBOT/added/extra (btw I use `/` slash commands) ");
+        guild.systemChannel?.send("Hello, thank you for inviting me to this server. [Info](https://riskymh.github.io/RiskyBOT/added/extra) (btw I use `/` slash commands) ");
     }
 });
 
@@ -60,7 +60,7 @@ async function msgWordHas(msg: string, what: string): Promise<boolean> {
 
 client.on("messageCreate", async (message) => {
 
-    const mePerms = await (await message?.guild?.members.fetch(client?.user?.id ??"1"))?.permissionsIn(message.channelId);
+    const mePerms = (await message?.guild?.members.fetch(client?.user?.id ??"1"))?.permissionsIn(message.channelId);
     const serversNoMessage = (process.env.serversNoMessage ? JSON.parse(process.env.serversNoMessage) : []);
 
     if ((message.guild ? (serversNoMessage.length ? serversNoMessage.includes(message.guild.id) : !null) : null) ||
@@ -81,10 +81,11 @@ client.on("messageCreate", async (message) => {
     if (await msgWordHas(msg, "bruh")) await message.react("🍔");
     if (await msgWordHas(msg, "what")) await message.react("🐳");
     if (await msgWordHas(msg, "gg")) await message.channel.send("gg");
-    if (await msg === "f") await message.channel.send("F");
+    if (msg === "f") await message.channel.send("F");
 
     const serversExtraMessage: string[] = JSON.parse(process.env.serversExtraMessage?? "") ?? [];
     if (message.guild ? (serversExtraMessage?.length ? serversExtraMessage?.includes(message?.guild?.id) : !null) : !null) {
+        // Just random things that I found...
         if (await msgWordHas(msg, "hi")) await message.react("👋");
         if (await msgWordHas(msg, "walk")) await message.react("🚶");
         if (await msgWordHas(msg, "pwease")) await message.react("🙏");
@@ -114,8 +115,8 @@ client.on("messageCreate", async (message) => {
         if (await msgWordHas(msg, "yee")) await message.react("🦖");
         if (await msgWordHas(msg, "rickroll")) await message.react("<a:rick:889013459763728454>");
 
-        if (await msg === "f") await message.channel.send(message.author.username + " has paid their respects");
-        if (await msg === "good night") {
+        if (msg === "f") await message.channel.send(message.author.username + " has paid their respects");
+        if (msg === "good night") {
             await message.react("☁️");
             await message.react("🌙");
             await message.react("✨");
@@ -127,7 +128,7 @@ client.on("messageCreate", async (message) => {
 client.on("messageReactionAdd", async (messageReaction, user) => {
     user;
 
-    const mePerms = await (await messageReaction.message?.guild?.members.fetch(client?.user?.id ??"1"))?.permissionsIn(messageReaction.message.channelId);
+    const mePerms = (await messageReaction.message?.guild?.members.fetch(client?.user?.id ??"1"))?.permissionsIn(messageReaction.message.channelId);
 
     if (!JSON.parse(process.env.serversExtraMessage ?? "{}") || mePerms?.has(PermissionFlagsBits.AddReactions) ||
         messageReaction.message.reactions.cache.entries.length <= 20 ||

@@ -1,4 +1,4 @@
-import fetch from "node-fetch";
+import {fetch} from "undici";
 
 const urbanBaseURL = "https://api.urbandictionary.com/v0/";
 

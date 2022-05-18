@@ -3,7 +3,6 @@
     "description": "A collection of tools for building and maintaining the RiskyBOT project",
     "version": "4.0.0",
     "dependencies": {
-        "node-fetch": "^3.2.4"
     },
     "directories": {
         "lib": "src"

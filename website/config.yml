@@ -1,3 +1,4 @@
+# The schema that is chosen is incorrect for this, use Hugo docs for info 
 baseURL: "http://riskymh.github.io/RiskyBOT"
 title: RiskyBOT
 paginate: 5

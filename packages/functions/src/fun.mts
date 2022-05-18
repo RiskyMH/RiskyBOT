@@ -1,7 +1,7 @@
 import { EmbedBuilder, inlineCode, SlashCommandBuilder, SlashCommandStringOption, SlashCommandSubcommandBuilder, SlashCommandUserOption } from "@discordjs/builders";
 import type { User, CommandInteractionOption, InteractionReplyOptions } from "discord.js";
 import type { Config, EnvEnabled } from "@riskybot/tools";
-import fetch from "node-fetch";
+import {fetch} from "undici";
 
 const nekoBaseURL = "https://nekobot.xyz/api/";
 const sraBaseURL = "https://some-random-api.ml/";
@@ -133,6 +133,7 @@ export default async function fun(config: Config, type: string, inputUser1: User
       // @ts-expect-error - using types that isn't existing (vscode)
       new URLSearchParams({comment: inputText,username: inputUser1.username, avatar: inputUser1.displayAvatarURL({extension: "png", size:512}), displayname: inputMember1?.displayName ?? inputUser1.username,})
     ).then((response) => response.url);
+    console.log(fun);
     funEmb
      .setImage(await fun)
      .setAuthor({
