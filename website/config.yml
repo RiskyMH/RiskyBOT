@@ -1,5 +1,5 @@
 # The schema that is chosen is incorrect for this, use Hugo docs for info 
-baseURL: "http://riskymh.github.io/RiskyBOT"
+baseURL: "http://riskybot.pages.dev"
 title: RiskyBOT
 paginate: 5
 theme: PaperMod
@@ -37,7 +37,8 @@ params:
 
     label:
         text: "RiskyBOT"	
-        icon: "/RiskyBOT/robot.svg"
+        # icon: "/RiskyBOT/robot.svg"
+        icon: "/robot.svg"
         iconHeight: 35
 
     # home-info mode
