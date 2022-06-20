@@ -36,13 +36,13 @@ You can use Railway to host your bot. But anything will work.
 * A: It is has some extra commands and does stuff with text input (reaction to some words)
 
 * Q: There are no commands on the Discord app
-* A: you need to `deployCommands` otherwise it wont work
+* A: you need to `deployCommands` otherwise it won't work
 
 ## How to configure
 
 ### Using [`config.yml`](./config.yml)
 
-You can currently use this file to change some UI settings (eg. colures)
+You can currently use this file to change some UI settings (eg. colors)
 
 The available features are in the file by default
 

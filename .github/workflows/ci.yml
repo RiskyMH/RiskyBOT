@@ -23,7 +23,18 @@ jobs:
         with:
           node-version: 18
           cache: 'yarn'
-          cache-dependency-path: yarn.lock
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
+
+      - uses: actions/cache@v3
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
 
       - name: Turbo cache
         id: turbo-cache
@@ -34,8 +45,13 @@ jobs:
           restore-keys: |
             turbo-${{ github.job }}-${{ github.ref_name }}-
 
-      - run: yarn install --immutable
-      - run: yarn build --cache-dir=".turbo"
+      - name: Install dependencies 
+        # if: ${{ steps.yarn-cache.outputs.cache-hit != 'true' }}
+        run: yarn install --immutable
+
+      - name: Run Build
+        # run: yarn build
+        run: yarn turbo run build --cache-dir=".turbo" && yarn tsc 
 
   eslint:
     runs-on: ubuntu-latest
@@ -48,7 +64,18 @@ jobs:
         with:
           node-version: 18
           cache: 'yarn'
-          cache-dependency-path: yarn.lock
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
+
+      - uses: actions/cache@v3
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
 
       - name: Turbo cache
         id: turbo-cache
@@ -59,5 +86,9 @@ jobs:
           restore-keys: |
             turbo-${{ github.job }}-${{ github.ref_name }}-
 
-      - run: yarn install --immutable
-      - run: yarn lint --cache-dir=".turbo"
+      - name: Install dependencies 
+        # if: ${{ steps.yarn-cache.outputs.cache-hit != 'true' }}
+        run: yarn install --immutable
+
+      - name: Run ESLint
+        run: yarn lint --cache-dir=".turbo"

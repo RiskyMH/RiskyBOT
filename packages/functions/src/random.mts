@@ -2,7 +2,7 @@ import { inlineCode, italic, EmbedBuilder, ButtonBuilder, ActionRowBuilder, Mess
 import { ButtonStyle } from "discord-api-types/v10";
 import { fetch } from "undici";
 import { EnvEnabled, getBetweenStr } from "@riskybot/tools";
-import { reddit, redditAutoComplete } from ".";
+import { reddit, redditAutoComplete } from "./index.mjs";
 import type { ApplicationCommandOptionChoiceData, InteractionReplyOptions } from "discord.js";
 import type { Config } from "@riskybot/tools";
 

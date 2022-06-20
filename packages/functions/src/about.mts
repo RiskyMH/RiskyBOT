@@ -2,7 +2,7 @@ import { time, hyperlink,inlineCode, userMention, bold, codeBlock, EmbedBuilder,
 import { ApplicationCommandOptionChoiceData, EmbedFieldData, CommandInteractionOption, ContextMenuCommandBuilder } from "discord.js";
 import { PermissionsBitField } from "discord.js";
 import { ApplicationCommandType, PermissionFlagsBits } from "discord-api-types/v10";
-import { redditAutoComplete, reddit } from ".";
+import { redditAutoComplete, reddit } from "./index.mjs";
 import { listFormatter } from "@riskybot/tools";
 import { topgg } from "@riskybot/apis";
 import type { Config, EnvEnabled } from "@riskybot/tools";
