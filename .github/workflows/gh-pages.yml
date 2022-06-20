@@ -5,8 +5,13 @@ on:
     branches:
       - main  # Set a branch to deploy
     paths:
-      - "gh-pages/**"
+      - "website/**"
   pull_request:
+    branches:
+      - main  # Set a branch to deploy
+    paths:
+      - "website/**"
+
 
 jobs:
   deploy:
@@ -23,11 +28,20 @@ jobs:
           hugo-version: 'latest'
 
       - name: Build
-        run: ( cd gh-pages && hugo --minify )
+        run: ( cd website && hugo --minify --baseURL=https://riskymh.github.io/RiskyBOT )
+        
+      - name: Build artifact page
+        run: ( cd website && hugo --baseURL=http://localhost --destination=publicLocalhost ) 
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Website
+          path: ./website/publicLocalhost 
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         if: github.ref == 'refs/heads/main'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./gh-pages/public
+          publish_dir: ./website/public

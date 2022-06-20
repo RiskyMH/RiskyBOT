@@ -4,13 +4,14 @@
         "node": true
     },
     "extends": [
-        "eslint:recommended",
-        "plugin:@typescript-eslint/recommended"
+        "eslint:recommended"
+        // "plugin:@typescript-eslint/recommended"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaVersion": 13,
-        "sourceType": "module"
+        "sourceType": "module",
+        "project": ["./tsconfig.json"]
     },
     "plugins": [
         "@typescript-eslint"
@@ -25,6 +26,13 @@
             "error",
             "always"
         ],
-        "no-unused-vars":"warn"
+        "no-unused-vars":"warn",
+        "no-warning-comments": "warn",
+        "no-console": [
+            "warn",
+            {
+                "allow": ["warn", "error", "info"]
+            }
+        ]
     }
 }

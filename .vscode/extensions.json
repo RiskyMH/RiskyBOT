@@ -7,6 +7,7 @@
         "visualstudioexptteam.vscodeintellicode",
         "aaron-bond.better-comments",
         "eg2.vscode-npm-script",
-        "dbaeumer.vscode-eslint"
+        "dbaeumer.vscode-eslint",
+        "redhat.vscode-yaml"
     ]
 }

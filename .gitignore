@@ -4,6 +4,8 @@ _site
 _gen
 public
 soon.js
+RiskyBOT/
+gen/*
 
 # Logs
 logs
@@ -109,3 +111,6 @@ dist
 
 # TernJS port file
 .tern-port
+
+
+.turbo
