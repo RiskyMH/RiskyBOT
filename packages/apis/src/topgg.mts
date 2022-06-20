@@ -9,14 +9,14 @@ export async function rawUserInfo(id: string, topggKey: string): Promise<RawUser
         "Content-Type": "application/json",
     };
 
-    let rawResult = await fetch( topggBaseUrl+ "/users/"+ id, { headers });
+    const rawResult = await fetch( topggBaseUrl+ "/users/"+ id, { headers });
 
     if (rawResult.status !== 200) {
         console.warn("Error fetching top.gg user info: " + rawResult.status);
         return null;
     }
 
-    let result: RawUserInfoResult = await rawResult.json() as RawUserInfoResult;
+    const result: RawUserInfoResult = await rawResult.json() as RawUserInfoResult;
 
     if (!result) {
         console.warn("Cant find top.gg user");
@@ -33,14 +33,14 @@ export async function rawBotInfo(id: string, topggKey: string): Promise<RawBotIn
         "Content-Type": "application/json",
     };
 
-    let rawResult = await fetch( topggBaseUrl+ "/bots/"+ id, { headers });
+    const rawResult = await fetch( topggBaseUrl+ "/bots/"+ id, { headers });
 
     if (rawResult.status !== 200) {
         console.warn("Error fetching top.gg bot info: " + rawResult.status);
         return null;
     }
 
-    let result: RawBotInfoResult = await rawResult.json() as RawBotInfoResult;
+    const result: RawBotInfoResult = await rawResult.json() as RawBotInfoResult;
 
     if (!result) {
         console.warn("Cant find top.gg bot");
@@ -51,13 +51,13 @@ export async function rawBotInfo(id: string, topggKey: string): Promise<RawBotIn
 
 export async function botInfo(id: string, topggKey: string): Promise<BotInfoResult|null|undefined> {
 
-    let result = await rawBotInfo(id, topggKey);
+    const result = await rawBotInfo(id, topggKey);
 
     if (!result) {
         return null;
     }
 
-    let safeResult: BotInfoResult = {} as BotInfoResult;
+    const safeResult: BotInfoResult = {} as BotInfoResult;
 
     try{
         safeResult.id = String(result?.id || "");
@@ -70,14 +70,14 @@ export async function botInfo(id: string, topggKey: string): Promise<BotInfoResu
         safeResult.shortdesc = String(result?.shortdesc || "");
         safeResult.longdesc = String(result?.longdesc || "");
         safeResult.tags = [];
-        for (let owner of result?.tags || []) safeResult.tags.push(String(owner || ""));
+        for (const owner of result?.tags || []) safeResult.tags.push(String(owner || ""));
         safeResult.website = result?.website ? String(result?.website) : undefined;
         safeResult.support = result?.support ? String(result?.support) : undefined;
         safeResult.github = result?.github ? String(result?.github) : undefined;
         safeResult.owners = [];
         safeResult.guilds = [];
-        for (let owner of result?.owners || []) safeResult.owners.push(String(owner || ""));
-        for (let owner of result?.guilds || []) safeResult.guilds.push(String(owner || ""));
+        for (const owner of result?.owners || []) safeResult.owners.push(String(owner || ""));
+        for (const owner of result?.guilds || []) safeResult.guilds.push(String(owner || ""));
         safeResult.invite = result?.invite ? String(result?.invite) : undefined;
         safeResult.date = new Date(result?.invite?? new Date);
         safeResult.server_count = result?.server_count ? Number(result?.server_count) : undefined;
@@ -95,13 +95,13 @@ export async function botInfo(id: string, topggKey: string): Promise<BotInfoResu
 
 export async function userInfo(id: string, topggKey: string): Promise<UserInfoResult|null|undefined> {
     
-    let result = await rawUserInfo(id, topggKey);
+    const result = await rawUserInfo(id, topggKey);
 
     if (!result) {
         return null;
     }
 
-    let safeResult: UserInfoResult = {} as UserInfoResult;
+    const safeResult: UserInfoResult = {} as UserInfoResult;
 
     try{
         safeResult.id = String(result?.id || "");

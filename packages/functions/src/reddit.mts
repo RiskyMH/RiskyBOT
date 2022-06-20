@@ -11,7 +11,7 @@ const redditBaseURL = "https://reddit.com/";
 //TODO: Migrate the fetch into `@riskybot/apis`
 
 
-export default async function search(config: Config, subEngine: string, input: string) {
+export default async function search(config: Config, subEngine: string, input: string, userId?: string) {
     let searEmb = new EmbedBuilder().setTitle("Fun").setColor(config.getColors().ok);
     let errorEmb = new EmbedBuilder().setTitle("Errors - search").setColor(config.getColors().error);
     let row = new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents([
@@ -46,7 +46,7 @@ export default async function search(config: Config, subEngine: string, input: s
                     .setFooter({text: "Posted by: " + filtered.data.author})
                     .setTitle(filtered.data.title);
 
-                row.components[0].setCustomId(`random-again-randomPost-reddit-(${filtered.data.subreddit})`);
+                row.components[0].setCustomId(`random-again-randomPost-reddit-(${filtered.data.subreddit})${userId ? "-" + userId : ""}`);
                 // @ts-expect-error - .setURL() errors
                 row.components[1].setURL(redditBaseURL.slice(0, -1) + await filtered.data.permalink);
                 searEmb.addFields([{name:"Stats", value:`\`👍${filtered.data.ups}\` \`👎${filtered.data.downs}\` \`💬${filtered.data.num_comments}\``}]);
@@ -88,7 +88,7 @@ export default async function search(config: Config, subEngine: string, input: s
                 .addFields([{name: "Short description", value: tools.trim(await redditChosen.public_description||"*No description provided*", 1024)}])
                 .addFields([{name: "Made", value: time(await redditChosen.created_utc)}]);
             // @ts-expect-error - .setLabel() errors
-            row.components[0].setCustomId(`random-again-randomPost-reddit-(${input})`).setLabel("Random post in subreddit").setStyle(ButtonStyle.Secondary);
+            row.components[0].setCustomId(`random-again-randomPost-reddit-(${input})${userId? "-"+userId : ""}`).setLabel("Random post in subreddit").setStyle(ButtonStyle.Secondary);
             // @ts-expect-error - .setLabel() errors
             row.components[1].setURL(redditBaseURL.slice(0, -1) + await redditChosen.url);
 
@@ -131,7 +131,7 @@ export async function autoComplete(subEngine: string, input: string) {
 }
 
 
-export function applicationCommands(config: Config, envEnabledList?:EnvEnabled) {
+export function applicationCommands(config?: Config, envEnabledList?: EnvEnabled) {
     config; envEnabledList; // Just so it is used
 
     // Some of the commands that use this file (reddit.mts) are in about.mts, random.mts

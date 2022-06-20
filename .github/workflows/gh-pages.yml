@@ -28,10 +28,10 @@ jobs:
           hugo-version: 'latest'
 
       - name: Build
-        run: ( cd website && hugo --minify )
+        run: ( cd website && hugo --minify --baseURL=https://riskymh.github.io/RiskyBOT )
         
       - name: Build artifact page
-        run: ( cd website && hugo -b http://localhost -d publicLocalhost ) 
+        run: ( cd website && hugo --baseURL=http://localhost --destination=publicLocalhost ) 
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3

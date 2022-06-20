@@ -1,16 +1,16 @@
 import { bold, ContextMenuCommandBuilder, inlineCode, SlashCommandBuilder, SlashCommandStringOption, SlashCommandSubcommandBuilder, EmbedBuilder } from "@discordjs/builders";
-import * as tools from "@riskybot/tools";
-import type { InteractionReplyOptions } from "discord.js";
-import type { Config, EnvEnabled } from "@riskybot/tools";
+import { trim } from "@riskybot/tools";
 // @ts-expect-error The function has no types :(
 import { default as deepaiFunc } from "deepai";
 import { ApplicationCommandType } from "discord-api-types/v10";
+import type { InteractionReplyOptions } from "discord.js";
+import type { Config, EnvEnabled } from "@riskybot/tools";
 
 
 //TODO: Make sure everything works...
 
 
-export default async function deepai(config: Config, input:string, type:string, deepaiKey:string = ""): Promise <InteractionReplyOptions> {
+export default async function deepai(config: Config, input: string, type: string, deepaiKey: string = ""): Promise <InteractionReplyOptions> {
  if (!deepaiKey) {
   console.error("DeepAI requires key");
   return { content: "DeepAI not working" };
@@ -23,10 +23,10 @@ export default async function deepai(config: Config, input:string, type:string, 
   case "text-generator":
    var resp = await deepaiFunc.callStandardApi("text-generator", {text: input});
    deepEmbed
-    .setTitle("Text generation - " + inlineCode(tools.trim(input, 15)))
+    .setTitle("Text generation - " + inlineCode(trim(input, 15)))
     .setURL("https://deepai.org/machine-learning-model/text-generator")
     .setDescription(
-     tools.trim(await resp.output.replace(input, bold(input)), 4096)
+     trim(await resp.output.replace(input, bold(input)), 4096)
     )
     .setFooter({ text: "AI made by: deepai" });
 
@@ -42,9 +42,9 @@ export default async function deepai(config: Config, input:string, type:string, 
 }
 
 
-export function applicationCommands(config: Config, envEnabledList?: EnvEnabled) {
+export function applicationCommands(config?: Config, envEnabledList?: EnvEnabled) {
 
-    if (config.apiEnabled.deepai && envEnabledList?.HasDeepApi) {
+    if (config?.apiEnabled.deepai && envEnabledList?.HasDeepaiToken) {
         let deepaiSlashCommand = new SlashCommandBuilder()
             .setName("deep-ai")
             .setDescription("Uses AI to produce results")

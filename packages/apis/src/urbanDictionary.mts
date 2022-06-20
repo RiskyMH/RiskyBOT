@@ -2,14 +2,16 @@ import {fetch} from "undici";
 
 const urbanBaseURL = "https://api.urbandictionary.com/v0/";
 
-export async function rawDefine(term: string): Promise<RawDefineResult|null> {
-    let rawResult = await fetch(urbanBaseURL + "define?" + new URLSearchParams({ term })).catch(null);
-
-    if (!rawResult || rawResult.status !== 200) {
+export async function rawDefine(term: string): Promise<RawDefineResult|null|undefined> {
+    const rawResult = await fetch(urbanBaseURL + "define?" + new URLSearchParams({ term })).catch(null);
+    
+    if (rawResult.status === 404) {
         return null;
+    } else if (!rawResult || rawResult.status !== 200) {
+        return undefined;
     }
 
-    let result: RawDefineResult = await rawResult.json() as RawDefineResult;
+    const result: RawDefineResult = await rawResult.json() as RawDefineResult;
 
     if (!result.list.length) {
         return null;
@@ -18,14 +20,16 @@ export async function rawDefine(term: string): Promise<RawDefineResult|null> {
     return result;
 }
 
-export async function rawAutoComplete(term: string): Promise<RawAutoCompleteResult|null> {
-    let rawResult = await fetch(urbanBaseURL + "autocomplete?" + new URLSearchParams({ term })).catch(null);
+export async function rawAutoComplete(term: string): Promise<RawAutoCompleteResult|null|undefined> {
+    const rawResult = await fetch(urbanBaseURL + "autocomplete?" + new URLSearchParams({ term })).catch(null);
     
-    if (!rawResult || rawResult.status !== 200) {
+    if (rawResult.status === 404) {
         return null;
+    } else if (!rawResult || rawResult.status !== 200) {
+        return undefined;
     }
 
-    let result: RawAutoCompleteResult = await rawResult.json() as RawAutoCompleteResult;
+    const result: RawAutoCompleteResult = await rawResult.json() as RawAutoCompleteResult;
 
     if (!result.length) {
          return null;
@@ -35,26 +39,28 @@ export async function rawAutoComplete(term: string): Promise<RawAutoCompleteResu
 }
 
 /** Always returns a list of strings - null if error or no results */
-export async function define(term: string): Promise<DefineResult|null> {
-    let result: RawDefineResult | null;
+export async function define(term: string): Promise<DefineResult|null|undefined> {
+    let result: RawDefineResult | null | undefined;
     try{
         result = await rawDefine(term);
-    } catch (e) {console.warn(e); return null;}
+    } catch (e) {console.warn(e); return undefined;}
 
     if (!result || !result.list) {
-        return null;
+        if (result === null) return null;
+        else if (result === undefined) return undefined;
+        else return null;
     }
 
-    let safeResult: DefineResult = [];
+    const safeResult: DefineResult = [];
 
-    for (let res of result.list){
+    for (const res of result.list) {
         try{
-            let safeDefinition: DefineResult[0] = {} as DefineResult[0];
+            const safeDefinition: DefineResult[0] = {} as DefineResult[0];
 
             safeDefinition.definition = String(res?.definition || "");
             safeDefinition.permalink = String(res?.permalink || "");
             safeDefinition.thumbs_up = Number(res?.thumbs_up || 0);
-            for (let url of res?.sound_url||[]){
+            for (const url of res?.sound_url||[]) {
                 safeDefinition.sound_url.push(String(url||""));
             }
             safeDefinition.author = String(res?.author || "");
@@ -74,16 +80,18 @@ export async function define(term: string): Promise<DefineResult|null> {
 }
 
 /** Always returns a list of strings - list of none if error or no results */
-export async function autoComplete(term: string): Promise<AutoCompleteResult|null> {
-    let result = await rawAutoComplete(term);
+export async function autoComplete(term: string): Promise<AutoCompleteResult|null|undefined> {
+    const result = await rawAutoComplete(term);
 
     if (!result || !result.length) {
-        return null;
+        if (result === null) return null;
+        else if (result === undefined) return undefined;
+        else return null;
     }
 
-    let safeResult: AutoCompleteResult = [];
+    const safeResult: AutoCompleteResult = [];
 
-    for (let res of result){
+    for (const res of result) {
         try{
             safeResult.push(String(res));
         } catch {return null;}

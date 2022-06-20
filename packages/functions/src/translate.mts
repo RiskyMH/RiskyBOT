@@ -31,9 +31,9 @@ export default async function translate(config: Config, input: string, to: strin
     return { embeds: [exampleEmbed] };
 }
 
-export function applicationCommands(config: Config, envEnabledList?:EnvEnabled) {
-    config; envEnabledList; // Just so it is used
-    if (config.apiEnabled.googletranslate){
+export function applicationCommands(config?: Config, envEnabledList?: EnvEnabled) {
+    envEnabledList; // Just so it is used
+    if (config?.apiEnabled.googleTranslate) {
         let translateSlashCommand = new SlashCommandBuilder()
             .setName("translate")
             .setDescription("Uses google translate")

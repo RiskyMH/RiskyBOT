@@ -11,10 +11,10 @@ export {applicationCommands as toolsCmd} from "./toolsCmd.mjs";
 export {applicationCommands as translate} from "./translate.mjs";
 
 // mini's commands
-import type { Config, EnvEnabled } from "@riskybot/tools";
 import { SlashCommandBuilder, SlashCommandStringOption } from "@discordjs/builders";
+import type { Config, EnvEnabled } from "@riskybot/tools";
 
-export function ping(config: Config, envEnabledList?: EnvEnabled) {
+export function ping(config?: Config, envEnabledList?: EnvEnabled) {
     config; envEnabledList; // Just so it is used
 
     let pingSlashCommand = new SlashCommandBuilder()
@@ -22,7 +22,7 @@ export function ping(config: Config, envEnabledList?: EnvEnabled) {
         .setDescription("Replies with pong!");
         return [pingSlashCommand];
 }
-export function message(config: Config, envEnabledList?: EnvEnabled) {
+export function message(config?: Config, envEnabledList?: EnvEnabled) {
     config; envEnabledList; // Just so it is used
 
     let messageSlashCommand = new SlashCommandBuilder()

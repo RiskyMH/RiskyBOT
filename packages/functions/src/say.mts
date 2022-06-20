@@ -1,6 +1,6 @@
-import { EmbedBuilder } from "discord.js";
-import type {BaseGuildTextChannel, Client, User, GuildMember } from "discord.js";
-import { PermissionFlagsBits } from "discord-api-types/v10";
+import { AnyChannel, EmbedBuilder } from "discord.js";
+import type { Client, User, GuildMember } from "discord.js";
+import { ChannelType, PermissionFlagsBits } from "discord-api-types/v10";
 import * as tools from "@riskybot/tools";
 import type { Config, EnvEnabled } from "@riskybot/tools";
 import { SlashCommandBuilder, SlashCommandStringOption, SlashCommandUserOption } from "@discordjs/builders";
@@ -9,7 +9,7 @@ import { SlashCommandBuilder, SlashCommandStringOption, SlashCommandUserOption }
 //TODO: Make sure everything works...
 
 
-export default async function say(client: Client, config: Config, user: User, message: string, botMember?: GuildMember, channel?: BaseGuildTextChannel) {
+export default async function say(client: Client, config: Config, user: User, message: string, botMember?: GuildMember, channel?: AnyChannel) {
     let doneEmb = new EmbedBuilder()
         .setColor(config.getColors().ok)
         .setTitle("Done!");
@@ -17,7 +17,7 @@ export default async function say(client: Client, config: Config, user: User, me
     let errorEmb = new EmbedBuilder().setTitle("Errors - say").setColor(config.getColors().error);
     let errors = [];
 
-    if (!channel || !botMember || channel.isDM()) {
+    if (!channel || !botMember || channel.type === ChannelType.DM) {
         errors.push("This command doesn't work in `DMs`");
     } else if (!botMember.permissions.has(PermissionFlagsBits.ManageWebhooks)) {
         errors.push("This bot doesn't have permissions to to this (`MANAGE_WEBHOOKS`)");
@@ -27,8 +27,9 @@ export default async function say(client: Client, config: Config, user: User, me
     }
 
 
-    if (!errors.length && channel && client?.user ) {
+    if (!errors.length && channel && client?.user && botMember) {
         const webhook = await tools.webhookMakeOrFind(
+            // @ts-expect-error This is should be a valid webhook channel
             channel,
             client.user.username ?? "RiskyBOT",
             client.user.id
@@ -50,7 +51,7 @@ export default async function say(client: Client, config: Config, user: User, me
     }
 }
 
-export function applicationCommands(config: Config, envEnabledList?:EnvEnabled) {
+export function applicationCommands(config?: Config, envEnabledList?: EnvEnabled) {
     config; envEnabledList; // Just so it is used
     let searchSlashCommand = new SlashCommandBuilder()
         .setName("say")

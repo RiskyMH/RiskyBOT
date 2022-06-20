@@ -1,18 +1,14 @@
-# The schema that is chosen is incorrect for this, use Hugo docs for info 
-baseURL: "http://riskybot.pages.dev"
+# yaml-language-server: $schema=https://json.schemastore.org/hugo.json
 title: RiskyBOT
 paginate: 5
 theme: PaperMod
 author: RiskyMH
+# baseURL: "http://riskybot.pages.dev"
 
 enableRobotsTXT: true
 buildDrafts: false
 buildFuture: false
 buildExpired: false
-
-minify:
-    disableXML: true
-    minifyOutput: true
 
 params:
     env: production # to enable google analytics, opengraph, twitter-cards and schema.
@@ -90,11 +86,11 @@ minify:
   disableJSON: false
   disableSVG: false
   disableXML: false
-  minifyOutput: false
+  minifyOutput: true
   tdewolff:
     css:
       keepCSS2: true
-      precision: 0
+      precision: 2
     html:
       keepComments: false
       keepConditionalComments: true
@@ -108,9 +104,8 @@ minify:
       precision: 0
     json:
       keepNumbers: false
-      precision: 0
+      precision: true # 0
     svg:
       precision: 0
-      decimals: -1
     xml:
       keepWhitespace: false

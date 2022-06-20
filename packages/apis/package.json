@@ -1,28 +1,38 @@
 {
     "name": "@riskybot/apis",
-    "description": "A collection of tools for building and maintaining the RiskyBOT project",
-    "version": "4.0.0",
+    "description": "A set of function to get/use APIs for the project",
+    "version": "4.0.0-test.4",
     "dependencies": {
+        "undici": "^5.5.1"
+    },
+    "devDependencies": {
+        "typescript": "^4.7.4"
     },
     "directories": {
         "lib": "src"
     },
     "exports": {
-        ".": {
-            "types": "./dist/index.d.ts",
-            "import": "./dist/index.mjs"
-        }
+        "types": "./dist/index.d.ts",
+        "import": "./dist/index.mjs"
     },
     "files": [
-        "src"
+        "dist"
     ],
     "main": "./dist/index.js",
     "module": "./dist/index.mjs",
-    "private": true,
     "scripts": {
         "build": "tsc",
-        "postinstall": "yarn build || exit 0"
+        "lint": "eslint src/*.mts",
+        "prepublishOnly": "yarn build"
     },
     "type": "module",
-    "types": "./dist/index.d.ts"
+    "types": "./dist/index.d.ts",
+    "homepage": "https://github.com/RiskyMH/RiskyBOT/tree/v4/packages/apis",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/RiskyMH/RiskyBOT.git"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
 }

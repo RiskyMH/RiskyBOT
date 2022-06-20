@@ -1,6 +1,6 @@
-import type { Client, InteractionReplyOptions } from "discord.js";
 import { EmbedBuilder, inlineCode, SlashCommandBuilder } from "@discordjs/builders";
 import { OAuth2Scopes, PermissionFlagsBits } from "discord-api-types/v10";
+import type { Client, InteractionReplyOptions } from "discord.js";
 import type { Config, EnvEnabled } from "@riskybot/tools";
 
 //TODO: Make sure everything works...
@@ -10,7 +10,6 @@ export default async function meCredits(client: Client, config: Config): Promise
     let aboutMe = new EmbedBuilder();
     let credits = new EmbedBuilder();
 
-    // @ts-expect-error weird errors
     const invite = client.generateInvite({scopes: [OAuth2Scopes.ApplicationsCommands]});
     // const invite2 = client.generateInvite({ scopes: [OAuth2Scopes.ApplicationsCommands, OAuth2Scopes.Bot]});
     aboutMe
@@ -54,7 +53,6 @@ export async function extra(client: Client, config: Config): Promise <import("di
             PermissionFlagsBits.SendMessages,
             PermissionFlagsBits.ViewChannel
         ],
-        // @ts-expect-error weird errors
         scopes: [OAuth2Scopes.ApplicationsCommands, OAuth2Scopes.Bot],
     });
     aboutMe
@@ -86,7 +84,7 @@ export async function extra(client: Client, config: Config): Promise <import("di
 
 }
 
-export function applicationCommands(config: Config, envEnabledList?:EnvEnabled) {
+export function applicationCommands(config?: Config, envEnabledList?: EnvEnabled) {
     config; envEnabledList; // Just so it is used
     let aboutmeSlashCommand = new SlashCommandBuilder()
         .setName("-aboutme-credits-")

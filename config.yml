@@ -1,4 +1,5 @@
-#! Make sure to add your token into .env
+# yaml-language-server: $schema=./config.schema.json
+#? Make sure to add your token into .env
 
 # The colors used for the bot (eg embed color)
 colors: 
@@ -6,30 +7,21 @@ colors:
     error: "#ED4245"
     good: "#57F287"
     warning: "#FEE75C"
+    washedOut:
+      ok: "#586599"
+      
 
 # The api's enabled for the bot
 apiEnabled:
   reddit: true
-  urbandictionary: true
-  # (below) requires it in .env 
+  urbanDictionary: true
+  # (below) requires key in .env 
   topgg: true
-  # (below) requires it in .env  
+  # (below) requires key in .env  
   deepai: true
   nekobot: true
   someRandomApi: true
-  googletranslate: true
-  randomSmallOnes: 
-    pastegg: true
-    rhymebrain: true
-    awsrandomcat: true
-    dogceo: true
-    icanhazdadjoke: true
-    forismatic: true
-    affirmationsdev: true
-    evilinsultcom: true
-    excuserheroku: true
-    uselessfactspl: true
-    shibeonline: true
-    randomduk: true
-    zooanimalapiheroku: true
-    emojihubheroku: true
+  googleTranslate: true
+  randomSmallOnes:
+    randomImage: true
+    randomText: true

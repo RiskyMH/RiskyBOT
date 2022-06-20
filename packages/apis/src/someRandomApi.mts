@@ -2,14 +2,17 @@ import {fetch} from "undici";
 
 const someRandomApiBaseURL = "https://some-random-api.ml/";
 
-export async function rawLyrics(songTitle: string): Promise<RawLyricsResult|null> {
-    let rawResult = await fetch(someRandomApiBaseURL + "define?" + new URLSearchParams({ title: songTitle }));
 
-    if (rawResult.status !== 200) {
+export async function rawLyrics(songTitle: string): Promise<RawLyricsResult|null|undefined> {
+    const rawResult = await fetch(someRandomApiBaseURL + "lyrics?" + new URLSearchParams({ title: songTitle }));
+
+    if (rawResult.status === 404) {
         return null;
+    } else if (!rawResult || rawResult.status !== 200) {
+     return undefined;
     }
 
-    let result: RawLyricsResult = (await rawResult.json()) as RawLyricsResult;
+    const result: RawLyricsResult = (await rawResult.json()) as RawLyricsResult;
 
     if (!result) {
         return null;
@@ -18,17 +21,19 @@ export async function rawLyrics(songTitle: string): Promise<RawLyricsResult|null
     return result;
 }
 
-export async function getLyrics(songTitle: string): Promise<LyricsResult|null> {
-    let result: RawLyricsResult | null;
+export async function getLyrics(songTitle: string): Promise<LyricsResult|null|undefined> {
+    let result: RawLyricsResult | null | undefined;
     try{
         result = await rawLyrics(songTitle);
-    } catch (e) {console.warn(e); return null;}
+    } catch (e) {console.warn(e); return undefined;}
 
     if (!result) {
-        return null;
+        if (result === null) return null;
+        else if (result === undefined) return undefined;
+        else return null;
     }
 
-    let safeResult: LyricsResult = {} as LyricsResult;
+    const safeResult: LyricsResult = {} as LyricsResult;
 
     try{
         safeResult.lyrics = String(result?.lyrics || "");

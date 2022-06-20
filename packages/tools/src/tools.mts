@@ -1,101 +1,103 @@
 import YAML from "js-yaml";
 import { readFileSync } from "fs";
-import type {ConfigJSON} from "./types.mjs";
-import {Util} from "discord.js";
-import type{ CommandInteractionOption, BaseGuildTextChannel, Webhook } from "discord.js";
+import { resolveColor } from "discord.js";
+import type { ConfigType } from "./types.mjs";
+import type { CommandInteractionOption, Webhook, TextChannel } from "discord.js";
 
 
 export class Config {
-    constructor(location: string, ymal = false){
-
-        let config: ConfigJSON;
-        if (!ymal){
-            config = JSON.parse(readFileSync(location, "utf8"));
-        } else{
-            config = YAML.load(readFileSync(location, "utf8")) as ConfigJSON;
+    /** Can provide a location to the config (YMAL or JSON) or provide a direct object */
+    constructor(location: string, directInput?: ConfigType, ymal = false) {
+        
+        let rawConfig: ConfigType;
+        if (directInput) {
+            rawConfig = directInput;
+        } else if (!ymal) {
+            rawConfig = JSON.parse(readFileSync(location, "utf8"));
+        } else {
+            rawConfig = YAML.load(readFileSync(location, "utf8")) as ConfigType;
         }
 
-        this.colors = config.colors;
-        this.apiEnabled = config.apiEnabled;
+        // Use the provided config or the default config
+
+        this.colors = rawConfig.colors;
+        this.colors.ok ||= "#5865F2";
+        this.colors.error ||= "#ED4245";
+        this.colors.good ||= "#57F287";
+        this.colors.warning ||= "#FEE75C";
+        this.colors.washedOut ||=  rawConfig.colors.washedOut || {};
+        this.colors.washedOut.ok ||= "#586599";
+
+        this.apiEnabled = rawConfig.apiEnabled;
+        this.apiEnabled.reddit ||= true;
+        this.apiEnabled.topgg ||= false;
+        this.apiEnabled.deepai ||= false;
+        this.apiEnabled.nekobot ||= true;
+        this.apiEnabled.someRandomApi ||= true;
+        this.apiEnabled.urbanDictionary ||= true;
+        this.apiEnabled.googleTranslate ||= true;
+        this.apiEnabled.randomSmallOnes ||= rawConfig.apiEnabled?.randomSmallOnes || {};
+        this.apiEnabled.randomSmallOnes.randomImage ||= true;
+        this.apiEnabled.randomSmallOnes.randomText ||= true;
+
         // return ;
     }
-    public colors: ConfigJSON["colors"] = {ok: "#000000", error: "#000000", good: "#000000", warning: "#000000"};
-    public apiEnabled: ConfigJSON["apiEnabled"] = 
-        {reddit: true, topgg: false, deepai: false, nekobot: true, someRandomApi: true, urbandictionary: true, googletranslate: true,
-            randomSmallOnes: {
-                pastegg: true,
-                rhymebrain: true,
-                awsrandomcat: true,
-                dogceo: true,
-                icanhazdadjoke: true,
-                forismatic: true,
-                affirmationsdev: true,
-                evilinsultcom: true,
-                excuserheroku: true,
-                uselessfactspl: true,
-                shibeonline: true,
-                randomduk: true,
-                zooanimalapiheroku: true,
-                emojihubheroku: true,
-            }
+    public colors: ConfigType["colors"];
+    public apiEnabled: ConfigType["apiEnabled"];
+    public getColors() {
+        const ok = resolveColor(this.colors.ok);
+        const error = resolveColor(this.colors.error);
+        const good = resolveColor(this.colors.good);
+        const warning = resolveColor(this.colors.warning);
+        const washedOut = {
+            ok: resolveColor(this.colors.washedOut.ok),
         };
-    public getColors(){
-        const ok = Util.resolveColor(this.colors.ok);
-        const error = Util.resolveColor(this.colors.error);
-        const good = Util.resolveColor(this.colors.good);
-        const warning = Util.resolveColor(this.colors.warning);
-        return {ok, error, good, warning};
+        return {ok, error, good, warning, washedOut};
     }
 
 }
-/** Some of these vars are also controlled by the `config.yml` */
+/** To find out if something has an entry in the .env */
 export class EnvEnabled {
-    constructor(env: typeof process["env"], config?: Config){
-        config;
-        if (env.discordapi != null) this.hasDiscordApi = true;
-        if (env.discordapiExtra != null) this.hasDiscordApiExtra = true;
-        if (env.topggapi != null) this.HasTopggApi = true;
-        if (env.deepapi != null) this.HasDeepApi = true;
-        if (env.production != null) this.hasProductionBool = true;
-        if (env.ownerGuildId != null) this.hasOwnerGuildId = true;
+    constructor(env: typeof process["env"]) {
+        if (env.DISCORD_TOKEN != null) this.hasDiscordToken = true;
+        if (env.DISCORD_EXTRA_TOKEN != null) this.hasDiscordExtraToken = true;
+        if (env.TOPGG_TOKEN != null) this.HasTopggToken = true;
+        if (env.DEEPAI_TOKEN != null) this.HasDeepaiToken = true;
+        if (env.PRODUCTION != null) this.hasProductionBool = true;
+        if (env.OWNER_GUILD_ID != null) this.hasOwnerGuildId = true;
         // return ;
     }
     // [key: string]: boolean;
-    /**  Has a entry in `discordapi`? */
-    public hasDiscordApi: boolean = false;
-    /**  Has a entry in `discordapiExtra`? */
-    public hasDiscordApiExtra: boolean = false;
-    /** Has a entry in `production`? - is it in testing or in release mode - useless rn*/
-    public hasProductionBool: boolean = false;
-    /** Has a entry in `deepapi`? */
-    public HasTopggApi: boolean = false;
-    /** Has a entry in `HasDeepApi`? */
-    public HasDeepApi: boolean = false;
-    /** Has a entry in `ownerGuildId`? */
-    public hasOwnerGuildId: boolean = false;
+    /**  Has a entry in `DISCORD_TOKEN`? */
+    public hasDiscordToken = false;
+    /**  Has a entry in `DISCORD_EXTRA_TOKEN`? */
+    public hasDiscordExtraToken = false;
+    /** Has a entry in `PRODUCTION`? - is it in testing or in release mode - useless rn*/
+    public hasProductionBool = false;
+    /** Has a entry in `TOPGG_TOKEN`? */
+    public HasTopggToken = false;
+    /** Has a entry in `DEEPAI_TOKEN`? */
+    public HasDeepaiToken = false;
+    /** Has a entry in `OWNER_GUILD_ID`? */
+    public hasOwnerGuildId = false;
 }
 
-// @ts-ignore
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore - would use @ts-expect-error but some times it errors
 export const listFormatter: Intl.ListFormat = new Intl.ListFormat("en", { style: "long" });
 
-export async function webhookMakeOrFind(channel: BaseGuildTextChannel, webhookName: string, botId: string) : Promise<Webhook> {
+export async function webhookMakeOrFind(channel: TextChannel, webhookName: string, botId: string) : Promise<Webhook> {
     let webhooks = await channel.fetchWebhooks();
     let webhook = webhooks.find(
         (u) => u.name === webhookName && u.owner?.id === botId
     );
 
     if (!webhook) {
-        channel
-            .createWebhook(webhookName, {})
-            // .then((webhook) => console.log(`Created webhook ${webhook}`))
-            .catch(console.error);
-
+        channel.createWebhook({name: webhookName}).catch(console.error);
         webhooks = await channel.fetchWebhooks();
-        webhook = webhooks.find(
-            (u) => u.name === webhookName && u.owner?.id === botId
-        );
+        webhook = webhooks.find((u) => u.name === webhookName && u.owner?.id === botId);
     }
-    // @ts-expect-error
+    if (!webhook) throw new Error("Could not find or create webhook");
     return webhook;
 }
 
@@ -104,8 +106,8 @@ export const trim = (str: string, max: number): string =>
     (str.length ?? "") > max ? `${str.slice(0, max - 1)}…` : str;
 
 
-export async function getBetweenStr(string: string, statChar: string, endChar: string, splitChar: string = ""): Promise<string | string[]> {
-    let string2 = string.substring(
+export async function getBetweenStr(string: string, statChar: string, endChar: string, splitChar = ""): Promise<string | string[]> {
+    const string2 = string.substring(
         string.indexOf(statChar) + 1,
         string.lastIndexOf(endChar)
     );
@@ -118,7 +120,7 @@ export async function getBetweenStr(string: string, statChar: string, endChar: s
 export async function stringFromEmbed(message: CommandInteractionOption["message"]): Promise<string> {
     let msg = message?.content || "";
 
-    for (let emb of message?.embeds ?? []) {
+    for (const emb of message?.embeds ?? []) {
         msg += "\n";
         if (emb.author) {
             // if (emb.author.url) msg += `![Author icon](${emb.author.url}) ${emb.author.name}`;
@@ -126,7 +128,7 @@ export async function stringFromEmbed(message: CommandInteractionOption["message
         }
         if (emb.title) msg += `\n# ${emb.title}${emb.url ? ` (url: ${emb.url})` : ""}`;
         if (emb.description) msg += `\n${emb.description}`;
-        for (let embField of emb?.fields ?? []) {
+        for (const embField of emb?.fields ?? []) {
             msg += `\n## ${embField.name}`;
             msg += `\n${embField.value}`;
         }
@@ -135,8 +137,8 @@ export async function stringFromEmbed(message: CommandInteractionOption["message
         if (emb.image) msg += `\n *Image url: ${emb.image.url}*`;
         if (emb.video) msg += `\n *Video url: ${emb.video.url}*`;
         if (emb.thumbnail) msg += `\n *Thumbnail url: ${emb.thumbnail.url}*`;
-  // if (emb.color) msg+= `\nColor: ${emb.color}`
- }
+    // if (emb.color) msg+= `\nColor: ${emb.color}`
+    }
 
  return msg;
 }

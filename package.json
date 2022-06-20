@@ -4,41 +4,46 @@
   "version": "4.0.0",
   "author": "RiskyMH",
   "dependencies": {
-    "@discordjs/builders": "^0.14.0-dev.1652832619-dfe449c",
-    "@discordjs/rest": "^0.4.1",
-    "@riskybot/apis": "./packages/apis",
-    "@riskybot/functions": "./packages/functions",
-    "@riskybot/tools": "./packages/tools",
-    "discord-api-types": "^0.33.0",
-    "discord.js": "^14.0.0-dev.1652832627-dfe449c",
+    "@discordjs/builders": "^0.16.0-dev.1655640244-358c3f4",
+    "@discordjs/rest": "^0.5.0",
+    "@riskybot/apis": "workspace:^",
+    "@riskybot/functions": "workspace:^",
+    "@riskybot/tools": "workspace:^",
+    "discord-api-types": "^0.34.0",
+    "discord.js": "^14.0.0-dev.1655640259-358c3f4",
     "dotenv": "^16.0.1",
-    "undici": "^5.2.0"
+    "husky": "^8.0.1",
+    "is-ci": "^3.0.1",
+    "turbo": "^1.2.16",
+    "undici": "^5.5.1"
   },
   "devDependencies": {
     "@types/js-yaml": "^4.0.5",
-    "@types/node": "^17.0.34",
-    "@typescript-eslint/eslint-plugin": "^5.25.0",
-    "@typescript-eslint/parser": "^5.25.0",
-    "eslint": "^8.15.0",
+    "@types/node": "^18.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.28.0",
+    "@typescript-eslint/parser": "^5.28.0",
+    "eslint": "^8.18.0",
     "jshint": "^2.13.4",
-    "typescript": "^4.6.4"
+    "typescript": "^4.7.4"
   },
   "engines": {
-    "node": ">=17.5.0"
+    "node": ">=17.0.0"
   },
   "files": [
     "src/"
   ],
   "homepage": "https://riskymh.github.io/RiskyBOT",
-  "main": "src/main.js",
+  "main": "dist/src/main.mjs",
   "module": "system",
   "private": true,
   "scripts": {
-    "build": "tsc",
-    "deployCommands": "node -r dotenv/config src/applicationCommands/deploy.js",
-    "deployCommands:extra": "node -r dotenv/config src/applicationCommands/deployExtra.js",
-    "deployCommands:ownerOnly": "node -r dotenv/config src/applicationCommands/deployOwnerOnly.js",
-    "lint": "eslint ./src/* ./packages/functions/src/* ./packages/tools/src/* ./packages/apis/src/* ",
+    "buildSelf": "tsc",
+    "build": "tsc && turbo run build",
+    "update": "yarn upgrade-interactive",
+    "deployCommands": "node -r dotenv/config dist/src/applicationCommands/deploy.mjs",
+    "deployCommands:extra": "node -r dotenv/config dist/src/applicationCommands/deployExtra.mjs",
+    "deployCommands:ownerOnly": "node -r dotenv/config dist/src/applicationCommands/deployOwnerOnly.mjs",
+    "lint": "eslint src/*.mts && turbo run lint",
     "start": "node -r dotenv/config dist/src/main.mjs",
     "start:force": "(yarn --force && yarn build || echo ) && yarn start",
     "start:extra": "node -r dotenv/config dist/src/extra.mjs",
@@ -46,6 +51,7 @@
     "build:website": "cd website && yarn build"
   },
   "type": "module",
+  "packageManager": "yarn@3.2.1",
   "workspaces": [
     "packages/*"
   ]

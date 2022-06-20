@@ -1,10 +1,11 @@
-import {time, hyperlink,inlineCode, userMention, bold, codeBlock, EmbedBuilder, roleMention, SlashCommandSubcommandBuilder, SlashCommandBuilder, SlashCommandUserOption, SlashCommandStringOption, SlashCommandRoleOption, SlashCommandChannelOption } from "@discordjs/builders";
-import {ApplicationCommandOptionChoiceData, EmbedFieldData, CommandInteractionOption, ContextMenuCommandBuilder } from "discord.js";
+import { time, hyperlink,inlineCode, userMention, bold, codeBlock, EmbedBuilder, roleMention, SlashCommandSubcommandBuilder, SlashCommandBuilder, SlashCommandUserOption, SlashCommandStringOption, SlashCommandRoleOption, SlashCommandChannelOption } from "@discordjs/builders";
+import { ApplicationCommandOptionChoiceData, EmbedFieldData, CommandInteractionOption, ContextMenuCommandBuilder } from "discord.js";
 import { PermissionsBitField } from "discord.js";
-import {ApplicationCommandType, PermissionFlagsBits} from "discord-api-types/v10";
-import { redditAutoComplete, reddit } from "@riskybot/functions";
-import { Config, EnvEnabled, listFormatter } from "@riskybot/tools";
+import { ApplicationCommandType, PermissionFlagsBits } from "discord-api-types/v10";
+import { redditAutoComplete, reddit } from ".";
+import { listFormatter } from "@riskybot/tools";
 import { topgg } from "@riskybot/apis";
+import type { Config, EnvEnabled } from "@riskybot/tools";
 
 
 //TODO: Make sure everything works...
@@ -103,7 +104,7 @@ export default async function about(config: Config, option: CommandInteractionOp
             await option.member?.fetch();
             // @ts-expect-error - using types that isn't existing (vscode)
             aboutEmbed.setThumbnail(option.member?.avatarURL({extension: "png", size: 512}) ?? option?.user?.avatarURL({extension: "png", size: 512}));
-        }catch(e){console.warn(e);}
+        }catch(e) {console.warn(e);}
         
         aboutEmbed
             // @ts-expect-error - using types that isn't existing (vscode)
@@ -420,7 +421,7 @@ async function permissionViewer(permissions: PermissionsBitField): Promise<Embed
 }
 
 
-export function applicationCommands(config: Config, envEnabledList?: EnvEnabled) {
+export function applicationCommands(config?: Config, envEnabledList?: EnvEnabled) {
 
     let aboutUserCommand = new ContextMenuCommandBuilder()
         .setName("About user")
@@ -428,7 +429,7 @@ export function applicationCommands(config: Config, envEnabledList?: EnvEnabled)
 
     let userAboutOptions = [{name: "Advanced", value: "advanced"}];
 
-    if (envEnabledList?.HasTopggApi && config?.apiEnabled?.topgg) userAboutOptions.push({name: "Top.gg", value: "top.gg"});
+    if (envEnabledList?.HasTopggToken && config?.apiEnabled?.topgg) userAboutOptions.push({name: "Top.gg", value: "top.gg"});
 
     let  aboutSlashCommand = new SlashCommandBuilder()
         .setName("about")
@@ -483,7 +484,7 @@ export function applicationCommands(config: Config, envEnabledList?: EnvEnabled)
                         )
                 )  
         );
-    if (config?.apiEnabled?.reddit){
+    if (config?.apiEnabled?.reddit) {
         aboutSlashCommand.addSubcommand( 
             new SlashCommandSubcommandBuilder()
                 .setName("subreddit")

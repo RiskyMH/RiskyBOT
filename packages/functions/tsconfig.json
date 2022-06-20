@@ -1,7 +1,7 @@
 {
     // Mapped from https://www.typescriptlang.org/tsconfig
     "include": ["src"],
-    "exclude": ["dist"],
+    "exclude": ["dist", "node_modules"],
     "compilerOptions": {
         // Type Checking
         "allowUnreachableCode": false,
@@ -17,7 +17,7 @@
         "useUnknownInCatchVariables": true,
 
         // Modules
-		"module": "ES2022",
+        "module": "ES2022",
         "moduleResolution": "node",
         "resolveJsonModule": true,
 

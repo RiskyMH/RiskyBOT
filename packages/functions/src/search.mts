@@ -1,6 +1,6 @@
 import type { ApplicationCommandOptionChoiceData, InteractionReplyOptions } from "discord.js";
 import { inlineCode, italic, EmbedBuilder, SlashCommandBuilder, SlashCommandSubcommandBuilder } from "@discordjs/builders";
-import * as tools from "@riskybot/tools";
+import { trim } from "@riskybot/tools";
 import type { Config, EnvEnabled } from "@riskybot/tools";
 import { urbanDictionary, someRandomApi } from "@riskybot/apis";
 import { SlashCommandStringOption } from "@discordjs/builders";
@@ -20,30 +20,32 @@ export default async function search(config: Config, engine: string, input: stri
             if (urbanDef && urbanDef.length) {
                 let urbanChosen = urbanDef[0];
 
-                const regex1 = /\[([\S\s][^\]]*)\]/g;
+                const linkRegex = /\[([\S\s][^\]]*)\]/g;
                 let newDef = urbanChosen.definition;
                 let array1;
-                while ((array1 = regex1.exec(urbanChosen.definition)) !== null) {
+                while ((array1 = linkRegex.exec(urbanChosen.definition)) !== null) {
                     let term = array1[0].replace("[", "").replace("]", "");
                     newDef = newDef.replace(array1[0], `[${term}](https://www.urbandictionary.com/define.php?term=${encodeURI(term)})`);
                 }
                 let newExam = urbanChosen.example;
-                while ((array1 = regex1.exec(urbanChosen.example)) !== null) {
+                while ((array1 = linkRegex.exec(urbanChosen.example)) !== null) {
                     let term = array1[0].replace("[", "").replace("]", "");
                     newExam = newExam.replace(array1[0], `[${term}](https://www.urbandictionary.com/define.php?term=${encodeURI(term)})`);
                 }
 
                 searEmb
                     .setAuthor({name: "Urban Dictionary", url: "https://www.urbandictionary.com/", iconURL: "https://www.urbandictionary.com/apple-touch-icon.png"})
-                    .setTitle("Urban Dictionary result for " + inlineCode(tools.trim(urbanChosen.word, 15)))
+                    .setTitle("Urban Dictionary result for " + inlineCode(trim(urbanChosen.word, 15)))
                     .setURL(urbanChosen.permalink)
-                    .addFields([{name: "Definition", value: tools.trim(newDef, 1024)}])
-                    .addFields([{name: "Example", value: italic(tools.trim(newExam, 1024-2))}])
+                    .addFields([{name: "Definition", value: trim(newDef, 1024)}])
+                    .addFields([{name: "Example", value: italic(trim(newExam, 1024-2))}])
                     .addFields([{name: "Stats", value: `\`👍${urbanChosen.thumbs_up}\` \`👎${urbanChosen.thumbs_down}\``}])
                     .setTimestamp(urbanChosen.written_on)
                     .setFooter({text: "Defined by: " + urbanChosen.author});
             } else {
-                errorEmb.setDescription("no findings :(");
+                if (urbanDef === null) errorEmb.setDescription(trim("No results found for " + inlineCode(input), 4096));
+                else if (urbanDef === undefined) errorEmb.setDescription("An error occurred while using the [`Urban Dictionary`](https://urbandictionary.com) API");
+
                 return { embeds: [errorEmb], ephemeral: true };
             }
         }
@@ -54,14 +56,15 @@ export default async function search(config: Config, engine: string, input: stri
             if (lyrics && lyrics.lyrics) {
                 searEmb
                     .setThumbnail(lyrics.thumbnail?.genius??"")
-                    .setAuthor({ name: "Some Random Api", url: "https://some-random-api.ml", iconURL: "https://i.some-random-api.ml/logo.png" })
                     .setURL(lyrics.links?.genius??"")
-                    .setDescription(tools.trim(lyrics.lyrics, 4096 ))
-                    .setTitle("Lyrics for " + inlineCode(tools.trim(lyrics.title + " ("+lyrics.author+")", 25)));
-                if (lyrics.links?.genius) searEmb.setFooter({text: "Powered by Genius"});
+                    .setDescription(trim(lyrics.lyrics, 4096 ))
+                    .setTitle("Lyrics for " + inlineCode(trim(lyrics.title + " ("+lyrics.author+")", 25)))
+                    .setFooter({text: "Powered using https://some-random-api.ml"});
+                if (lyrics.links?.genius) searEmb.setAuthor({name: "Genius", url: "https://genius.com", iconURL: "https://genius.com/apple-touch-icon.png"});
 
             } else {
-                errorEmb.setDescription("no findings :(");
+                if (lyrics === null) errorEmb.setDescription(trim("No results found for " + inlineCode(input), 4096));
+                else if (lyrics === undefined) errorEmb.setDescription("There was an error while using the [Some Random Api](https://some-random-api.ml) API");
                 return { embeds: [errorEmb], ephemeral: true };
             }
         }
@@ -94,20 +97,20 @@ export async function autoComplete(engine: string, input: string): Promise<Appli
 }
 
 
-export function applicationCommands(config: Config, envEnabledList?:EnvEnabled) {
+export function applicationCommands(config?: Config, envEnabledList?: EnvEnabled) {
     config; envEnabledList; // Just so it is used
-    if (config.apiEnabled.someRandomApi || config.apiEnabled.urbandictionary) {
+    if (config?.apiEnabled.someRandomApi || config?.apiEnabled.urbanDictionary) {
         let searchSlashCommand = new SlashCommandBuilder()
             .setName("search")
             .setDescription("🔍 Use the bot to search from sources");
             
-        if (config.apiEnabled.urbandictionary){
+        if (config?.apiEnabled.urbanDictionary) {
             searchSlashCommand.addSubcommand( 
                 new SlashCommandSubcommandBuilder()
                     .setName("urban-dictionary")
                     .setDescription("Use Urban Dictionary to define")
                     .addStringOption(
-                new SlashCommandStringOption()
+                        new SlashCommandStringOption()
                             .setName("input")
                             .setDescription("The input for the search engine")
                             .setRequired(true)
@@ -115,13 +118,13 @@ export function applicationCommands(config: Config, envEnabledList?:EnvEnabled) 
                     )
             );
         }
-        if (config.apiEnabled.someRandomApi){
+        if (config?.apiEnabled.someRandomApi) {
             searchSlashCommand.addSubcommand( 
                 new SlashCommandSubcommandBuilder()
                     .setName("lyrics")
                     .setDescription("Use Lyrics to search for lyrics")
                     .addStringOption(
-                new SlashCommandStringOption()
+                        new SlashCommandStringOption()
                             .setName("song-name")
                             .setDescription("The song name to find lyrics for")
                             .setRequired(true)

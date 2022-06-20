@@ -4,10 +4,6 @@
 
 // rhymebrain
 
-// awsrandomcat
-
-// dogceo
-
 // icanhazdadjoke
 
 // forismatic
@@ -19,12 +15,6 @@
 // excuserheroku
 
 // uselessfactspl
-
-// shibeonline
-
-// randomduk
-
-// zooanimalapiheroku
 
 // emojihubheroku
 

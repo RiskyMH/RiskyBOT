@@ -1,53 +1,50 @@
 import { inlineCode, italic, EmbedBuilder, ButtonBuilder, ActionRowBuilder, MessageActionRowComponentBuilder, SlashCommandBuilder, SlashCommandSubcommandBuilder, SlashCommandNumberOption, SlashCommandSubcommandGroupBuilder, SlashCommandStringOption } from "@discordjs/builders";
 import { ButtonStyle } from "discord-api-types/v10";
-import type { ApplicationCommandOptionChoiceData, InteractionReplyOptions } from "discord.js";
-import {fetch} from "undici";
+import { fetch } from "undici";
 import { EnvEnabled, getBetweenStr } from "@riskybot/tools";
+import { reddit, redditAutoComplete } from ".";
+import type { ApplicationCommandOptionChoiceData, InteractionReplyOptions } from "discord.js";
 import type { Config } from "@riskybot/tools";
-import { reddit, redditAutoComplete } from "./index.mjs";
 
 
 //TODO: Make sure everything works...
 //TODO: Migrate the fetch into `@riskybot/apis`
 
 
-export default async function random(config: Config, type: string, num1?: number, num2?: number, text1?: string): Promise<InteractionReplyOptions> {
+export default async function random(config: Config, type: string, input: {num1?: number, num2?: number, text1?: string} = {num1: undefined, num2: undefined, text1: undefined }, userId?: string): Promise<InteractionReplyOptions> {
     let randomEmb = new EmbedBuilder();
     let errorEmb = new EmbedBuilder()
         .setTitle("Errors - random")
         .setColor(config.getColors().error);
     let row = new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents([
         new ButtonBuilder()
-        .setCustomId("random-again")
+        .setCustomId(`random-again${userId? "-" + userId: ""}`)
         .setLabel("Another?")
         .setStyle(ButtonStyle.Primary)
         .setDisabled(false)
     ]);
+    let messageContent = "";
     
-    let errors: any[] = [];
+    let errors: string[] = [];
 
     switch (type) {
-        case "cat":
-            row.components[0].setCustomId("random-again-cat");
+        case "cat": {
+            row.components[0].setCustomId(`random-again-cat${userId? "-" + userId: ""}`);
 
-            if (!errors.length) {
-                let cat: any = await fetch("https://aws.random.cat/meow").then(response => response.json()) as object;
+            let cat: any = await fetch("https://aws.random.cat/meow").then(response => response.json()) as object;
 
-                randomEmb
-                    .setTitle("Random - Cat")
-                    .setURL("https://aws.random.cat/view")
-                    .setAuthor({name: "Random Cat", url: "https://aws.random.cat/view", iconURL: "https://purr.objects-us-east-1.dream.io/static/ico/favicon-96x96.png"})
-                    .setColor(config.getColors().ok)
-                    .setImage(await cat.file);
-                return { embeds: [randomEmb], components: [row] };
-            } else {
-
-                errorEmb.setDescription("• " + errors.join("\n• "));
-                return { embeds: [errorEmb] };
-            }
+            randomEmb
+                .setTitle("🐱 Cat")
+                .setURL("https://aws.random.cat/view")
+                .setFooter({text: "Powered by https://aws.random.cat"})
+                .setColor(config.getColors().washedOut.ok)
+                .setImage(await cat.file);
+            messageContent = "Here is your random cat";
+            return { embeds: [randomEmb], components: [row], content: messageContent };
+        }
 
         case "dog":
-            row.components[0].setCustomId("random-again-dog");
+            row.components[0].setCustomId(`random-again-dog${userId? "-" + userId: ""}`);
 
             if (!errors.length) {
                 let dog: any = await fetch("https://dog.ceo/api/breeds/image/random").then(response => response.json()) as object;
@@ -58,6 +55,7 @@ export default async function random(config: Config, type: string, num1?: number
                     .setAuthor({name: "Dog Ceo", url: "https://dog.ceo/", iconURL: "https://dog.ceo/img/favicon.png"})
                     .setColor(config.getColors().ok)
                     .setImage(await dog.message);
+                
                 return { embeds: [randomEmb], components: [row] };
             } else {
 
@@ -65,7 +63,7 @@ export default async function random(config: Config, type: string, num1?: number
                 return { embeds: [errorEmb] };
             }
         case "kangaroo":
-            row.components[0].setCustomId("random-again-kangaroo");
+            row.components[0].setCustomId(`random-again-kangaroo${userId? "-" + userId: ""}`);
 
             if (!errors.length) {
                 let kanga: any = await fetch("https://some-random-api.ml/animal/kangaroo").then(response => response.json());
@@ -84,7 +82,7 @@ export default async function random(config: Config, type: string, num1?: number
             }
 
         case "fox":
-            row.components[0].setCustomId("random-again-fox");
+            row.components[0].setCustomId(`random-again-fox${userId? "-" + userId: ""}`);
 
             if (!errors.length) {
                 let fox: any = await fetch("https://some-random-api.ml/animal/fox").then(response => response.json());
@@ -93,7 +91,7 @@ export default async function random(config: Config, type: string, num1?: number
                     .setTitle("Random - Fox")
                     .setURL("https://some-random-api.ml")
                     .setAuthor({name: "Some Random Api", url: "https://some-random-api.ml", iconURL: "https://i.some-random-api.ml/logo.png"})
-                    .setColor(config.getColors().ok)
+                    .setColor(config.getColors().washedOut.ok)
                     .setImage(await fox.image);
                 return { embeds: [randomEmb], components: [row] };
             } else {
@@ -103,7 +101,7 @@ export default async function random(config: Config, type: string, num1?: number
             }
 
         case "panda":
-            row.components[0].setCustomId("random-again-panda");
+            row.components[0].setCustomId(`random-again-panda${userId? "-" + userId: ""}`);
 
             if (!errors.length) {
                 let panda: any = await fetch("https://some-random-api.ml/animal/panda").then(response => response.json());
@@ -122,7 +120,7 @@ export default async function random(config: Config, type: string, num1?: number
             }
 
         case "joke":
-            row.components[0].setCustomId("random-again-joke");
+            row.components[0].setCustomId(`random-again-joke${userId? "-" + userId: ""}`);
 
             if (!errors.length) {
                 let joke: any = await fetch("https://some-random-api.ml/joke").then(response => response.json());
@@ -142,7 +140,7 @@ export default async function random(config: Config, type: string, num1?: number
         
         case "dadjoke":
         case "dad-joke":
-            row.components[0].setCustomId("random-again-dadjoke");
+            row.components[0].setCustomId(`random-again-dadjoke${userId? "-" + userId: ""}`);
 
             if (!errors.length) {
                 let joke: any = await fetch("https://icanhazdadjoke.com",{headers: {Accept: "application/json"}}).then(response => response.json());
@@ -161,7 +159,7 @@ export default async function random(config: Config, type: string, num1?: number
             }
 
         case "quote":
-            row.components[0].setCustomId("random-again-quote");
+            row.components[0].setCustomId(`random-again-quote${userId? "-" + userId: ""}`);
 
             if (!errors.length) {
                 let quote: any = await fetch("https://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json").then(response => response.json());
@@ -180,7 +178,7 @@ export default async function random(config: Config, type: string, num1?: number
             }
 
         case "affirmation":
-            row.components[0].setCustomId("random-again-affirmation");
+            row.components[0].setCustomId(`random-again-affirmation${userId? "-" + userId: ""}`);
 
             if (!errors.length) {
                 let quote: any = await fetch("https://www.affirmations.dev").then(response => response.json());
@@ -199,7 +197,7 @@ export default async function random(config: Config, type: string, num1?: number
             }
 
         case "insult":
-            row.components[0].setCustomId("random-again-insult");
+            row.components[0].setCustomId(`random-again-insult${userId? "-" + userId: ""}`);
 
             if (!errors.length) {
                 let insult: any = await fetch("https://evilinsult.com/generate_insult.php?lang=en&type=json").then(response => response.json());
@@ -218,13 +216,13 @@ export default async function random(config: Config, type: string, num1?: number
             }
 
         case "excuse":
-            row.components[0].setCustomId("random-again-excuse"+ `${text1?"-("+text1+")":""}`);
+            row.components[0].setCustomId("random-again-excuse"+ `${input.text1?`-(${input.text1})`:""}${userId? "-" + userId: ""}`);
 
             if (!errors.length) {
-                let excuse: any = await fetch("https://excuser.herokuapp.com/v1/excuse/"+ `${text1?text1:""}`).then(response => response.json());
+                let excuse: any = await fetch("https://excuser.herokuapp.com/v1/excuse/"+ `${input.text1 ? input.text1:""}`).then(response => response.json());
 
                 randomEmb
-                    .setTitle("Random - Excuse"+`${text1?" - "+inlineCode(text1):""}`)
+                    .setTitle("Random - Excuse"+`${input.text1?" - "+inlineCode(input.text1):""}`)
                     .setURL("https://excuser.herokuapp.com")
                     .setAuthor({name: "Excuser", url: "https://excuser.herokuapp.com/", /* iconURL: "https://forismatic.com/favicon.ico"*/})
                     .setColor(config.getColors().ok)
@@ -237,7 +235,7 @@ export default async function random(config: Config, type: string, num1?: number
             }
 
         case "fact":
-            row.components[0].setCustomId("random-again-fact");
+            row.components[0].setCustomId(`random-again-fact${userId? "-" + userId: ""}`);
 
             if (!errors.length) {
                 /** @type Object() */
@@ -258,7 +256,7 @@ export default async function random(config: Config, type: string, num1?: number
             }
             
         case "koala":
-            row.components[0].setCustomId("random-again-koala");
+            row.components[0].setCustomId(`random-again-koala${userId? "-" + userId: ""}`);
 
             if (!errors.length) {
                 /** @type Object() */
@@ -277,7 +275,7 @@ export default async function random(config: Config, type: string, num1?: number
                 return { embeds: [errorEmb] };
             }
         case "bird":
-            row.components[0].setCustomId("random-again-bird");
+            row.components[0].setCustomId(`random-again-bird${userId? "-" + userId: ""}`);
 
             if (!errors.length) {
                 /** @type Object() */
@@ -297,7 +295,7 @@ export default async function random(config: Config, type: string, num1?: number
             }
 
         case "duck":
-            row.components[0].setCustomId("random-again-duck");
+            row.components[0].setCustomId(`random-again-duck${userId? "-" + userId: ""}`);
 
             if (!errors.length) {
                 /** @type Object() */
@@ -317,7 +315,7 @@ export default async function random(config: Config, type: string, num1?: number
             }
         case "zooanim":
         case "zoo-anim":
-            row.components[0].setCustomId("random-again-zooanim");
+            row.components[0].setCustomId(`random-again-zooanim${userId? "-" + userId: ""}`);
 
             if (!errors.length) {
                 /** @type Object() */
@@ -337,7 +335,7 @@ export default async function random(config: Config, type: string, num1?: number
                 return { embeds: [errorEmb] };
             }
         case "emoji":
-            row.components[0].setCustomId("random-again-emoji");
+            row.components[0].setCustomId(`random-again-emoji${userId? "-" + userId: ""}`);
 
             if (!errors.length) {
                 /** @type Object() */
@@ -372,15 +370,15 @@ export default async function random(config: Config, type: string, num1?: number
             }
 
         case "number": {
-            num1 ||= 0;
-            num2 ||= 100;
-            row.components[0].setCustomId(`random-again-number-(${num1}-${num2})`);
+            input.num1 ||= 0;
+            input.num2 ||= 100;
+            row.components[0].setCustomId(`random-again-number-(${input.num1}-${input.num2})`);
             
-            let min = Math.ceil(num1);
-            let max = Math.floor(num2);
+            let min = Math.ceil(input.num1);
+            let max = Math.floor(input.num2);
 
             randomEmb
-                .setTitle(`Random - \`min:${num1} max:${num2}\``)
+                .setTitle(`Random - \`min:${input.num1} max:${input.num2}\``)
                 .setColor(config.getColors().ok)
                 .setDescription(`${Math.floor(Math.random() * (max - min) + min).toLocaleString()}`);
             return { embeds: [randomEmb], components: [row] };
@@ -390,7 +388,7 @@ export default async function random(config: Config, type: string, num1?: number
         case "randomPost":
         case "random-post": 
         {
-            let data = await reddit(config, type, text1||"");
+            let data = await reddit(config, type, input.text1 || "", userId);
             return data;
         }
 
@@ -427,15 +425,13 @@ export async function button(config: Config, id: string, userId?: string): Promi
         text1 = String(await getBetweenStr(id, "(", ")")) || "";
     }
 
-    let data = await random(config, idActual, num1, num2, text1);
-    // if (userId) data?.components?.[0].data?.components?.find(b => b.type === ComponentType.Button && b.style === ButtonStyle.Primary && (b.custom_id += ("-"+userId)));
-    //  console.log(data?.components?.[0].components[0]);
+    let data = await random(config, idActual, {num1, num2, text1}, userId);
 
     return data as InteractionReplyOptions;
 }
 
 
-export function applicationCommands(config: Config, envEnabledList?: EnvEnabled) {
+export function applicationCommands(config?: Config, envEnabledList?: EnvEnabled) {
     config; envEnabledList; // Just so it is used
 
     let randomSlashCommand = new SlashCommandBuilder()
@@ -455,21 +451,16 @@ export function applicationCommands(config: Config, envEnabledList?: EnvEnabled)
                         .setDescription("The max the random number can go")
                 )
         );
-    if (config.apiEnabled.randomSmallOnes.awsrandomcat){
+    if (config?.apiEnabled.randomSmallOnes.randomImage) {
         randomSlashCommand.addSubcommand(
             new SlashCommandSubcommandBuilder()
                 .setName("cat")
                 .setDescription("🐱 A random cat image")
-        );
-    }
-    if (config.apiEnabled.randomSmallOnes.dogceo){
-        randomSlashCommand.addSubcommand(
+        ).addSubcommand(
             new SlashCommandSubcommandBuilder()
                 .setName("dog")
                 .setDescription("🐶 A random dog image")
         );
-    }
-    if (config.apiEnabled.someRandomApi){
         randomSlashCommand.addSubcommand(
             new SlashCommandSubcommandBuilder()
                 .setName("kangaroo")
@@ -495,37 +486,41 @@ export function applicationCommands(config: Config, envEnabledList?: EnvEnabled)
           .setName("koala")
           .setDescription("🐨 A random koala image")
         );
-    }
-    if (config.apiEnabled.randomSmallOnes.icanhazdadjoke){
         randomSlashCommand.addSubcommand(
             new SlashCommandSubcommandBuilder()
                 .setName("dad-joke")
                 .setDescription("🤣 A random dad joke")
         );
+        randomSlashCommand.addSubcommand(
+            new SlashCommandSubcommandBuilder()
+                .setName("bird")
+                .setDescription("🐦 A random bird image")
+        );
+        randomSlashCommand.addSubcommand(
+            new SlashCommandSubcommandBuilder()
+                .setName("duck")
+                .setDescription("🦆 A random duck image")
+        );
+        randomSlashCommand.addSubcommand(
+            new SlashCommandSubcommandBuilder()
+                .setName("zoo-anim")
+                .setDescription("A random zoo animal")
+        );
     }
-    if (config.apiEnabled.randomSmallOnes.forismatic){
+    if (config?.apiEnabled.randomSmallOnes.randomText) {
         randomSlashCommand.addSubcommand(
             new SlashCommandSubcommandBuilder()
                 .setName("quote")
                 .setDescription("🗨️ A random quote")
-        );
-    }
-    if (config.apiEnabled.randomSmallOnes.affirmationsdev){
-        randomSlashCommand.addSubcommand(
+        ).addSubcommand(
             new SlashCommandSubcommandBuilder()
                 .setName("affirmation")
                 .setDescription("A random affirmation")
-        );
-    }
-    if (config.apiEnabled.randomSmallOnes.evilinsultcom){
-        randomSlashCommand.addSubcommand(
+        ).addSubcommand(
             new SlashCommandSubcommandBuilder()
                 .setName("insult")
                 .setDescription("😢 A random insult")
-        );
-    }
-    if (config.apiEnabled.randomSmallOnes.excuserheroku){
-        randomSlashCommand.addSubcommand(
+        ).addSubcommand(
             new SlashCommandSubcommandBuilder()
                 .setName("excuse")
                 .setDescription("A random excuse")
@@ -542,44 +537,17 @@ export function applicationCommands(config: Config, envEnabledList?: EnvEnabled)
                             {name: "Party", value: "party"}
                         )
                 )
-        );
-    }
-    if (config.apiEnabled.randomSmallOnes.uselessfactspl){
-        randomSlashCommand.addSubcommand(
+        ).addSubcommand(
             new SlashCommandSubcommandBuilder()
                 .setName("fact")
                 .setDescription("A random fact")
-        );
-    }
-    if (config.apiEnabled.randomSmallOnes.shibeonline){
-        randomSlashCommand.addSubcommand(
-            new SlashCommandSubcommandBuilder()
-                .setName("bird")
-                .setDescription("🐦 A random bird image")
-        );
-    }
-    if (config.apiEnabled.randomSmallOnes.randomduk){
-        randomSlashCommand.addSubcommand(
-            new SlashCommandSubcommandBuilder()
-                .setName("duck")
-                .setDescription("🦆 A random duck image")
-        );
-    }
-    if (config.apiEnabled.randomSmallOnes.zooanimalapiheroku){
-        randomSlashCommand.addSubcommand(
-            new SlashCommandSubcommandBuilder()
-                .setName("zoo-anim")
-                .setDescription("A random zoo animal")
-        );
-    }
-    if (config.apiEnabled.randomSmallOnes.emojihubheroku){
-        randomSlashCommand.addSubcommand(
+        ).addSubcommand(
             new SlashCommandSubcommandBuilder()
                 .setName("emoji")
                 .setDescription("A random emoji")
         );
     }
-    if (config.apiEnabled.reddit){
+    if (config?.apiEnabled.reddit) {
         randomSlashCommand.addSubcommandGroup(
             new SlashCommandSubcommandGroupBuilder()
                 .setName("reddit")

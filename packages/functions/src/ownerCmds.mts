@@ -27,7 +27,7 @@ export async function evalResult(config: Config, input: string, evalResult: any,
         .setFooter({text: "Eval is Evil"})
         .addFields([{name:"Input", value: trim(codeBlock("js",input), 1024)}])
         .addFields([{name:"Result", value: trim(codeBlock("js",evalResult||"Nothing was returned..."), 1024)}]);
-    if (error){
+    if (error) {
         evalResultEmbed
          .setColor(config.getColors().error)
          .setDescription("ERROR");
@@ -36,7 +36,7 @@ export async function evalResult(config: Config, input: string, evalResult: any,
     return { embeds: [evalResultEmbed] };
 }
 
-export function applicationCommands(config: Config, envEnabledList?: EnvEnabled) {
+export function applicationCommands(config?: Config, envEnabledList?: EnvEnabled) {
     config; envEnabledList; // Just so it is used
 
     let evalSlashCommand = new SlashCommandBuilder()

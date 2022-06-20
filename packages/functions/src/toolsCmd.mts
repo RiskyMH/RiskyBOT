@@ -21,7 +21,7 @@ export default async function toolsCmd(config: Config, engine: string, input: st
             
             if (rhymes.length) {
                 let list = [];
-                for (let rhyme in rhymes){
+                for (let rhyme in rhymes) {
                     list.push(`${Number(rhyme)+1}: ${rhymes[rhyme].word}`);
                 }
                 toolsEmb
@@ -122,7 +122,7 @@ const ballResponses = [
 
 
 
-export function applicationCommands(config: Config, envEnabledList?:EnvEnabled) {
+export function applicationCommands(config?: Config, envEnabledList?: EnvEnabled) {
     config; envEnabledList; // Just so it is used
     let toolsSlashCommand = new SlashCommandBuilder()
         .setName("tools")
@@ -148,7 +148,7 @@ export function applicationCommands(config: Config, envEnabledList?:EnvEnabled) 
                         .setRequired(true)
                 )
         );
-    if (config.apiEnabled.randomSmallOnes.rhymebrain){
+    if (config?.apiEnabled.randomSmallOnes.randomText) {
         toolsSlashCommand.addSubcommand(
             new SlashCommandSubcommandBuilder()
                 .setName("rhymes")
@@ -159,11 +159,7 @@ export function applicationCommands(config: Config, envEnabledList?:EnvEnabled) 
                         .setDescription("The word to find rhymes for")
                         .setRequired(true)
                 )
-        );
-    }
-    
-    if (config.apiEnabled.randomSmallOnes.pastegg){
-        toolsSlashCommand.addSubcommand(
+        ).addSubcommand(
             new SlashCommandSubcommandBuilder()
                 .setName("pastebin")
                 .setDescription("Uses Paste.gg to upload code")
@@ -210,6 +206,7 @@ export function applicationCommands(config: Config, envEnabledList?:EnvEnabled) 
         let pastbinMessageMenu = new ContextMenuCommandBuilder()
             .setName("Save message - Pastebin")
             .setType(ApplicationCommandType.Message);
+            
         return [toolsSlashCommand, pastbinMessageMenu];
     }
     

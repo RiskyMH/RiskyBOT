@@ -15,7 +15,7 @@ This bot is run by:
 * `yarn build` (building the `ts` files)
 * `yarn start` (finally running it)
 
-NOTE: this uses yarn, so you need to have [yarn](https://classic.yarnpkg.com/lang/en/docs/install) installed
+NOTE: this uses yarn, so you need to have [yarn](https://yarnpkg.com/getting-started/install) installed
 
 ### Running Extra
 
@@ -64,7 +64,7 @@ You can do changes to bot by going into the `.mts` or `.ts` or `.js` files and c
 **Functions**: these the responses for application commands - also has the command builder
 **Utils**: these are for everything's help
 
-NOTE: if you change anything in those above you must run `yarn --force` to update the files (if doing lots of changes you can run `yarn start:force`, because it updates the files and restarts the bot)
+NOTE: if you change anything in those above you must run `yarn build` to update the files
 
 NOTE 2: if changing the commands, you need to `deployCommands`, and update [`main.mts`](./src/main.mts) if changing major names
 

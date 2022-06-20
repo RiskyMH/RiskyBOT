@@ -19,15 +19,15 @@ const client = new Client({
   GatewayIntentBits.MessageContent
  ],
 });
-const config = new tools.Config("./config.yml", true);
-// const envEnabled = new tools.EnvEnabled(process.env, config);
+const config = new tools.Config("./config.yml", undefined, true);
+// const envEnabled = new tools.EnvEnabled(process.env);
 
 // login to discord
-if (process.env.discordapiExtra) client.login(process.env.discordapiExtra);
-else if (process.env.discordapi) client.login(process.env.discordapi);
+if (process.env.DISCORD_EXTRA_TOKEN) client.login(process.env.DISCORD_EXTRA_TOKEN);
+else if (process.env.DISCORD_TOKEN) client.login(process.env.DISCORD_TOKEN);
 else console.error("\u001b[31m\u001b[1mDISCORD TOKEN REQUIRED\u001b[0m\n- put a valid discord bot token in `.env`\n- and make sure you used `npm start:extra`\n");
 
-if (!process.env.discordapiExtra) console.warn("This is using the main discord key - make sure you aren't running both at same time");
+if (!process.env.DISCORD_EXTRA_TOKEN) console.warn("This is using the main discord key - make sure you aren't running both at same time");
 
 client.once("ready", async () => {
     console.info("\x1b[92mDiscord Ready! (extra)\x1b[0m");
@@ -42,7 +42,7 @@ process.on("uncaughtException", console.warn);
 process.on("unhandledRejection", console.warn);
 
 client.on("guildCreate", async (guild) => {
-    if (await guild.members.fetch(client?.user?.id ??"1") ? guild?.systemChannel?.permissionsFor(await guild.members.fetch(client?.user?.id ??"1"))?.has(PermissionFlagsBits.SendMessages) : null) {
+    if (guild.members.me ? guild?.systemChannel?.permissionsFor(guild.members.me)?.has(PermissionFlagsBits.SendMessages) : null) {
         // make sure that the bot can sent message
         guild.systemChannel?.send("Hello, thank you for inviting me to this server. [Info](https://riskymh.github.io/RiskyBOT/added/extra) (btw I use `/` slash commands) ");
     }
@@ -60,7 +60,7 @@ async function msgWordHas(msg: string, what: string): Promise<boolean> {
 
 client.on("messageCreate", async (message) => {
 
-    const mePerms = (await message?.guild?.members.fetch(client?.user?.id ??"1"))?.permissionsIn(message.channelId);
+    const mePerms = message.guild?.members.me?.permissionsIn(message.channelId);
     const serversNoMessage = (process.env.serversNoMessage ? JSON.parse(process.env.serversNoMessage) : []);
 
     if ((message.guild ? (serversNoMessage.length ? serversNoMessage.includes(message.guild.id) : !null) : null) ||
@@ -71,7 +71,7 @@ client.on("messageCreate", async (message) => {
     if (message.mentions.users.first() === client.user) {
         message.channel.send("I use some slash `/` commands, and some text based stuff, nothing fancy.");
     }
-    if (msg === (await message?.guild?.members.fetch(client?.user?.id ??"1"))?.displayName.toLowerCase() || msg === client?.user?.username.toLowerCase()) {
+    if (msg === message.guild?.members.me?.displayName.toLowerCase() || msg === client?.user?.username.toLowerCase()) {
         message.channel.send("Hello 👋");
     }
 
@@ -88,7 +88,7 @@ client.on("messageCreate", async (message) => {
         // Just random things that I found...
         if (await msgWordHas(msg, "hi")) await message.react("👋");
         if (await msgWordHas(msg, "walk")) await message.react("🚶");
-        if (await msgWordHas(msg, "pwease")) await message.react("🙏");
+        if (await msgWordHas(msg, "please")) await message.react("🙏");
         if (await msgWordHas(msg, "umm")) await message.react("🤔");
         if (await msgWordHas(msg, "idk")) await message.react("🤷");
         if (await msgWordHas(msg, "idea")) await message.react("💡");
@@ -102,8 +102,8 @@ client.on("messageCreate", async (message) => {
         if (await msgWordHas(msg, "secret")) await message.react("🤐");
         if (await msgWordHas(msg, "hope")) await message.react("🤞");
         if (await msgWordHas(msg, "sorry")) await message.react("🥺");
-        if (await msgWordHas(msg, "hewwo")) await message.react("👋");
-        if (await msgWordHas(msg, "sowwy")) await message.react("🥺");
+        if (await msgWordHas(msg, "hello")) await message.react("👋");
+        if (await msgWordHas(msg, "sorry")) await message.react("🥺");
         if (await msgWordHas(msg, "needle")) await message.react("💉");
         if (await msgWordHas(msg, "approve")) await message.react("✅");
         if (await msgWordHas(msg, "disapprove")) await message.react("❎");
@@ -128,7 +128,7 @@ client.on("messageCreate", async (message) => {
 client.on("messageReactionAdd", async (messageReaction, user) => {
     user;
 
-    const mePerms = (await messageReaction.message?.guild?.members.fetch(client?.user?.id ??"1"))?.permissionsIn(messageReaction.message.channelId);
+    const mePerms = messageReaction.message?.guild?.members.me?.permissionsIn(messageReaction.message.channelId);
 
     if (!JSON.parse(process.env.serversExtraMessage ?? "{}") || mePerms?.has(PermissionFlagsBits.AddReactions) ||
         messageReaction.message.reactions.cache.entries.length <= 20 ||
@@ -175,9 +175,9 @@ client.on("interactionCreate", async (interaction) => {
 
             case "say": {
                 const message = interaction.options.getString("message")?? "no message specified";
-                let user = interaction.options.getUser("user");
-                // @ts-expect-error
-                const data = await say(client, config, user ?? interaction.user, message, interaction.guild?.me?? undefined, interaction?.channel );
+                const user = interaction.options.getUser("user");
+                // @ts-expect-error yes
+                const data = await say(client, config, user ?? interaction.user, message, interaction.guild?.members.me?? undefined, interaction.channel );
                 await interaction.reply(data);
             }
             break;
