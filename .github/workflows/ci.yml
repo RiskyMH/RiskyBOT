@@ -44,6 +44,12 @@ jobs:
           key: turbo-${{ github.job }}-${{ github.ref_name }}-${{ github.sha }}
           restore-keys: |
             turbo-${{ github.job }}-${{ github.ref_name }}-
+      
+      - name: Add custom Problem Matchers
+        run: |
+          echo ::add-matcher::.github/problem-matchers/eslint-compact.json   
+          echo ::add-matcher::.github/problem-matchers/eslint-stylish.json   
+          echo ::add-matcher::.github/problem-matchers/tsc.json   
 
       - name: Install dependencies 
         # if: ${{ steps.yarn-cache.outputs.cache-hit != 'true' }}
@@ -52,6 +58,7 @@ jobs:
       - name: Run Build
         # run: yarn build
         run: yarn turbo run build --cache-dir=".turbo" && yarn tsc 
+
 
   eslint:
     runs-on: ubuntu-latest
@@ -85,6 +92,12 @@ jobs:
           key: turbo-${{ github.job }}-${{ github.ref_name }}-${{ github.sha }}
           restore-keys: |
             turbo-${{ github.job }}-${{ github.ref_name }}-
+            
+      - name: Add custom Problem Matchers
+        run: |
+          echo ::add-matcher::.github/problem-matchers/eslint-compact.json   
+          echo ::add-matcher::.github/problem-matchers/eslint-stylish.json   
+          echo ::add-matcher::.github/problem-matchers/tsc.json   
 
       - name: Install dependencies 
         # if: ${{ steps.yarn-cache.outputs.cache-hit != 'true' }}
