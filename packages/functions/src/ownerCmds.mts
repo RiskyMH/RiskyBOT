@@ -1,7 +1,6 @@
 import { ModalBuilder, TextInputBuilder, ActionRowBuilder, EmbedBuilder, codeBlock, SlashCommandBuilder } from "@discordjs/builders";
 import type { ModalActionRowComponentBuilder } from "@discordjs/builders";
 import { TextInputStyle } from "discord-api-types/v10";
-import type { InteractionReplyOptions } from "discord.js";
 import { EnvEnabled, trim } from "@riskybot/tools";
 import type { Config } from "@riskybot/tools";
 
@@ -11,7 +10,7 @@ import type { Config } from "@riskybot/tools";
 
 export async function evalShowModal(): Promise<ModalBuilder> {
 
-    let modal = new ModalBuilder()
+    const modal = new ModalBuilder()
         .setCustomId("eval")
         .setTitle("Eval")
         .addComponents([new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents([new TextInputBuilder().setStyle(TextInputStyle.Paragraph).setLabel("Code").setPlaceholder("Code to evaluate").setCustomId("code")])]);
@@ -19,14 +18,14 @@ export async function evalShowModal(): Promise<ModalBuilder> {
 }
 
 
-export async function evalResult(config: Config, input: string, evalResult: any, error=false): Promise<InteractionReplyOptions> {
+export async function evalResult(config: Config, input: string, evalResult: unknown, error=false) {
     
-    let evalResultEmbed = new EmbedBuilder()
+    const evalResultEmbed = new EmbedBuilder()
         .setTitle("Eval")
         .setColor(config.getColors().ok)
         .setFooter({text: "Eval is Evil"})
         .addFields([{name:"Input", value: trim(codeBlock("js",input), 1024)}])
-        .addFields([{name:"Result", value: trim(codeBlock("js",evalResult||"Nothing was returned..."), 1024)}]);
+        .addFields([{name:"Result", value: trim(codeBlock("js", evalResult ? String(evalResult) : "Nothing was returned..."), 1024)}]);
     if (error) {
         evalResultEmbed
          .setColor(config.getColors().error)
@@ -37,9 +36,10 @@ export async function evalResult(config: Config, input: string, evalResult: any,
 }
 
 export function applicationCommands(config?: Config, envEnabledList?: EnvEnabled) {
+    // eslint-disable-next-line no-unused-expressions
     config; envEnabledList; // Just so it is used
 
-    let evalSlashCommand = new SlashCommandBuilder()
+    const evalSlashCommand = new SlashCommandBuilder()
         .setName("eval")
         .setDescription("Eval is Evil.");
     return [evalSlashCommand];

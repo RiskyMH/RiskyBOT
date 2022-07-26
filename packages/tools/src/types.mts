@@ -1,7 +1,7 @@
 // import { Config } from "./tools.mjs";
 
 // Helpers
-type colorType = import("discord.js").HexColorString;
+type colorType = `#${string}` | number;
 
 
 //? //////////// ?////////////////////////////

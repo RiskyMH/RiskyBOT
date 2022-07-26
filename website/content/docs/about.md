@@ -39,9 +39,6 @@ It was made for trying to implement the new features, this means that it wont ev
 - [discord.bots.gg](https://discord.bots.gg/bots/780657028695326720) (not approved yet)
 - [discordextremelist](https://discordextremelist.xyz/en-US/bots/780657028695326720/) (not approved yet)
 - [bots.ondiscord.xyz](https://bots.ondiscord.xyz/bots/780657028695326720/) (not approved yet)
-- **Other RiskyBOTs**:
-  - [RiskyBOT 2](./riskybot-2) (Different features)
-  - [RiskyBOT Canary](./riskybot-canary) (not available)
 
 ### Notes
 

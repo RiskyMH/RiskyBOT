@@ -1,42 +1,32 @@
-import { time, hyperlink,inlineCode, userMention, bold, codeBlock, EmbedBuilder, roleMention, SlashCommandSubcommandBuilder, SlashCommandBuilder, SlashCommandUserOption, SlashCommandStringOption, SlashCommandRoleOption, SlashCommandChannelOption } from "@discordjs/builders";
-import { ApplicationCommandOptionChoiceData, EmbedFieldData, CommandInteractionOption, ContextMenuCommandBuilder } from "discord.js";
-import { PermissionsBitField } from "discord.js";
-import { ApplicationCommandType, PermissionFlagsBits } from "discord-api-types/v10";
+import { time, hyperlink,inlineCode, userMention, bold, codeBlock, EmbedBuilder, roleMention, SlashCommandSubcommandBuilder, SlashCommandBuilder, SlashCommandUserOption, SlashCommandStringOption, SlashCommandRoleOption, SlashCommandChannelOption, ContextMenuCommandBuilder } from "@discordjs/builders";
+import { APIEmbedField, ApplicationCommandType, ChannelType, ImageFormat, PermissionFlagsBits, UserFlags as UserFlagsEnum } from "discord-api-types/v10";
 import { redditAutoComplete, reddit } from "./index.mjs";
 import { listFormatter } from "@riskybot/tools";
 import { topgg } from "@riskybot/apis";
 import type { Config, EnvEnabled } from "@riskybot/tools";
+import type { User, InteractionGuildMember, InteractionDataResolvedGuildMember, Role, InteractionDataResolvedChannel, Permissions, UserFlags } from "@riskybot/discord-interactions";
 
 
 //TODO: Make sure everything works...
 
 
-export default async function about(config: Config, option: CommandInteractionOption, extra: string, topggKey?:string )/**: Promise <InteractionReplyOptions> */  {
+export default async function about(config: Config, option: {user?: User, member?:  InteractionGuildMember | InteractionDataResolvedGuildMember, role?: Role, channel?: InteractionDataResolvedChannel, stringInput?: string, name: string}, extra: string, topggKey?: string )/**: Promise <InteractionReplyOptions> */  {
 
-    let aboutEmbed = new EmbedBuilder().setColor(config.getColors().ok);
-    let aboutEmbedExtra = new EmbedBuilder().setColor(config.getColors().ok);
+    const aboutEmbed = new EmbedBuilder().setColor(config.getColors().ok);
+    const aboutEmbedExtra = new EmbedBuilder().setColor(config.getColors().ok);
 
     // USER
     if (option.user) {
-        await option.user.fetch();
+
         aboutEmbed
-            .setTitle("About - " + inlineCode("User:") + bold(inlineCode(option.user.username)))
-            .setThumbnail(option.user.avatarURL({extension: "png", size: 512}))
-            .addFields([{name: "Made", value: time(new Date(option.user.createdAt)) +" (" +time(option.user.createdAt, "R") +")"}])
-            .addFields([
-                { name: "Username", value: codeBlock(option.user.username), inline: true },
-                {
-                    name: "Discriminator",
-                    value: codeBlock(option.user.discriminator),
-                    inline: true,
-                },
-                { name: "Full", value: codeBlock(option.user.tag), inline: true }
-            ]);
-        if (option.user.banner) aboutEmbed.setImage(option.user?.bannerURL({extension: "png", size:512}) ?? "");
-        option.user.fetchFlags();
-        if (option.user.flags?.toArray().length)
-        // @ts-expect-error because not added all flags
-            aboutEmbed.addFields([{ name: "Badges", value: option.user.flags?.toArray()?.map((e) => flagsEmoji?.[e] ?? e).join("  ")??"none"}]);
+            .setAuthor({ name: option.user.tag, iconURL: option.user.displayAvatarURL(), url: "https://discord.com/users/"+ option.user.id })
+            .addFields([{name: "Made", value: time(option.user.createdAt) +" (" +time(option.user.createdAt, "R") +")"}])
+            // .addFields([{ name: "Username", value: codeBlock(`${option.user.username}#${option.user.discriminator}`) },])
+            .setThumbnail(option.user.avatarURL({extension: ImageFormat.PNG, size: 512}));
+
+        if (option.user.banner) aboutEmbed.setImage(option.user?.bannerURL({extension: ImageFormat.PNG, size: 512}));
+
+        if (!option.user.publicFlags?.isEmpty()) aboutEmbed.setDescription(userFlagsMapper(option.user.publicFlags).join("  "));
             
         if (extra === "advanced") {
             aboutEmbedExtra
@@ -44,14 +34,13 @@ export default async function about(config: Config, option: CommandInteractionOp
                 .addFields([{name:"ID", value: codeBlock(option.user.id)}])
                 .addFields([{name: "Default Avatar URL", value: option.user.defaultAvatarURL}])
                 .addFields([{ name: "Current Avatar URL", value: hyperlink( "https://cdn.discordapp.com/avatars/...", option.user.displayAvatarURL())}]);
-            if (option.user.banner)
-                aboutEmbedExtra.addFields([{name: "Banner URL", value: hyperlink("https://cdn.discordapp.com/banners/...", option.user?.bannerURL()?? "")}]);
+            if (option.user.banner) aboutEmbedExtra.addFields([{name: "Banner URL", value: hyperlink("https://cdn.discordapp.com/banners/...", option.user?.bannerURL()?? "")}]);
 
         } else if (extra === "top.gg") {
             if (topggKey) {
                 
                     if (option.user.bot) {
-                        let data = await topgg.botInfo(option.user.id, topggKey);
+                        const data = await topgg.botInfo(option.user.id, topggKey);
                         if (!data) {
                             aboutEmbedExtra
                                 .setTitle("About - " + inlineCode("user/bot:") + bold(inlineCode(option.user.username)) + inlineCode("(Top.gg)"))
@@ -69,7 +58,7 @@ export default async function about(config: Config, option: CommandInteractionOp
                             if (data.bannerUrl) aboutEmbedExtra.setImage(data.bannerUrl);
                         }
                     } else {
-                        let data = await topgg.userInfo(option.user.id, topggKey);
+                        const data = await topgg.userInfo(option.user.id, topggKey);
                         if (!data ) {
                             aboutEmbedExtra
                                 .setTitle("About - " + inlineCode("user/bot:") + bold(inlineCode(option.user.username)) + inlineCode("(Top.gg)"))
@@ -99,61 +88,40 @@ export default async function about(config: Config, option: CommandInteractionOp
     }
     // MEMBER
     if (option.member) {
-        try{
-            // @ts-expect-error - using types that isn't existing (vscode)
-            await option.member?.fetch();
-            // @ts-expect-error - using types that isn't existing (vscode)
-            aboutEmbed.setThumbnail(option.member?.avatarURL({extension: "png", size: 512}) ?? option?.user?.avatarURL({extension: "png", size: 512}));
-        }catch(e) {console.warn(e);}
         
         aboutEmbed
-            // @ts-expect-error - using types that isn't existing (vscode)
-            .setTitle("About - " +inlineCode("User:") +bold(inlineCode((option.member?.nick ?? option.member?.nickname) ?? option.user.username)))
+            // .setTitle("About - " +inlineCode("User:") +bold(inlineCode(option.member?.nickname ?? option.user!.username)))
+            .setThumbnail(option.member.memberAvatarURL({extension: ImageFormat.PNG, size: 512}) || option.user?.avatarURL({extension: ImageFormat.PNG, size: 512}) || null)
             .addFields([
                 {
-                    name: "Joined at", // @ts-expect-error - using types that isn't existing (vscode)
-                    value: time(new Date(option.member?.joined_at ?? option.member.joinedAt)),
+                    name: "Joined at",
+                    value: time(option.member.joinedAt),
                     inline: true,
                 },
                 {
-                    name: "Server nickname", // @ts-expect-error - using types that isn't existing (vscode)
-                    value: (option.member?.nick ?? option.member?.nickname)? inlineCode(option.member?.nick ?? option.member?.nickname): "*No nickname set*",
+                    name: "Server nickname", 
+                    value: option.member.nickname ? inlineCode(option.member.nickname): "*No nickname set*",
                     inline: true,
                 },
             ]);
 
-        // @ts-expect-error - using types that isn't existing (vscode)
         if (option.member?.roles?.length) aboutEmbed.addFields([{name: "Roles", value: option.member.roles.map((e) => (roleMention(String(e)))).join(" ")}]);
-        // @ts-expect-error - using types that isn't existing (vscode)
-        if (option.member?._roles?.length) aboutEmbed.addFields([{name: "Roles", value: option.member._roles.map((e) => (roleMention(String(e)))).join(" ")}]);
-        // @ts-expect-error - using types that isn't existing (vscode)
-        if (option.member?.communicationDisabledUntilTimestamp) aboutEmbed.addFields([{name: "Time out until", value: time(new Date(option.member.communicationDisabledUntilTimestamp))}]);
-        // @ts-expect-error - using types that isn't existing (vscode)
-        if (option.member?.communication_disabled_until) aboutEmbed.addFields([{name: "Time out until", value: time(new Date(option.member.communication_disabled_until))}]);
+        if (option.member?.communicationDisabledUntil) aboutEmbed.addFields([{name: "Time out until", value: time(new Date(option.member.communicationDisabledUntil))}]);
 
         if (extra === "advanced") {
             aboutEmbedExtra
-                // @ts-expect-error - using types that isn't existing (vscode)
-                .setTitle("About - " +inlineCode("User:") +bold(inlineCode(option.member?.nick ?? option.user.username)) +inlineCode("(advanced)"));
-            if (option.member?.avatar)
-                // @ts-expect-error - using types that isn't existing (vscode)
-                aboutEmbedExtra.addFields([{name: "Guild Avatar URL", value: hyperlink("https://cdn.discordapp.com/guilds/.../users/.../avatars/...", option.member?.avatarURL()?? "")}]);
+                .setTitle("About - " +inlineCode("User:") +bold(inlineCode(option.member?.nickname ?? option.user?.username ?? ":(")) +inlineCode("(advanced)"));
+            if (option.member.avatar) aboutEmbedExtra.addFields([{name: "Guild Avatar URL", value: hyperlink("https://cdn.discordapp.com/guilds/.../users/.../avatars/...", option.member.memberAvatarURL()?? "")}]);
 
-            // @ts-expect-error - using types that isn't existing (vscode)
-            if (!option.member.guild) aboutEmbedExtra.addFields(await permissionViewer(new PermissionsBitField(option.member.permissions)));
+            if (option.member.permissions) aboutEmbedExtra.addFields(await permissionViewer(option.member.permissions));
         }
         // ROLE
     } else if (option.role) {
-        aboutEmbed.setTitle(
-            "About - " + inlineCode("Role:") + bold(inlineCode(option.role.name))
-        );
-        // @ts-expect-error - using types that isn't existing (vscode)
-        // .addField("Permissions", option.role.permissions ? (new Permissions(option.role.permissions).toArray().length ? codeBlock((new Permissions(option.role.permissions).toArray().join(", "))) : "*No permissions*") : "*No permissions*")
-        aboutEmbed.addFields(await permissionViewer(new PermissionsBitField(option.role.permissions)))
+        aboutEmbed.setTitle("About - " + inlineCode("Role:") + bold(inlineCode(option.role.name)));
+        aboutEmbed.addFields(await permissionViewer(option.role.permissions))
                   .addFields([{name: "Position", value: codeBlock(option.role.position.toString())}]);
 
-        // @ts-expect-error - using types that isn't existing (vscode)
-        if (option.role.tags?.bot_id ?? option.role.tags?.botId) aboutEmbed.addFields([{name: "Bot role", value: userMention(option.role.tags?.bot_id ?? option.role.tags?.botId)}]);
+        if (option.role.tags?.bot_id) aboutEmbed.addFields([{name: "Bot role", value: userMention(option.role.tags?.bot_id)}]);
 
         if (extra === "advanced") {
             aboutEmbedExtra
@@ -161,45 +129,21 @@ export default async function about(config: Config, option: CommandInteractionOp
                 .addFields([{name: "ID", value: codeBlock(option.role.id)}])
                 .addFields([{name: "Notes", value:`Pinned in the user listing: \`${option.role.hoist}\``}]);
         }
+
     } else if (option.channel) {
         aboutEmbed.setTitle(
-            "About - " + inlineCode("Channel:") + bold(inlineCode(option.channel.name))
+            "About - " + inlineCode("Channel:") + bold(inlineCode(option.channel.name ?? "Channel"))
         );
-        // @ts-expect-error - using types that isn't existing (vscode)
-        aboutEmbed.addFields([{name: "Type", value: channelTypeEmoji[option.channel.type] ||channelTypeEmojiAlt[option.channel.type]}]); 
+        aboutEmbed.addFields([{name: "Type", value: channelTypeMapper(option.channel.type)}]); 
 
         if (extra === "advanced") {
             aboutEmbedExtra
-                .setTitle("About - " +inlineCode("Channel:") +bold(inlineCode(option.channel.name)) +inlineCode("(advanced)"))
+                .setTitle("About - " +inlineCode("Channel:") +bold(inlineCode(option.channel.name ?? "Channel Name...")) +inlineCode("(advanced)"))
                 .addFields([{name: "ID", value: codeBlock(option.channel.id)}]);
         }
     }
-    if (option.name === "id") {
-        let anyId = option?.value?.toString()?? "123456789";
-        
-        // types required
-        var timestampFromSnowflake = (id: string) => {
-            return Number(id) / 4194304 + 1420070400000;
-        };
-        let list = [];
-        for (let str in channelTypeEmoji) {
-            // @ts-expect-error - using types that isn't existing (vscode)
-            list.push(channelTypeEmoji[str]);
-        }
-        aboutEmbed
-            .setTitle("About - " + inlineCode("id:") + bold(inlineCode(anyId)))
-            .setDescription("*Because this is only the ID, limited information*")
-            .addFields([{name: "Made", value: time(new Date(timestampFromSnowflake(anyId)))}])
-            .addFields([{name: "emoji", value: list.toLocaleString()}]);
-
-        if (extra === "advanced") {
-            aboutEmbedExtra
-                .setTitle("About - " +inlineCode("id:") +bold(inlineCode(anyId)) +inlineCode("(advanced)"))
-                .addFields([{name: "ID", value: codeBlock(anyId)}]);
-        }
-    }
-    if (option.name === "sub-reddit") {
-        return await reddit(config,"subreddit", option.value?.toString()?? "");
+    if (option.name === "subreddit") {
+        return await reddit(config, "subreddit", option.stringInput?.toString()?? "", option.user?.id);
     }
 
     if (!extra) return { embeds: [aboutEmbed] };
@@ -207,17 +151,13 @@ export default async function about(config: Config, option: CommandInteractionOp
 }
 
 
-export async function autoComplete(type: string, input: string): Promise <ApplicationCommandOptionChoiceData[]> {
-    // yes
-    try {
-        /** @type Object */
+export async function autoComplete(type: string, input: string) {
 
-        switch (type) {
-            case "subreddit": {
-                return await redditAutoComplete( "sub-reddit", input);
-            }
+    switch (type) {
+        case "subreddit": {
+            return await redditAutoComplete( "sub-reddit", input);
         }
-    } catch { console.warn;}
+    }
 
     return [];
 }
@@ -240,69 +180,76 @@ const flagsEmoji = {
     BotHTTPInteractions: "BotHTTPInteractions",
     Staff: "Staff"
 };
-/**
- *   
-  | 'DISCORD_EMPLOYEE'
-  | 'PARTNERED_SERVER_OWNER'
-  | 'HYPESQUAD_EVENTS'
-  | 'BUGHUNTER_LEVEL_1'
-  | 'HOUSE_BRAVERY'
-  | 'HOUSE_BRILLIANCE'
-  | 'HOUSE_BALANCE'
-  | 'EARLY_SUPPORTER'
-  | 'TEAM_USER'
-  | 'BUGHUNTER_LEVEL_2'
-  | 'VERIFIED_BOT'
-  | 'EARLY_VERIFIED_BOT_DEVELOPER'
-  | 'DISCORD_CERTIFIED_MODERATOR'
-  | 'BOT_HTTP_INTERACTIONS';
- */
 
-const channelTypeEmoji = {
-    GUILD_TEXT: "<:ChannelText:779036156175188001> Text channel",
-    DM: "<:IconMembers:778932116024459275> DM channel",
-    GUILD_VOICE: "<:ChannelVC:779036156607332394> Voice channel",
-    GROUP_DM: "<:IconMembers:778932116024459275> Group DM channel",
-    GUILD_CATEGORY: "<:ChannelCategory:816771723264393236> Category for channels",
-    GUILD_NEWS: "<:ChannelAnnouncements:779042577114202122> News Channel (announcements)",
-    GUILD_STORE: "<:ChannelStore:829073795041067098> Store Channel",
-    GUILD_NEWS_THREAD:"<:ChannelAnnouncementThread:897572964508266506> Thread in news channel",
-    GUILD_PUBLIC_THREAD: "<:ChannelThread:842224626486607872> Thread in channel",
-    GUILD_PRIVATE_THREAD: "<:ChannelThreadPrivate:842224739275898921> Thread in channel (private)",
-    GUILD_STAGE_VOICE: "<:StagePublic:829073837538410556> Stage channel",
-};
-const channelTypeEmojiAlt = {
-    0: channelTypeEmoji.GUILD_TEXT,
-    1: channelTypeEmoji.DM,
-    2: channelTypeEmoji.GUILD_VOICE,
-    3: channelTypeEmoji.GROUP_DM,
-    4: channelTypeEmoji.GUILD_CATEGORY,
-    5: channelTypeEmoji.GUILD_NEWS,
-    6: channelTypeEmoji.GUILD_STORE,
-    10: channelTypeEmoji.GUILD_NEWS_THREAD,
-    11: channelTypeEmoji.GUILD_PUBLIC_THREAD,
-    12: channelTypeEmoji.GUILD_PRIVATE_THREAD,
-    13: channelTypeEmoji.GUILD_STAGE_VOICE,
-};
+function channelTypeMapper(type: ChannelType): string {
+    if (type === ChannelType.DM)                    return "<:IconMembers:778932116024459275> DM channel";
+    if (type === ChannelType.GuildText)             return "<:ChannelText:779036156175188001> Text channel";
+    if (type === ChannelType.GuildVoice)            return "<:ChannelVC:779036156607332394> Voice channel";
+    if (type === ChannelType.GroupDM)               return "<:IconMembers:778932116024459275> Group DM channel";
+    if (type === ChannelType.GuildCategory)         return "<:ChannelCategory:816771723264393236> Category for channels";
+    if (type === ChannelType.GuildNews)             return "<:ChannelAnnouncements:779042577114202122> News Channel (announcements)";
+    if (type === ChannelType.GuildNewsThread)       return "<:ChannelAnnouncementThread:897572964508266506> Thread in news channel";
+    if (type === ChannelType.GuildPublicThread)     return "<:ChannelThread:842224626486607872> Thread in channel";
+    if (type === ChannelType.GuildPrivateThread)    return "<:ChannelThreadPrivate:842224739275898921> Thread in channel (private)";
+    if (type === ChannelType.GuildStageVoice)       return "<:StagePublic:829073837538410556> Stage channel";
+    if (type === ChannelType.GuildForum)            return "Forum Channel";
+    if (type === ChannelType.GuildDirectory)        return "Directory channel";
+    return "";
+}
 
 
-async function permissionViewer(permissions: PermissionsBitField): Promise<EmbedFieldData[]> {
-    let emojis = {
+function userFlagsMapper(flags: UserFlags | undefined): string[] {
+    const list = [];
+    if (!flags) return [""];
+
+    if (flags.has(UserFlagsEnum.Hypesquad)) list.push(flagsEmoji.Hypesquad);
+    if (flags.has(UserFlagsEnum.BugHunterLevel2)) list.push(flagsEmoji.BugHunterLevel2);
+    if (flags.has(UserFlagsEnum.BugHunterLevel1)) list.push(flagsEmoji.BugHunterLevel1);
+    if (flags.has(UserFlagsEnum.PremiumEarlySupporter)) list.push(flagsEmoji.PremiumEarlySupporter);
+    if (flags.has(UserFlagsEnum.CertifiedModerator)) list.push(flagsEmoji.CertifiedModerator);
+    if (flags.has(UserFlagsEnum.Staff)) list.push(flagsEmoji.DISCORD_EMPLOYEE);
+    if (flags.has(UserFlagsEnum.HypeSquadOnlineHouse1)) list.push(flagsEmoji.HypeSquadOnlineHouse1);
+    if (flags.has(UserFlagsEnum.HypeSquadOnlineHouse2)) list.push(flagsEmoji.HypeSquadOnlineHouse2);
+    if (flags.has(UserFlagsEnum.HypeSquadOnlineHouse3)) list.push(flagsEmoji.HypeSquadOnlineHouse3);
+    if (flags.has(UserFlagsEnum.VerifiedDeveloper)) list.push(flagsEmoji.VerifiedDeveloper);
+    if (flags.has(UserFlagsEnum.VerifiedBot)) list.push(flagsEmoji.VerifiedBot);
+    if (flags.has(UserFlagsEnum.TeamPseudoUser)) list.push(flagsEmoji.TEAM_USER);
+    if (flags.has(UserFlagsEnum.Partner)) list.push(flagsEmoji.PARTNERED_SERVER_OWNER);
+    if (flags.has(UserFlagsEnum.BotHTTPInteractions)) list.push(flagsEmoji.BotHTTPInteractions);
+    if (flags.has(UserFlagsEnum.Quarantined)) list.push("<:Quarantined:899099370109879552>");
+    if (flags.has(1 << 23)) list.push("(slash commands)");
+
+    return list;
+}
+function permissionViewer(permissions: Permissions): APIEmbedField[] {
+    const emojis = {
         none: "<:CheckNone:900615195209138186>",
         off: "<:CheckOff:900615195154612276>",
         on: "<:CheckOn:900615194936475659>",
     };
 
-    let listGeneral = [];
+    const listGeneral = [];
+
+    // Has administrator permissions
     if (permissions.has(PermissionFlagsBits.Administrator)) {
-     listGeneral.push(emojis.on + " Administrator");
-    } else listGeneral.push(emojis.off + " Administrator");
+        listGeneral.push(emojis.on + " Administrator");
+    } else  {
+        listGeneral.push(emojis.off + " Administrator");
+    } 
+
+    // Has view audit log permissions (or administrator permissions)
     if (permissions.has(PermissionFlagsBits.ViewAuditLog)) {
         listGeneral.push(emojis.on + " View Audit Log");
-    } else listGeneral.push(emojis.off + " View Audit Log");
+    } else {
+         listGeneral.push(emojis.off + " View Audit Log");
+    }
+
+    // Has view guild insights permissions (or administrator permissions)
     if (permissions.has(PermissionFlagsBits.ViewGuildInsights)) {
         listGeneral.push(emojis.on + " View Server Insights");
-    } else listGeneral.push(emojis.off + " View Server Insights");
+    } else {
+        listGeneral.push(emojis.off + " View Server Insights");
+    }
     if (permissions.has(PermissionFlagsBits.ManageGuild)) {
         listGeneral.push(emojis.on + " Manage Server");
     } else listGeneral.push(emojis.off + " Manage Server");
@@ -343,7 +290,7 @@ async function permissionViewer(permissions: PermissionsBitField): Promise<Embed
         listGeneral.push(emojis.on + " Moderate Members");
     else listGeneral.push(emojis.off + " Moderate Members");
 
-    let listText = [];
+    const listText = [];
     if (permissions.has(PermissionFlagsBits.SendMessages)) {
         listText.push(emojis.on + " Send Messages");
     } else listText.push(emojis.off + " Send Messages");
@@ -390,7 +337,7 @@ async function permissionViewer(permissions: PermissionsBitField): Promise<Embed
         listText.push(emojis.on + " Use Slash Commands");
     else listText.push(emojis.off + " Use Slash Commands");
 
-    let listVoice = [];
+    const listVoice = [];
     if (permissions.has(PermissionFlagsBits.Connect))
         listVoice.push(emojis.on + " Connect");
     else listVoice.push(emojis.off + " Connect");
@@ -423,15 +370,15 @@ async function permissionViewer(permissions: PermissionsBitField): Promise<Embed
 
 export function applicationCommands(config?: Config, envEnabledList?: EnvEnabled) {
 
-    let aboutUserCommand = new ContextMenuCommandBuilder()
+    const aboutUserCommand = new ContextMenuCommandBuilder()
         .setName("About user")
         .setType(ApplicationCommandType.User);
 
-    let userAboutOptions = [{name: "Advanced", value: "advanced"}];
+    const userAboutOptions = [{name: "Advanced", value: "advanced"}];
 
     if (envEnabledList?.HasTopggToken && config?.apiEnabled?.topgg) userAboutOptions.push({name: "Top.gg", value: "top.gg"});
 
-    let  aboutSlashCommand = new SlashCommandBuilder()
+    const  aboutSlashCommand = new SlashCommandBuilder()
         .setName("about")
         .setDescription("Replies with information about a user/role")
         .addSubcommand( 
@@ -472,7 +419,7 @@ export function applicationCommands(config?: Config, envEnabledList?: EnvEnabled
                 .setDescription("Replies with information about a channel")
                 .addChannelOption(
                     new SlashCommandChannelOption()
-                        .setName("role")
+                        .setName("channel")
                         .setRequired(true)
                         .setDescription("The channel to get information about")
                 ).addStringOption(
@@ -491,9 +438,10 @@ export function applicationCommands(config?: Config, envEnabledList?: EnvEnabled
                 .setDescription("Get information about a subreddit")
                 .addStringOption(
                     new SlashCommandStringOption()
-                        .setName("extra")
-                        .setDescription("Some more information that isn't as useful")
+                        .setName("sub-reddit")
+                        .setDescription("The name of the subreddit")
                         .setRequired(true)
+                        .setAutocomplete(true)
                 )
         );  
     }  

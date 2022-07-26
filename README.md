@@ -17,23 +17,19 @@ This bot is run by:
 
 NOTE: this uses yarn, so you need to have [yarn](https://yarnpkg.com/getting-started/install) installed
 
-### Running Extra
-
-This bot is run by `yarn start:extra`\
-To add the commands run `yarn deployCommands:extra`
-
-*ps. don't use normal and extra at same time (but you can if 2 tokens)*
 
 ### Hosting online
 
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template/ltDq6H?referralCode=4kwikB)
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template/ZjmX6N?referralCode=4kwikB)
 
 You can use Railway to host your bot. But anything will work.
 
-## FAQ
 
-* Q: What is the Extra file (Riskybot 2)
-* A: It is has some extra commands and does stuff with text input (reaction to some words)
+### Running locally
+
+It is slightly harder to run locally, because it uses HTTP endpoint. Currently I use [Cloudflared Tunnel](https://blog.cloudflare.com/tunnel-for-everyone/) and put the url into Discord's dashboard.
+
+## FAQ
 
 * Q: There are no commands on the Discord app
 * A: you need to `deployCommands` otherwise it won't work
@@ -60,8 +56,8 @@ You can do changes to bot by going into the `.mts` or `.ts` or `.js` files and c
 
 ### Using [`packages/*`](./packages) (Actually modifying the files)
 
-**APIs**: these are for functions to use mainly\
-**Functions**: these the responses for application commands - also has the command builder
+**APIs**: these are for commands to use mainly\
+**Commands**: these the responses for application commands - also has the command builder
 **Utils**: these are for everything's help
 
 NOTE: if you change anything in those above you must run `yarn build` to update the files

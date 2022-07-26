@@ -1,8 +1,8 @@
 import YAML from "js-yaml";
 import { readFileSync } from "fs";
-import { resolveColor } from "discord.js";
 import type { ConfigType } from "./types.mjs";
-import type { CommandInteractionOption, Webhook, TextChannel } from "discord.js";
+import { APIMessage, Routes } from "discord-api-types/v10";
+import { fetch } from "undici";
 
 
 export class Config {
@@ -56,11 +56,24 @@ export class Config {
     }
 
 }
+
+function resolveColor(color: string | number): number {
+  if (typeof color === "string") {
+    color = parseInt(color.replace("#", ""), 16);
+  }
+
+  if (color < 0 || color > 0xffffff) throw new RangeError("ColorRange");
+  else if (Number.isNaN(color)) throw new TypeError("ColorConvert");
+
+  return color;
+}
+
+
 /** To find out if something has an entry in the .env */
 export class EnvEnabled {
     constructor(env: typeof process["env"]) {
-        if (env.DISCORD_TOKEN != null) this.hasDiscordToken = true;
-        if (env.DISCORD_EXTRA_TOKEN != null) this.hasDiscordExtraToken = true;
+        if (env.APPLICATION_TOKEN != null) this.hasDiscordToken = true;
+        if (env.APPLICATION_EXTRA_TOKEN != null) this.hasDiscordExtraToken = true;
         if (env.TOPGG_TOKEN != null) this.HasTopggToken = true;
         if (env.DEEPAI_TOKEN != null) this.HasDeepaiToken = true;
         if (env.PRODUCTION != null) this.hasProductionBool = true;
@@ -68,9 +81,9 @@ export class EnvEnabled {
         // return ;
     }
     // [key: string]: boolean;
-    /**  Has a entry in `DISCORD_TOKEN`? */
+    /**  Has a entry in `APPLICATION_TOKEN`? */
     public hasDiscordToken = false;
-    /**  Has a entry in `DISCORD_EXTRA_TOKEN`? */
+    /**  Has a entry in `APPLICATION_EXTRA_TOKEN`? */
     public hasDiscordExtraToken = false;
     /** Has a entry in `PRODUCTION`? - is it in testing or in release mode - useless rn*/
     public hasProductionBool = false;
@@ -85,21 +98,6 @@ export class EnvEnabled {
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore - would use @ts-expect-error but some times it errors
 export const listFormatter: Intl.ListFormat = new Intl.ListFormat("en", { style: "long" });
-
-export async function webhookMakeOrFind(channel: TextChannel, webhookName: string, botId: string) : Promise<Webhook> {
-    let webhooks = await channel.fetchWebhooks();
-    let webhook = webhooks.find(
-        (u) => u.name === webhookName && u.owner?.id === botId
-    );
-
-    if (!webhook) {
-        channel.createWebhook({name: webhookName}).catch(console.error);
-        webhooks = await channel.fetchWebhooks();
-        webhook = webhooks.find((u) => u.name === webhookName && u.owner?.id === botId);
-    }
-    if (!webhook) throw new Error("Could not find or create webhook");
-    return webhook;
-}
 
 
 export const trim = (str: string, max: number): string =>
@@ -117,7 +115,7 @@ export async function getBetweenStr(string: string, statChar: string, endChar: s
 }
 
 
-export async function stringFromEmbed(message: CommandInteractionOption["message"]): Promise<string> {
+export async function stringFromEmbed(message: APIMessage): Promise<string> {
     let msg = message?.content || "";
 
     for (const emb of message?.embeds ?? []) {
@@ -143,3 +141,40 @@ export async function stringFromEmbed(message: CommandInteractionOption["message
  return msg;
 }
 
+
+
+
+
+/// APIUser/APIGuild helpers
+
+const DISCORD_EPOCH = 1420070400000;
+
+export function convertSnowflakeToDate(snowflake: string): Date {
+ return new Date(Number(snowflake) / 4194304 + DISCORD_EPOCH);
+}
+
+
+const DISCORD_API_URL = "https://discord.com/api/v10";
+
+export async function getBearerTokenFromKey(applicationId: string, privateKey: string, scopes: string[]) {
+    const res = await fetch(DISCORD_API_URL + Routes.oauth2TokenExchange(), {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            Authorization: `Basic ${Buffer.from(`${applicationId}:${privateKey}`).toString("base64")}`,
+        },
+        body: new URLSearchParams({
+            grant_type: "client_credentials",
+            scope: scopes.join(" ") || "applications.commands.update",
+        }),
+    });
+    
+    const json = await res.json() as { access_token: string };
+    const bearerToken = json.access_token;
+    console.info("Bearer token:", bearerToken);
+
+    if (!bearerToken) throw new Error("Failed to get bearer token");
+
+    return bearerToken;
+
+}

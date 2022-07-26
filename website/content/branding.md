@@ -14,4 +14,3 @@ ShowToc: false
 | RiskyBOT | RiskyBOT 2 | RiskyBOT Beta | Risky's Server
 |---|---|---|---|---|
 |![RiskyBOT Icon](../riskybot.png) Color: `#ED4245` |![RiskyBOT 2 Icon](../riskybot_2.png) Color: `#57F287`|![RiskyBOT Beta Icon](../riskybot_beta.png) Color: `#EB459E`|![RiskyBOT Server Icon](../risky_server.png) Color: `#5865F2`|
-*View [differences](../docs/riskybots)*

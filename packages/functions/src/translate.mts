@@ -14,8 +14,8 @@ export default async function translate(config: Config, input: string, to: strin
     to = to.replace("en-GB", "en");
 
     /** @type Object */
-    let ans = await translateFunc((input), { to: to, from: from });
-    let translated = await ans.text;
+    const ans = await translateFunc((input), { to: to, from: from });
+    const translated = await ans.text;
 
     const exampleEmbed = new EmbedBuilder()
         .setColor(config.getColors().ok)
@@ -32,9 +32,11 @@ export default async function translate(config: Config, input: string, to: strin
 }
 
 export function applicationCommands(config?: Config, envEnabledList?: EnvEnabled) {
-    envEnabledList; // Just so it is used
+    // eslint-disable-next-line no-unused-expressions
+    config; envEnabledList; // Just so it is used
+
     if (config?.apiEnabled.googleTranslate) {
-        let translateSlashCommand = new SlashCommandBuilder()
+        const translateSlashCommand = new SlashCommandBuilder()
             .setName("translate")
             .setDescription("Uses google translate")
             .addStringOption(
@@ -73,7 +75,7 @@ export function applicationCommands(config?: Config, envEnabledList?: EnvEnabled
                         {name: "Russian", value: "ru"}
                     )
             );      
-            let translateMessageMenu = new ContextMenuCommandBuilder()
+            const translateMessageMenu = new ContextMenuCommandBuilder()
                 .setName("Translate message")
                 .setType(ApplicationCommandType.Message);
 

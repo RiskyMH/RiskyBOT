@@ -1,6 +1,7 @@
 import { EmbedBuilder, inlineCode, SlashCommandBuilder, SlashCommandStringOption, SlashCommandSubcommandBuilder, SlashCommandUserOption } from "@discordjs/builders";
-import type { User, CommandInteractionOption, InteractionReplyOptions } from "discord.js";
+import type { InteractionDataResolvedGuildMember, InteractionGuildMember, User } from "@riskybot/discord-interactions";
 import type { Config, EnvEnabled } from "@riskybot/tools";
+import { ImageFormat } from "discord-api-types/v10";
 import { fetch } from "undici";
 
 const nekoBaseURL = "https://nekobot.xyz/api/";
@@ -10,8 +11,8 @@ const sraBaseURL = "https://some-random-api.ml/";
 //TODO: Migrate the fetch into `@riskybot/apis`
 
 
-export default async function fun(config: Config, type: string, input: { user1?: User, member1?: CommandInteractionOption["member"], user2?: User, text1?: string } = { user1: undefined, member1: undefined, user2: undefined, text1: undefined }): Promise<InteractionReplyOptions> {
-  let funEmb = new EmbedBuilder().setTitle("Fun").setColor(config.getColors().ok);
+export default async function fun(config: Config, type: string, input: { user1?: User, member1?: InteractionGuildMember | InteractionDataResolvedGuildMember, user2?: User, text1?: string } = { user1: undefined, member1: undefined, user2: undefined, text1: undefined }) {
+  const funEmb = new EmbedBuilder().setTitle("Fun").setColor(config.getColors().ok);
 
   /** @type Object */
   //  let fun: object = {};
@@ -20,7 +21,7 @@ export default async function fun(config: Config, type: string, input: { user1?:
     case "clyde-say":
       {
         if (!input.text1) throw new Error("You need to specify a `text1` for input");
-        let fun: any = await fetch(
+        const fun: any = await fetch(
           nekoBaseURL +
           "imagegen?" +
           new URLSearchParams({ type: "clyde", text: input.text1 ?? "" })
@@ -34,13 +35,13 @@ export default async function fun(config: Config, type: string, input: { user1?:
     case "ship":
       {
         if (!input.user1 || !input.user2) throw new Error("You need to specify `user1` and `user2` for input");
-        let fun: any = await fetch(
+        const fun: any = await fetch(
          nekoBaseURL +
           "imagegen?" +
           new URLSearchParams({
            type: "ship",
-           user1: input.user1.displayAvatarURL({ extension: "png", size: 512 }),
-           user2: input.user2.displayAvatarURL({ extension: "png", size: 512 }),
+           user1: input.user1.displayAvatarURL({ extension: ImageFormat.PNG, size: 512 }),
+           user2: input.user2.displayAvatarURL({ extension: ImageFormat.PNG, size: 512 }),
           })
         ).then((response) => response.json());
         funEmb
@@ -52,12 +53,12 @@ export default async function fun(config: Config, type: string, input: { user1?:
     case "captcha":
       {
         if (!input.user1 || !input.user2) throw new Error("You need to specify `user1` and `user2` for input");
-        let fun: any = await fetch(
+        const fun: any = await fetch(
           nekoBaseURL +
           "imagegen?" +
           new URLSearchParams({
             type: "captcha",
-            url: input.user1.displayAvatarURL({ extension: "png", size: 512 }),
+            url: input.user1.displayAvatarURL({ extension: ImageFormat.PNG, size: 512 }),
             username: input.user1.username,
           })
         ).then((response) => response.json());
@@ -70,13 +71,13 @@ export default async function fun(config: Config, type: string, input: { user1?:
     case "whowouldwin":
       {
         if (!input.user1 || !input.user2) throw new Error("You need to specify `user1` and `user2` for input");
-        let fun: any = await fetch(
+        const fun: any = await fetch(
           nekoBaseURL +
           "imagegen?" +
           new URLSearchParams({
             type: "whowouldwin",
-            user1: input.user1.displayAvatarURL({ extension: "png", size: 512 }),
-            user2: input.user2.displayAvatarURL({ extension: "png", size: 512 }),
+            user1: input.user1.displayAvatarURL({ extension: ImageFormat.PNG, size: 512 }),
+            user2: input.user2.displayAvatarURL({ extension: ImageFormat.PNG, size: 512 }),
           })
         ).then((response) => response.json());
         funEmb
@@ -88,7 +89,7 @@ export default async function fun(config: Config, type: string, input: { user1?:
     case "changemymind":
       {
         if (!input.text1) throw new Error("You need to specify `text1` for input");
-        let fun: any = await fetch(
+        const fun: any = await fetch(
           nekoBaseURL +
           "imagegen?" +
           new URLSearchParams({ type: "changemymind", text: input.text1 })
@@ -102,12 +103,12 @@ export default async function fun(config: Config, type: string, input: { user1?:
     case "iphonex":
       {
         if (!input.user1) throw new Error("You need to specify `user1` for input");
-        let fun: any = await fetch(
+        const fun: any = await fetch(
           nekoBaseURL +
           "imagegen?" +
           new URLSearchParams({
             type: "iphonex",
-            url: input.user1.displayAvatarURL({ extension: "png", size: 512 }),
+            url: input.user1.displayAvatarURL({ extension: ImageFormat.PNG, size: 512 }),
           })
         ).then((response) => response.json());
         funEmb
@@ -119,7 +120,7 @@ export default async function fun(config: Config, type: string, input: { user1?:
     case "trump-tweet":
       {
         if (!input.text1) throw new Error("You need to specify `text1` for input");
-        let fun: any = await fetch(
+        const fun: any = await fetch(
           nekoBaseURL +
           "imagegen?" +
           new URLSearchParams({ type: "trumptweet", text: input.text1 })
@@ -135,11 +136,11 @@ export default async function fun(config: Config, type: string, input: { user1?:
         if (!input.text1 || !input.user1) throw new Error("You need to specify `text1` and `user1` for input");
         //  let let fun: any = await fetch(nekoBaseURL+"imagegen?type=tweet&text="+input.text1+"&username="+input.user1.username).then((response) => response.json())
         //  funEmb.setImage(await fun.message).setAuthor("nekobot", "", "http://neekobot.xyz").setTitle("Fun - `Tweet`")
-        let fun: any = await fetch(
+        const fun: any = await fetch(
           sraBaseURL +
           "canvas/tweet?" +
           // @ts-expect-error - using types that isn't existing (vscode)
-          new URLSearchParams({ comment: input.text1, username: input.user1.username, avatar: input.user1.displayAvatarURL({ extension: "png", size: 512 }), displayname: input?.member1?.displayName ?? input.user1.username, })
+          new URLSearchParams({ comment: input.text1, username: input.user1.username, avatar: input.user1.displayAvatarURL({ extension: ImageFormat.PNG, size: 512 }), displayname: input?.member1?.displayName ?? input.user1.username, })
         ).then((response) => response.url);
 
         funEmb
@@ -155,12 +156,12 @@ export default async function fun(config: Config, type: string, input: { user1?:
     case "deepfry":
       {
         if (!input.user1) throw new Error("You need to specify `user1` for input");
-        let fun: any = await fetch(
+        const fun: any = await fetch(
           nekoBaseURL +
           "imagegen?" +
           new URLSearchParams({
             type: "deepfry",
-            image: input.user1.displayAvatarURL({ extension: "png", size: 512 }),
+            image: input.user1.displayAvatarURL({ extension: ImageFormat.PNG, size: 512 }),
           })
         ).then((response) => response.json());
         funEmb
@@ -172,12 +173,12 @@ export default async function fun(config: Config, type: string, input: { user1?:
     case "blurpify":
       {
         if (!input.user1) throw new Error("You need to specify `user1` for input");
-        let fun: any = await fetch(
+        const fun: any = await fetch(
           nekoBaseURL +
           "imagegen?" +
           new URLSearchParams({
             type: "blurpify",
-            image: input.user1.displayAvatarURL({ extension: "png", size: 512 }),
+            image: input.user1.displayAvatarURL({ extension: ImageFormat.PNG, size: 512 }),
           })
         ).then((response) => response.json());
         funEmb
@@ -345,9 +346,10 @@ function getRandom(list: Array<any>): any {
 
 
 export function applicationCommands(config?: Config, envEnabledList?: EnvEnabled) {
-
+  // eslint-disable-next-line no-unused-expressions
   envEnabledList; // Just so it is used
-  let funSlashCommand = new SlashCommandBuilder()
+
+  const funSlashCommand = new SlashCommandBuilder()
     .setName("fun")
     .setDescription("🤣 Produces fun results")
     .addSubcommand(

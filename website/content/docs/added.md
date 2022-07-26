@@ -13,9 +13,4 @@ Thank you for adding this bot
 * and some FAQs go to [faq](../faq)
 
 ### Possible issues
-* [Riskybot 2](../about/riskybot-2) isn't responding to me in chat - Make sure that it has permissions to view in that channel
-
-
-``` 
-hi
-```
+- Issue...

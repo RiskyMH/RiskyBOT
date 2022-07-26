@@ -3,7 +3,6 @@ import { ButtonStyle } from "discord-api-types/v10";
 import { fetch } from "undici";
 import { EnvEnabled, getBetweenStr } from "@riskybot/tools";
 import { reddit, redditAutoComplete } from "./index.mjs";
-import type { ApplicationCommandOptionChoiceData, InteractionReplyOptions } from "discord.js";
 import type { Config } from "@riskybot/tools";
 
 
@@ -11,27 +10,29 @@ import type { Config } from "@riskybot/tools";
 //TODO: Migrate the fetch into `@riskybot/apis`
 
 
-export default async function random(config: Config, type: string, input: {num1?: number, num2?: number, text1?: string} = {num1: undefined, num2: undefined, text1: undefined }, userId?: string): Promise<InteractionReplyOptions> {
-    let randomEmb = new EmbedBuilder();
-    let errorEmb = new EmbedBuilder()
+export default async function random(config: Config, type: string, input: {num1?: number, num2?: number, text1?: string} = {num1: undefined, num2: undefined, text1: undefined }, userId?: string) {
+    const randomEmb = new EmbedBuilder();
+    const errorEmb = new EmbedBuilder()
         .setTitle("Errors - random")
         .setColor(config.getColors().error);
-    let row = new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents([
+
+    const row = new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents([
         new ButtonBuilder()
-        .setCustomId(`random-again${userId? "-" + userId: ""}`)
-        .setLabel("Another?")
-        .setStyle(ButtonStyle.Primary)
-        .setDisabled(false)
+            .setCustomId(`random-again${userId? "-" + userId: ""}`)
+            .setLabel("Another?")
+            .setStyle(ButtonStyle.Primary)
+            .setDisabled(false)
     ]);
+    
     let messageContent = "";
     
-    let errors: string[] = [];
+    const errors: string[] = [];
 
     switch (type) {
         case "cat": {
             row.components[0].setCustomId(`random-again-cat${userId? "-" + userId: ""}`);
 
-            let cat: any = await fetch("https://aws.random.cat/meow").then(response => response.json()) as object;
+            const cat: any = await fetch("https://aws.random.cat/meow").then(response => response.json()) as object;
 
             randomEmb
                 .setTitle("🐱 Cat")
@@ -47,7 +48,7 @@ export default async function random(config: Config, type: string, input: {num1?
             row.components[0].setCustomId(`random-again-dog${userId? "-" + userId: ""}`);
 
             if (!errors.length) {
-                let dog: any = await fetch("https://dog.ceo/api/breeds/image/random").then(response => response.json()) as object;
+                const dog: any = await fetch("https://dog.ceo/api/breeds/image/random").then(response => response.json()) as object;
 
                 randomEmb
                     .setTitle("Random - Dog")
@@ -66,7 +67,7 @@ export default async function random(config: Config, type: string, input: {num1?
             row.components[0].setCustomId(`random-again-kangaroo${userId? "-" + userId: ""}`);
 
             if (!errors.length) {
-                let kanga: any = await fetch("https://some-random-api.ml/animal/kangaroo").then(response => response.json());
+                const kanga: any = await fetch("https://some-random-api.ml/animal/kangaroo").then(response => response.json());
 
                 randomEmb
                     .setTitle("Random - Kangaroo")
@@ -85,7 +86,7 @@ export default async function random(config: Config, type: string, input: {num1?
             row.components[0].setCustomId(`random-again-fox${userId? "-" + userId: ""}`);
 
             if (!errors.length) {
-                let fox: any = await fetch("https://some-random-api.ml/animal/fox").then(response => response.json());
+                const fox: any = await fetch("https://some-random-api.ml/animal/fox").then(response => response.json());
 
                 randomEmb
                     .setTitle("Random - Fox")
@@ -104,7 +105,7 @@ export default async function random(config: Config, type: string, input: {num1?
             row.components[0].setCustomId(`random-again-panda${userId? "-" + userId: ""}`);
 
             if (!errors.length) {
-                let panda: any = await fetch("https://some-random-api.ml/animal/panda").then(response => response.json());
+                const panda: any = await fetch("https://some-random-api.ml/animal/panda").then(response => response.json());
 
                 randomEmb
                     .setTitle("Random - Panda")
@@ -123,7 +124,7 @@ export default async function random(config: Config, type: string, input: {num1?
             row.components[0].setCustomId(`random-again-joke${userId? "-" + userId: ""}`);
 
             if (!errors.length) {
-                let joke: any = await fetch("https://some-random-api.ml/joke").then(response => response.json());
+                const joke: any = await fetch("https://some-random-api.ml/joke").then(response => response.json());
 
                 randomEmb
                     .setTitle("Random - Joke")
@@ -143,7 +144,7 @@ export default async function random(config: Config, type: string, input: {num1?
             row.components[0].setCustomId(`random-again-dadjoke${userId? "-" + userId: ""}`);
 
             if (!errors.length) {
-                let joke: any = await fetch("https://icanhazdadjoke.com",{headers: {Accept: "application/json"}}).then(response => response.json());
+                const joke: any = await fetch("https://icanhazdadjoke.com",{headers: {Accept: "application/json"}}).then(response => response.json());
 
                 randomEmb
                     .setTitle("Random - Dad Joke")
@@ -162,7 +163,7 @@ export default async function random(config: Config, type: string, input: {num1?
             row.components[0].setCustomId(`random-again-quote${userId? "-" + userId: ""}`);
 
             if (!errors.length) {
-                let quote: any = await fetch("https://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json").then(response => response.json());
+                const quote: any = await fetch("https://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json").then(response => response.json());
 
                 randomEmb
                     .setTitle("Random - Quote")
@@ -181,7 +182,7 @@ export default async function random(config: Config, type: string, input: {num1?
             row.components[0].setCustomId(`random-again-affirmation${userId? "-" + userId: ""}`);
 
             if (!errors.length) {
-                let quote: any = await fetch("https://www.affirmations.dev").then(response => response.json());
+                const quote: any = await fetch("https://www.affirmations.dev").then(response => response.json());
 
                 randomEmb
                     .setTitle("Random - Affirmation")
@@ -200,7 +201,7 @@ export default async function random(config: Config, type: string, input: {num1?
             row.components[0].setCustomId(`random-again-insult${userId? "-" + userId: ""}`);
 
             if (!errors.length) {
-                let insult: any = await fetch("https://evilinsult.com/generate_insult.php?lang=en&type=json").then(response => response.json());
+                const insult: any = await fetch("https://evilinsult.com/generate_insult.php?lang=en&type=json").then(response => response.json());
 
                 randomEmb
                     .setTitle("Random - Insult")
@@ -219,7 +220,7 @@ export default async function random(config: Config, type: string, input: {num1?
             row.components[0].setCustomId("random-again-excuse"+ `${input.text1?`-(${input.text1})`:""}${userId? "-" + userId: ""}`);
 
             if (!errors.length) {
-                let excuse: any = await fetch("https://excuser.herokuapp.com/v1/excuse/"+ `${input.text1 ? input.text1:""}`).then(response => response.json());
+                const excuse: any = await fetch("https://excuser.herokuapp.com/v1/excuse/"+ `${input.text1 ? input.text1:""}`).then(response => response.json());
 
                 randomEmb
                     .setTitle("Random - Excuse"+`${input.text1?" - "+inlineCode(input.text1):""}`)
@@ -239,7 +240,7 @@ export default async function random(config: Config, type: string, input: {num1?
 
             if (!errors.length) {
                 /** @type Object() */
-                let quote: any = await fetch("https://uselessfacts.jsph.pl/random.json?language=en").then(response => response.json());
+                const quote: any = await fetch("https://uselessfacts.jsph.pl/random.json?language=en").then(response => response.json());
 
                 randomEmb
                     .setTitle("Random - Fact")
@@ -260,7 +261,7 @@ export default async function random(config: Config, type: string, input: {num1?
 
             if (!errors.length) {
                 /** @type Object() */
-                let kanga: any = await fetch("https://some-random-api.ml/animal/koala").then(response => response.json());
+                const kanga: any = await fetch("https://some-random-api.ml/animal/koala").then(response => response.json());
 
                 randomEmb
                     .setTitle("Random - Koala")
@@ -279,7 +280,7 @@ export default async function random(config: Config, type: string, input: {num1?
 
             if (!errors.length) {
                 /** @type Object() */
-                let bird: any = await fetch("https://shibe.online/api/birds?count=1").then(response => response.json());
+                const bird: any = await fetch("https://shibe.online/api/birds?count=1").then(response => response.json());
 
                 randomEmb
                     .setTitle("Random - Bird")
@@ -299,7 +300,7 @@ export default async function random(config: Config, type: string, input: {num1?
 
             if (!errors.length) {
                 /** @type Object() */
-                let duck: any = await fetch("https://random-d.uk/api/v2/quack").then(response => response.json());
+                const duck: any = await fetch("https://random-d.uk/api/v2/quack").then(response => response.json());
 
                 randomEmb
                     .setTitle("🦆 Duck")
@@ -319,7 +320,7 @@ export default async function random(config: Config, type: string, input: {num1?
 
             if (!errors.length) {
                 /** @type Object() */
-                let zoo: any = await fetch("https://zoo-animal-api.herokuapp.com/animals/rand").then(response => response.json());
+                const zoo: any = await fetch("https://zoo-animal-api.herokuapp.com/animals/rand").then(response => response.json());
 
                 randomEmb
                     .setTitle("Random - Zoo Animal")
@@ -339,10 +340,10 @@ export default async function random(config: Config, type: string, input: {num1?
 
             if (!errors.length) {
                 /** @type Object() */
-                let emojies: any = await fetch("https://emojihub.herokuapp.com/api/random").then(response => response.json());
+                const emojies: any = await fetch("https://emojihub.herokuapp.com/api/random").then(response => response.json());
                 let str="";
                 
-                for (let emoji of emojies.htmlCode) {
+                for (const emoji of emojies.htmlCode) {
                     str += String.fromCodePoint(Number(emoji.replace("&#", "").replace(";", "")));
                 }
                 
@@ -374,8 +375,8 @@ export default async function random(config: Config, type: string, input: {num1?
             input.num2 ||= 100;
             row.components[0].setCustomId(`random-again-number-(${input.num1}-${input.num2})`);
             
-            let min = Math.ceil(input.num1);
-            let max = Math.floor(input.num2);
+            const min = Math.ceil(input.num1);
+            const max = Math.floor(input.num2);
 
             randomEmb
                 .setTitle(`Random - \`min:${input.num1} max:${input.num2}\``)
@@ -388,7 +389,7 @@ export default async function random(config: Config, type: string, input: {num1?
         case "randomPost":
         case "random-post": 
         {
-            let data = await reddit(config, type, input.text1 || "", userId);
+            const data = await reddit(config, type, input.text1 || "", userId);
             return data;
         }
 
@@ -397,7 +398,7 @@ export default async function random(config: Config, type: string, input: {num1?
 }
 
 
-export async function autoComplete(engine: string, input: string ): Promise<ApplicationCommandOptionChoiceData[]> {
+export async function autoComplete(engine: string, input: string ) {
     switch (engine) {
         case "random-post": {
             return await redditAutoComplete("sub-reddit", input);
@@ -408,14 +409,15 @@ export async function autoComplete(engine: string, input: string ): Promise<Appl
 }
 
 
-export async function button(config: Config, id: string, userId?: string): Promise<InteractionReplyOptions> {
-    userId;
+export async function button(config: Config, id: string, userId?: string) {
+
     let num1 = 0;
     let num2 = 0;
     let text1 = "";
     let idActual = id.split("-")[2];
+
     if (idActual == "number") {
-        let nums = await getBetweenStr(id, "(", ")", "-");
+        const nums = await getBetweenStr(id, "(", ")", "-");
         num1 = Number(nums[0]);
         num2 = Number(nums[1]);
     } else if (idActual == "randomPost") {
@@ -425,16 +427,17 @@ export async function button(config: Config, id: string, userId?: string): Promi
         text1 = String(await getBetweenStr(id, "(", ")")) || "";
     }
 
-    let data = await random(config, idActual, {num1, num2, text1}, userId);
+    const data = await random(config, idActual, {num1, num2, text1}, userId);
 
-    return data as InteractionReplyOptions;
+    return data;
 }
 
 
 export function applicationCommands(config?: Config, envEnabledList?: EnvEnabled) {
+    // eslint-disable-next-line no-unused-expressions
     config; envEnabledList; // Just so it is used
 
-    let randomSlashCommand = new SlashCommandBuilder()
+    const randomSlashCommand = new SlashCommandBuilder()
         .setName("random")
         .setDescription("Produces random results")
         .addSubcommand(

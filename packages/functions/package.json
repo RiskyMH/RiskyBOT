@@ -1,17 +1,16 @@
 {
-    "name": "@riskybot/functions",
-    "description": "A collection of functions (commands) for use in the RiskyBOT project",
+    "name": "@riskybot/commands",
+    "description": "A collection of commands for use in the RiskyBOT project",
     "version": "4.0.0-test.4",
     "dependencies": {
-        "@discordjs/builders": "^0.16.0-dev.1655640244-358c3f4",
+        "@discordjs/builders": "^1.0.0",
         "@riskybot/apis": "workspace:^",
         "@riskybot/tools": "workspace:^",
         "axios": "^0.27.2",
         "deepai": "^1.0.21",
-        "discord-api-types": "^0.34.0",
-        "discord.js": "^14.0.0-dev.1655640259-358c3f4",
+        "discord-api-types": "^0.36.3",
         "translatte": "^3.0.1",
-        "undici": "^5.5.1"
+        "undici": "^5.8.0"
     },
     "devDependencies": {
         "typescript": "^4.7.4"
@@ -35,7 +34,7 @@
     },
     "type": "module",
     "types": "./dist/index.d.ts",
-    "homepage": "https://github.com/RiskyMH/RiskyBOT/tree/v4/packages/functions",
+    "homepage": "https://github.com/RiskyMH/RiskyBOT/tree/v4/packages/commands",
     "repository": {
         "type": "git",
         "url": "https://github.com/RiskyMH/RiskyBOT.git"

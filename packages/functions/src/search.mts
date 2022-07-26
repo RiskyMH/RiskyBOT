@@ -1,4 +1,3 @@
-import type { ApplicationCommandOptionChoiceData, InteractionReplyOptions } from "discord.js";
 import { inlineCode, italic, EmbedBuilder, SlashCommandBuilder, SlashCommandSubcommandBuilder } from "@discordjs/builders";
 import { trim } from "@riskybot/tools";
 import type { Config, EnvEnabled } from "@riskybot/tools";
@@ -9,27 +8,27 @@ import { SlashCommandStringOption } from "@discordjs/builders";
 //TODO: Make sure everything works...
 
 
-export default async function search(config: Config, engine: string, input: string): Promise<InteractionReplyOptions> {
-    let searEmb = new EmbedBuilder().setTitle("Fun").setColor(config.getColors().ok);
-    let errorEmb = new EmbedBuilder().setTitle("Errors - search").setColor(config.getColors().error);
+export default async function search(config: Config, engine: string, input: string) {
+    const searEmb = new EmbedBuilder().setTitle("Fun").setColor(config.getColors().ok);
+    const errorEmb = new EmbedBuilder().setTitle("Errors - search").setColor(config.getColors().error);
 
     switch (engine) {
         case "urban-dictionary": {
-            let urbanDef = await urbanDictionary.define(input);
+            const urbanDef = await urbanDictionary.define(input);
             
             if (urbanDef && urbanDef.length) {
-                let urbanChosen = urbanDef[0];
+                const urbanChosen = urbanDef[0];
 
                 const linkRegex = /\[([\S\s][^\]]*)\]/g;
                 let newDef = urbanChosen.definition;
                 let array1;
                 while ((array1 = linkRegex.exec(urbanChosen.definition)) !== null) {
-                    let term = array1[0].replace("[", "").replace("]", "");
+                    const term = array1[0].replace("[", "").replace("]", "");
                     newDef = newDef.replace(array1[0], `[${term}](https://www.urbandictionary.com/define.php?term=${encodeURI(term)})`);
                 }
                 let newExam = urbanChosen.example;
                 while ((array1 = linkRegex.exec(urbanChosen.example)) !== null) {
-                    let term = array1[0].replace("[", "").replace("]", "");
+                    const term = array1[0].replace("[", "").replace("]", "");
                     newExam = newExam.replace(array1[0], `[${term}](https://www.urbandictionary.com/define.php?term=${encodeURI(term)})`);
                 }
 
@@ -52,7 +51,7 @@ export default async function search(config: Config, engine: string, input: stri
         break;
 
         case "lyrics": {
-            let lyrics = await someRandomApi.getLyrics(input);
+            const lyrics = await someRandomApi.getLyrics(input);
             if (lyrics && lyrics.lyrics) {
                 searEmb
                     .setThumbnail(lyrics.thumbnail?.genius??"")
@@ -74,15 +73,15 @@ export default async function search(config: Config, engine: string, input: stri
 }
 
 
-export async function autoComplete(engine: string, input: string): Promise<ApplicationCommandOptionChoiceData[]> {
+export async function autoComplete(engine: string, input: string) {
 
     switch (engine) {
         case "urban-dictionary": {
-            let complete = await urbanDictionary.autoComplete(input);
+            const complete = await urbanDictionary.autoComplete(input);
 
             if (!complete || !complete.length) return [];
 
-            let wordList = complete.map((word: string) => ({ name: word, value: word })).slice(0, 25);
+            const wordList = complete.map((word: string) => ({ name: word, value: word })).slice(0, 25);
 
             if ((wordList[0].name.toLowerCase() !== input.toLowerCase())) {
                 wordList.unshift({ name: input, value: input });
@@ -98,9 +97,11 @@ export async function autoComplete(engine: string, input: string): Promise<Appli
 
 
 export function applicationCommands(config?: Config, envEnabledList?: EnvEnabled) {
-    config; envEnabledList; // Just so it is used
+    // eslint-disable-next-line no-unused-expressions
+    envEnabledList; // Just so it is used
+
     if (config?.apiEnabled.someRandomApi || config?.apiEnabled.urbanDictionary) {
-        let searchSlashCommand = new SlashCommandBuilder()
+        const searchSlashCommand = new SlashCommandBuilder()
             .setName("search")
             .setDescription("🔍 Use the bot to search from sources");
             

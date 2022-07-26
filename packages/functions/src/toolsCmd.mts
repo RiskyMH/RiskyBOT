@@ -1,6 +1,5 @@
-import { EmbedBuilder } from "discord.js";
 import {fetch} from "undici";
-import { codeBlock, ContextMenuCommandBuilder, inlineCode, SlashCommandBuilder, SlashCommandStringOption, SlashCommandSubcommandBuilder, spoiler } from "@discordjs/builders";
+import { codeBlock, ContextMenuCommandBuilder, EmbedBuilder, inlineCode, SlashCommandBuilder, SlashCommandStringOption, SlashCommandSubcommandBuilder, spoiler } from "@discordjs/builders";
 import * as tools from "@riskybot/tools";
 import type { Config, EnvEnabled } from "@riskybot/tools";
 import { ApplicationCommandType } from "discord-api-types/v10";
@@ -11,17 +10,17 @@ import { ApplicationCommandType } from "discord-api-types/v10";
 
 
 export default async function toolsCmd(config: Config, engine: string, input: string, input2: string) {
-    let toolsEmb = new EmbedBuilder().setTitle("Tools").setColor(config.getColors().ok);
-    let errorEmb = new EmbedBuilder().setTitle("Errors - tools").setColor(config.getColors().error);
+    const toolsEmb = new EmbedBuilder().setTitle("Tools").setColor(config.getColors().ok);
+    const errorEmb = new EmbedBuilder().setTitle("Errors - tools").setColor(config.getColors().error);
 
     switch (engine) {
         case "rhymes": {
             // TODO: fix types
-            let rhymes: {word:string}[] = await fetch("https://rhymebrain.com/talk?" + new URLSearchParams({ function: "getRhymes", maxResults: "10", word: input })).then((response) => response.json()) as any;
+            const rhymes: {word:string}[] = await fetch("https://rhymebrain.com/talk?" + new URLSearchParams({ function: "getRhymes", maxResults: "10", word: input })).then((response) => response.json()) as any;
             
             if (rhymes.length) {
-                let list = [];
-                for (let rhyme in rhymes) {
+                const list = [];
+                for (const rhyme in rhymes) {
                     list.push(`${Number(rhyme)+1}: ${rhymes[rhyme].word}`);
                 }
                 toolsEmb
@@ -36,7 +35,7 @@ export default async function toolsCmd(config: Config, engine: string, input: st
         }
         break;
         case "pastebin": {
-            let data = {
+            const data = {
              name: "Discord Paste - (RiskyBOT)",
              description: "The data",
              visibility: "unlisted",
@@ -53,7 +52,7 @@ export default async function toolsCmd(config: Config, engine: string, input: st
              ],
             };
             // TODO: fix types
-            let pastegg: {result: {id: any, deletion_key: any }} = await fetch("https://api.paste.gg/v1/pastes", {body:JSON.stringify(data), headers: {"Content-Type": "application/json"}, method: "POST"}).then((response) => response.json()) as any;
+            const pastegg: {result: {id: any, deletion_key: any }} = await fetch("https://api.paste.gg/v1/pastes", {body:JSON.stringify(data), headers: {"Content-Type": "application/json"}, method: "POST"}).then((response) => response.json()) as any;
             if (await pastegg?.result) {
 
                 toolsEmb
@@ -123,8 +122,10 @@ const ballResponses = [
 
 
 export function applicationCommands(config?: Config, envEnabledList?: EnvEnabled) {
-    config; envEnabledList; // Just so it is used
-    let toolsSlashCommand = new SlashCommandBuilder()
+    // eslint-disable-next-line no-unused-expressions
+    envEnabledList; // Just so it is used
+
+    const toolsSlashCommand = new SlashCommandBuilder()
         .setName("tools")
         .setDescription("🛠️ Use the bot to _____________________________")
         .addSubcommand(
@@ -203,7 +204,7 @@ export function applicationCommands(config?: Config, envEnabledList?: EnvEnabled
                         )
                 )
         );
-        let pastbinMessageMenu = new ContextMenuCommandBuilder()
+        const pastbinMessageMenu = new ContextMenuCommandBuilder()
             .setName("Save message - Pastebin")
             .setType(ApplicationCommandType.Message);
             

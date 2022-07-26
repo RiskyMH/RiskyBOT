@@ -12,9 +12,9 @@ const redditBaseURL = "https://reddit.com/";
 
 
 export default async function search(config: Config, subEngine: string, input: string, userId?: string) {
-    let searEmb = new EmbedBuilder().setTitle("Fun").setColor(config.getColors().ok);
-    let errorEmb = new EmbedBuilder().setTitle("Errors - search").setColor(config.getColors().error);
-    let row = new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents([
+    const searEmb = new EmbedBuilder().setTitle("Fun").setColor(config.getColors().ok);
+    const errorEmb = new EmbedBuilder().setTitle("Errors - search").setColor(config.getColors().error);
+    const row = new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents([
      new ButtonBuilder()
       .setLabel("Another?")
       .setStyle(ButtonStyle.Primary)
@@ -75,10 +75,10 @@ export default async function search(config: Config, subEngine: string, input: s
         break;
 
     case "subreddit": {
-        let redditPostList: any = await fetch(redditBaseURL + "r/" + (encodeURIComponent(input.replace("r/", ""))) + "/about.json?" + new URLSearchParams()).then((response) => response.json());
+        const redditPostList: any = await fetch(redditBaseURL + "r/" + (encodeURIComponent(input.replace("r/", ""))) + "/about.json?" + new URLSearchParams()).then((response) => response.json());
 
-        if (await redditPostList?.name || redditPostList.error != 404 || redditPostList.error != 403) {
-            let redditChosen = await redditPostList.data;
+        if (redditPostList && await redditPostList?.data?.name && (redditPostList.error != 404 || redditPostList.error != 403)) {
+            const redditChosen = await redditPostList.data;
 
             searEmb
                 .setAuthor({ name: "Reddit", url: "https://www.reddit.com/", iconURL: "https://www.reddit.com/favicon.ico" })
@@ -132,27 +132,31 @@ export async function autoComplete(subEngine: string, input: string) {
 
 
 export function applicationCommands(config?: Config, envEnabledList?: EnvEnabled) {
+    // eslint-disable-next-line no-unused-expressions
     config; envEnabledList; // Just so it is used
 
     // Some of the commands that use this file (reddit.mts) are in about.mts, random.mts
+    if (config?.apiEnabled.reddit) {
+        const searchSlashCommand = new SlashCommandBuilder()
+            .setName("meme")
+            .setDescription("🤣 Uses Reddit and r/dankmemes (or another option) to give you a random meme")
+            .addStringOption(
+                new SlashCommandStringOption()
+                    .setName("other-subreddit")
+                    .setDescription("Another few meme options")
+                    .setRequired(false)
+                    .setChoices(
+                        {name: "r/dankmemes", value: "dankmemes"},
+                        {name: "r/memes", value: "memes"},
+                        {name: "r/PrequelMemes", value: "PrequelMemes"},
+                        {name: "r/terriblefacebookmemes", value: "terriblefacebookmemes"},
+                        {name: "r/funny", value: "funny"},
+                        {name: "r/teenagers", value: "teenagers"},
+                        {name: "r/ComedyCemetery", value: "ComedyCemetery"}
+                    )
+            );
+        return [searchSlashCommand];
+    }
 
-    let searchSlashCommand = new SlashCommandBuilder()
-        .setName("meme")
-        .setDescription("🤣 Uses Reddit and r/dankmemes (or another option) to give you a random meme")
-        .addStringOption(
-            new SlashCommandStringOption()
-                .setName("other-subreddit")
-                .setDescription("Another few meme options")
-                .setRequired(false)
-                .setChoices(
-                    {name: "r/dankmemes", value: "dankmemes"},
-                    {name: "r/memes", value: "memes"},
-                    {name: "r/PrequelMemes", value: "PrequelMemes"},
-                    {name: "r/terriblefacebookmemes", value: "terriblefacebookmemes"},
-                    {name: "r/funny", value: "funny"},
-                    {name: "r/teenagers", value: "teenagers"},
-                    {name: "r/ComedyCemetery", value: "ComedyCemetery"}
-                )
-        );
-    return [searchSlashCommand];
+    return [];
 }

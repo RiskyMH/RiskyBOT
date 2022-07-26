@@ -1,50 +1,62 @@
-import { REST } from "@discordjs/rest";
 import { Routes } from "discord-api-types/v10";
-import { Client } from "discord.js";
-import { defaultApplicationCommands as commands } from "@riskybot/functions";
+import {defaultApplicationCommands as commands} from "@riskybot/commands";
 import * as tools from "@riskybot/tools";
+import { fetch } from "undici";
 
 const config = new tools.Config("./config.yml", undefined, true);
 const EnvEnabled = new tools.EnvEnabled(process.env);
+const DISCORD_API_URL = "https://discord.com/api/v10";
 
-const client = new Client({ intents: 0 }); // doesn't need any intents - only logging in to get id
+// if (!process.env.APPLICATION_TOKEN) {
+//     console.error("\u001b[31m\u001b[1mDISCORD TOKEN REQUIRED\u001b[0m\n- put a valid discord bot token in `.env`\n- and make sure you used `yarn deployCommands`\n");
+//     exit(1);
+// }
+// if (!process.env.OWNER_GUILD_ID) {
+//     console.error("\u001b[31m\u001b[1mOWNER GUILD ID REQUIRED\u001b[0m\n- put a valid discord guild id in `.env`");
+//     exit(1);
+// }
 
-if (process.env.DISCORD_TOKEN) client.login(process.env.DISCORD_TOKEN);
-else console.error("\u001b[31m\u001b[1mDISCORD TOKEN REQUIRED\u001b[0m\n- put a valid discord bot token in `.env`\n- and make sure you used `yarn deployCommands:ownerOnly`\n");
-if (!process.env.OWNER_GUILD_ID) console.error("\u001b[31m\u001b[1mOWNER GUILD ID REQUIRED\u001b[0m\n- put a valid discord guild id in `.env`");
 
-// ADDS it ontop of the existing commands
-client.once("ready", async () => {
-    
-    if (!client || !client.token || !client.user || !process.env.OWNER_GUILD_ID) {console.error("Not client..."); return;}
-    
+async function deployGuildCommands() {
+    const botToken = process.env.APPLICATION_TOKEN;
+    const applicationId = process.env.APPLICATION_ID;
+    const privateKey = process.env.APPLICATION_PRIVATE_KEY;
+    const bearerToken = process.env.APPLICATION_BEARER_TOKEN;
+    const guildId = process.env.OWNER_GUILD_ID || "";
+
+    if (!botToken && !bearerToken) {
+        if (!applicationId) throw new Error("APPLICATION_ID is not set");
+        if (!privateKey) throw new Error("APPLICATION_PRIVATE_KEY is not set");
+        
+        tools.getBearerTokenFromKey(applicationId, privateKey, ["applications.commands.update"]);
+    }
+
+    if (!guildId) throw new Error("OWNER_GUILD_ID is not set");
+
+    if (!applicationId) throw new Error("APPLICATION_ID is not set");
 
     const builders = [
         ...commands.ownerCmds(config, EnvEnabled),
     ];
     const data = builders.map(command => command.toJSON());
-    const rest = new REST({ version: "10" }).setToken(client.token);
+    
+    let authorization = "";
+    if (botToken) authorization = `Bot ${botToken}`;
+    else if (bearerToken) authorization = `Bearer ${bearerToken}`;
 
-    // Make it not override the existing commands, but add new ones or replace existing ones (with same name)
-    for (const d of data) await rest.post(Routes.applicationGuildCommands(client.user.id, process.env.OWNER_GUILD_ID), { body: d });
+    const abc = await fetch(DISCORD_API_URL + Routes.applicationGuildCommands(applicationId, guildId), {
+        method: "post",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": authorization,
+        },
+        body: JSON.stringify(data),
+    });
+
+    if (abc.status !== 200) throw new Error(`Failed to update owner commands: ${await abc.text()}`);
+
     console.info("\x1b[92mReloaded `owner` application (/) commands.\x1b[0m");
 
-    client.destroy();
-});
+}
 
-
-
-// if (process.env.DISCORD_TOKEN2) {
-//     client2.login(process.env.DISCORD_EXTRA_TOKEN);
-
-//     client2.once("ready", async () => {
-
-//         let data = JSON.parse(readFileSync("src/applicationCommands/commandsOwnerOnly.json").toString());
-//         const rest = new REST({ version: "10" }).setToken(client2.token);
-
-//         await rest.put(Routes.applicationGuildCommands(client2.user.id, process.env.OWNER_GUILD_ID), { body: data });
-//         console.info("\x1b[92mReloaded `owner extra` application (/) commands.\x1b[0m");
-
-//         client2.destroy();
-//     }); 
-// }
+await deployGuildCommands();
