@@ -35,12 +35,23 @@ process.on("uncaughtException", error => {
 const ownerIds: string[] = [process.env.OWNER_ID || ""];
 
 app.use(bodyParser.json());
+
+
+/** Idk */
+function ratelimiting(req: express.Request, res: express.Response) {
+    return {req , res};
+}
+
+
 app.post("/discord-interactions", async (request, response) => {
     const isValidRequest = client.verify(request, response);
     if (!isValidRequest) return;
 
+    const rateCheck = ratelimiting(request, response);
+    if (!rateCheck) return;
+
     const interaction = client.parse(request.body);
-    console.log(interaction);
+    // console.log(interaction);
 
     // the template embeds for `done` or `error`
     // const doneEmb = new EmbedBuilder().setColor(config.getColors().good).setTitle("Done!");

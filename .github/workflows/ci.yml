@@ -57,7 +57,7 @@ jobs:
 
       - name: Run Build
         # run: yarn build
-        run: yarn turbo run build --cache-dir=".turbo" && yarn tsc 
+        run: (yarn turbo run build --cache-dir=".turbo" && yarn tsc) || yarn tsc 
 
 
   eslint:

@@ -139,8 +139,7 @@ export default async function fun(config: Config, type: string, input: { user1?:
         const fun: any = await fetch(
           sraBaseURL +
           "canvas/tweet?" +
-          // @ts-expect-error - using types that isn't existing (vscode)
-          new URLSearchParams({ comment: input.text1, username: input.user1.username, avatar: input.user1.displayAvatarURL({ extension: ImageFormat.PNG, size: 512 }), displayname: input?.member1?.displayName ?? input.user1.username, })
+          new URLSearchParams({ comment: input.text1, username: input.user1.username, avatar: input.user1.displayAvatarURL({ extension: ImageFormat.PNG, size: 512 }), displayname: input?.member1?.nickname ?? input.user1.username, })
         ).then((response) => response.url);
 
         funEmb
@@ -195,8 +194,7 @@ export default async function fun(config: Config, type: string, input: { user1?:
 
       switch (input.text1) {
         case "0":
-          // @ts-expect-error - using types that isn't existing (vscode)
-          funEmb.setDescription(`Hacking ${input.member1?.displayName ?? input.user1.username} now...`);
+          funEmb.setDescription(`Hacking ${input.member1?.nickname ?? input.user1.username} now...`);
           break;
         case "1":
           funEmb.setDescription(
@@ -296,8 +294,7 @@ export default async function fun(config: Config, type: string, input: { user1?:
           );
           break;
         case "15":
-          // @ts-expect-error - using types that isn't existing (vscode)
-          funEmb.setDescription(`[**${randomNum(100, 100)}%**] Finished hacking ${input.member1?.displayName ?? input.user1.username}`
+          funEmb.setDescription(`[**${randomNum(100, 100)}%**] Finished hacking ${input.member1?.nickname ?? input.user1.username}`
           );
           break;
         case "16":

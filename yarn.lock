@@ -117,6 +117,7 @@ __metadata:
   dependencies:
     "@discordjs/builders": ^1.0.0
     "@riskybot/apis": "workspace:^"
+    "@riskybot/discord-interactions": "workspace:^"
     "@riskybot/tools": "workspace:^"
     axios: ^0.27.2
     deepai: ^1.0.21
@@ -131,6 +132,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@riskybot/discord-interactions@workspace:packages/discord-interactions"
   dependencies:
+    "@riskybot/tools": "workspace:^"
     "@types/express": ^4.17.13
     discord-api-types: ^0.36.3
     discord-interactions: ^3.2.0

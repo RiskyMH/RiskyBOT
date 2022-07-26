@@ -5,6 +5,7 @@
     "dependencies": {
         "@discordjs/builders": "^1.0.0",
         "@riskybot/apis": "workspace:^",
+        "@riskybot/discord-interactions": "workspace:^",
         "@riskybot/tools": "workspace:^",
         "axios": "^0.27.2",
         "deepai": "^1.0.21",
