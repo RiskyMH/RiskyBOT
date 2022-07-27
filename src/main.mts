@@ -4,6 +4,8 @@ import express from "express";
 import { Config, stringFromEmbed } from "@riskybot/tools";
 import bodyParser from "body-parser";
 
+import "dotenv/config";
+
 import { mini, about, translate, meCredits, random, fun, search, searchAutoComplete, reddit, randomAutoComplete, aboutAutoComplete, toolsCmd, randomButton, evalShowModal, evalResult } from "@riskybot/commands";
 import { codeBlock, EmbedBuilder } from "@discordjs/builders";
 
@@ -37,18 +39,9 @@ const ownerIds: string[] = [process.env.OWNER_ID || ""];
 app.use(bodyParser.json());
 
 
-/** Idk */
-function ratelimiting(req: express.Request, res: express.Response) {
-    return {req , res};
-}
-
-
-app.post("/discord-interactions", async (request, response) => {
+app.post("/discord-interactions", async (request, response, next) => {
     const isValidRequest = client.verify(request, response);
-    if (!isValidRequest) return;
-
-    const rateCheck = ratelimiting(request, response);
-    if (!rateCheck) return;
+    if (!isValidRequest) return console.warn("Invalid request");
 
     const interaction = client.parse(request.body);
     // console.log(interaction);
@@ -97,7 +90,7 @@ app.post("/discord-interactions", async (request, response) => {
         switch (interaction.commandName) {
             case "ping": {
                 const data = await mini.ping(config, Number(interaction.createdAt));
-                interaction.reply(data);
+                await interaction.reply(data);
                 break;
             }
 
@@ -112,7 +105,7 @@ app.post("/discord-interactions", async (request, response) => {
 
                 const data = await about(config, {user, member, role, channel, stringInput, name }, advanced, process.env.TOPGG_TOKEN);
 
-                interaction.reply(data);
+                await interaction.reply(data);
                 break;
             }        
             
@@ -123,7 +116,7 @@ app.post("/discord-interactions", async (request, response) => {
 
                 const data = await translate(config, msg, to, from);
                 
-                interaction.reply(data);
+                await interaction.reply(data);
                 break;
             }
 
@@ -143,7 +136,7 @@ app.post("/discord-interactions", async (request, response) => {
                 const text1 = interaction.options.getString("sub-reddit") || interaction.options.getString("category");
 
                 const data = await random(config, type, {num1, num2, text1}, interaction.user.id);
-                interaction.reply(data);
+                await interaction.reply(data);
                 break;
             }
 
@@ -167,7 +160,7 @@ app.post("/discord-interactions", async (request, response) => {
                     } break;
                 }
 
-                interaction.editReply(data);
+                await interaction.editReply(data);
                 break;
             }
 
@@ -177,7 +170,7 @@ app.post("/discord-interactions", async (request, response) => {
 
                 const data = await search(config, type, input);
 
-                interaction.reply(data);
+                await interaction.reply(data);
                 break;
             }
 
@@ -186,7 +179,7 @@ app.post("/discord-interactions", async (request, response) => {
                 
                 const data = await reddit(config, "random-post", otherSubreddit, interaction.user.id);
                 
-                interaction.reply(data);
+                await interaction.reply(data);
                 break;
             }
 
@@ -197,7 +190,7 @@ app.post("/discord-interactions", async (request, response) => {
 
                 const data = await toolsCmd(config, type, input, input2);
 
-                interaction.reply(data);
+                await interaction.reply(data);
                 break;
             }
 
@@ -211,12 +204,12 @@ app.post("/discord-interactions", async (request, response) => {
 
                 const data = await evalShowModal();
 
-                interaction.showModal(data);
+                await interaction.showModal(data);
                 break;
             }
             
             default:
-                interaction.reply({ embeds: [errorEmb.setTitle("Unknown Interaction").setDescription(`Unknown Command: \`/${interaction.commandName}\``)], ephemeral: true });
+                await interaction.reply({ embeds: [errorEmb.setTitle("Unknown Interaction").setDescription(`Unknown Command: \`/${interaction.commandName}\``)], ephemeral: true });
                 throw new Error(`Unknown Command: /${interaction.commandName}`);
         }
     }
@@ -234,7 +227,7 @@ app.post("/discord-interactions", async (request, response) => {
             }
 
             default:
-                interaction.reply({ embeds: [errorEmb.setTitle("Unknown Interaction").setDescription(`Unknown User Command: \`${interaction.commandName}\``)], ephemeral: true });
+                await interaction.reply({ embeds: [errorEmb.setTitle("Unknown Interaction").setDescription(`Unknown User Command: \`${interaction.commandName}\``)], ephemeral: true });
                 throw new Error(`Unknown User Command: ${interaction.commandName}`);
         }
 
@@ -249,7 +242,7 @@ app.post("/discord-interactions", async (request, response) => {
 
                 const data = await translate(config, msg, to, from);
                 
-                interaction.reply(data);
+                await interaction.reply(data);
                 break;
 
             }
@@ -261,12 +254,12 @@ app.post("/discord-interactions", async (request, response) => {
 
                 const data = await toolsCmd(config, type, input, input2);
                 
-                interaction.reply(data);
+                await interaction.reply(data);
                 break;
 
             }
             default:
-                interaction.reply({ embeds: [errorEmb.setTitle("Unknown Interaction").setDescription(`Unknown Message Command: \`${interaction.commandName}\``)], ephemeral: true });
+                await interaction.reply({ embeds: [errorEmb.setTitle("Unknown Interaction").setDescription(`Unknown Message Command: \`${interaction.commandName}\``)], ephemeral: true });
                 throw new Error(`Unknown Message Command: ${interaction.commandName}`);
         }
     }
@@ -280,19 +273,19 @@ app.post("/discord-interactions", async (request, response) => {
                 
                 const data = await randomButton(config, interaction.customId, origUser);
                 
-                interaction.reply({ ...data, ephemeral: origUser !== interaction.user.id });
+                await interaction.reply({ ...data, ephemeral: origUser !== interaction.user.id });
                 break;
             }
 
             case "ping": {
                 const data = await mini.ping(config, Number(interaction.createdAt));
                 
-                interaction.update(data);
+                await interaction.update(data);
                 break;
             }
 
             default:
-                interaction.reply({ embeds: [errorEmb.setTitle("Unknown Interaction").setDescription(`Unknown Button Component: \`${interaction.customId}\``)], ephemeral: true });
+                await interaction.reply({ embeds: [errorEmb.setTitle("Unknown Interaction").setDescription(`Unknown Button Component: \`${interaction.customId}\``)], ephemeral: true });
                 throw new Error(`Unknown Button Component: ${interaction.customId}`);                           
 
         }
@@ -302,7 +295,7 @@ app.post("/discord-interactions", async (request, response) => {
     else if (interaction.isSelectMenu()) {
         switch (interaction.customId.split("-")[0]) {
             default:    
-                interaction.reply({ embeds: [errorEmb.setTitle("Unknown Interaction").setDescription(`Unknown Select Menu Component: \`${interaction.customId}\``)], ephemeral: true });
+                await interaction.reply({ embeds: [errorEmb.setTitle("Unknown Interaction").setDescription(`Unknown Select Menu Component: \`${interaction.customId}\``)], ephemeral: true });
                 throw new Error(`Unknown Select Menu Component: ${interaction.customId}`);                           
         }
     }
@@ -316,8 +309,9 @@ app.post("/discord-interactions", async (request, response) => {
                 const data = await searchAutoComplete(type, input);
 
                 await interaction.respond(data);
-            }
                 break;
+            }
+
             case "random": {
                 const type = interaction.options.getSubcommand(true);
                 const input = interaction.options.getString("sub-reddit", true);
@@ -334,10 +328,11 @@ app.post("/discord-interactions", async (request, response) => {
                 const data = await aboutAutoComplete(type, input);
 
                 await interaction.respond(data);
-            }
                 break;
+            }
+
             default:
-                interaction.respond([{name: `Unknown Autocomplete: \`${interaction.commandName}\``, value: `Unknown Autocomplete: \`${interaction.commandName}\``}]);
+                await interaction.respond([{name: `Unknown Autocomplete: \`${interaction.commandName}\``, value: `Unknown Autocomplete: \`${interaction.commandName}\``}]);
                 throw new Error(`Unknown Autocomplete: ${interaction.commandName}`);
         }
 
@@ -362,17 +357,26 @@ app.post("/discord-interactions", async (request, response) => {
                 const data = await evalResult(config, input, evalRes, hasError);
 
                 await interaction.reply(data);
-
                 break;
             }
             default:    
-                interaction.reply({ embeds: [errorEmb.setTitle("Unknown Interaction").setDescription(`Unknown Modal: \`${interaction.customId}\``)], ephemeral: true });
+                await interaction.reply({ embeds: [errorEmb.setTitle("Unknown Interaction").setDescription(`Unknown Modal: \`${interaction.customId}\``)], ephemeral: true });
                 throw new Error(`Unknown Modal: ${interaction.customId}`);
         }
 
     }
 
+    return next();
+
 });
+
+app.post("/discord-interactions", async () => {
+    if (global.gc) global.gc();
+});
+
+setInterval(function() { 
+    if (global.gc) global.gc();
+}, 25_000);
 
 
 const port = process.env.PORT || 80;

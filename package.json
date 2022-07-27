@@ -41,7 +41,7 @@
     "deployCommands": "node -r dotenv/config dist/applicationCommands/deploy.mjs",
     "deployCommands:ownerOnly": "node -r dotenv/config dist/applicationCommands/deployOwnerOnly.mjs",
     "lint": "eslint src/*.mts && turbo run lint",
-    "start": "node -r dotenv/config --max_old_space_size=0 dist/main.mjs"
+    "start": "node -r dotenv/config --expose-gc dist/main.mjs"
   },
   "type": "module",
   "packageManager": "yarn@3.2.1",

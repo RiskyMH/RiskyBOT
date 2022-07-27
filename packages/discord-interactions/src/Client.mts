@@ -50,7 +50,6 @@ export default class Client {
         if (!signature || !timestamp || !rawBody) { response.status(405).json({ error: "Invalid headers and/or body" }); return false; }
 
         const isValidRequest = verifyKey(rawBody, signature, timestamp, this.publicKey);
-
         if (!isValidRequest) {response.status(401).json({ error: "Bad request signature" }); return false;} 
 
         const interaction: APIInteraction = request.body;
