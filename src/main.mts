@@ -38,10 +38,15 @@ const ownerIds: string[] = [process.env.OWNER_ID || ""];
 
 app.use(bodyParser.json());
 
+function rateLimiting(req: express.Request, res: express.Response) {
+    return {req, res};
+}
 
 app.post("/discord-interactions", async (request, response, next) => {
     const isValidRequest = client.verify(request, response);
     if (!isValidRequest) return console.warn("Invalid request");
+
+    if (!rateLimiting(request, response)) return;
 
     const interaction = client.parse(request.body);
     // console.log(interaction);
