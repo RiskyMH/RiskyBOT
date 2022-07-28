@@ -381,7 +381,7 @@ app.post("/discord-interactions", async () => {
 
 setInterval(function() { 
     if (global.gc) global.gc();
-}, 25_000);
+}, 10_000);
 
 
 const port = process.env.PORT || 80;

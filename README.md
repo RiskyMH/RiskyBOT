@@ -20,9 +20,9 @@ NOTE: this uses yarn, so you need to have [yarn](https://yarnpkg.com/getting-sta
 
 ### Hosting online
 
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template/ZjmX6N?referralCode=4kwikB)
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template/3bvOGj?referralCode=4kwikB)
 
-You can use Railway to host your bot. But anything will work.
+You can use Railway to host your bot (note you will still have to deploy commands locally). But anything will work.
 
 
 ### Running locally

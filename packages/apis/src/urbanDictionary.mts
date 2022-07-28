@@ -11,7 +11,7 @@ export async function rawDefine(term: string): Promise<RawDefineResult|null|unde
         return undefined;
     }
 
-    const result: RawDefineResult = await rawResult.json() as RawDefineResult;
+    const result = await rawResult.json() as RawDefineResult;
 
     if (!result.list.length) {
         return null;
@@ -29,7 +29,7 @@ export async function rawAutoComplete(term: string): Promise<RawAutoCompleteResu
         return undefined;
     }
 
-    const result: RawAutoCompleteResult = await rawResult.json() as RawAutoCompleteResult;
+    const result = await rawResult.json() as RawAutoCompleteResult;
 
     if (!result.length) {
          return null;

@@ -37,8 +37,12 @@ export default class ModalSubmitInteraction extends BaseInteraction {
             data: {...data, flags: data.ephemeral ? MessageFlags.Ephemeral : null},
         };
         
-        await fetch(url, { body: JSON.stringify(body), headers: jsonHeaders, method: "POST" });
-        
+        const res = await fetch(url, { body: JSON.stringify(body), headers: jsonHeaders, method: "POST" });
+
+        if (!res.ok) {
+            throw new Error(await res.text());
+        }
+             
         if (fetchResponse) return this.fetchReply();
         return;
     }
@@ -52,16 +56,25 @@ export default class ModalSubmitInteraction extends BaseInteraction {
             ...data,
         };
 
-        const message = await fetch(url, { body: JSON.stringify(body), headers: jsonHeaders, method: "PATCH" });
+        const res = await fetch(url, { body: JSON.stringify(body), headers: jsonHeaders, method: "PATCH" });
 
-        return await message.json() as APIMessage;
+        if (!res.ok) {
+            throw new Error(await res.text());
+        }
+
+        return await res.json() as APIMessage;
     }
 
     async deleteReply(messageId: Snowflake | "@original" = "@original"): Promise<void>  {
 
         const url = DISCORD_API_BASE_URL + Routes.webhookMessage(this.applicationId, this.token, messageId);
         
-        await fetch(url, { method: "DELETE" });
+        const res = await fetch(url, { method: "DELETE" });
+
+        if (!res.ok) {
+            throw new Error(await res.text());
+        }
+
         return;
     }
 
@@ -74,18 +87,26 @@ export default class ModalSubmitInteraction extends BaseInteraction {
             ...data,
         };
 
-        const message = await fetch(url, { body: JSON.stringify(body), headers: jsonHeaders, method: "POST" });
+        const res = await fetch(url, { body: JSON.stringify(body), headers: jsonHeaders, method: "POST" });
 
-        return await message.json() as APIMessage;
+        if (!res.ok) {
+            throw new Error(await res.text());
+        }
+
+        return await res.json() as APIMessage;
     }
 
     async fetchReply(messageId: Snowflake | "@original" = "@original"): Promise<APIMessage> {
 
         const url = DISCORD_API_BASE_URL + Routes.webhookMessage(this.applicationId, this.token, messageId);
 
-        const message = await fetch(url, {method: "GET" });
+        const res = await fetch(url, {method: "GET" });
 
-        return await message.json() as APIMessage;
+        if (!res.ok) {
+            throw new Error(await res.text());
+        }
+
+        return await res.json() as APIMessage;
     }
 
     async deferReply(data?: { ephemeral?: boolean }): Promise<void>  {
@@ -97,7 +118,12 @@ export default class ModalSubmitInteraction extends BaseInteraction {
             flags: data?.ephemeral ? MessageFlags.Ephemeral : null,
         };
 
-        await fetch(url, { body: JSON.stringify(body), headers: jsonHeaders, method: "POST" });
+        const res = await fetch(url, { body: JSON.stringify(body), headers: jsonHeaders, method: "POST" });
+        
+        if (!res.ok) {
+            throw new Error(await res.text());
+        }
+        
         return;
     }
 
