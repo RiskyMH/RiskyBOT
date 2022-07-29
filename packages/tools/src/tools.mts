@@ -31,7 +31,6 @@ export class Config {
         this.apiEnabled = rawConfig.apiEnabled;
         this.apiEnabled.reddit ||= true;
         this.apiEnabled.topgg ||= false;
-        this.apiEnabled.deepai ||= false;
         this.apiEnabled.nekobot ||= true;
         this.apiEnabled.someRandomApi ||= true;
         this.apiEnabled.urbanDictionary ||= true;
@@ -73,9 +72,7 @@ function resolveColor(color: string | number): number {
 export class EnvEnabled {
     constructor(env: typeof process["env"]) {
         if (env.APPLICATION_TOKEN != null) this.hasDiscordToken = true;
-        if (env.APPLICATION_EXTRA_TOKEN != null) this.hasDiscordExtraToken = true;
         if (env.TOPGG_TOKEN != null) this.HasTopggToken = true;
-        if (env.DEEPAI_TOKEN != null) this.HasDeepaiToken = true;
         if (env.PRODUCTION != null) this.hasProductionBool = true;
         if (env.OWNER_GUILD_ID != null) this.hasOwnerGuildId = true;
         // return ;
@@ -83,14 +80,10 @@ export class EnvEnabled {
     // [key: string]: boolean;
     /**  Has a entry in `APPLICATION_TOKEN`? */
     public hasDiscordToken = false;
-    /**  Has a entry in `APPLICATION_EXTRA_TOKEN`? */
-    public hasDiscordExtraToken = false;
     /** Has a entry in `PRODUCTION`? - is it in testing or in release mode - useless rn*/
     public hasProductionBool = false;
     /** Has a entry in `TOPGG_TOKEN`? */
     public HasTopggToken = false;
-    /** Has a entry in `DEEPAI_TOKEN`? */
-    public HasDeepaiToken = false;
     /** Has a entry in `OWNER_GUILD_ID`? */
     public hasOwnerGuildId = false;
 }

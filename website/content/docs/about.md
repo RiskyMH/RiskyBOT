@@ -11,7 +11,6 @@ It was made for trying to implement the new features, this means that it wont ev
 
 ### Commands ([list](https://trello.com/b/XpQuJz82/riskybot-commands))
 - `/about`: information about a user/role
-- `/deep-ai`: uses [Deep-AI](https://deepai.org/) to make some interesting responses
 - `/translate`: uses [Google Translate](https://translate.google.com) to translate text
 - `/fun`: some funny commands
 - `/search`: can search some places (eg. [Urban Dictionary](https://urbandictionary.com/))

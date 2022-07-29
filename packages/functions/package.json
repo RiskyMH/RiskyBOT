@@ -7,8 +7,6 @@
         "@riskybot/apis": "workspace:^",
         "@riskybot/discord-interactions": "workspace:^",
         "@riskybot/tools": "workspace:^",
-        "axios": "^0.27.2",
-        "deepai": "^1.0.21",
         "discord-api-types": "^0.36.3",
         "translatte": "^3.0.1",
         "undici": "^5.8.0"

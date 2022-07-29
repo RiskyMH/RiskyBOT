@@ -17,8 +17,6 @@ apiEnabled:
   urbanDictionary: true
   # (below) requires key in .env 
   topgg: true
-  # (below) requires key in .env  
-  deepai: true
   nekobot: true
   someRandomApi: true
   googleTranslate: true

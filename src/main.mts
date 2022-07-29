@@ -42,7 +42,7 @@ function rateLimiting(req: express.Request, res: express.Response) {
     return {req, res};
 }
 
-app.post("/discord-interactions", async (request, response, next) => {
+app.post("/discord-interactions", async (request, response) => {
     const isValidRequest = client.verify(request, response);
     if (!isValidRequest) return console.warn("Invalid request");
 
@@ -57,36 +57,36 @@ app.post("/discord-interactions", async (request, response, next) => {
 
 
     // Nothing really interesting, just to see what commands used
-    if (interaction.isChatInputCommand() && interaction.commandName) {
-        if (interaction.options && interaction.options.getSubcommand(false)) {
-            console.info(`SLASH: ${interaction.commandName} (${interaction.options.getSubcommand()})`);
-        } 
-        else {
-            console.info(`SLASH: ${interaction.commandName}`);
-        }
-    } 
-    else if ((interaction.isUserCommand() || interaction.isMessageCommand()) && interaction.commandName) {
-        console.info(`CONTEXT: ${interaction.commandName}`);
-    } 
-    else if (interaction.isButton() && interaction.customId) {
-        console.info(`BUTTON: ${interaction.customId.split("-")[0]}`);
-    } 
-    else if (interaction.isSelectMenu() && interaction.customId) {
-        console.info(`SELECT: ${interaction.customId.split("-")[0]}`);
-    } 
-    else if (interaction.isModalSubmit() && interaction.customId) {
-        console.info(`MODAL: ${interaction.customId.split("-")[0]}`);
-    } 
-    else if (interaction.isAutocomplete() && interaction.commandName) {
-        console.info(`AUTOCOMPLETE: ${interaction.commandName}`);
-    } 
-    else if (interaction.type === InteractionType.Ping) {
-        console.info("PING");
-    } 
-    else {
-        console.info(`UNKNOWN: ${interaction.type}`);
-        console.info(request.body);
-    }
+    // if (interaction.isChatInputCommand() && interaction.commandName) {
+    //     if (interaction.options && interaction.options.getSubcommand(false)) {
+    //         console.info(`SLASH: ${interaction.commandName} (${interaction.options.getSubcommand()})`);
+    //     } 
+    //     else {
+    //         console.info(`SLASH: ${interaction.commandName}`);
+    //     }
+    // } 
+    // else if ((interaction.isUserCommand() || interaction.isMessageCommand()) && interaction.commandName) {
+    //     console.info(`CONTEXT: ${interaction.commandName}`);
+    // } 
+    // else if (interaction.isButton() && interaction.customId) {
+    //     console.info(`BUTTON: ${interaction.customId.split("-")[0]}`);
+    // } 
+    // else if (interaction.isSelectMenu() && interaction.customId) {
+    //     console.info(`SELECT: ${interaction.customId.split("-")[0]}`);
+    // } 
+    // else if (interaction.isModalSubmit() && interaction.customId) {
+    //     console.info(`MODAL: ${interaction.customId.split("-")[0]}`);
+    // } 
+    // else if (interaction.isAutocomplete() && interaction.commandName) {
+    //     console.info(`AUTOCOMPLETE: ${interaction.commandName}`);
+    // } 
+    // else if (interaction.type === InteractionType.Ping) {
+    //     console.info("PING");
+    // } 
+    // else {
+    //     console.info(`UNKNOWN: ${interaction.type}`);
+    //     console.info(request.body);
+    // }
     
     // console.log(JSON.stringify(request.body, null, 2));
     
@@ -371,17 +371,8 @@ app.post("/discord-interactions", async (request, response, next) => {
 
     }
 
-    return next();
-
+    return;
 });
-
-app.post("/discord-interactions", async () => {
-    if (global.gc) global.gc();
-});
-
-setInterval(function() { 
-    if (global.gc) global.gc();
-}, 10_000);
 
 
 const port = process.env.PORT || 80;

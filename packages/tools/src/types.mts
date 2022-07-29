@@ -30,8 +30,6 @@ type ApiEnabled = {
     reddit: boolean;
     /** Is the `Top.gg` api being used? */
     topgg: boolean;
-    /** Is the `DeepAI` api being used? */
-    deepai: boolean;
     /** Is the `Nekobot.xyz` api being used? */
     nekobot: boolean;
     /** Is the `Some-Random-Api.ml` api being used? */

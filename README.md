@@ -46,8 +46,6 @@ The available features are in the file by default
 
 As with [`config.yml`](./config.yml) the file [`example.env`](./example.env) has the necessary options - copy `example.env` to `.env` and put in your discord key
 
-This is used for extra config but it is not the best way to be using this - used for extra
-
 ### *`Next few are more technical`*
 
 ### Using [`src/main.mts`](./src/main.mts) (Actually modifying the files)

@@ -27,7 +27,7 @@ export default async function meCredits(config: Config, inviteUrl: string, usern
      }])
      .addFields([{ name: 
       "APIs", value:
-      "• Google Translate (via: [github/translatte](https://github.com/extensionsapp/translatte))\n• Deep AI  ([link](https://deepai.org/))\n• Random.cat ([link](https://aws.random.cat/))\n• Nekobot ([link](https://nekobot.xyz/))\n• Some Random Api ([link](https://some-random-api.m/))\n• Dog CEO ([link](https://dog.ceo/))\n• Shibe Online ([link](https://shibe.online/))\n• Random-d.uk ([link](https://random-d.uk/))\n• Forismatic ([link](https://forismatic.com/en))\n• Affirmations.dev ([link](https://github.com/annthurium/affirmations))\n• Useless Facts.pl ([link](https://uselessfacts.jsph.pl/))\n• Urban Dictionary ([link](https://www.urbandictionary.com/))\n• Reddit ([link](https://www.reddit.com/))"
+      "• Google Translate (via: [github/translatte](https://github.com/extensionsapp/translatte))\n• Random.cat ([link](https://aws.random.cat/))\n• Nekobot ([link](https://nekobot.xyz/))\n• Some Random Api ([link](https://some-random-api.m/))\n• Dog CEO ([link](https://dog.ceo/))\n• Shibe Online ([link](https://shibe.online/))\n• Random-d.uk ([link](https://random-d.uk/))\n• Forismatic ([link](https://forismatic.com/en))\n• Affirmations.dev ([link](https://github.com/annthurium/affirmations))\n• Useless Facts.pl ([link](https://uselessfacts.jsph.pl/))\n• Urban Dictionary ([link](https://www.urbandictionary.com/))\n• Reddit ([link](https://www.reddit.com/))"
      }])
      .addFields([{name:
       "General", value:

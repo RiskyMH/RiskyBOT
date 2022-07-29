@@ -97,12 +97,6 @@
           "description": "Should Google Translate api be used?",
           "default": false
         },
-        "deepai": {
-          "type": "boolean",
-          "title": "apiEnabled --> Deepai",
-          "description": "Should Deepai api be used? (if token not in `.env` then still disabled)",
-          "default": false
-        },
         "randomSmallOnes": {
           "type": "object",
           "title": "apiEnabled --> Random Small Ones",
