@@ -8,7 +8,6 @@ weight: 9
 Thank you for adding this bot
 
 * to see the functionality go to [about](../about)
-* to see some cool things the bot can so go to [tips & tricks](../tips-tricks)
 * the server for this bot is [here](https://discord.gg/34sQduaUh2)
 * and some FAQs go to [faq](../faq)
 

@@ -1,5 +1,5 @@
 import {Client} from "@riskybot/discord-interactions";
-import { InteractionType, OAuth2Scopes } from "discord-api-types/v10";
+import { OAuth2Scopes } from "discord-api-types/v10";
 import express from "express";
 import { Config, stringFromEmbed } from "@riskybot/tools";
 import bodyParser from "body-parser";
