@@ -4,14 +4,13 @@
             "owner": "tsc-patch",
             "pattern": [
                 {
-                    "regexp": "^(@riskybot\\/(.*):build: (.*))\\((\\d+),(\\d+)\\)\\s*:\\s+(error|warning|info)\\s+(\\w{1,2}\\d+)\\s*:\\s*(.*)$",
-                    "file": 3,
-                    "fromPath": 2,
-                    "line": 4,
-                    "column": 5,
-                    "severity": 6,
-                    "code": 7,
-                    "message": 8
+                    "regexp": "[ ]([^\\s].*)[\\(:](\\d+)[,:](\\d+)(?:\\):\\s+|\\s+-\\s+)(error|warning|info)\\s+TS(\\d+)\\s*:\\s*(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "code": 5,
+                    "message": 6
                 }
             ]
         }

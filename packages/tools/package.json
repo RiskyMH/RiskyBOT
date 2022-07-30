@@ -23,6 +23,7 @@
     "module": "./dist/index.mjs",
     "scripts": {
         "build": "tsc",
+        "build:ci": "( cd ../../ && tsc -p ./packages/tools/tsconfig.json )",
         "lint": "eslint src/*.mts",
         "prepublishOnly": "yarn build"
     },

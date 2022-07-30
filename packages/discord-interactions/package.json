@@ -27,6 +27,7 @@
     "module": "./dist/index.mjs",
     "scripts": {
         "build": "tsc",
+        "build:ci": "( cd ../../ && tsc -p ./packages/discord-interactions/tsconfig.json )",
         "lint": "eslint src/*.mts",
         "prepublishOnly": "yarn build"
     },

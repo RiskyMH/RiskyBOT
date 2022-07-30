@@ -10,6 +10,14 @@
                 "dist/**"
             ]
         },
+        "build:ci": {
+            "dependsOn": [
+                "^build:ci"
+            ],
+            "outputs": [
+                "dist/**"
+            ]
+        },
         "lint": {
             "dependsOn": [
                 "^lint"
