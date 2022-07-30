@@ -46,6 +46,7 @@ jobs:
             turbo-${{ github.job }}-${{ github.ref_name }}-
       
       - name: Add custom Problem Matchers
+        if: false
         run: |
           echo ::add-matcher::.github/problem-matchers/eslint-compact.json   
           echo ::add-matcher::.github/problem-matchers/eslint-stylish.json   
@@ -57,8 +58,27 @@ jobs:
 
       - name: Run Build
         # run: yarn build
-        run: (yarn turbo run build --cache-dir=".turbo" && yarn tsc) || yarn tsc --project .github/tsconfig.json
+        run: yarn turbo run build --cache-dir=".turbo" && yarn tsc
+      
+      - name: Run Build (more tests)
+        if: failure()
+        run: yarn tsc --project .github/tsconfig.json
 
+      - name: Make better error
+        if: failure()
+        run: |
+          yarn tsc -p ./packages/tools/tsconfig.json 
+          yarn tsc -p ./packages/apis/tsconfig.json 
+          yarn tsc -p ./packages/discord-interactions/tsconfig.json 
+          yarn tsc -p ./packages/functions/tsconfig.json 
+
+      - name: Make better error
+        if: failure()
+        run: |
+          yarn tsc -p ./packages/tools/tsconfig.json 
+          yarn tsc -p ./packages/apis/tsconfig.json 
+          yarn tsc -p ./packages/discord-interactions/tsconfig.json 
+          yarn tsc -p ./packages/functions/tsconfig.json 
 
   eslint:
     runs-on: ubuntu-latest
@@ -104,4 +124,4 @@ jobs:
         run: yarn install --immutable
 
       - name: Run ESLint
-        run: turbo run lint --cache-dir=".turbo" && eslint src/*.mts 
+        run: yarn turbo run lint --cache-dir=".turbo" && yarn eslint src/*.mts 
