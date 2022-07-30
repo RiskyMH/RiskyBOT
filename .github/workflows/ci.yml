@@ -1,4 +1,4 @@
-name: "CI"
+name: "Continuous Integration"
 
 on:
   push:
@@ -57,7 +57,7 @@ jobs:
 
       - name: Run Build
         # run: yarn build
-        run: (yarn turbo run build --cache-dir=".turbo" && yarn tsc) || yarn tsc 
+        run: (yarn turbo run build --cache-dir=".turbo" && yarn tsc) || yarn tsc --project .github/tsconfig.json
 
 
   eslint:
@@ -104,4 +104,4 @@ jobs:
         run: yarn install --immutable
 
       - name: Run ESLint
-        run: yarn lint --cache-dir=".turbo"
+        run: turbo run lint --cache-dir=".turbo" && eslint src/*.mts 

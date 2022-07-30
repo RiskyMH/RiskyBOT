@@ -3,11 +3,11 @@
     "description": "A collection of commands for use in the RiskyBOT project",
     "version": "4.0.0-test.4",
     "dependencies": {
-        "@discordjs/builders": "^1.0.0",
+        "@discordjs/builders": "^1.1.0",
         "@riskybot/apis": "workspace:^",
         "@riskybot/discord-interactions": "workspace:^",
         "@riskybot/tools": "workspace:^",
-        "discord-api-types": "^0.36.3",
+        "discord-api-types": "^0.37.0",
         "translatte": "^3.0.1",
         "undici": "^5.8.0"
     },

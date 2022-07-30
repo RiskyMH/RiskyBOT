@@ -5,16 +5,16 @@ __metadata:
   version: 6
   cacheKey: 8
 
-"@discordjs/builders@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "@discordjs/builders@npm:1.0.0"
+"@discordjs/builders@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@discordjs/builders@npm:1.1.0"
   dependencies:
     "@sapphire/shapeshift": ^3.5.1
-    discord-api-types: ^0.36.2
+    discord-api-types: ^0.36.3
     fast-deep-equal: ^3.1.3
     ts-mixer: ^6.0.1
     tslib: ^2.4.0
-  checksum: eeb627c772a2bd1fea1bddd58d46d391c30d0e2411cc3976386b7efc2048724e6bfd204ba848724ebd6d04791b358637c3a9eee878f924ef525c4920bfbfa2de
+  checksum: 95a30b151447bfb625f3f325dc06476a58a050930b07cd0e9d6f66f62cee49e3d68cea137b436bf64559d47add7900574b732ba15e707cdda68a320020988c49
   languageName: node
   linkType: hard
 
@@ -115,11 +115,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@riskybot/commands@workspace:packages/functions"
   dependencies:
-    "@discordjs/builders": ^1.0.0
+    "@discordjs/builders": ^1.1.0
     "@riskybot/apis": "workspace:^"
     "@riskybot/discord-interactions": "workspace:^"
     "@riskybot/tools": "workspace:^"
-    discord-api-types: ^0.36.3
+    discord-api-types: ^0.37.0
     translatte: ^3.0.1
     typescript: ^4.7.4
     undici: ^5.8.0
@@ -132,7 +132,7 @@ __metadata:
   dependencies:
     "@riskybot/tools": "workspace:^"
     "@types/express": ^4.17.13
-    discord-api-types: ^0.36.3
+    discord-api-types: ^0.37.0
     discord-interactions: ^3.2.0
     express: ^4.18.1
     typescript: ^4.7.4
@@ -799,17 +799,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"discord-api-types@npm:^0.36.2":
-  version: 0.36.2
-  resolution: "discord-api-types@npm:0.36.2"
-  checksum: 0275ac9db1bb8354ed3fedb37d7fa66d02b63aa6dc749add1e9ed52b428e94cb8b5111bd60e781cf0c2c5cdb0e948c4e83d00b74f500f1b0ac90ddc38a822798
-  languageName: node
-  linkType: hard
-
 "discord-api-types@npm:^0.36.3":
   version: 0.36.3
   resolution: "discord-api-types@npm:0.36.3"
   checksum: 3089c0fb37425dc5df03c76d82988d43fcc272699b06a02fc830d0a3bef550009aaebdf6d646529e8a7ccea76ae3f43b099d736ea5ef37a0be143142ab49871d
+  languageName: node
+  linkType: hard
+
+"discord-api-types@npm:^0.37.0":
+  version: 0.37.0
+  resolution: "discord-api-types@npm:0.37.0"
+  checksum: a411d1f5a04301507e095af4b311fdf31593f42e57ff5259eaf1b8e6f3a1828b5899c9a5123cae005cad567c765367fcf20d434154ecba3e6fcdd79e53aa9f20
   languageName: node
   linkType: hard
 
@@ -2076,7 +2076,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "riskybot@workspace:."
   dependencies:
-    "@discordjs/builders": ^1.0.0
+    "@discordjs/builders": ^1.1.0
     "@discordjs/rest": ^1.0.1
     "@riskybot/apis": "workspace:^"
     "@riskybot/commands": "workspace:^"
@@ -2087,11 +2087,11 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^5.31.0
     "@typescript-eslint/parser": ^5.31.0
     body-parser: ^1.20.0
-    discord-api-types: ^0.36.3
+    discord-api-types: ^0.37.0
     dotenv: ^16.0.1
     eslint: ^8.20.0
     jshint: ^2.13.5
-    turbo: ^1.3.4
+    turbo: ^1.4.0
     typescript: ^4.7.4
     undici: ^5.8.0
   languageName: unknown
@@ -2370,122 +2370,122 @@ __metadata:
   languageName: node
   linkType: hard
 
-"turbo-android-arm64@npm:1.3.4":
-  version: 1.3.4
-  resolution: "turbo-android-arm64@npm:1.3.4"
+"turbo-android-arm64@npm:1.4.0":
+  version: 1.4.0
+  resolution: "turbo-android-arm64@npm:1.4.0"
   conditions: os=android & cpu=arm64
   languageName: node
   linkType: hard
 
-"turbo-darwin-64@npm:1.3.4":
-  version: 1.3.4
-  resolution: "turbo-darwin-64@npm:1.3.4"
+"turbo-darwin-64@npm:1.4.0":
+  version: 1.4.0
+  resolution: "turbo-darwin-64@npm:1.4.0"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"turbo-darwin-arm64@npm:1.3.4":
-  version: 1.3.4
-  resolution: "turbo-darwin-arm64@npm:1.3.4"
+"turbo-darwin-arm64@npm:1.4.0":
+  version: 1.4.0
+  resolution: "turbo-darwin-arm64@npm:1.4.0"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"turbo-freebsd-64@npm:1.3.4":
-  version: 1.3.4
-  resolution: "turbo-freebsd-64@npm:1.3.4"
+"turbo-freebsd-64@npm:1.4.0":
+  version: 1.4.0
+  resolution: "turbo-freebsd-64@npm:1.4.0"
   conditions: os=freebsd & cpu=x64
   languageName: node
   linkType: hard
 
-"turbo-freebsd-arm64@npm:1.3.4":
-  version: 1.3.4
-  resolution: "turbo-freebsd-arm64@npm:1.3.4"
+"turbo-freebsd-arm64@npm:1.4.0":
+  version: 1.4.0
+  resolution: "turbo-freebsd-arm64@npm:1.4.0"
   conditions: os=freebsd & cpu=arm64
   languageName: node
   linkType: hard
 
-"turbo-linux-32@npm:1.3.4":
-  version: 1.3.4
-  resolution: "turbo-linux-32@npm:1.3.4"
+"turbo-linux-32@npm:1.4.0":
+  version: 1.4.0
+  resolution: "turbo-linux-32@npm:1.4.0"
   conditions: os=linux & cpu=ia32
   languageName: node
   linkType: hard
 
-"turbo-linux-64@npm:1.3.4":
-  version: 1.3.4
-  resolution: "turbo-linux-64@npm:1.3.4"
+"turbo-linux-64@npm:1.4.0":
+  version: 1.4.0
+  resolution: "turbo-linux-64@npm:1.4.0"
   conditions: os=linux & cpu=x64
   languageName: node
   linkType: hard
 
-"turbo-linux-arm64@npm:1.3.4":
-  version: 1.3.4
-  resolution: "turbo-linux-arm64@npm:1.3.4"
+"turbo-linux-arm64@npm:1.4.0":
+  version: 1.4.0
+  resolution: "turbo-linux-arm64@npm:1.4.0"
   conditions: os=linux & cpu=arm64
   languageName: node
   linkType: hard
 
-"turbo-linux-arm@npm:1.3.4":
-  version: 1.3.4
-  resolution: "turbo-linux-arm@npm:1.3.4"
+"turbo-linux-arm@npm:1.4.0":
+  version: 1.4.0
+  resolution: "turbo-linux-arm@npm:1.4.0"
   conditions: os=linux & cpu=arm
   languageName: node
   linkType: hard
 
-"turbo-linux-mips64le@npm:1.3.4":
-  version: 1.3.4
-  resolution: "turbo-linux-mips64le@npm:1.3.4"
-  conditions: os=linux & cpu=mips64el
+"turbo-linux-mips64le@npm:1.4.0":
+  version: 1.4.0
+  resolution: "turbo-linux-mips64le@npm:1.4.0"
+  conditions: os=linux & cpu=mipsel
   languageName: node
   linkType: hard
 
-"turbo-linux-ppc64le@npm:1.3.4":
-  version: 1.3.4
-  resolution: "turbo-linux-ppc64le@npm:1.3.4"
+"turbo-linux-ppc64le@npm:1.4.0":
+  version: 1.4.0
+  resolution: "turbo-linux-ppc64le@npm:1.4.0"
   conditions: os=linux & cpu=ppc64
   languageName: node
   linkType: hard
 
-"turbo-windows-32@npm:1.3.4":
-  version: 1.3.4
-  resolution: "turbo-windows-32@npm:1.3.4"
+"turbo-windows-32@npm:1.4.0":
+  version: 1.4.0
+  resolution: "turbo-windows-32@npm:1.4.0"
   conditions: os=win32 & cpu=ia32
   languageName: node
   linkType: hard
 
-"turbo-windows-64@npm:1.3.4":
-  version: 1.3.4
-  resolution: "turbo-windows-64@npm:1.3.4"
+"turbo-windows-64@npm:1.4.0":
+  version: 1.4.0
+  resolution: "turbo-windows-64@npm:1.4.0"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
 
-"turbo-windows-arm64@npm:1.3.4":
-  version: 1.3.4
-  resolution: "turbo-windows-arm64@npm:1.3.4"
+"turbo-windows-arm64@npm:1.4.0":
+  version: 1.4.0
+  resolution: "turbo-windows-arm64@npm:1.4.0"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"turbo@npm:^1.3.4":
-  version: 1.3.4
-  resolution: "turbo@npm:1.3.4"
+"turbo@npm:^1.4.0":
+  version: 1.4.0
+  resolution: "turbo@npm:1.4.0"
   dependencies:
-    turbo-android-arm64: 1.3.4
-    turbo-darwin-64: 1.3.4
-    turbo-darwin-arm64: 1.3.4
-    turbo-freebsd-64: 1.3.4
-    turbo-freebsd-arm64: 1.3.4
-    turbo-linux-32: 1.3.4
-    turbo-linux-64: 1.3.4
-    turbo-linux-arm: 1.3.4
-    turbo-linux-arm64: 1.3.4
-    turbo-linux-mips64le: 1.3.4
-    turbo-linux-ppc64le: 1.3.4
-    turbo-windows-32: 1.3.4
-    turbo-windows-64: 1.3.4
-    turbo-windows-arm64: 1.3.4
+    turbo-android-arm64: 1.4.0
+    turbo-darwin-64: 1.4.0
+    turbo-darwin-arm64: 1.4.0
+    turbo-freebsd-64: 1.4.0
+    turbo-freebsd-arm64: 1.4.0
+    turbo-linux-32: 1.4.0
+    turbo-linux-64: 1.4.0
+    turbo-linux-arm: 1.4.0
+    turbo-linux-arm64: 1.4.0
+    turbo-linux-mips64le: 1.4.0
+    turbo-linux-ppc64le: 1.4.0
+    turbo-windows-32: 1.4.0
+    turbo-windows-64: 1.4.0
+    turbo-windows-arm64: 1.4.0
   dependenciesMeta:
     turbo-android-arm64:
       optional: true
@@ -2517,7 +2517,7 @@ __metadata:
       optional: true
   bin:
     turbo: bin/turbo
-  checksum: 073db54822108744c3291d8ad3f7a8a380ac6d1a3873ece732df3197401b9609210870667130642d19ddc612e3db90ba8c7c4d49f3c29936ec1ff0c979ee0852
+  checksum: 2b688b115643c69ddb3e5aac769226094a7daad3c44c72ef2bb7e62c413e1338a376d859bedb3bf532804a215c8494d5e396b89a758268f0ecc06bee6977bc81
   languageName: node
   linkType: hard
 

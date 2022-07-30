@@ -8,7 +8,7 @@ import type { User, InteractionGuildMember, InteractionDataResolvedGuildMember, 
 
 
 //TODO: Make sure everything works...
-
+sad
 
 export default async function about(config: Config, option: {user?: User, member?:  InteractionGuildMember | InteractionDataResolvedGuildMember, role?: Role, channel?: InteractionDataResolvedChannel, stringInput?: string, name: string}, extra: string, topggKey?: string )/**: Promise <InteractionReplyOptions> */  {
 
