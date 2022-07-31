@@ -370,13 +370,12 @@ app.post("/discord-interactions", async (request, response) => {
 
     }
 
-    console.log("yay");
     return "Sent";
 });
 
 
 const port = process.env.PORT || 80;
-const host = process.env.RAILWAY_STATIC_URL || "localhost";
+const host = "::";
 
 app.get("/", async () => {
   return { hello: "world" };
