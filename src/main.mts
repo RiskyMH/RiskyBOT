@@ -1,8 +1,7 @@
 import {Client} from "@riskybot/discord-interactions";
-import { OAuth2Scopes } from "discord-api-types/v10";
-import express from "express";
+import { APIInteraction, InteractionType, OAuth2Scopes } from "discord-api-types/v10";
 import { Config, stringFromEmbed } from "@riskybot/tools";
-import bodyParser from "body-parser";
+import fastify, { FastifyReply, FastifyRequest } from "fastify";
 
 import "dotenv/config";
 
@@ -10,7 +9,7 @@ import { mini, about, translate, meCredits, random, fun, search, searchAutoCompl
 import { codeBlock, EmbedBuilder } from "@discordjs/builders";
 
 
-const app = express();
+const app = fastify({ logger: true });
 const config = new Config("./config.yml", undefined, true);
 const wait = (await import("util")).promisify(setTimeout);
 
@@ -20,35 +19,35 @@ if (!process.env.APPLICATION_PUBLIC_KEY) throw new Error("APPLICATION_PUBLIC_KEY
 
 const client = new Client({token: process.env.APPLICATION_TOKEN, applicationId: process.env.APPLICATION_ID, publicKey: process.env.APPLICATION_PUBLIC_KEY }, config);
 
-process.on("unhandledRejection", error => {
-    console.info("\n---START ERROR---");
-    console.error("Unhandled promise rejection:");
-    console.error(error);
-    console.info("---END ERROR---\n");
-});
+// process.on("unhandledRejection", error => {
+//     console.info("\n---START ERROR---");
+//     console.error("Unhandled promise rejection:");
+//     console.error(error);
+//     console.info("---END ERROR---\n");
+// });
 
-process.on("uncaughtException", error => {
-    console.info("\n---START ERROR---");
-    console.error("Uncaught exception:");
-    console.error(error);
-    console.info("---END ERROR---\n");
-});
+// process.on("uncaughtException", error => {
+//     console.info("\n---START ERROR---");
+//     console.error("Uncaught exception:");
+//     console.error(error);
+//     console.info("---END ERROR---\n");
+// });
 
 const ownerIds: string[] = [process.env.OWNER_ID || ""];
 
-app.use(bodyParser.json());
 
-function rateLimiting(req: express.Request, res: express.Response) {
+function rateLimiting(req: FastifyRequest, res: FastifyReply) {
     return {req, res};
 }
 
 app.post("/discord-interactions", async (request, response) => {
+
     const isValidRequest = client.verify(request, response);
     if (!isValidRequest) return console.warn("Invalid request");
 
     if (!rateLimiting(request, response)) return;
 
-    const interaction = client.parse(request.body);
+    const interaction = client.parse(request.body as APIInteraction);
     // console.log(interaction);
 
     // the template embeds for `done` or `error`
@@ -57,36 +56,36 @@ app.post("/discord-interactions", async (request, response) => {
 
 
     // Nothing really interesting, just to see what commands used
-    // if (interaction.isChatInputCommand() && interaction.commandName) {
-    //     if (interaction.options && interaction.options.getSubcommand(false)) {
-    //         console.info(`SLASH: ${interaction.commandName} (${interaction.options.getSubcommand()})`);
-    //     } 
-    //     else {
-    //         console.info(`SLASH: ${interaction.commandName}`);
-    //     }
-    // } 
-    // else if ((interaction.isUserCommand() || interaction.isMessageCommand()) && interaction.commandName) {
-    //     console.info(`CONTEXT: ${interaction.commandName}`);
-    // } 
-    // else if (interaction.isButton() && interaction.customId) {
-    //     console.info(`BUTTON: ${interaction.customId.split("-")[0]}`);
-    // } 
-    // else if (interaction.isSelectMenu() && interaction.customId) {
-    //     console.info(`SELECT: ${interaction.customId.split("-")[0]}`);
-    // } 
-    // else if (interaction.isModalSubmit() && interaction.customId) {
-    //     console.info(`MODAL: ${interaction.customId.split("-")[0]}`);
-    // } 
-    // else if (interaction.isAutocomplete() && interaction.commandName) {
-    //     console.info(`AUTOCOMPLETE: ${interaction.commandName}`);
-    // } 
-    // else if (interaction.type === InteractionType.Ping) {
-    //     console.info("PING");
-    // } 
-    // else {
-    //     console.info(`UNKNOWN: ${interaction.type}`);
-    //     console.info(request.body);
-    // }
+    if (interaction.isChatInputCommand() && interaction.commandName) {
+        if (interaction.options && interaction.options.getSubcommand(false)) {
+            console.info(`SLASH: ${interaction.commandName} (${interaction.options.getSubcommand()})`);
+        } 
+        else {
+            console.info(`SLASH: ${interaction.commandName}`);
+        }
+    } 
+    else if ((interaction.isUserCommand() || interaction.isMessageCommand()) && interaction.commandName) {
+        console.info(`CONTEXT: ${interaction.commandName}`);
+    } 
+    else if (interaction.isButton() && interaction.customId) {
+        console.info(`BUTTON: ${interaction.customId.split("-")[0]}`);
+    } 
+    else if (interaction.isSelectMenu() && interaction.customId) {
+        console.info(`SELECT: ${interaction.customId.split("-")[0]}`);
+    } 
+    else if (interaction.isModalSubmit() && interaction.customId) {
+        console.info(`MODAL: ${interaction.customId.split("-")[0]}`);
+    } 
+    else if (interaction.isAutocomplete() && interaction.commandName) {
+        console.info(`AUTOCOMPLETE: ${interaction.commandName}`);
+    } 
+    else if (interaction.type === InteractionType.Ping) {
+        console.info("PING");
+    } 
+    else {
+        console.info(`UNKNOWN: ${interaction.type}`);
+        console.info(request.body);
+    }
     
     // console.log(JSON.stringify(request.body, null, 2));
     
@@ -371,13 +370,18 @@ app.post("/discord-interactions", async (request, response) => {
 
     }
 
-    return;
+    console.log("yay");
+    return "Sent";
 });
 
 
 const port = process.env.PORT || 80;
 
-app.listen(port, () => {
+app.get("/", async () => {
+  return { hello: "world" };
+});
+
+app.listen({ port: Number(port) }).then(() => {
     console.info("\x1b[92mDiscord Interactions Ready!\x1b[0m");
     if (port !== 80) console.info(`\x1b[93mⓘ  Listening on port ${port}\x1b[0m`);
 });

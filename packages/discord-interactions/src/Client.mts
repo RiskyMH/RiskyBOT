@@ -1,6 +1,5 @@
 import type { Config } from "@riskybot/tools";
 import { APIInteraction, ApplicationCommandType, ComponentType, InteractionResponseType, InteractionType, OAuth2Scopes } from "discord-api-types/v10";
-import type { Request, Response } from "express";
 import { verifyKey } from "discord-interactions";
 import ButtonInteraction from "./interactions/ButtonComponentInteraction.mjs";
 import PingInteraction from "./interactions/PingInteraction.mjs";
@@ -12,6 +11,7 @@ import AutocompleteInteraction from "./interactions/AutocompleteInteraction.mjs"
 import MessageCommandInteraction from "./interactions/MessageCommandInteraction.mjs";
 import ModalSubmitInteraction from "./interactions/ModalSubmitInteraction.mjs";
 import { DISCORD_API_BASE_URL } from "./constants.mjs";
+import type { FastifyReply, FastifyRequest } from "fastify";
 
 /**
  * The Interaction :)
@@ -42,23 +42,23 @@ export default class Client {
         this.config = config;
     }
 
-    verify(request: Request, response: Response): boolean {
-        if (request.method !== "POST") { response.status(405).json({ error: "Only can use POST method" }); return false;}
+    verify(request:  FastifyRequest, response: FastifyReply): boolean {
+        if (request.method !== "POST") { response.status(405).send({ error: "Only can use POST method" }); return false;}
         const signature = request.headers["x-signature-ed25519"]?.toString();
         const timestamp = request.headers["x-signature-timestamp"]?.toString();
         const rawBody = JSON.stringify(request.body);
-        if (!signature || !timestamp || !rawBody) { response.status(405).json({ error: "Invalid headers and/or body" }); return false; }
+        if (!signature || !timestamp || !rawBody) { response.status(405).send({ error: "Invalid headers and/or body" }); return false; }
 
         const isValidRequest = verifyKey(rawBody, signature, timestamp, this.publicKey);
-        if (!isValidRequest) {response.status(401).json({ error: "Bad request signature" }); return false;} 
+        if (!isValidRequest) {response.status(401).send({ error: "Bad request signature" }); return false;} 
 
-        const interaction: APIInteraction = request.body;
+        const interaction = request.body as APIInteraction;
 
         // Handle PINGs from Discord
         if (interaction.type === InteractionType.Ping) {
             console.info("Handling Ping request");
             
-            response.json({ type: InteractionResponseType.Pong });
+            response.send({ type: InteractionResponseType.Pong });
             return true;
         }
 
