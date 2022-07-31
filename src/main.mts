@@ -376,12 +376,13 @@ app.post("/discord-interactions", async (request, response) => {
 
 
 const port = process.env.PORT || 80;
+const host = process.env.RAILWAY_STATIC_URL || "localhost";
 
 app.get("/", async () => {
   return { hello: "world" };
 });
 
-app.listen({ port: Number(port) }).then(() => {
+app.listen({ port: Number(port), host }).then(() => {
     console.info("\x1b[92mDiscord Interactions Ready!\x1b[0m");
     if (port !== 80) console.info(`\x1b[93mⓘ  Listening on port ${port}\x1b[0m`);
 });
