@@ -27,4 +27,6 @@ export default function divider({ type, className = "" }) {
 			</svg>
 		);
 	}
+
+	throw new Error(`Unknown divider type: ${type}`);
 }

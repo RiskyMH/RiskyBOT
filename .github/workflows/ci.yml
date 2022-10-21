@@ -35,7 +35,6 @@ jobs:
           echo ::add-matcher::.github/problem-matchers/tsc.json   
 
       - name: Install dependencies 
-        # if: ${{ steps.yarn-cache.outputs.cache-hit != 'true' }}
         run: yarn install --immutable
 
       - name: Run Build
@@ -97,4 +96,4 @@ jobs:
 
       # Actually run the tests (part of the test stage requires the build)
       - name: Run Tests
-        run: yarn turbo run test --cache-dir=".turbo"
+        run: yarn turbo run test:ci --cache-dir=".turbo"
