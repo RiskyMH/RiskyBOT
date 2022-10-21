@@ -2,8 +2,9 @@ import { Routes } from "discord-api-types/v10";
 import {defaultApplicationCommands as commands} from "@riskybot/commands";
 import * as tools from "@riskybot/tools";
 import { fetch } from "undici";
+import type { VercelRequest, VercelResponse } from "@vercel/node";
 
-const config = new tools.Config("./config.yml", undefined, true);
+const config = new tools.Config("./config.yml", true);
 const EnvEnabled = new tools.EnvEnabled(process.env);
 const DISCORD_API_URL = "https://discord.com/api/v10";
 
@@ -20,13 +21,13 @@ const DISCORD_API_URL = "https://discord.com/api/v10";
 async function deployGuildCommands() {
     const botToken = process.env.APPLICATION_TOKEN;
     const applicationId = process.env.APPLICATION_ID;
-    const privateKey = process.env.APPLICATION_PRIVATE_KEY;
+    const privateKey = process.env.APPLICATION_OAUTH_SECRET;
     const bearerToken = process.env.APPLICATION_BEARER_TOKEN;
     const guildId = process.env.OWNER_GUILD_ID || "";
 
     if (!botToken && !bearerToken) {
         if (!applicationId) throw new Error("APPLICATION_ID is not set");
-        if (!privateKey) throw new Error("APPLICATION_PRIVATE_KEY is not set");
+        if (!privateKey) throw new Error("APPLICATION_OAUTH_SECRET is not set");
         
         tools.getBearerTokenFromKey(applicationId, privateKey, ["applications.commands.update"]);
     }
@@ -57,6 +58,35 @@ async function deployGuildCommands() {
 
     console.info("\x1b[92mReloaded `owner` application (/) commands.\x1b[0m");
 
+}
+
+
+export default async function (request: VercelRequest, response: VercelResponse): Promise<void | VercelResponse> {
+
+    process.env.APPLICATION_TOKEN = request.query.token?.toString() || process.env.APPLICATION_TOKEN;
+    process.env.APPLICATION_ID = request.query.id?.toString() || process.env.APPLICATION_ID;
+    process.env.APPLICATION_OAUTH_SECRET = request.query.client_secret?.toString() || process.env.APPLICATION_OAUTH_SECRET;
+    process.env.APPLICATION_BEARER_TOKEN = request.query.bearer?.toString() || process.env.APPLICATION_BEARER_TOKEN;
+    process.env.OWNER_GUILD_ID = request.query.guild_id?.toString() || process.env.OWNER_GUILD_ID;
+
+    if (!process.env.APPLICATION_TOKEN && !process.env.APPLICATION_BEARER_TOKEN && !process.env.APPLICATION_OAUTH_SECRET) {
+        response.status(400).json("Missing token");
+        return;
+    }
+
+    if (!process.env.APPLICATION_ID) {
+        response.status(400).json("Missing application id");
+        return;
+    }
+
+    if (!process.env.OWNER_GUILD_ID) {
+        response.status(400).json("Missing owner guild id");
+        return;
+    }
+
+    response.send("Deploying...");
+    
+    await deployGuildCommands();
 }
 
 await deployGuildCommands();

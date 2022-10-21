@@ -7,15 +7,17 @@ import { fetch } from "undici";
 
 export class Config {
     /** Can provide a location to the config (YMAL or JSON) or provide a direct object */
-    constructor(location: string, directInput?: ConfigType, ymal = false) {
+    constructor(directInput: ConfigType);
+    constructor(location: string, ymal?: boolean);
+    constructor(input: string | ConfigType, ymal = false) {
         
         let rawConfig: ConfigType;
-        if (directInput) {
-            rawConfig = directInput;
+        if (typeof(input) === "object") {
+            rawConfig = input;
         } else if (!ymal) {
-            rawConfig = JSON.parse(readFileSync(location, "utf8"));
+            rawConfig = JSON.parse(readFileSync(input, "utf8"));
         } else {
-            rawConfig = YAML.load(readFileSync(location, "utf8")) as ConfigType;
+            rawConfig = YAML.load(readFileSync(input, "utf8")) as ConfigType;
         }
 
         // Use the provided config or the default config

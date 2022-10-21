@@ -1,5 +1,5 @@
-import { EmbedBuilder, inlineCode, SlashCommandBuilder, SlashCommandStringOption, SlashCommandSubcommandBuilder, SlashCommandUserOption } from "@discordjs/builders";
-import type { InteractionDataResolvedGuildMember, InteractionGuildMember, User } from "@riskybot/discord-interactions";
+import { EmbedBuilder, SlashCommandBuilder, SlashCommandStringOption, SlashCommandSubcommandBuilder, SlashCommandUserOption } from "@discordjs/builders";
+import type { InteractionDataResolvedGuildMember, InteractionGuildMember, User } from "discord-api-parser";
 import type { Config, EnvEnabled } from "@riskybot/tools";
 import { ImageFormat } from "discord-api-types/v10";
 import { fetch } from "undici";
@@ -186,159 +186,9 @@ export default async function fun(config: Config, type: string, input: { user1?:
           .setTitle("Fun - `Blurpify`");
       }
       break;
-    case "hack": {
-      if (!input.user1) throw new Error("You need to specify `user1` for input");
-      funEmb
-        .setTitle(`Hacking - ${inlineCode(input.user1.tag)}`)
-        .setFooter({ text: "💯 Totally legit and legal" });
-
-      switch (input.text1) {
-        case "0":
-          funEmb.setDescription(`Hacking ${input.member1?.nickname ?? input.user1.username} now...`);
-          break;
-        case "1":
-          funEmb.setDescription(
-            `[**${randomNum(0, 10)}%**] Finding discord login... (2fa bypassed)`
-          );
-          break;
-        case "2":
-          funEmb.setDescription(
-            `[**${randomNum(10, 12)}%**] Found: \n • **Email**: ${inlineCode(
-              getRandom(fakeHackOptions.email).replace(
-                "{USERNAME}",
-                input.user1.username
-              )
-            )}\n • **Password**:  ${inlineCode(getRandom(fakeHackOptions.password))}`
-          );
-          break;
-        case "3":
-          funEmb.setDescription(
-            `[**${randomNum(
-              15,
-              20
-            )}%**] Fetching dms with closest friends (if there are any friends at all)`
-          );
-          break;
-        case "4":
-          funEmb.setDescription(
-            `[**${randomNum(20, 22)}%**] **Last DM:** "${getRandom(
-              fakeHackOptions.dm
-            )}"`
-          );
-          break;
-        case "5":
-          funEmb.setDescription(
-            `[**${randomNum(25, 30)}%**] Finding most common word...`
-          );
-          break;
-        case "6":
-          funEmb.setDescription(
-            `[**${randomNum(30, 32)}%**] \`const mostCommonWord = '${getRandom(
-              fakeHackOptions.commonWord
-            )}'\``
-          );
-          break;
-        case "7":
-          funEmb.setDescription(
-            `[**${randomNum(
-              35,
-              40
-            )}%**] Injecting trojan virus into discriminator \`#${input.user1.discriminator
-            }\``
-          );
-          break;
-        case "8":
-          funEmb.setDescription(
-            `[**${randomNum(40, 50)}%**] Virus injected, emotes stolen ${getRandom(
-              fakeHackOptions.emote
-            )}`
-          );
-          break;
-        case "9":
-          funEmb.setDescription(
-            `[**${randomNum(
-              50,
-              55
-            )}%**] Hacking Epic Store account.... <a:chugMyJug:575417466214285316>`
-          );
-          break;
-        case "10":
-          funEmb.setDescription(
-            `[**${randomNum(
-              55,
-              57
-            )}%**] Breached Epic Store Account: No More 19 Dollar Fortnite Cards :x:`
-          );
-          break;
-        case "11":
-          funEmb.setDescription(`[**${randomNum(60, 70)}%**] Finding IP address`);
-          break;
-        case "12":
-          funEmb.setDescription(
-            `[**${randomNum(70, 72)}%**] **IP address:** 127.0.0.1:${Math.round(
-              Number(randomNum(1000, 9999).replace(",", ""))
-            )}`
-          );
-          break;
-        case "13":
-          funEmb.setDescription(
-            `[**${randomNum(75, 80)}%**] Selling data to the Government...`
-          );
-          break;
-        case "14":
-          funEmb.setDescription(
-            `[**${randomNum(
-              90,
-              100
-            )}%**] Reporting account to Discord for breaking TOS...`
-          );
-          break;
-        case "15":
-          funEmb.setDescription(`[**${randomNum(100, 100)}%**] Finished hacking ${input.member1?.nickname ?? input.user1.username}`
-          );
-          break;
-        case "16":
-          funEmb.setDescription(
-            `[**${"100"}%**] The _totally_ real and dangerous hack is complete`
-          );
-          break;
-      }
-    }
   }
 
   return { embeds: [funEmb] };
-}
-
-const fakeHackOptions = {
-  email: ["{USERNAME}NotFound@gmail.com", "mommyloves{USERNAME}@outlook.com"],
-  password: ["PA55W0RD", "123456Seven", "ilovemom"],
-  dm: ["I hope blueballs aren't real", "man i love my mommy"],
-  commonWord: ["chungus", "sussy", "e"],
-  emote: [
-    "<:peepee:589828801484161066>",
-    "<a:yummylips:680098324044578866>",
-    "<a:blelele:575409317461884929>",
-  ],
-};
-
-/**
- * @param {number} min
- * @param {number} max
- * @returns {string}
- */
-function randomNum(min: number, max: number): string {
-  return (Math.random() * (max - min) + min).toLocaleString(undefined, {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-}
-
-/**
- * @param {Array} list
- * @returns {any}
- */
-function getRandom(list: Array<any>): any {
-  return list[Math.floor(Math.random() * list.length)];
 }
 
 
@@ -348,18 +198,7 @@ export function applicationCommands(config?: Config, envEnabledList?: EnvEnabled
 
   const funSlashCommand = new SlashCommandBuilder()
     .setName("fun")
-    .setDescription("🤣 Produces fun results")
-    .addSubcommand(
-      new SlashCommandSubcommandBuilder()
-        .setName("hack")
-        .setDescription("Hack someone - TOTALLY LEGIT AND LEGAL")
-        .addUserOption(
-          new SlashCommandUserOption()
-            .setName("user")
-            .setDescription("The user to hack")
-            .setRequired(true)
-        )
-    );
+    .setDescription("🤣 Produces fun results");
 
   if (config?.apiEnabled.someRandomApi) {
     funSlashCommand.addSubcommand(

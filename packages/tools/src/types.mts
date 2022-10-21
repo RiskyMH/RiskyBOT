@@ -45,7 +45,7 @@ type ApiEnabled = {
         /** Is the api's under the category of `Random Text` (provides text) being used? */  
         randomText: boolean;    
     }
-}
+};
 
 /** The settings for the bot */
 export interface ConfigType {

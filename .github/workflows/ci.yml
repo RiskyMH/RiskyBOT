@@ -6,10 +6,6 @@ on:
       - main
 
   pull_request:
-    branches:
-      - '!gh-actions'
-      - 'main'
-      - '**'
 
 jobs:
   typescript-build:
@@ -23,32 +19,19 @@ jobs:
         with:
           node-version: 18
           cache: 'yarn'
-
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
-
-      - uses: actions/cache@v3
-        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+          cache-dependency-path: yarn.lock
 
       - name: Turbo cache
         id: turbo-cache
         uses: actions/cache@v2
         with:
           path: .turbo
-          key: turbo-${{ github.job }}-${{ github.ref_name }}-${{ github.sha }}
+          key: turbo-${{ github.ref_name }}-${{ github.sha }}
           restore-keys: |
-            turbo-${{ github.job }}-${{ github.ref_name }}-
+            turbo-${{ github.job }}-
       
       - name: Add custom Problem Matchers
         run: |
-          echo ::add-matcher::.github/problem-matchers/eslint-compact.json   
-          echo ::add-matcher::.github/problem-matchers/eslint-stylish.json   
           echo ::add-matcher::.github/problem-matchers/tsc.json   
 
       - name: Install dependencies 
@@ -57,7 +40,7 @@ jobs:
 
       - name: Run Build
         # run: yarn build
-        run: yarn turbo run build:ci --cache-dir=".turbo" && yarn tsc
+        run: yarn turbo run build:ci --cache-dir=".turbo" && yarn tsc --build
       
 
   eslint:
@@ -71,37 +54,47 @@ jobs:
         with:
           node-version: 18
           cache: 'yarn'
-
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
-
-      - uses: actions/cache@v3
-        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
-
-      - name: Turbo cache
-        id: turbo-cache
-        uses: actions/cache@v2
-        with:
-          path: .turbo
-          key: turbo-${{ github.job }}-${{ github.ref_name }}-${{ github.sha }}
-          restore-keys: |
-            turbo-${{ github.job }}-${{ github.ref_name }}-
+          cache-dependency-path: yarn.lock
             
       - name: Add custom Problem Matchers
         run: |
           echo ::add-matcher::.github/problem-matchers/eslint-compact.json   
           echo ::add-matcher::.github/problem-matchers/eslint-stylish.json   
-          echo ::add-matcher::.github/problem-matchers/tsc.json   
 
       - name: Install dependencies 
         # if: ${{ steps.yarn-cache.outputs.cache-hit != 'true' }}
         run: yarn install --immutable
 
       - name: Run ESLint
-        run: yarn turbo run lint --cache-dir=".turbo" && yarn eslint src/*.mts 
+        run: yarn turbo run lint --cache-dir=".turbo" && yarn eslint src/**/*.mts
+
+  tests:
+    runs-on: ubuntu-latest
+    name: "Tests"
+    needs: [typescript-build]
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup node.js v18
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18
+          cache: 'yarn'
+          cache-dependency-path: yarn.lock
+
+      - name: Turbo cache
+        id: turbo-cache
+        uses: actions/cache@v2
+        with:
+          path: .turbo
+          key: turbo-${{ github.ref_name }}-${{ github.sha }}
+          restore-keys: |
+            turbo-${{ github.ref_name }}-
+
+      - name: Install dependencies 
+        # if: ${{ steps.yarn-cache.outputs.cache-hit != 'true' }}
+        run: yarn install --immutable
+
+      # Actually run the tests (part of the test stage requires the build)
+      - name: Run Tests
+        run: yarn turbo run test --cache-dir=".turbo"

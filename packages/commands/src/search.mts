@@ -38,12 +38,16 @@ export default async function search(config: Config, engine: string, input: stri
                     .setURL(urbanChosen.permalink)
                     .addFields([{name: "Definition", value: trim(newDef, 1024)}])
                     .addFields([{name: "Example", value: italic(trim(newExam, 1024-2))}])
-                    .addFields([{name: "Stats", value: `\`👍${urbanChosen.thumbs_up}\` \`👎${urbanChosen.thumbs_down}\``}])
-                    .setTimestamp(urbanChosen.written_on)
+                    .addFields([{name: "Stats", value: `\`👍${urbanChosen.thumbsUp}\` \`👎${urbanChosen.thumbsDown}\``}])
+                    .setTimestamp(urbanChosen.writtenOn)
                     .setFooter({text: "Defined by: " + urbanChosen.author});
             } else {
-                if (urbanDef === null) errorEmb.setDescription(trim("No results found for " + inlineCode(input), 4096));
-                else if (urbanDef === undefined) errorEmb.setDescription("An error occurred while using the [`Urban Dictionary`](https://urbandictionary.com) API");
+                if (urbanDef === null) {
+                    errorEmb.setTitle("Can't find your term")
+                        .setDescription(trim("No results found for " + inlineCode(input), 4096))
+                        .setAuthor({name: "Urban Dictionary", url: "https://www.urbandictionary.com/", iconURL: "https://www.urbandictionary.com/apple-touch-icon.png"});
+                }
+                else if (urbanDef === undefined) errorEmb.setTitle("We had an error").setDescription("An error occurred while using the [`Urban Dictionary`](https://urbandictionary.com) API");
 
                 return { embeds: [errorEmb], ephemeral: true };
             }
@@ -77,17 +81,19 @@ export async function autoComplete(engine: string, input: string) {
 
     switch (engine) {
         case "urban-dictionary": {
+            if (!input.length) return [];
+
             const complete = await urbanDictionary.autoComplete(input);
 
             if (!complete || !complete.length) return [];
 
-            const wordList = complete.map((word: string) => ({ name: word, value: word })).slice(0, 25);
+            const wordList = complete.map((word: string) => ({ name: word, value: word }));
 
             if ((wordList[0].name.toLowerCase() !== input.toLowerCase())) {
                 wordList.unshift({ name: input, value: input });
             }
 
-            return wordList;
+            return wordList.slice(0, 25);
         }
 
     }
@@ -113,7 +119,7 @@ export function applicationCommands(config?: Config, envEnabledList?: EnvEnabled
                     .addStringOption(
                         new SlashCommandStringOption()
                             .setName("input")
-                            .setDescription("The input for the search engine")
+                            .setDescription("What word do you want to trust Urban Dictionary with?")
                             .setRequired(true)
                             .setAutocomplete(true)
                     )

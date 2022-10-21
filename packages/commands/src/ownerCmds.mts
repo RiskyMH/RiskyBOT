@@ -26,6 +26,7 @@ export async function evalResult(config: Config, input: string, evalResult: unkn
         .setFooter({text: "Eval is Evil"})
         .addFields([{name:"Input", value: trim(codeBlock("js",input), 1024)}])
         .addFields([{name:"Result", value: trim(codeBlock("js", evalResult ? String(evalResult) : "Nothing was returned..."), 1024)}]);
+    
     if (error) {
         evalResultEmbed
          .setColor(config.getColors().error)

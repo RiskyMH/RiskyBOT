@@ -335,6 +335,7 @@ export default async function random(config: Config, type: string, input: {num1?
                 errorEmb.setDescription("• " + errors.join("\n• "));
                 return { embeds: [errorEmb] };
             }
+
         case "emoji":
             row.components[0].setCustomId(`random-again-emoji${userId? "-" + userId: ""}`);
 
@@ -348,60 +349,58 @@ export default async function random(config: Config, type: string, input: {num1?
                 }
                 
                 randomEmb
-                 .setTitle("Random - Emoji")
-                 .setURL("https://emojihub.herokuapp.com/")
-                 .setAuthor({
-                  name: "emoji hub",
-                  url: "https://emojihub.herokuapp.com/",
-                 })
-                 .setColor(config.getColors().ok)
-                 .addFields([{name: str, value:`⤷ ${emojies.name}\n⤷ (${emojies.category})\n⤷ [[emojipedia](https://emojipedia.org/${str})] `}])
-                 .setFooter({ text: str + str + str + str + str });
-//                  .setDescription(
-//                   str +
-//                    ": " +
-//                    emojies.name +
-//                    `\n[[emojipedia](https://emojipedia.org/${str})] `
-//                  );
+                .setTitle("Random - Emoji")
+                .setURL("https://emojihub.herokuapp.com/")
+                .setAuthor({
+                name: "emoji hub",
+                url: "https://emojihub.herokuapp.com/",
+                })
+                .setColor(config.getColors().ok)
+                .addFields([{name: str, value:`⤷ ${emojies.name}\n⤷ (${emojies.category})\n⤷ [[emojipedia](https://emojipedia.org/${str})] `}])
+                .setFooter({ text: str + str + str + str + str });
+                //  .setDescription(
+                //   str +
+                //    ": " +
+                //    emojies.name +
+                //    `\n[[emojipedia](https://emojipedia.org/${str})] `
+                //  );
                 return { embeds: [randomEmb], components: [row] };
             } else {
-
                 errorEmb.setDescription("• " + errors.join("\n• "));
                 return { embeds: [errorEmb] };
             }
+                
 
-        case "number": {
-            input.num1 ||= 0;
-            input.num2 ||= 100;
-            row.components[0].setCustomId(`random-again-number-(${input.num1}-${input.num2})`);
-            
-            const min = Math.ceil(input.num1);
-            const max = Math.floor(input.num2);
+            case "number": {
+                input.num1 ||= 0;
+                input.num2 ||= 100;
+                row.components[0].setCustomId(`random-again-number-(${input.num1}-${input.num2})`);
+                
+                const min = Math.ceil(input.num1);
+                const max = Math.floor(input.num2);
 
-            randomEmb
-                .setTitle(`Random - \`min:${input.num1} max:${input.num2}\``)
-                .setColor(config.getColors().ok)
-                .setDescription(`${Math.floor(Math.random() * (max - min) + min).toLocaleString()}`);
-            return { embeds: [randomEmb], components: [row] };
+                randomEmb
+                    .setTitle(`Random - \`min:${input.num1} max:${input.num2}\``)
+                    .setColor(config.getColors().ok)
+                    .setDescription(`${Math.floor(Math.random() * (max - min) + min).toLocaleString()}`);
+                return { embeds: [randomEmb], components: [row] };
             }
 
-        case "randompost":
-        case "randomPost":
-        case "random-post": 
-        {
-            const data = await reddit(config, type, input.text1 || "", userId);
-            return data;
-        }
+            case "randomPost":
+            case "post": {
+                const data = await reddit(config, type, input.text1 || "", userId);
+                return data;
+            }
 
-        }
+    }
     return { embeds: [errorEmb] };
 }
 
 
 export async function autoComplete(engine: string, input: string ) {
     switch (engine) {
-        case "random-post": {
-            return await redditAutoComplete("sub-reddit", input);
+        case "post": {
+            return await redditAutoComplete("subreddit", input);
         }
     }
     return [];
@@ -422,7 +421,7 @@ export async function button(config: Config, id: string, userId?: string) {
         num2 = Number(nums[1]);
     } else if (idActual == "randomPost") {
         text1 = String(await getBetweenStr(id, "(", ")"));
-        idActual = "random-post";
+        idActual = "post";
     } else if (idActual == "excuse") {
         text1 = String(await getBetweenStr(id, "(", ")")) || "";
     }
@@ -557,11 +556,11 @@ export function applicationCommands(config?: Config, envEnabledList?: EnvEnabled
                 .setDescription("Use Reddit to ...")
                 .addSubcommand(
                     new SlashCommandSubcommandBuilder()
-                        .setName("random-post")
+                        .setName("post")
                         .setDescription("Uses Reddit and your selected subreddit")
                         .addStringOption(
                             new SlashCommandStringOption()
-                                .setName("sub-reddit")
+                                .setName("subreddit")
                                 .setDescription("The subreddit to get a random post from")
                                 .setRequired(true)
                                 .setAutocomplete(true)

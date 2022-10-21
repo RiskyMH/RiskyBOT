@@ -3,10 +3,11 @@
     "description": "A set of function to get/use APIs for the project",
     "version": "4.0.0-test.4",
     "dependencies": {
-        "undici": "^5.8.0"
+        "@sapphire/shapeshift": "^3.7.0",
+        "undici": "^5.11.0"
     },
     "devDependencies": {
-        "typescript": "^4.7.4"
+        "typescript": "^4.8.4"
     },
     "directories": {
         "lib": "src"
@@ -21,10 +22,11 @@
     "main": "./dist/index.js",
     "module": "./dist/index.mjs",
     "scripts": {
-        "build": "tsc",
+        "build": "tsc --build",
         "build:ci": "( cd ../../ && tsc -p ./packages/apis/tsconfig.json )",
-        "lint": "eslint src/*.mts",
-        "prepublishOnly": "yarn build"
+        "lint": "eslint src/**/*.mts tests/*.mjs",
+        "prepack": "yarn build",
+        "test": "node --test"
     },
     "type": "module",
     "types": "./dist/index.d.ts",

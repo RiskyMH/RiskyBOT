@@ -7,8 +7,6 @@ on:
     paths:
       - "website/**"
   pull_request:
-    branches:
-      - main  # Set a branch to deploy
     paths:
       - "website/**"
 
@@ -31,28 +29,49 @@ defaults:
 jobs:
   # Build job
   build:
-    name: Build Hugo Website
+    name: Build Website
     runs-on: ubuntu-latest
-    env:
-      HUGO_VERSION: 0.101.0
+    defaults:
+      run:
+        working-directory: website
+
     steps:
-      - name: Install Hugo CLI
-        run: |
-          wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-64bit.deb \
-          && sudo dpkg -i ${{ runner.temp }}/hugo.deb
-      - name: Checkout
-        uses: actions/checkout@v3
+      - name: Setup node.js v18
+        uses: actions/setup-node@v2
         with:
-          submodules: recursive
+          node-version: 18
+          cache: 'yarn'
+          cache-dependency-path: yarn.lock
+
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v1
-      - name: Build with Hugo
-        run: ( cd website && hugo --minify --baseURL ${{ steps.pages.outputs.base_url }} )
+        with:
+          static_site_generator: next
+          
+      - name: Restore cache
+        uses: actions/cache@v3
+        with:
+          path: .next/cache
+          # Generate a new cache whenever packages or source files change.
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('yarn.lock') }}-${{ hashFiles('**.tsx', 'public/**, 'assets/**') }}
+          # If source files changed but packages didn't, rebuild from a prior cache.
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('yarn.lock') }}-
+            
+      - name: Install dependencies
+        run: yarn --immutable
+        
+      - name: Build with Next.js
+        run: yarn next build
+
+      - name: Static HTML export with Next.js
+        run: yarn next export       
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: ./website/public
+          path: ./out
 
   # Deployment job
   deploy:

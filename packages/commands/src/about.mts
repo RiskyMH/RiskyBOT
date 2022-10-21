@@ -4,7 +4,7 @@ import { redditAutoComplete, reddit } from "./index.mjs";
 import { listFormatter } from "@riskybot/tools";
 import { topgg } from "@riskybot/apis";
 import type { Config, EnvEnabled } from "@riskybot/tools";
-import type { User, InteractionGuildMember, InteractionDataResolvedGuildMember, Role, InteractionDataResolvedChannel, Permissions, UserFlags } from "@riskybot/discord-interactions";
+import type { User, InteractionGuildMember, InteractionDataResolvedGuildMember, Role, InteractionDataResolvedChannel, Permissions, UserFlags } from "discord-api-parser";
 
 
 //TODO: Make sure everything works...
@@ -16,7 +16,7 @@ export default async function about(config: Config, option: {user?: User, member
     const aboutEmbedExtra = new EmbedBuilder().setColor(config.getColors().ok);
 
     // USER
-    if (option.user) {
+    if (option.name === "user" && option.user) {
 
         aboutEmbed
             .setAuthor({ name: option.user.tag, iconURL: option.user.displayAvatarURL(), url: "https://discord.com/users/"+ option.user.id })
@@ -87,7 +87,7 @@ export default async function about(config: Config, option: {user?: User, member
         }
     }
     // MEMBER
-    if (option.member) {
+    if (option.name === "user" && option.member) {
         
         aboutEmbed
             // .setTitle("About - " +inlineCode("User:") +bold(inlineCode(option.member?.nickname ?? option.user!.username)))
@@ -115,8 +115,9 @@ export default async function about(config: Config, option: {user?: User, member
 
             if (option.member.permissions) aboutEmbedExtra.addFields(await permissionViewer(option.member.permissions));
         }
+
         // ROLE
-    } else if (option.role) {
+    } else if (option.name === "role" && option.role) {
         aboutEmbed.setTitle("About - " + inlineCode("Role:") + bold(inlineCode(option.role.name)));
         aboutEmbed.addFields(await permissionViewer(option.role.permissions))
                   .addFields([{name: "Position", value: codeBlock(option.role.position.toString())}]);
@@ -130,7 +131,7 @@ export default async function about(config: Config, option: {user?: User, member
                 .addFields([{name: "Notes", value:`Pinned in the user listing: \`${option.role.hoist}\``}]);
         }
 
-    } else if (option.channel) {
+    } else if (option.name === "channel" && option.channel) {
         aboutEmbed.setTitle(
             "About - " + inlineCode("Channel:") + bold(inlineCode(option.channel.name ?? "Channel"))
         );
@@ -155,7 +156,7 @@ export async function autoComplete(type: string, input: string) {
 
     switch (type) {
         case "subreddit": {
-            return await redditAutoComplete( "sub-reddit", input);
+            return await redditAutoComplete( "subreddit", input);
         }
     }
 
@@ -177,7 +178,7 @@ const flagsEmoji = {
     VerifiedBot: "<:VerifiedBot:899099370228695130>",
     TEAM_USER: "<:TeamUser:899099370232889364>",
     PARTNERED_SERVER_OWNER: "<:PartneredServerOwner:899099370396450827>",
-    BotHTTPInteractions: "BotHTTPInteractions",
+    BotHTTPInteractions: "BotHTTPInteractions <:NewMembers:964425853410893874> <:icons_idelping:880113405720145990><:idealPing:1008667768457019443>",
     Staff: "Staff"
 };
 
@@ -438,7 +439,7 @@ export function applicationCommands(config?: Config, envEnabledList?: EnvEnabled
                 .setDescription("Get information about a subreddit")
                 .addStringOption(
                     new SlashCommandStringOption()
-                        .setName("sub-reddit")
+                        .setName("subreddit")
                         .setDescription("The name of the subreddit")
                         .setRequired(true)
                         .setAutocomplete(true)

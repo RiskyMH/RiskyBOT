@@ -1,0 +1,7 @@
+.vercel
+!public
+website
+website/public
+
+gen
+dist

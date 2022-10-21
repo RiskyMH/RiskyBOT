@@ -36,10 +36,9 @@
 
 {
 	// Mapped from https://www.typescriptlang.org/tsconfig
-	"include": ["src/**/*"],
+	"include": ["src/**/*", "api"],
 	// Type definitions for json-schema 4.0, 6.0 and 7.0
     "exclude": ["**/*.d.ts", "dist", "node_modules"],
-	
 	"compilerOptions": {
 		"skipLibCheck": true,
 		// Type Checking
@@ -77,7 +76,7 @@
 		// Language and Environment
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
-		"lib": ["ESNext", "esnext.intl"],
+		"lib": ["ES2021", "ES2021.intl"],
 		"target": "ES2021",
 		"useDefineForClassFields": true,
 	}

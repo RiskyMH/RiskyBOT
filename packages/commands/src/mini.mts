@@ -6,13 +6,16 @@ import type { Config } from "@riskybot/tools";
 //TODO: Make sure everything works...
 
 
-export async function ping (config: Config, interMade: number, pingNum?: number) /*Promise<InteractionReplyOptions>*/ {
+let numPings = 0;
+
+export async function ping(config: Config, interMade: number, pingNum?: number) /*Promise<InteractionReplyOptions>*/ {
   const row = new ActionRowBuilder<MessageActionRowComponentBuilder>().setComponents([new ButtonBuilder().setLabel("Again").setCustomId("ping").setStyle(ButtonStyle.Secondary)]);
   const ping = new EmbedBuilder()
     .setTitle("Pong")
     .setColor(config.getColors().ok)
-    .setDescription(`🏓 Latency is \`~${Math.round(Date.now()-interMade)}ms\``);
-  if (pingNum) ping.setDescription(`🏓 Latency is \`~${Math.round(Date.now()-interMade)}ms\`. API Latency is \`~${Math.round(pingNum)}\`ms`);
+    .setDescription(`🏓 Latency is \`~${Math.round(Date.now() - interMade)}ms\``)
+    .setFooter({ text: `Ping #${numPings++}` });
+  if (pingNum) ping.setDescription(`🏓 Latency is \`~${Math.round(Date.now() - interMade)}ms\`. API Latency is \`~${Math.round(pingNum)}\`ms`);
 
   return {
     embeds: [ping],

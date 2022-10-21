@@ -4,47 +4,49 @@
   "version": "4.0.0",
   "author": "RiskyMH",
   "dependencies": {
-    "@discordjs/builders": "^1.1.0",
-    "@discordjs/rest": "^1.0.1",
+    "@discordjs/builders": "^1.3.0",
+    "@riskybot/apis": "workspace:^",
     "@riskybot/commands": "workspace:^",
-    "@riskybot/discord-interactions": "workspace:^",
+    "@riskybot/image-generate": "workspace:^",
     "@riskybot/tools": "workspace:^",
-    "discord-api-types": "^0.37.0",
-    "dotenv": "^16.0.1",
-    "fastify": "^4.3.0",
-    "turbo": "^1.4.0",
-    "undici": "^5.8.0"
+    "discord-api-parser": "workspace:^",
+    "discord-api-types": "0.37.15-next.8d25f23.1666302882",
+    "discord-verify": "^1.0.0",
+    "dotenv": "^16.0.3",
+    "form-data": "^4.0.0",
+    "undici": "^5.11.0"
   },
   "devDependencies": {
     "@types/js-yaml": "^4.0.5",
-    "@types/node": "^18.6.3",
-    "@typescript-eslint/eslint-plugin": "^5.31.0",
-    "@typescript-eslint/parser": "^5.31.0",
-    "eslint": "^8.20.0",
-    "jshint": "^2.13.5",
-    "typescript": "^4.7.4"
+    "@types/node": "^18.11.3",
+    "@typescript-eslint/eslint-plugin": "^5.40.1",
+    "@typescript-eslint/parser": "^5.40.1",
+    "@vercel/node": "^2.5.26",
+    "eslint": "^8.26.0",
+    "turbo": "^1.6.1",
+    "typescript": "^4.8.4",
+    "vercel": "^28.4.12"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=16.0.0"
   },
-  "files": [
-    "src/"
-  ],
   "homepage": "https://riskymh.github.io/RiskyBOT",
   "main": "dist/main.mjs",
   "module": "system",
   "private": true,
   "scripts": {
-    "build": "turbo run build && tsc",
+    "build": "turbo run build && tsc --build",
+    "test": "turbo run test",
     "update": "yarn upgrade-interactive",
     "deployCommands": "node -r dotenv/config dist/applicationCommands/deploy.mjs",
     "deployCommands:ownerOnly": "node -r dotenv/config dist/applicationCommands/deployOwnerOnly.mjs",
-    "lint": "eslint src/*.mts && turbo run lint",
-    "start": "node dist/main.mjs"
+    "deployCommands:imgen": "node -r dotenv/config dist/applicationCommands/deployImgen.mjs",
+    "lint": "turbo run lint --parallel && eslint src/**/*.mts"
   },
   "type": "module",
-  "packageManager": "yarn@3.2.2",
+  "packageManager": "yarn@3.2.4",
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "website"
   ]
 }

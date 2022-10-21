@@ -1,0 +1,472 @@
+[
+    {
+        "name": "about user",
+        "description": "View information about a user",
+        "options": [
+            {
+                "name": "user",
+                "description": "The user to get information about",
+                "required": true
+            },
+            {
+                "name": "extra",
+                "description": "Extra, choices: [top.gg, advanced]",
+                "required": false
+            }
+        ]
+    },
+    {
+        "name": "about role",
+        "description": "View information about a role",
+        "options": [
+            {
+                "name": "role",
+                "description": "The role to get information about",
+                "required": true
+            },
+            {
+                "name": "extra",
+                "description": "Extra, choices: [advanced]",
+                "required": false
+            }
+        ]
+    },
+    {
+        "name": "about channel",
+        "description": "View information about a channel",
+        "options": [
+            {
+                "name": "channel",
+                "description": "The channel to get information about",
+                "required": true
+            },
+            {
+                "name": "extra",
+                "description": "Extra, choices: [advanced]",
+                "required": false
+            }
+        ]
+    },
+    {
+        "name": "about subreddit",
+        "description": "View information about a subreddit",
+        "options": [
+            {
+                "name": "subreddit",
+                "description": "The name of the subreddit",
+                "required": true
+            }
+        ]
+    },
+    {
+        "name": "fun tweet",
+        "description": "Tweet a message",
+        "options": [
+            {
+                "name": "user",
+                "description": "The author for tweet",
+                "required": true
+            },
+            {
+                "name": "message",
+                "description": "The message to tweet",
+                "required": true
+            }
+        ]
+    },
+    {
+        "name": "fun clyde-say",
+        "description": "Clyde say",
+        "options": [
+            {
+                "name": "message",
+                "description": "What clyde is saying",
+                "required": true
+            }
+        ]
+    },
+    {
+        "name": "fun ship",
+        "description": "Ship 2 users",
+        "options": [
+            {
+                "name": "user 1",
+                "description": "A user",
+                "required": true
+            },
+            {
+                "name": "user 2",
+                "description": "Another user",
+                "required": true
+            }
+        ]
+    },
+    {
+        "name": "fun whowouldwin",
+        "description": "Who Would Win ",
+        "options": [
+            {
+                "name": "user 1",
+                "description": "A user",
+                "required": true
+            },
+            {
+                "name": "user 2",
+                "description": "Another user",
+                "required": true
+            }
+        ]
+    },
+    {
+        "name": "fun changemymind",
+        "description": "Change My Mind",
+        "options": [
+            {
+                "name": "message",
+                "description": "What is going to be changed",
+                "required": true
+            }
+        ]
+    },
+    {
+        "name": "fun trump-tweet",
+        "description": "Tweet a message as Trump",
+        "options": [
+            {
+                "name": "message",
+                "description": "The message for tweet",
+                "required": true
+            }
+        ]
+    },
+    {
+        "name": "fun iphonex",
+        "description": "iPhone X",
+        "options": [
+            {
+                "name": "user",
+                "description": "Who's avatar to use",
+                "required": true
+            }
+        ]
+    },
+    {
+        "name": "fun deepfry",
+        "description": "Deepfry",
+        "options": [
+            {
+                "name": "user",
+                "description": "Who's avatar to use",
+                "required": true
+            }
+        ]
+    },
+    {
+        "name": "fun blurpify",
+        "description": "Blurpify",
+        "options": [
+            {
+                "name": "user",
+                "description": "Who's avatar to use",
+                "required": true
+            }
+        ]
+    },
+    {
+        "name": "fun captcha",
+        "description": "Captcha",
+        "options": [
+            {
+                "name": "user",
+                "description": "Who's avatar to use",
+                "required": true
+            }
+        ]
+    },
+    {
+        "name": "aboutme-credits",
+        "description": "Replies information about me and my credits",
+        "options": []
+    },
+    {
+        "name": "random number",
+        "description": "A random number",
+        "options": [
+            {
+                "name": "min",
+                "description": "The min the random number can go",
+                "required": false
+            },
+            {
+                "name": "max",
+                "description": "The max the random number can go",
+                "required": false
+            }
+        ]
+    },
+    {
+        "name": "random cat",
+        "description": "🐱 A random cat image",
+        "options": []
+    },
+    {
+        "name": "random dog",
+        "description": "🐶 A random dog image",
+        "options": []
+    },
+    {
+        "name": "random kangaroo",
+        "description": "🦘 A random kangaroo image",
+        "options": []
+    },
+    {
+        "name": "random fox",
+        "description": "🦊 A random fox image",
+        "options": []
+    },
+    {
+        "name": "random cat",
+        "description": "🐱 A random cat image",
+        "options": []
+    },
+    {
+        "name": "random panda",
+        "description": "🐼 A random panda image",
+        "options": []
+    },
+    {
+        "name": "random joke",
+        "description": "🤣 A random joke",
+        "options": []
+    },
+    {
+        "name": "random koala",
+        "description": "🐨 A random koala image",
+        "options": []
+    },
+    {
+        "name": "random dad-joke",
+        "description": "🤣 A random dad joke image",
+        "options": []
+    },
+    {
+        "name": "random bird",
+        "description": "🐦 A random bird image",
+        "options": []
+    },
+    {
+        "name": "random duck",
+        "description": "🦆 A random duck image",
+        "options": []
+    },
+    {
+        "name": "random zoo-anim",
+        "description": "🐱 A random zoo animal",
+        "options": []
+    },
+    {
+        "name": "random quote",
+        "description": "🗨️ A random quote",
+        "options": []
+    },
+    {
+        "name": "random affirmation",
+        "description": "A random affirmation",
+        "options": []
+    },
+    {
+        "name": "random insult",
+        "description": "😢 A random insult",
+        "options": []
+    },
+    {
+        "name": "random excuse",
+        "description": "A random excuse",
+        "options": [
+            {
+                "name": "category",
+                "description": "The category of the excuse",
+                "required": false
+            }
+        ]
+    },
+    {
+        "name": "random fact",
+        "description": "A random fact",
+        "options": []
+    },
+    {
+        "name": "random emoji",
+        "description": "A random emoji",
+        "options": []
+    },
+    {
+        "name": "random reddit post",
+        "description": "Uses Reddit and your selected subreddit",
+        "options": [
+            {
+                "name": "subreddit",
+                "description": "The subreddit to use",
+                "required": true
+            }
+        ]
+    },
+    {
+        "name": "meme",
+        "description": "🤣 Uses Reddit to give you a random meme",
+        "options": [
+            {
+                "name": "other-subreddit",
+                "description": "Another few meme options (other then the default r/dankmemes)",
+                "required": false
+            }
+        ]
+    },
+    {
+        "name": "search urban-dictionary",
+        "description": "Use Urban Dictionary to define",
+        "options": [
+            {
+                "name": "input",
+                "description": "What word do you want to trust Urban Dictionary with?",
+                "required": true
+            }
+        ]
+    },
+    {
+        "name": "search lyrics",
+        "description": "Search for lyrics",
+        "options": [
+            {
+                "name": "song-name",
+                "description": "The song name to find lyrics for",
+                "required": true
+            }
+        ]
+    },
+    {
+        "name": "tools choose",
+        "description": "Use the bot to choose an option",
+        "options": [
+            {
+                "name": "choices",
+                "description": "The list to choose from (separated by ',')",
+                "required": true
+            }
+        ]
+    },
+    {
+        "name": "tools 8ball",
+        "description": "🎱 Ask the Magic 8 Ball a question!",
+        "options": [
+            {
+                "name": "question",
+                "description": "Your question",
+                "required": true
+            }
+        ]
+    },
+    {
+        "name": "tools rhymes",
+        "description": "Find words that rhyme with a provided word!",
+        "options": [
+            {
+                "name": "word",
+                "description": "The word to find rhymes for",
+                "required": true
+            }
+        ]
+    },
+    {
+        "name": "tools pastebin",
+        "description": "Uses Paste.gg to upload code",
+        "options": [
+            {
+                "name": "input",
+                "description": "Your code",
+                "required": true
+            },
+            {
+                "name": "language",
+                "description": "Your code's language",
+                "required": false
+            }
+        ]
+    },
+    {
+        "name": "translate",
+        "description": "Uses google translate",
+        "options": [
+            {
+                "name": "to",
+                "description": "The language that the text is going to be translated to",
+                "required": true
+            },
+            {
+                "name": "input",
+                "description": "The input for the translator",
+                "required": true
+            },
+            {
+                "name": "from",
+                "description": "The language that the text is from",
+                "required": false
+            }
+        ]
+    },
+    {
+        "name": "ping",
+        "description": "🏓 Pong!",
+        "options": []
+    }, 
+    {
+        "name": "image-from user",
+        "bot": "imgen",
+        "alias": "img",
+        "description": "Gets an image from a user",
+        "options": [
+            {
+                "name": "user",
+                "description": "The user that ...",
+                "required": true
+            }
+        ]
+    },
+    {
+        "name": "image-from attachment",
+        "bot": "imgen",
+        "alias": "img",
+        "description": "Gets an image from an uploaded attachment",
+        "options": [
+            {
+                "name": "attachment",
+                "description": "The attachment",
+                "required": true
+            }
+        ]
+    },
+    {
+        "name": "affect",
+        "bot": "imgen",
+        "description": "Show everyone why you are affected",
+        "options": [
+            {
+                "name": "img",
+                "description": "The link to an image describing you",
+                "required": true
+            }
+        ]
+    },
+    {
+        "name": "cry",
+        "bot": "imgen",
+        "description": "Show everyone why you are crying",
+        "options": [
+            {
+                "name": "reason",
+                "description": "The reason that you are crying",
+                "required": true
+            }
+        ]
+    }
+]

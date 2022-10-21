@@ -2,9 +2,7 @@
 _site
 # *cache*
 _gen
-public
 soon.js
-RiskyBOT/
 gen/*
 *.lock
 .turbo
@@ -148,3 +146,7 @@ dist
 !.yarn/sdks
 !.yarn/versions
 install-state.gz*
+
+
+.vercel
+!api

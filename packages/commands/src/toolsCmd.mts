@@ -42,7 +42,7 @@ export default async function toolsCmd(config: Config, engine: string, input: st
              //  expires: "",
              files: [
               {
-               name: "Downloaded data"+input2? `.${input2}`: "",
+               name: "Downloaded data" + (input2 ? `.${input2}`: ""),
                content: {
                    format: "text",
                     highlight_language: input2,

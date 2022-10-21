@@ -10,7 +10,7 @@
     },
     "devDependencies": {
         "@types/js-yaml": "^4.0.5",
-        "typescript": "^4.7.4"
+        "typescript": "^4.8.4"
     },
     "exports": {
         "types": "./dist/index.d.ts",
@@ -22,10 +22,11 @@
     "main": "./dist/index.js",
     "module": "./dist/index.mjs",
     "scripts": {
-        "build": "tsc",
+        "build": "tsc --build",
         "build:ci": "( cd ../../ && tsc -p ./packages/tools/tsconfig.json )",
-        "lint": "eslint src/*.mts",
-        "prepublishOnly": "yarn build"
+        "lint": "eslint src/**/*.mts tests/*.mjs",
+        "prepack": "yarn build",
+        "test": "node --test"
     },
     "type": "module",
     "types": "./dist/index.d.ts",
