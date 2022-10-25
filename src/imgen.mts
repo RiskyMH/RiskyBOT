@@ -2,7 +2,7 @@ import { InteractionResponseFlags } from "discord-interactions";
 import { verify, PlatformAlgorithm } from "discord-verify";
 import FormData from "form-data";
 import { InteractionType, InteractionResponseType, ApplicationCommandType, ApplicationCommandOptionType } from "discord-api-types/v10";
-import type { APIInteraction, APIApplicationCommandInteraction, APIChatInputApplicationCommandInteraction, APIInteractionResponseChannelMessageWithSource } from "discord-api-types/v10";
+import type { APIInteraction, APIInteractionResponseChannelMessageWithSource } from "discord-api-types/v10";
 import crypto from "node:crypto";
 // import { affect, cry } from "@riskybot/image-generate";
 import { fetch } from "undici";
@@ -18,20 +18,20 @@ export default async function (request: VercelRequest, response: VercelResponse)
     const signature = request.headers["x-signature-ed25519"]?.toString();
     const timestamp = request.headers["x-signature-timestamp"]?.toString();
     const rawBody = JSON.stringify(request.body);
-    if (!signature || !timestamp || !rawBody ) return response.status(405).json({ error: "Invalid headers and/or body" });
+    if (!signature || !timestamp || !rawBody) return response.status(405).json({ error: "Invalid headers and/or body" });
     let isValidRequest = false;
-        try {
+    try {
         if (process.env.VERCEL === "1") isValidRequest = await verify(rawBody, signature, timestamp, process.env.IMGEN_APPLICATION_PUBLIC_KEY, crypto.webcrypto.subtle, PlatformAlgorithm.VercelProd);
         else isValidRequest = await verify(rawBody, signature, timestamp, process.env.IMGEN_APPLICATION_PUBLIC_KEY, crypto.webcrypto.subtle);
-    } catch  {
+    } catch {
         isValidRequest = await verify(rawBody, signature, timestamp, process.env.IMGEN_APPLICATION_PUBLIC_KEY, crypto.webcrypto.subtle, PlatformAlgorithm.OldNode);
         console.warn("Fallback to discord-verify (old node)");
     }
 
     if (!isValidRequest) return response.status(401).json({ error: "Bad request signature" });
-    
+
     const interaction: APIInteraction = request.body;
-    
+
     // console.log(JSON.stringify(interaction, null, 2));
 
 
@@ -46,11 +46,9 @@ export default async function (request: VercelRequest, response: VercelResponse)
 
     // If it is a command, not a button
     if (interaction.type === InteractionType.ApplicationCommand) {
-        const interaction: APIApplicationCommandInteraction = request.body;
-        // If it is a text input (slash command)
 
+        // If it is a text input (slash command)
         if (interaction.data.type === ApplicationCommandType.ChatInput) {
-            const interaction: APIChatInputApplicationCommandInteraction = request.body;
             console.info("ChatInput command: " + interaction.data.name);
 
             switch (interaction.data.name) {
@@ -65,7 +63,7 @@ export default async function (request: VercelRequest, response: VercelResponse)
                     });
 
                 case "affect": {
-                    // @ts-expect-error`.value` exits. but the types are messed up
+                    // @ts-expect-error `.value` exits. but the types are messed up
                     const userSelectedImg: string = interaction.data?.options?.find(name => name.name === "img")?.value ?? "";
                     const { affect } = await import("@riskybot/image-generate");
                     const data = await affect({ imgLink: userSelectedImg.toString() });
@@ -95,7 +93,7 @@ export default async function (request: VercelRequest, response: VercelResponse)
                         if (memberSelected?.avatar) content += `\nServer Avatar URL: <https://cdn.discordapp.com/guilds/${interaction.guild_id}/users/${userSelected?.id}/avatars/${memberSelected.avatar}?size=1024>`;
                         if (userSelected?.banner) content += `\nBanner URL: <https://cdn.discordapp.com/banners/${userSelected.id}/${userSelected.banner}?size=1024>`;
                     }
-                    
+
                     else if (interaction.data.options?.[0].type === ApplicationCommandOptionType.Subcommand && interaction.data.options?.[0].name === "attachment") {
                         // @ts-expect-error `.value` exits. but the types are messed up
                         const attachmentIdSelected: string = interaction.data?.options?.[0].options?.find(name => name.name === "attachment")?.value ?? "";
@@ -137,7 +135,7 @@ async function sendAttachment(response: VercelResponse, interactionUrl: string, 
         const respJson: APIInteractionResponseChannelMessageWithSource = {
             type: InteractionResponseType.ChannelMessageWithSource,
             data: {
-                allowed_mentions: {parse: []},
+                allowed_mentions: { parse: [] },
                 content: attachment.description,
                 attachments: [
                     {
@@ -150,8 +148,8 @@ async function sendAttachment(response: VercelResponse, interactionUrl: string, 
         };
         form.append("payload_json", JSON.stringify(respJson), { contentType: "application/json" });
         form.append("files[0]", attachment.data, { filename: attachment.name });
-        const res = await fetch(interactionUrl+"/callback", { body: form.getBuffer(), headers: form.getHeaders(), method: "POST" });
-        
+        const res = await fetch(interactionUrl + "/callback", { body: form.getBuffer(), headers: form.getHeaders(), method: "POST" });
+
         if (!res.ok) {
             console.error(await res.text());
             return response.status(500).json({ error: "Something went wrong" });
@@ -178,30 +176,30 @@ async function sendAttachment(response: VercelResponse, interactionUrl: string, 
 /** https://discord.com/api/v10/applications/${Id}applicationId/commands */
 export const applicationCommands = [
     {
-        "name": "ping",
-        "description": "Why are you trying to ping me?"
+        name: "ping",
+        description: "Why are you trying to ping me?"
     },
     {
-        "name": "affect",
-        "description": "Show everyone why you are affected",
-        "options": [
+        name: "affect",
+        description: "Show everyone why you are affected",
+        options: [
             {
-                "type": 3,
-                "name": "img",
-                "description": "The link to an image describing you",
-                "required": true
+                type: 3,
+                name: "img",
+                description: "The link to an image describing you",
+                required: true
             }
         ]
     },
     {
-        "name": "cry",
-        "description": "Show everyone why you are crying",
-        "options": [
+        name: "cry",
+        description: "Show everyone why you are crying",
+        options: [
             {
-                "type": 3,
-                "name": "reason",
-                "description": "The reason that you are crying",
-                "required": true
+                type: 3,
+                name: "reason",
+                description: "The reason that you are crying",
+                required: true
             }
         ]
     },

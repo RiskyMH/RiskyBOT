@@ -60,7 +60,7 @@ const Home: NextPage = () => {
                                     RiskyBOT is <b>designed</b> to make conversations with your friends more fun and exciting.
                                     It&apos;s a great way to hang out, spend time, and learn more about each other!
                                     Not only that, but it&apos;s also a great way to <b>learn</b> new things!
-                                    <br className="mb-2"/>
+                                    <br className="mb-2" />
                                     And if you are lonely but still want to have fun, you can always use the <b>reddit</b> command to get some memes!
                                 </p>
                             </div>
@@ -77,10 +77,10 @@ const Home: NextPage = () => {
                             <div className="col-span-1 my-auto justify-center">
                                 <h2 className="text-4xl font-bold">Many helpful commands!</h2>
                                 <p className="mt-2 text-xl">
-                                    You can use <b>helpful</b> commands with this bot! Each command has a purpose, 
+                                    You can use <b>helpful</b> commands with this bot! Each command has a purpose,
                                     from being helpful to being fun and making your server just that bit better!
-                                    <br className="mb-2"/>
-                                    Even if you don't decide to add this bot, you can still make use of it on other servers that have it added! 
+                                    <br className="mb-2" />
+                                    Even if you don't decide to add this bot, you can still make use of it on other servers that have it added!
                                     <i className="text-gray-400"> (but you should just add it)</i>
                                 </p>
                             </div>

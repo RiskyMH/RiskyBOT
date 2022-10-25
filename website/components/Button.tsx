@@ -10,13 +10,13 @@ export default function Button({ children, href = "", className = "", icon = nul
             {children}
         </a>
     ) : (
-        <Link href={href} scroll={false}>
+        (<Link href={href} scroll={false} className={classes}>
             {/* <button className={classes} onClick={onClick}> */}
-            <a className={classes}>
-                {icon ? <FontAwesomeIcon className="mr-2" icon={icon} /> : ""}
-                {children}
-            </a>
+
+            {icon ? <FontAwesomeIcon className="mr-2" icon={icon} /> : ""}
+            {children}
+
             {/* </button> */}
-        </Link>
+        </Link>)
     );
 }

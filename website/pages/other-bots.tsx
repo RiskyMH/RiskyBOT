@@ -18,14 +18,14 @@ const OtherBotsPage: NextPage = () => {
 					<div className="text-center">
 						<h1 className="text-4xl font-bold">Image Generation</h1>
 						<p className="text-lg">A bot that generates images using your input.</p>
-						
+
 						<Button href={IMGEN_INVITE_URL} external icon={faDiscord} className="p-2 mt-2 text-center w-full sm:w-max">
 							Add Image Generate
 						</Button>
 					</div>
 					<div className="mt-4 text-lg">
 						<p>
-							This special bot is a collection of commands that generate images using your input. It is useful and still follows the same <Link href="/legal"><a className="text-blue-500 hover:text-blue-600">privacy policy</a></Link> as the main bot.
+							This special bot is a collection of commands that generate images using your input. It is useful and still follows the same <Link href="/legal" className="text-blue-500 hover:text-blue-600">privacy policy</Link> as the main bot.
 						</p>
 						<h1 className="mt-4 text-2xl font-semibold">Title</h1>
 						<p className="mt-1">
@@ -55,14 +55,14 @@ const OtherBotsPage: NextPage = () => {
 					<div className="text-center">
 						<h1 className="text-4xl font-bold">Another Bot</h1>
 						<p className="text-lg">A bot that xxx.</p>
-						
+
 						<Button href={IMGEN_INVITE_URL} external icon={faDiscord} className="p-2 mt-2 text-center w-full sm:w-max">
 							Add bot!
 						</Button>
 					</div>
 					<div className="mt-4 text-lg">
 						<p>
-							This special bot is a collection of commands xxx. It is useful and still follows the same <Link href="/legal"><a className="text-blue-500 hover:text-blue-600">privacy policy</a></Link> as the main bot.
+							This special bot is a collection of commands xxx. It is useful and still follows the same <Link href="/legal" className="text-blue-500 hover:text-blue-600">privacy policy</Link> as the main bot.
 						</p>
 						<h1 className="mt-4 text-2xl font-semibold">Title</h1>
 						<p className="mt-1">
@@ -87,7 +87,6 @@ const OtherBotsPage: NextPage = () => {
 				</div>
 			</div>
 		</div >
-
 	);
 };
 

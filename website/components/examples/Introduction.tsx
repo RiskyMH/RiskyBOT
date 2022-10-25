@@ -19,12 +19,12 @@ export default function DiscordIntroductionExample() {
             </DiscordMessage>
             <DiscordMessage author="Friend" avatar="orange" highlight roleColor="#f1c40f">
                 <DiscordMention>User</DiscordMention> {" "}
-                I invited RiskyBOT because it looks cool! 
+                I invited RiskyBOT because it looks cool!
             </DiscordMessage>
             <DiscordMessage author="You" roleColor="#3498db">
                 Ok, sounds good. I'll check it out.
             </DiscordMessage>
-            
+
         </DiscordMessages>
     );
 

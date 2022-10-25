@@ -26,7 +26,7 @@ export default function DiscordRandomToolExample() {
     }, []);
 
     function fetchNumber() {
-        setCount(count+1);
+        setCount(count + 1);
         setLoading(true);
         const highNum = 100;
         const lowNum = 0;
@@ -43,7 +43,7 @@ export default function DiscordRandomToolExample() {
         const list = [
             "YAY! I guessed the number correctly!",
             "oh 😔 I didn't guess the number correctly",
-            "Seriously? who would guess "+ data +"?",
+            "Seriously? who would guess " + data + "?",
         ];
         const random = Math.floor(Math.random() * list.length);
         setResponse(list[random]);
@@ -61,11 +61,11 @@ export default function DiscordRandomToolExample() {
                     slot="embeds"
                     color="#3B82F6"
                     embedTitle="Random Number"
-                    
-                > 
+
+                >
                     <DiscordEmbedDescription slot="description">
                         <p>Number: <DiscordBold className="font-bold">{!loading ? data.toLocaleString() : "..."}</DiscordBold> </p>
-                    </DiscordEmbedDescription>  
+                    </DiscordEmbedDescription>
                 </DiscordEmbed>
                 <DiscordAttachments slot="components">
                     <DiscordActionRow>
@@ -73,7 +73,7 @@ export default function DiscordRandomToolExample() {
                             type="primary"
                             onClick={e => (!e.currentTarget.disabled ? fetchNumber() : null)}
                             disabled={loading}
-                            >
+                        >
                             Another?
                         </DiscordButton>
                     </DiscordActionRow>

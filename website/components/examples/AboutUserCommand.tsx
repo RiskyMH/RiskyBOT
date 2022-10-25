@@ -17,7 +17,7 @@ import { BOT_INVITE_URL } from "../../constants";
 
 export default function DiscordAboutUserExample() {
     const imgUrl = addBasePath("/robot.svg");
-    
+
     const [largeQuery, setMatches] = useState(window.matchMedia("(min-width: 1024px)").matches);
 
     useEffect(() => {
@@ -58,7 +58,7 @@ export default function DiscordAboutUserExample() {
                             </DiscordTime>
                         </DiscordEmbedField>
 
-                        <DiscordEmbedField fieldTitle="Server nickname" inline={largeQuery} inlineIndex={largeQuery?3:1}>
+                        <DiscordEmbedField fieldTitle="Server nickname" inline={largeQuery} inlineIndex={largeQuery ? 3 : 1}>
                             <DiscordItalic>
                                 No nickname set
                             </DiscordItalic>
@@ -67,7 +67,7 @@ export default function DiscordAboutUserExample() {
                         <DiscordEmbedField fieldTitle="Roles" >
                             <DiscordMention color="#57F287" type="role">
                                 Good Bots
-                            </DiscordMention> 
+                            </DiscordMention>
 
                             <DiscordMention type="role" className="ml-1">
                                 Bots
@@ -77,7 +77,7 @@ export default function DiscordAboutUserExample() {
                 </DiscordEmbed>
             </DiscordMessage>
             <DiscordMessage author="You" roleColor="#3498db" >
-                Apparently so! 
+                Apparently so!
             </DiscordMessage>
         </DiscordMessages>
     );

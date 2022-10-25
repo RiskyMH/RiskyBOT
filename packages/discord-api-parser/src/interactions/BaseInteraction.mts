@@ -114,7 +114,13 @@ export default class BaseInteraction {
      * Indicates whether this interaction is a {@link SelectMenuInteraction}.
      */
     isSelectMenu(): this is SelectMenuInteraction {
-        return this.isMessageComponent() && this.componentType === ComponentType.SelectMenu;
+        return this.isMessageComponent() && [
+                ComponentType.StringSelect,
+                ComponentType.UserSelect,
+                ComponentType.RoleSelect,
+                ComponentType.MentionableSelect,
+                ComponentType.ChannelSelect,
+            ].includes(this.componentType);
     }
 
     /**

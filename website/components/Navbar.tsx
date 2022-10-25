@@ -29,12 +29,15 @@ export default function Navbar() {
 		<div className="flex justify-center">
 			<div className="fixed top-0 z-[100] py-3 px-3 md:text-lg lg:pl-20 md:pl-10 lg:pr-20 md:pr-10 bg-[#10182F] shadow-md position shadow-black/50 w-full rounded-b-lg">
 				<div className="flex items-center">
-					<Link href="/">
-						<a title="Home" className="hover:md:bg-white/10 rounded-lg rounded-l-3xl  md:p-2 flex items-center ease-in-out duration-100">
-							<Logo className="h-10 w-10" />
-							<p className="ml-3 font-semibold pr-10 md:mr-1 lg:mr-[-10px]">RiskyBOT</p>
-							{/* <NavItem href="/" important={true}>RiskyBOT</NavItem> */}
-						</a>
+					<Link
+						href="/"
+						title="Home"
+						className="hover:md:bg-white/10 rounded-lg rounded-l-3xl  md:p-2 flex items-center ease-in-out duration-100">
+
+						<Logo className="h-10 w-10" />
+						<p className="ml-3 font-semibold pr-10 md:mr-1 lg:mr-[-10px]">RiskyBOT</p>
+						{/* <NavItem href="/" important={true}>RiskyBOT</NavItem> */}
+
 					</Link>
 					<div className="ml-auto flex items-center md:hidden mr-3">
 						<button className="text-xl" onClick={collapseMenu} aria-label="Open menu">
@@ -56,7 +59,7 @@ export default function Navbar() {
 								target="_blank"
 								rel="noopener noreferrer">
 								<FontAwesomeIcon className="w-10" icon={faDiscord} />
-								Add RiskyBOT 
+								Add RiskyBOT
 							</a>
 						</div>
 					</div>

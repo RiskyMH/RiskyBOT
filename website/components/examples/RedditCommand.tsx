@@ -34,7 +34,7 @@ export default function DiscordRedditExample() {
     const [count, setCount] = useState(0);
     const [isLoading, setLoading] = useState(false);
     const [hasLoadedLegitPost, setLoadedLegitPost] = useState(false);
-    
+
     useEffect(() => {
         fetchQuestion();
     }, []);
@@ -47,7 +47,7 @@ export default function DiscordRedditExample() {
         // Because of CORS, we need to use a proxy
         const url = "http://localhost:3001/api/proxy/reddit?type=post&subreddit=" + subreddit;
         // if (process.env.NODE_ENV === "development") url = "http://localhost:3001/api/proxy/reddit?type=post&subreddit=" + subreddit;
-        if (count >= 3)  return;
+        if (count >= 3) return;
 
         fetch(url)
             .then(res => res.json())
@@ -61,7 +61,7 @@ export default function DiscordRedditExample() {
                 console.error(err);
                 setLoading(false);
                 fetchResponse();
-                
+
 
                 if (!hasLoadedLegitPost) {
                     setData({
@@ -99,55 +99,55 @@ export default function DiscordRedditExample() {
             </DiscordMessage>
             <style>{css}</style>
             <DiscordMessage author="RiskyBOT" avatar={imgUrl} bot verified>
-                    <DiscordCommand slot="reply" author="Friend" avatar="orange" command="/random reddit-post"></DiscordCommand>
-                <DiscordEmbed 
-                    slot="embeds" 
-                    color="#3B82F6" 
-                    authorName={"Reddit post in " + data?.subreddit_name_prefixed} 
+                <DiscordCommand slot="reply" author="Friend" avatar="orange" command="/random reddit-post"></DiscordCommand>
+                <DiscordEmbed
+                    slot="embeds"
+                    color="#3B82F6"
+                    authorName={"Reddit post in " + data?.subreddit_name_prefixed}
                     // authorImage="https://www.reddit.com/favicon.ico"
                     authorImage="https://www.redditinc.com/assets/images/site/reddit-logo.png"
-                    authorUrl={"https://www.reddit.com/"+data?.subreddit_name_prefixed} 
+                    authorUrl={"https://www.reddit.com/" + data?.subreddit_name_prefixed}
                     embedTitle={data?.title}
-                    url={hasLoadedLegitPost ?"https://www.reddit.com"+data?.permalink: null}
-                    image={imgUrlIsTrulyAnImage(data?.url) ? data?.url: ""}
-                    >
-                            
+                    url={hasLoadedLegitPost ? "https://www.reddit.com" + data?.permalink : null}
+                    image={imgUrlIsTrulyAnImage(data?.url) ? data?.url : ""}
+                >
+
                     <DiscordEmbedDescription slot="description" className={hasLoadedLegitPost ? "block" : "hidden"}> {
-                            <div>
-                                <p>{data?.selftext}</p>
-                                <p className="flex items-center">
-                                    <DiscordInlineCode className="pr-1"> 👍 {data?.ups.toLocaleString()}</DiscordInlineCode>
-                                    <DiscordInlineCode className="pr-1"> 👎 {data?.downs.toLocaleString()} </DiscordInlineCode> 
-                                    <DiscordInlineCode> 💬 {data?.num_comments.toLocaleString()} </DiscordInlineCode> 
-                                </p>
-                            </div>
+                        <div>
+                            <p>{data?.selftext}</p>
+                            <p className="flex items-center">
+                                <DiscordInlineCode className="pr-1"> 👍 {data?.ups.toLocaleString()}</DiscordInlineCode>
+                                <DiscordInlineCode className="pr-1"> 👎 {data?.downs.toLocaleString()} </DiscordInlineCode>
+                                <DiscordInlineCode> 💬 {data?.num_comments.toLocaleString()} </DiscordInlineCode>
+                            </p>
+                        </div>
                     } </DiscordEmbedDescription>
-                        
-                        
+
+
                     <DiscordEmbedFooter slot="footer" timestamp={!isLoading ? new Date(data?.created_utc * 1000) : null}>
                         <p>
                             {!isLoading ? "Posted by " + data?.author : "Loading new post..."}
                         </p>
                     </DiscordEmbedFooter>
 
-                    </DiscordEmbed>
-                    <DiscordAttachments slot="components">
-                        <DiscordActionRow>
-                            <DiscordButton
-                                type="primary"
-                                disabled={isLoading}
-                                onClick={e => (!e.currentTarget.disabled ? fetchQuestion() : null)}>
-                                Another?
-                            </DiscordButton>
-                            {
-                                !isLoading && data?.url ? (
-                                    <DiscordButton url={"https://www.reddit.com" + data?.permalink}>
-                                        Link
-                                    </DiscordButton>
-                                ) : null
-                            }
-                        </DiscordActionRow>
-                    </DiscordAttachments>
+                </DiscordEmbed>
+                <DiscordAttachments slot="components">
+                    <DiscordActionRow>
+                        <DiscordButton
+                            type="primary"
+                            disabled={isLoading}
+                            onClick={e => (!e.currentTarget.disabled ? fetchQuestion() : null)}>
+                            Another?
+                        </DiscordButton>
+                        {
+                            !isLoading && data?.url ? (
+                                <DiscordButton url={"https://www.reddit.com" + data?.permalink}>
+                                    Link
+                                </DiscordButton>
+                            ) : null
+                        }
+                    </DiscordActionRow>
+                </DiscordAttachments>
             </DiscordMessage>
             <DiscordMessage author="You" roleColor="#3498db" >
                 <p>{response}</p>
@@ -175,8 +175,8 @@ export default function DiscordRedditExample() {
                                 Invite RiskyBOT
                             </DiscordButton>
                         </DiscordActionRow>
-                    </DiscordAttachments>                
-                    </DiscordMessage>
+                    </DiscordAttachments>
+                </DiscordMessage>
                 <DiscordMessage author="You" roleColor="#3498db">
                     Ok, I will add the bot to my server now....
                 </DiscordMessage>

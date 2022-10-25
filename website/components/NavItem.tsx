@@ -11,8 +11,8 @@ export default function NavItem({ children, href, external = false }) {
 			<FontAwesomeIcon className="ml-2" size="xs" icon={faArrowUpRightFromSquare} />
 		</a>
 	) : (
-		<Link href={href} scroll={false}>
-			<a className={classes}>{children}</a>
+		<Link href={href} scroll={false} className={classes}>
+			{children}
 		</Link>
 	);
 }

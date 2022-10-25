@@ -27,20 +27,18 @@ export default function CommandListCommand({ name, description, options, bot = "
                     className="flex cursor-pointer flex-col items-center bg-discord-blurple/30 p-4 text-center md:flex-row md:text-left"
                     onClick={collapseCommand}>
                     <div className="flex items-center">
-                            {
-                                bot === "imgen" ? (
-                                    <div className="p-1 m-[-0.75rem] ml-[-0.5rem] mr-0 md:mr-2 self-start absolute left-7 md:self-auto md:relative md:left-0 hover:md:bg-white/10 rounded-full md:inline pointer-events-none md:pointer-events-auto" title="Uses Imgen bot, click to learn more"> 
-                                        <Link href="/other-bots#bot2"> 
-                                            <a>
-                                                <div className="h-7 w-7">
-                                                    <Logo variation="imgen"/> 
-                                                </div>
-                                            </a>
-                                        </Link>
-                                    </div>
-                                ) : null
-                            }
-                        <h2 className="text-lg font-semibold">{"/"+name}</h2>
+                        {
+                            bot === "imgen" ? (
+                                <div className="p-1 m-[-0.75rem] ml-[-0.5rem] mr-0 md:mr-2 self-start absolute left-7 md:self-auto md:relative md:left-0 hover:md:bg-white/10 rounded-full md:inline pointer-events-none md:pointer-events-auto" title="Uses Imgen bot, click to learn more">
+                                    <Link href="/other-bots#imgen">
+                                        <div className="h-7 w-7">
+                                            <Logo variation="imgen" />
+                                        </div>
+                                    </Link>
+                                </div>
+                            ) : null
+                        }
+                        <h2 className="text-lg font-semibold">{"/" + name}</h2>
                     </div>
                     <p className="ml-2">
                         <span className="hidden md:inline">- </span>
@@ -73,7 +71,9 @@ export default function CommandListCommand({ name, description, options, bot = "
                         {
                             bot === "imgen" ? (
                                 <div className="mt-2 hidden text-sm font-normal text-gray-200 md:flex">
-                                    this bot is a special bot for image generation. Click <Link href="/other-bots#imgen"><a className="text-blue-500 hover:text-blue-600 pl-1 pr-1">here</a></Link> to learn more.
+                                    this bot is a special bot for image generation. Click <Link
+                                        href="/other-bots#imgen"
+                                        className="text-blue-500 hover:text-blue-600 pl-1 pr-1">here</Link> to learn more.
                                 </div>
                             ) : null
                         }

@@ -69,7 +69,7 @@ const CommandsPage: NextPage = () => {
 						))}
 					</div>
 					<p className="text-gray-400 italic mt-2">
-						The commands with an icon are special dedicated bots, click <Link href="/other-bots"><a className="text-blue-500 hover:text-blue-600">here</a></Link> to learn more.
+						The commands with an icon are special dedicated bots, click <Link href="/other-bots" className="text-blue-500 hover:text-blue-600">here</Link> to learn more.
 					</p>
 				</div>
 
