@@ -7,9 +7,9 @@
         "@riskybot/apis": "workspace:^",
         "@riskybot/tools": "workspace:^",
         "discord-api-parser": "workspace:^",
-        "discord-api-types": "0.37.15-next.8d25f23.1666302882",
+        "discord-api-types": "0.37.17",
         "translatte": "^3.0.1",
-        "undici": "^5.11.0"
+        "undici": "^5.12.0"
     },
     "devDependencies": {
         "typescript": "^4.8.4"

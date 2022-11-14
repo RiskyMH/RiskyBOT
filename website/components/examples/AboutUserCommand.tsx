@@ -10,6 +10,7 @@ import {
     DiscordItalic,
 
 } from "@skyra/discord-components-react";
+// import { DiscordMessages, DiscordMessage } from "react-discord-components-mockup";
 import { addBasePath } from "next/dist/client/add-base-path";
 import { useEffect, useState } from "react";
 import { BOT_INVITE_URL } from "../../constants";
@@ -32,8 +33,8 @@ export default function DiscordAboutUserExample() {
                 <DiscordMention>User</DiscordMention> {" "}
                 Is it true that RiskyBOT can give information on a user?
             </DiscordMessage>
-            <DiscordMessage author="RiskyBOT" avatar={imgUrl} bot verified>
-                <DiscordCommand slot="reply" author="Friend" avatar="orange" command="/about user"></DiscordCommand>
+            <DiscordMessage author="RiskyBOT" avatar={imgUrl} bot verified >
+                <DiscordCommand slot="reply" author="Friend" avatar="orange" command="/about user" />
                 <DiscordEmbed
                     slot="embeds"
                     color="#3B82F6"

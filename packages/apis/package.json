@@ -4,7 +4,7 @@
     "version": "4.0.0-test.4",
     "dependencies": {
         "@sapphire/shapeshift": "^3.7.0",
-        "undici": "^5.11.0"
+        "undici": "^5.12.0"
     },
     "devDependencies": {
         "typescript": "^4.8.4"

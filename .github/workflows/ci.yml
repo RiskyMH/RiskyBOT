@@ -15,15 +15,15 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Setup node.js v18
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 'current'
           cache: 'yarn'
           cache-dependency-path: yarn.lock
 
       - name: Turbo cache
         id: turbo-cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: .turbo
           key: turbo-${{ github.ref_name }}-${{ github.sha }}
@@ -49,9 +49,9 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Setup node.js v18
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 'current'
           cache: 'yarn'
           cache-dependency-path: yarn.lock
             
@@ -75,15 +75,15 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Setup node.js v18
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 'current'
           cache: 'yarn'
           cache-dependency-path: yarn.lock
 
       - name: Turbo cache
         id: turbo-cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: .turbo
           key: turbo-${{ github.ref_name }}-${{ github.sha }}
