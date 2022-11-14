@@ -6,8 +6,7 @@ module.exports = {
     // trailingSlash: true,
 }
 
-
 const withTM = require('next-transpile-modules')(['react-discord-components-mockup']); // pass the modules you would like to see transpiled
-
-module.exports = module.exports || withTM(module.exports);
+module.exports = withTM(module.exports);
 // module.exports = config;
+
