@@ -1,5 +1,5 @@
 /** @type {import("next").NextConfig} */
-const config = {
+module.exports = {
     // basePath: "RiskyBOT",
     // assetPrefix: process.env.CF_PAGES_URL || process.env.PAGES_URL
     reactStrictMode: false,
@@ -9,5 +9,5 @@ const config = {
 
 const withTM = require('next-transpile-modules')(['react-discord-components-mockup']); // pass the modules you would like to see transpiled
 
-module.exports = withTM(config);
+module.exports = module.exports || withTM(module.exports);
 // module.exports = config;
