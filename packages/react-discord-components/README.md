@@ -1,6 +1,6 @@
-# `@riskybot/tools`
+# `react-discord-components-mockup`
 
-A collection of tools for building and maintaining the [RiskyBOT](https://github.com/RiskyMH/RiskyBOT) project
+A collection of components for building the [RiskyBOT](https://github.com/RiskyMH/RiskyBOT) project's website
 
 ### Notes
 

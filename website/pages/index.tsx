@@ -1,11 +1,11 @@
 import type { NextPage } from "next";
 import dynamic from "next/dynamic";
-import { faDiscord } from "@fortawesome/free-brands-svg-icons";
-import { faUserGroup } from "@fortawesome/free-solid-svg-icons";
 import Button from "../components/Button";
 import { BOT_INVITE_URL, SERVER_INVITE_URL } from "../constants";
-import Fade from "react-reveal";
+import { Fade } from "react-awesome-reveal";
 import Divider from "../components/Divider";
+import FaDiscord from "../components/icons/FaDiscord";
+import FaUserGroup from "../components/icons/FaUserGroup";
 // import IntroExample from "../components/examples/Introduction";
 
 const IntroExample = dynamic(async () => await import("../components/examples/Introduction"), { ssr: false });
@@ -16,6 +16,13 @@ const RandomToolCommand = dynamic(async () => await import("../components/exampl
 const Home: NextPage = () => {
     return (
         <div>
+            {/* Fix content inside fade not being visible when js is disabled */}
+            <style dangerouslySetInnerHTML={{
+                __html: `
+                *[class^="css-"], *[class*=" css-"] {
+                    opacity: 100% !important;
+                }
+            `}} />
             <div className="indexBackground fixed top-0 -z-[999] h-screen w-screen"></div>
             <div className="mt-24 flex flex-col">
                 {/* Index Hero */}
@@ -35,10 +42,10 @@ const Home: NextPage = () => {
                                     Featuring lots of <b>commands</b> to entertain all of your needs.
                                 </div>
                                 <div className="mt-2">
-                                    <Button href={BOT_INVITE_URL} external icon={faDiscord} className="text-center w-full sm:w-max">
+                                    <Button href={BOT_INVITE_URL} external icon={FaDiscord} className="text-center w-full sm:w-max">
                                         Add RiskyBOT
                                     </Button>
-                                    <Button href={SERVER_INVITE_URL} className="ml-0 mt-2 sm:ml-4 sm:mt-0 text-center w-full sm:w-max" external icon={faUserGroup}>
+                                    <Button href={SERVER_INVITE_URL} className="ml-0 mt-2 sm:ml-4 sm:mt-0 text-center w-full sm:w-max" external icon={FaUserGroup}>
                                         Join the Support Server
                                     </Button>
                                 </div>
@@ -53,61 +60,76 @@ const Home: NextPage = () => {
                 {/* Features */}
                 <div className="py-6 bg-theme-d4 md:py-12">
                     <div className="my-12 mx-auto grid max-w-7xl grid-cols-1 justify-center gap-12 px-8 text-left md:my-24 md:grid-cols-2">
-                        <Fade bottom>
-                            <div className="col-span-1 my-auto justify-center">
+                        <div className="col-span-1 my-auto justify-center">
+                            <Fade direction='up' cascade damping={1e-1} triggerOnce>
                                 <h2 className="text-4xl font-bold">Get to do enjoy your server again!</h2>
                                 <p className="mt-2 text-xl">
                                     RiskyBOT is <b>designed</b> to make conversations with your friends more fun and exciting.
                                     It&apos;s a great way to hang out, spend time, and learn more about each other!
                                     Not only that, but it&apos;s also a great way to <b>learn</b> new things!
-                                    <br className="mb-2" />
+                                </p>
+                                <p className="mt-2 text-xl" >
                                     And if you are lonely but still want to have fun, you can always use the <b>reddit</b> command to get some memes!
                                 </p>
-                            </div>
-                            <div className="col-span-1 hidden justify-center md:block !rotate-6">
+                            </Fade>
+                        </div>
+                        <div className="col-span-1 hidden justify-center md:block !rotate-6">
+                            <Fade>
                                 <RedditCommand />
-                            </div>
-                        </Fade>
+                            </Fade>
+                        </div>
                     </div>
                     <div className="my-12 mx-auto grid max-w-7xl grid-cols-1 justify-center gap-12 px-8 text-left md:my-24 md:grid-cols-2">
-                        <Fade bottom>
-                            <div className="col-span-1 my-auto hidden select-none justify-center p-4 md:block !-rotate-6">
+                        <div className="col-span-1 my-auto hidden select-none justify-center p-4 md:block !-rotate-6">
+                            <Fade>
                                 <RandomToolCommand />
-                            </div>
-                            <div className="col-span-1 my-auto justify-center">
+                            </Fade>
+                        </div>
+                        <div className="col-span-1 my-auto justify-center">
+                            <Fade direction='up' cascade damping={1e-1} triggerOnce>
+
                                 <h2 className="text-4xl font-bold">Many helpful commands!</h2>
                                 <p className="mt-2 text-xl">
                                     You can use <b>helpful</b> commands with this bot! Each command has a purpose,
                                     from being helpful to being fun and making your server just that bit better!
-                                    <br className="mb-2" />
+                                </p>
+                                <p className="mt-2 text-xl" >
                                     Even if you don't decide to add this bot, you can still make use of it on other servers that have it added!
                                     <i className="text-gray-400"> (but you should just add it)</i>
                                 </p>
-                            </div>
-                        </Fade>
+                            </Fade>
+                        </div>
+
                     </div>
                     <div className="my-12 mx-auto grid max-w-7xl grid-cols-1 justify-center gap-12 px-8 text-left md:my-24 md:grid-cols-2">
-                        <Fade bottom>
-                            <div className="col-span-1 my-auto justify-center">
+                        <div className="col-span-1 my-auto justify-center">
+                            <Fade direction='up' cascade damping={1e-1} triggerOnce>
                                 <h2 className="text-4xl font-bold">Lots of information!</h2>
                                 <p className="mt-2 text-xl">
                                     RiskyBOT has <b>lots</b> of commands that are helpful for you and your friends to use! Our commands
                                     cover many topics from helpful to interesting. Lack of information can be frustrating, so RiskyBOT is here to help!
                                 </p>
-                            </div>
-                            <div className="col-span-1 my-auto hidden justify-center rounded-md p-4 md:block !rotate-6">
+                            </Fade>
+
+                        </div>
+                        <div className="col-span-1 my-auto hidden justify-center rounded-md p-4 md:block !rotate-6">
+                            <Fade>
                                 <AboutUserCommand />
-                            </div>
-                        </Fade>
+                            </Fade>
+                        </div>
                     </div>
                 </div>
                 <Divider type="curveDown" className="bg-theme-d3 fill-theme-d4" />
                 {/* Get Started */}
                 <div className="pt-24 pb-8 bg-theme-d3 md:pb-56">
-                    <Fade bottom>
+                    <Fade direction='up' cascade damping={1e-1} triggerOnce>
                         <div className="mx-auto max-w-4xl px-4 text-center">
                             <h1 className="text-5xl font-extrabold">
-                                <Fade bottom cascade>
+                                {/* <Fade bottom cascade>
+                                    Get Started
+                                </Fade> */}
+                                {/* Later todo: Try to make it work like original react-reveal (each letter floats up) */}
+                                <Fade direction='down' cascade damping={1e-1} >
                                     Get Started
                                 </Fade>
                             </h1>
@@ -117,18 +139,18 @@ const Home: NextPage = () => {
                                 Don't have friends to play with? Join the community server!
                             </p>
                             <div className="mt-4">
-                                <Button href={BOT_INVITE_URL} external icon={faDiscord}>
+                                <Button href={BOT_INVITE_URL} external icon={FaDiscord}>
                                     Add RiskyBOT
                                 </Button>
-                                <Button href={SERVER_INVITE_URL} className="mt-2 sm:ml-2 sm:mt-0" external icon={faUserGroup}>
+                                <Button href={SERVER_INVITE_URL} className="mt-2 sm:ml-2 sm:mt-0" external icon={FaUserGroup}>
                                     Join the Support Server
                                 </Button>
                             </div>
                         </div>
                     </Fade>
                 </div>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 };
 

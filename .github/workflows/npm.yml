@@ -5,7 +5,7 @@ on:
     types: 
       - completed
     branches:
-        - main
+      - main
 
 jobs:
   npm-publish:
@@ -16,7 +16,7 @@ jobs:
       matrix:
         include:
           - package: '@riskybot/tools'
-            folder: 'builders'
+            folder: 'tools'
           - package: '@riskybot/commands'
             folder: 'commands'
           - package: '@riskybot/apis'

@@ -1,10 +1,9 @@
-import { faDiscord } from "@fortawesome/free-brands-svg-icons";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { useRef } from "react";
 import { useEffect } from "react";
 import { BOT_INVITE_URL, SERVER_INVITE_URL } from "../constants";
+import FaBars from "./icons/FaBars";
+import FaDiscord from "./icons/FaDiscord";
 import Logo from "./Logo";
 import NavItem from "./NavItem";
 
@@ -41,7 +40,7 @@ export default function Navbar() {
 					</Link>
 					<div className="ml-auto flex items-center md:hidden mr-3">
 						<button className="text-xl" onClick={collapseMenu} aria-label="Open menu">
-							<FontAwesomeIcon icon={faBars} />
+							<FaBars />
 						</button>
 					</div>
 					<div className="hidden w-full items-center md:flex">
@@ -58,7 +57,7 @@ export default function Navbar() {
 								className="pr-4  pl-1 items-center rounded-lg bg-discord-blurple px-2 py-2 font-semibold text-white transition hover:bg-discord-blurple/25 hover:text-white white border-2  border-discord-blurple active::text-white selection:text-red"
 								target="_blank"
 								rel="noopener noreferrer">
-								<FontAwesomeIcon className="w-10" icon={faDiscord} />
+								<FaDiscord className="w-10"/>
 								Add RiskyBOT
 							</a>
 						</div>
@@ -73,7 +72,7 @@ export default function Navbar() {
 						</NavItem>
 						<div className="flex items-center ml-[-28px]">
 							<NavItem href={BOT_INVITE_URL} external>
-								<FontAwesomeIcon icon={faDiscord} className="mr-1" />
+								<FaDiscord />
 								Add RiskyBOT
 							</NavItem>
 						</div>

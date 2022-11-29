@@ -1,7 +1,6 @@
-import { faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import type {PropsWithChildren} from "react";
+import FaArrowUpRightFromSquare from "./icons/FaArrowUpRightFromSquare";
 
 type Props = PropsWithChildren<{
 	href: string;
@@ -14,7 +13,7 @@ export default function NavItem({ children, href, external = false }: Props) {
 	return external ? (
 		<a href={href} className={classes} target="_blank" rel="noopener noreferrer">
 			{children}
-			<FontAwesomeIcon className="ml-2" size="xs" icon={faArrowUpRightFromSquare} />
+			<FaArrowUpRightFromSquare className="ml-2" />
 		</a>
 	) : (
 		<Link href={href} scroll={false} className={classes}>

@@ -1,22 +1,24 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
+import type { PropsWithChildren } from "react";
 
-export default function Button({ children, href = "", className = "", icon = null, external = false }) {
+export default function Button({ children, href = "", className = "", icon: Icon = FakeIcon, external = false }: PropsWithChildren<{ href: string, className?: string, icon?: ({ className }: { className?: string }) => JSX.Element, external?: boolean }>) {
     const classes = `hover:bg-discord-blurple/30 bg-discord-blurple/25 border-2 border-discord-blurple font-semibold text-white py-3 px-4 transition rounded-lg inline-block ${className}`;
 
     return external ? (
         <a href={href} className={classes} target="_blank" rel="noopener noreferrer">
-            {icon ? <FontAwesomeIcon className="mr-2" icon={icon} /> : ""}
+            <Icon className="mr-2" />
             {children}
         </a>
     ) : (
-        (<Link href={href} scroll={false} className={classes}>
+        <Link href={href} scroll={false} className={classes}>
             {/* <button className={classes} onClick={onClick}> */}
-
-            {icon ? <FontAwesomeIcon className="mr-2" icon={icon} /> : ""}
+            <Icon className="mr-2" />
             {children}
-
             {/* </button> */}
-        </Link>)
+        </Link>
     );
+}
+
+function FakeIcon() {
+    return <></>;
 }

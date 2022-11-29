@@ -49,6 +49,11 @@ export default function DiscordRedditExample() {
         // if (process.env.NODE_ENV === "development") url = "http://localhost:3001/api/proxy/reddit?type=post&subreddit=" + subreddit;
         if (count >= 3) return;
 
+        // TODO: use the fetch
+        // Just trying to not have it run right now
+        // eslint-disable-next-line no-constant-condition
+        if (false)
+        // @ts-expect-error above
         fetch(url)
             .then(res => res.json())
             .then(data => {

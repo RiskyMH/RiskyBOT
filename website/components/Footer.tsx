@@ -1,9 +1,10 @@
-import { faDiscord, faGithub } from "@fortawesome/free-brands-svg-icons";
-import { faLegal } from "@fortawesome/free-solid-svg-icons";
 import { SERVER_INVITE_URL } from "../constants";
 
 import Divider from "./Divider";
 import IconLink from "./IconLink";
+import FaDiscord from "./icons/FaDiscord";
+import FaGithub from "./icons/FaGithub";
+import FaLegal from "./icons/FaLegal";
 
 export default function Footer() {
 	return (
@@ -18,9 +19,9 @@ export default function Footer() {
 								<h1 className="text-lg font-bold">Add fun to your Discord server!</h1>
 								<p className="text-gray-300">Featuring lots of different functions</p>
 								<p className="mt-1 text-2xl">
-									<IconLink href={SERVER_INVITE_URL} title="Support" icon={faDiscord} external />
-									<IconLink href="https://github.com/RiskyMH/RiskyBOT" title="GitHub" icon={faGithub} external />
-									<IconLink href="/legal" title="Legal" icon={faLegal} />
+									<IconLink href={SERVER_INVITE_URL} title="Support" icon={FaDiscord} external />
+									<IconLink href="https://github.com/RiskyMH/RiskyBOT" title="GitHub" icon={FaGithub} external />
+									<IconLink href="/legal" title="Legal" icon={FaLegal} />
 								</p>
 							</div>
 

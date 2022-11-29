@@ -2,8 +2,8 @@ import OpenGraph from "../components/OpenGraph";
 import Link from "next/link";
 import { IMGEN_INVITE_URL } from "../constants";
 import Button from "../components/Button";
-import { faDiscord } from "@fortawesome/free-brands-svg-icons";
 import type { NextPage } from "next";
+import FaDiscord from "../components/icons/FaGithub";
 
 const OtherBotsPage: NextPage = () => {
 	return (
@@ -19,7 +19,7 @@ const OtherBotsPage: NextPage = () => {
 						<h1 className="text-4xl font-bold">Image Generation</h1>
 						<p className="text-lg">A bot that generates images using your input.</p>
 
-						<Button href={IMGEN_INVITE_URL} external icon={faDiscord} className="p-2 mt-2 text-center w-full sm:w-max">
+						<Button href={IMGEN_INVITE_URL} external icon={FaDiscord} className="p-2 mt-2 text-center w-full sm:w-max">
 							Add Image Generate
 						</Button>
 					</div>
@@ -56,7 +56,7 @@ const OtherBotsPage: NextPage = () => {
 						<h1 className="text-4xl font-bold">Another Bot</h1>
 						<p className="text-lg">A bot that xxx.</p>
 
-						<Button href={IMGEN_INVITE_URL} external icon={faDiscord} className="p-2 mt-2 text-center w-full sm:w-max">
+						<Button href={IMGEN_INVITE_URL} external icon={FaDiscord} className="p-2 mt-2 text-center w-full sm:w-max">
 							Add bot!
 						</Button>
 					</div>
