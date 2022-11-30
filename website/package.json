@@ -5,7 +5,7 @@
     "dev": "next",
     "build-static": "next build && next export",
     "start": "next start",
-    "lint": "eslint --ext .js,.jsx,.ts,.tsx"
+    "lint": "eslint **/*.ts  **/*.tsx "
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
@@ -19,6 +19,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@next/eslint-plugin-next": "^13.0.5",
     "@types/node": "^18.11.9",
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.9",
