@@ -1,7 +1,6 @@
 import type { APIPingInteraction, InteractionType } from "discord-api-types/v10";
 import BaseInteraction from "./BaseInteraction.mjs";
 
-
 /**
  * 
  * **Note:** This type of interaction is automatically handled when using {@link Client.verify}, so you don't need to do anything with it.

@@ -1,52 +1,53 @@
 {
-  "name": "riskybot",
-  "description": "A random multi-purpose bot",
-  "version": "4.0.0",
-  "author": "RiskyMH",
-  "dependencies": {
-    "@discordjs/builders": "^1.4.0",
-    "@riskybot/apis": "workspace:^",
-    "@riskybot/commands": "workspace:^",
-    "@riskybot/image-generate": "workspace:^",
-    "@riskybot/tools": "workspace:^",
-    "discord-api-parser": "workspace:^",
-    "discord-api-types": "0.37.20",
-    "discord-verify": "^1.0.0",
-    "dotenv": "^16.0.3",
-    "form-data": "^4.0.0",
-    "undici": "^5.13.0"
-  },
-  "devDependencies": {
-    "@types/js-yaml": "^4.0.5",
-    "@types/node": "^18.11.9",
-    "@typescript-eslint/eslint-plugin": "^5.45.0",
-    "@typescript-eslint/parser": "^5.45.0",
-    "@vercel/node": "^2.7.0",
-    "eslint": "^8.28.0",
-    "turbo": "^1.6.3",
-    "typescript": "^4.9.3",
-    "vercel": "^28.6.0"
-  },
-  "engines": {
-    "node": ">=16.0.0"
-  },
-  "homepage": "https://riskymh.github.io/RiskyBOT",
-  "main": "dist/main.mjs",
-  "module": "system",
-  "private": true,
-  "scripts": {
-    "build": "turbo run build && tsc --build",
-    "test": "turbo run test",
-    "update": "yarn upgrade-interactive",
-    "deployCommands": "node -r dotenv/config dist/applicationCommands/deploy.mjs",
-    "deployCommands:ownerOnly": "node -r dotenv/config dist/applicationCommands/deployOwnerOnly.mjs",
-    "deployCommands:imgen": "node -r dotenv/config dist/applicationCommands/deployImgen.mjs",
-    "lint": "turbo run lint --parallel && eslint src/**/*.mts"
-  },
-  "type": "module",
-  "packageManager": "yarn@3.3.0",
-  "workspaces": [
-    "packages/*",
-    "website"
-  ]
+    "name": "riskybot",
+    "description": "A random multi-purpose bot",
+    "version": "4.0.0",
+    "author": "RiskyMH",
+    "dependencies": {
+        "@discordjs/builders": "^1.4.0",
+        "@discordjs/formatters": "^0.1.0",
+        "@riskybot/apis": "workspace:^",
+        "@riskybot/commands": "workspace:^",
+        "@riskybot/image-generate": "workspace:^",
+        "@riskybot/tools": "workspace:^",
+        "discord-api-parser": "workspace:^",
+        "discord-api-types": "0.37.24",
+        "discord-verify": "^1.0.0",
+        "dotenv": "^16.0.3",
+        "form-data": "^4.0.0",
+        "undici": "^5.14.0"
+    },
+    "devDependencies": {
+        "@types/js-yaml": "^4.0.5",
+        "@types/node": "^18.11.17",
+        "@typescript-eslint/eslint-plugin": "^5.47.0",
+        "@typescript-eslint/parser": "^5.47.0",
+        "@vercel/node": "^2.8.2",
+        "eslint": "^8.30.0",
+        "turbo": "^1.6.3",
+        "typescript": "^4.9.4",
+        "vercel": "^28.10.1"
+    },
+    "engines": {
+        "node": ">=16.0.0"
+    },
+    "homepage": "https://riskymh.github.io/RiskyBOT",
+    "main": "dist/main.mjs",
+    "module": "system",
+    "private": true,
+    "scripts": {
+        "build": "turbo run build && tsc --build",
+        "test": "turbo run test",
+        "update": "yarn upgrade-interactive",
+        "deployCommands": "node -r dotenv/config dist/applicationCommands/deploy.mjs",
+        "deployCommands:ownerOnly": "node -r dotenv/config dist/applicationCommands/deployOwnerOnly.mjs",
+        "deployCommands:imgen": "node -r dotenv/config dist/applicationCommands/deployImgen.mjs",
+        "lint": "turbo run lint --parallel && eslint src/**/*.mts"
+    },
+    "type": "module",
+    "packageManager": "yarn@3.3.0",
+    "workspaces": [
+        "packages/*",
+        "website"
+    ]
 }

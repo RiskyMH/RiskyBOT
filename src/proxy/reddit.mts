@@ -2,7 +2,6 @@ import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { reddit } from "@riskybot/apis";
 
 export default async function (request: VercelRequest, response: VercelResponse): Promise<void | VercelResponse> {
-    // console.log(request);
     const querys = request.query;
 
     response.setHeader("Access-Control-Allow-Origin", "*");

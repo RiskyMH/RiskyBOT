@@ -1,5 +1,5 @@
 import "./discord-messages.css";
-import type { PropsWithChildren} from "react";
+import type { PropsWithChildren } from "react";
 import clsx from "clsx";
 
 export interface DiscordMessagesProps {

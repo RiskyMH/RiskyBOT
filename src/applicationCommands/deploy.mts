@@ -1,7 +1,9 @@
-import { Routes } from "discord-api-types/v10";
-import {defaultApplicationCommands as commands} from "@riskybot/commands";
 import * as tools from "@riskybot/tools";
+import type { VercelRequest, VercelResponse } from "@vercel/node";
+import { Routes } from "discord-api-types/v10";
+import { defaultApplicationCommands as commands } from "@riskybot/commands";
 import { fetch } from "undici";
+import { writeFileSync } from "node:fs";
 
 const config = new tools.Config("./config.yml", true);
 const EnvEnabled = new tools.EnvEnabled(process.env);
@@ -18,7 +20,7 @@ async function deployCommands() {
     if (!botToken && !bearerToken) {
         if (!applicationId) throw new Error("APPLICATION_ID is not set");
         if (!privateKey) throw new Error("APPLICATION_OAUTH_SECRET is not set");
-        
+
         tools.getBearerTokenFromKey(applicationId, privateKey, ["applications.commands.update"]);
     }
 
@@ -39,7 +41,7 @@ async function deployCommands() {
 
     // Save commands to file using fs
     writeFileSync("./commands.json", JSON.stringify(data, null, 2));
-    
+
     let authorization = "";
     if (botToken) authorization = `Bot ${botToken}`;
     else if (bearerToken) authorization = `Bearer ${bearerToken}`;
@@ -61,8 +63,8 @@ async function deployCommands() {
 
 
 
-import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { writeFileSync } from "node:fs";
+
+
 // import "dotenv/config";
 
 export default async function (request: VercelRequest, response: VercelResponse): Promise<void | VercelResponse> {
@@ -83,7 +85,7 @@ export default async function (request: VercelRequest, response: VercelResponse)
     }
 
     response.send("Deploying...");
-    
+
     await deployCommands();
 }
 

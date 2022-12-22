@@ -1,6 +1,7 @@
 import type { APIMessage, APIMessageComponentInteraction, ComponentType, InteractionType, LocaleString } from "discord-api-types/v10";
 import BaseInteraction from "./BaseInteraction.mjs";
-import { applyInteractionResponseMixins, createInteractionMixinList, InteractionResponseMixin } from "./Response.mjs";
+import { InteractionResponseMixin, applyInteractionResponseMixins, createInteractionMixinList } from "./Response.mjs";
+
 
 export default class MessageComponentInteraction extends BaseInteraction {
     declare type: InteractionType.MessageComponent;

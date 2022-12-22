@@ -1,9 +1,9 @@
-import type { ApplicationCommandType, Snowflake, APIApplicationCommandInteraction, InteractionType, LocaleString } from "discord-api-types/v10";
+import type { APIApplicationCommandInteraction, ApplicationCommandType, InteractionType, LocaleString, Snowflake } from "discord-api-types/v10";
 import BaseInteraction from "./BaseInteraction.mjs";
-import { applyInteractionResponseMixins, createInteractionMixinList, InteractionResponseMixin } from "./Response.mjs";
+import { InteractionResponseMixin, applyInteractionResponseMixins, createInteractionMixinList } from "./Response.mjs";
 
 
-export default class ApplicationCommandInteraction extends BaseInteraction  {
+export default class ApplicationCommandInteraction extends BaseInteraction {
     declare type: InteractionType.ApplicationCommand;
     /** The command's Id */
     commandId: Snowflake;
@@ -18,7 +18,7 @@ export default class ApplicationCommandInteraction extends BaseInteraction  {
 
     constructor(interaction: APIApplicationCommandInteraction) {
         super(interaction);
-        
+
         this.commandId = interaction.data.id;
         this.commandName = interaction.data.name;
         this.commandType = interaction.data.type;
@@ -46,5 +46,5 @@ const allowedResponses = createInteractionMixinList([
 
 applyInteractionResponseMixins(ApplicationCommandInteraction, allowedResponses);
 
-export default interface ApplicationCommandInteraction extends InteractionResponseMixin<typeof allowedResponses> {}
+export default interface ApplicationCommandInteraction extends InteractionResponseMixin<typeof allowedResponses> { }
 

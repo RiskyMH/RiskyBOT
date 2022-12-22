@@ -1,16 +1,16 @@
-import { time, hyperlink,inlineCode, userMention, bold, codeBlock, EmbedBuilder, roleMention, SlashCommandSubcommandBuilder, SlashCommandBuilder, SlashCommandUserOption, SlashCommandStringOption, SlashCommandRoleOption, SlashCommandChannelOption, ContextMenuCommandBuilder } from "@discordjs/builders";
 import { APIEmbedField, ApplicationCommandType, ChannelType, ImageFormat, PermissionFlagsBits, UserFlags as UserFlagsEnum } from "discord-api-types/v10";
-import { redditAutoComplete, reddit } from "./index.mjs";
+import type { Config, EnvEnabled } from "@riskybot/tools";
+import { ContextMenuCommandBuilder, EmbedBuilder, SlashCommandBuilder, SlashCommandChannelOption, SlashCommandRoleOption, SlashCommandStringOption, SlashCommandSubcommandBuilder, SlashCommandUserOption, roleMention } from "@discordjs/builders";
+import type { InteractionDataResolvedChannel, InteractionDataResolvedGuildMember, InteractionGuildMember, Permissions, Role, User, UserFlags } from "discord-api-parser";
+import { bold, codeBlock, hyperlink, inlineCode, time, userMention } from "@discordjs/formatters";
+import { reddit, redditAutoComplete } from "./index.mjs";
 import { listFormatter } from "@riskybot/tools";
 import { topgg } from "@riskybot/apis";
-import type { Config, EnvEnabled } from "@riskybot/tools";
-import type { User, InteractionGuildMember, InteractionDataResolvedGuildMember, Role, InteractionDataResolvedChannel, Permissions, UserFlags } from "discord-api-parser";
-
 
 //TODO: Make sure everything works...
 
 
-export default async function about(config: Config, option: {user?: User, member?:  InteractionGuildMember | InteractionDataResolvedGuildMember, role?: Role, channel?: InteractionDataResolvedChannel, stringInput?: string, name: string}, extra: string, topggKey?: string )/**: Promise <InteractionReplyOptions> */  {
+export default async function about(config: Config, option: { user?: User, member?: InteractionGuildMember | InteractionDataResolvedGuildMember, role?: Role, channel?: InteractionDataResolvedChannel, stringInput?: string, name: string }, extra: string, topggKey?: string)/**: Promise <InteractionReplyOptions> */ {
 
     const aboutEmbed = new EmbedBuilder().setColor(config.getColors().ok);
     const aboutEmbedExtra = new EmbedBuilder().setColor(config.getColors().ok);
@@ -19,60 +19,60 @@ export default async function about(config: Config, option: {user?: User, member
     if (option.name === "user" && option.user) {
 
         aboutEmbed
-            .setAuthor({ name: option.user.tag, iconURL: option.user.displayAvatarURL(), url: "https://discord.com/users/"+ option.user.id })
-            .addFields([{name: "Made", value: time(option.user.createdAt) +" (" +time(option.user.createdAt, "R") +")"}])
+            .setAuthor({ name: option.user.tag, iconURL: option.user.displayAvatarURL(), url: "https://discord.com/users/" + option.user.id })
+            .addFields([{ name: "Made", value: time(option.user.createdAt) + " (" + time(option.user.createdAt, "R") + ")" }])
             // .addFields([{ name: "Username", value: codeBlock(`${option.user.username}#${option.user.discriminator}`) },])
-            .setThumbnail(option.user.avatarURL({extension: ImageFormat.PNG, size: 512}));
+            .setThumbnail(option.user.avatarURL({ extension: ImageFormat.PNG, size: 512 }));
 
-        if (option.user.banner) aboutEmbed.setImage(option.user?.bannerURL({extension: ImageFormat.PNG, size: 512}));
+        if (option.user.banner) aboutEmbed.setImage(option.user?.bannerURL({ extension: ImageFormat.PNG, size: 512 }));
 
         if (!option.user.publicFlags?.isEmpty()) aboutEmbed.setDescription(userFlagsMapper(option.user.publicFlags).join("  "));
-            
+
         if (extra === "advanced") {
             aboutEmbedExtra
-                .setTitle("About - " +inlineCode("User:") + bold(inlineCode(option.user.username)) + inlineCode("(advanced)"))
-                .addFields([{name:"ID", value: codeBlock(option.user.id)}])
-                .addFields([{name: "Default Avatar URL", value: option.user.defaultAvatarURL}])
-                .addFields([{ name: "Current Avatar URL", value: hyperlink( "https://cdn.discordapp.com/avatars/...", option.user.displayAvatarURL())}]);
-            if (option.user.banner) aboutEmbedExtra.addFields([{name: "Banner URL", value: hyperlink("https://cdn.discordapp.com/banners/...", option.user?.bannerURL()?? "")}]);
+                .setTitle("About - " + inlineCode("User:") + bold(inlineCode(option.user.username)) + inlineCode("(advanced)"))
+                .addFields([{ name: "ID", value: codeBlock(option.user.id) }])
+                .addFields([{ name: "Default Avatar URL", value: option.user.defaultAvatarURL }])
+                .addFields([{ name: "Current Avatar URL", value: hyperlink("https://cdn.discordapp.com/avatars/...", option.user.displayAvatarURL()) }]);
+            if (option.user.banner) aboutEmbedExtra.addFields([{ name: "Banner URL", value: hyperlink("https://cdn.discordapp.com/banners/...", option.user?.bannerURL() ?? "") }]);
 
         } else if (extra === "top.gg") {
             if (topggKey) {
-                
-                    if (option.user.bot) {
-                        const data = await topgg.botInfo(option.user.id, topggKey);
-                        if (!data) {
-                            aboutEmbedExtra
-                                .setTitle("About - " + inlineCode("user/bot:") + bold(inlineCode(option.user.username)) + inlineCode("(Top.gg)"))
-                                .addFields([{ name: "Not found", value: "Not in top.gg\n• *Note: not all bots and users are on [top.gg](https://top.gg)*" }])
-                                .setColor(config.getColors().warning);
-                        } else{
 
-                            aboutEmbedExtra
-                                .setTitle("About - " +inlineCode("Bot:") + bold(inlineCode(option.user.username)) + inlineCode("(Top.gg)")) 
-                                .setURL("https://top.gg/bot/" + data.id)   
-                                .addFields([{name: "Links", value:  `• [invite](${data.invite})\n• [website](${data.website})`}])
-                                .addFields([{name: "Tags", value: listFormatter.format(data.tags) ?? "*No tags*"}])
-                                .addFields([{name: "Short Desc",value:  data.shortdesc ?? "*No description*"}])
-                                .addFields([{name: "Information",value: `• Prefix: ${inlineCode(data.prefix ?? "*None*")}\n• Votes: ${inlineCode(data?.points.toLocaleString() ?? "*None*")} (Month: ${inlineCode(data?.monthlyPoints.toLocaleString() ?? "*None*")})\n• Server count: ${inlineCode(data?.server_count?.toString() ?? "*None*") ||"*Not specified*"}`}]);
-                            if (data.bannerUrl) aboutEmbedExtra.setImage(data.bannerUrl);
-                        }
+                if (option.user.bot) {
+                    const data = await topgg.botInfo(option.user.id, topggKey);
+                    if (!data) {
+                        aboutEmbedExtra
+                            .setTitle("About - " + inlineCode("user/bot:") + bold(inlineCode(option.user.username)) + inlineCode("(Top.gg)"))
+                            .addFields([{ name: "Not found", value: "Not in top.gg\n• *Note: not all bots and users are on [top.gg](https://top.gg)*" }])
+                            .setColor(config.getColors().warning);
                     } else {
-                        const data = await topgg.userInfo(option.user.id, topggKey);
-                        if (!data ) {
-                            aboutEmbedExtra
-                                .setTitle("About - " + inlineCode("user/bot:") + bold(inlineCode(option.user.username)) + inlineCode("(Top.gg)"))
-                                .addFields([{ name: "Not found", value: "Not in top.gg\n• *Note: not all bots and users are on [top.gg](https://top.gg)*" }])
-                                .setColor(config.getColors().warning);
-                        } else{
 
-                            aboutEmbedExtra
-                                .setTitle("About - " + inlineCode("User:") + bold(inlineCode(option.user.username)) + inlineCode("(Top.gg)"))
-                                .addFields([{name: "Bio", value: data.bio ?? "*No bio*"}]);
-                            if (data.banner) aboutEmbedExtra.setImage(data.banner);
-
-                        }
+                        aboutEmbedExtra
+                            .setTitle("About - " + inlineCode("Bot:") + bold(inlineCode(option.user.username)) + inlineCode("(Top.gg)"))
+                            .setURL("https://top.gg/bot/" + data.id)
+                            .addFields([{ name: "Links", value: `• [invite](${data.invite})\n• [website](${data.website})` }])
+                            .addFields([{ name: "Tags", value: listFormatter.format(data.tags) ?? "*No tags*" }])
+                            .addFields([{ name: "Short Desc", value: data.shortdesc ?? "*No description*" }])
+                            .addFields([{ name: "Information", value: `• Prefix: ${inlineCode(data.prefix ?? "*None*")}\n• Votes: ${inlineCode(data?.points.toLocaleString() ?? "*None*")} (Month: ${inlineCode(data?.monthlyPoints.toLocaleString() ?? "*None*")})\n• Server count: ${inlineCode(data?.server_count?.toString() ?? "*None*") || "*Not specified*"}` }]);
+                        if (data.bannerUrl) aboutEmbedExtra.setImage(data.bannerUrl);
                     }
+                } else {
+                    const data = await topgg.userInfo(option.user.id, topggKey);
+                    if (!data) {
+                        aboutEmbedExtra
+                            .setTitle("About - " + inlineCode("user/bot:") + bold(inlineCode(option.user.username)) + inlineCode("(Top.gg)"))
+                            .addFields([{ name: "Not found", value: "Not in top.gg\n• *Note: not all bots and users are on [top.gg](https://top.gg)*" }])
+                            .setColor(config.getColors().warning);
+                    } else {
+
+                        aboutEmbedExtra
+                            .setTitle("About - " + inlineCode("User:") + bold(inlineCode(option.user.username)) + inlineCode("(Top.gg)"))
+                            .addFields([{ name: "Bio", value: data.bio ?? "*No bio*" }]);
+                        if (data.banner) aboutEmbedExtra.setImage(data.banner);
+
+                    }
+                }
             } else {
                 aboutEmbedExtra
                     .setTitle(
@@ -88,10 +88,10 @@ export default async function about(config: Config, option: {user?: User, member
     }
     // MEMBER
     if (option.name === "user" && option.member) {
-        
+
         aboutEmbed
             // .setTitle("About - " +inlineCode("User:") +bold(inlineCode(option.member?.nickname ?? option.user!.username)))
-            .setThumbnail(option.member.memberAvatarURL({extension: ImageFormat.PNG, size: 512}) || option.user?.avatarURL({extension: ImageFormat.PNG, size: 512}) || null)
+            .setThumbnail(option.member.memberAvatarURL({ extension: ImageFormat.PNG, size: 512 }) || option.user?.avatarURL({ extension: ImageFormat.PNG, size: 512 }) || null)
             .addFields([
                 {
                     name: "Joined at",
@@ -99,19 +99,19 @@ export default async function about(config: Config, option: {user?: User, member
                     inline: true,
                 },
                 {
-                    name: "Server nickname", 
-                    value: option.member.nickname ? inlineCode(option.member.nickname): "*No nickname set*",
+                    name: "Server nickname",
+                    value: option.member.nickname ? inlineCode(option.member.nickname) : "*No nickname set*",
                     inline: true,
                 },
             ]);
 
-        if (option.member?.roles?.length) aboutEmbed.addFields([{name: "Roles", value: option.member.roles.map((e) => (roleMention(String(e)))).join(" ")}]);
-        if (option.member?.communicationDisabledUntil) aboutEmbed.addFields([{name: "Time out until", value: time(new Date(option.member.communicationDisabledUntil))}]);
+        if (option.member?.roles?.length) aboutEmbed.addFields([{ name: "Roles", value: option.member.roles.map((e) => (roleMention(String(e)))).join(" ") }]);
+        if (option.member?.communicationDisabledUntil) aboutEmbed.addFields([{ name: "Time out until", value: time(new Date(option.member.communicationDisabledUntil)) }]);
 
         if (extra === "advanced") {
             aboutEmbedExtra
-                .setTitle("About - " +inlineCode("User:") +bold(inlineCode(option.member?.nickname ?? option.user?.username ?? ":(")) +inlineCode("(advanced)"));
-            if (option.member.avatar) aboutEmbedExtra.addFields([{name: "Guild Avatar URL", value: hyperlink("https://cdn.discordapp.com/guilds/.../users/.../avatars/...", option.member.memberAvatarURL()?? "")}]);
+                .setTitle("About - " + inlineCode("User:") + bold(inlineCode(option.member?.nickname ?? option.user?.username ?? ":(")) + inlineCode("(advanced)"));
+            if (option.member.avatar) aboutEmbedExtra.addFields([{ name: "Guild Avatar URL", value: hyperlink("https://cdn.discordapp.com/guilds/.../users/.../avatars/...", option.member.memberAvatarURL() ?? "") }]);
 
             if (option.member.permissions) aboutEmbedExtra.addFields(await permissionViewer(option.member.permissions));
         }
@@ -120,31 +120,31 @@ export default async function about(config: Config, option: {user?: User, member
     } else if (option.name === "role" && option.role) {
         aboutEmbed.setTitle("About - " + inlineCode("Role:") + bold(inlineCode(option.role.name)));
         aboutEmbed.addFields(await permissionViewer(option.role.permissions))
-                  .addFields([{name: "Position", value: codeBlock(option.role.position.toString())}]);
+            .addFields([{ name: "Position", value: codeBlock(option.role.position.toString()) }]);
 
-        if (option.role.tags?.bot_id) aboutEmbed.addFields([{name: "Bot role", value: userMention(option.role.tags?.bot_id)}]);
+        if (option.role.tags?.bot_id) aboutEmbed.addFields([{ name: "Bot role", value: userMention(option.role.tags?.bot_id) }]);
 
         if (extra === "advanced") {
             aboutEmbedExtra
-                .setTitle("About - " +inlineCode("Role:") +bold(inlineCode(option.role.name)) +inlineCode("(advanced)"))
-                .addFields([{name: "ID", value: codeBlock(option.role.id)}])
-                .addFields([{name: "Notes", value:`Pinned in the user listing: \`${option.role.hoist}\``}]);
+                .setTitle("About - " + inlineCode("Role:") + bold(inlineCode(option.role.name)) + inlineCode("(advanced)"))
+                .addFields([{ name: "ID", value: codeBlock(option.role.id) }])
+                .addFields([{ name: "Notes", value: `Pinned in the user listing: \`${option.role.hoist}\`` }]);
         }
 
     } else if (option.name === "channel" && option.channel) {
         aboutEmbed.setTitle(
             "About - " + inlineCode("Channel:") + bold(inlineCode(option.channel.name ?? "Channel"))
         );
-        aboutEmbed.addFields([{name: "Type", value: channelTypeMapper(option.channel.type)}]); 
+        aboutEmbed.addFields([{ name: "Type", value: channelTypeMapper(option.channel.type) }]);
 
         if (extra === "advanced") {
             aboutEmbedExtra
-                .setTitle("About - " +inlineCode("Channel:") +bold(inlineCode(option.channel.name ?? "Channel Name...")) +inlineCode("(advanced)"))
-                .addFields([{name: "ID", value: codeBlock(option.channel.id)}]);
+                .setTitle("About - " + inlineCode("Channel:") + bold(inlineCode(option.channel.name ?? "Channel Name...")) + inlineCode("(advanced)"))
+                .addFields([{ name: "ID", value: codeBlock(option.channel.id) }]);
         }
     }
     if (option.name === "subreddit") {
-        return await reddit(config, "subreddit", option.stringInput?.toString()?? "", option.user?.id);
+        return await reddit(config, "subreddit", option.stringInput?.toString() ?? "", option.user?.id);
     }
 
     if (!extra) return { embeds: [aboutEmbed] };
@@ -156,7 +156,7 @@ export async function autoComplete(type: string, input: string) {
 
     switch (type) {
         case "subreddit": {
-            return await redditAutoComplete( "subreddit", input);
+            return await redditAutoComplete("subreddit", input);
         }
     }
 
@@ -183,18 +183,18 @@ const flagsEmoji = {
 };
 
 function channelTypeMapper(type: ChannelType): string {
-    if (type === ChannelType.DM)                    return "<:IconMembers:778932116024459275> DM channel";
-    if (type === ChannelType.GuildText)             return "<:ChannelText:779036156175188001> Text channel";
-    if (type === ChannelType.GuildVoice)            return "<:ChannelVC:779036156607332394> Voice channel";
-    if (type === ChannelType.GroupDM)               return "<:IconMembers:778932116024459275> Group DM channel";
-    if (type === ChannelType.GuildCategory)         return "<:ChannelCategory:816771723264393236> Category for channels";
-    if (type === ChannelType.GuildNews)             return "<:ChannelAnnouncements:779042577114202122> News Channel (announcements)";
-    if (type === ChannelType.GuildNewsThread)       return "<:ChannelAnnouncementThread:897572964508266506> Thread in news channel";
-    if (type === ChannelType.GuildPublicThread)     return "<:ChannelThread:842224626486607872> Thread in channel";
-    if (type === ChannelType.GuildPrivateThread)    return "<:ChannelThreadPrivate:842224739275898921> Thread in channel (private)";
-    if (type === ChannelType.GuildStageVoice)       return "<:StagePublic:829073837538410556> Stage channel";
-    if (type === ChannelType.GuildForum)            return "Forum Channel";
-    if (type === ChannelType.GuildDirectory)        return "Directory channel";
+    if (type === ChannelType.DM) return "<:IconMembers:778932116024459275> DM channel";
+    if (type === ChannelType.GuildText) return "<:ChannelText:779036156175188001> Text channel";
+    if (type === ChannelType.GuildVoice) return "<:ChannelVC:779036156607332394> Voice channel";
+    if (type === ChannelType.GroupDM) return "<:IconMembers:778932116024459275> Group DM channel";
+    if (type === ChannelType.GuildCategory) return "<:ChannelCategory:816771723264393236> Category for channels";
+    if (type === ChannelType.GuildNews) return "<:ChannelAnnouncements:779042577114202122> News Channel (announcements)";
+    if (type === ChannelType.GuildNewsThread) return "<:ChannelAnnouncementThread:897572964508266506> Thread in news channel";
+    if (type === ChannelType.GuildPublicThread) return "<:ChannelThread:842224626486607872> Thread in channel";
+    if (type === ChannelType.GuildPrivateThread) return "<:ChannelThreadPrivate:842224739275898921> Thread in channel (private)";
+    if (type === ChannelType.GuildStageVoice) return "<:StagePublic:829073837538410556> Stage channel";
+    if (type === ChannelType.GuildForum) return "Forum Channel";
+    if (type === ChannelType.GuildDirectory) return "Directory channel";
     return "";
 }
 
@@ -234,15 +234,15 @@ function permissionViewer(permissions: Permissions): APIEmbedField[] {
     // Has administrator permissions
     if (permissions.has(PermissionFlagsBits.Administrator)) {
         listGeneral.push(emojis.on + " Administrator");
-    } else  {
+    } else {
         listGeneral.push(emojis.off + " Administrator");
-    } 
+    }
 
     // Has view audit log permissions (or administrator permissions)
     if (permissions.has(PermissionFlagsBits.ViewAuditLog)) {
         listGeneral.push(emojis.on + " View Audit Log");
     } else {
-         listGeneral.push(emojis.off + " View Audit Log");
+        listGeneral.push(emojis.off + " View Audit Log");
     }
 
     // Has view guild insights permissions (or administrator permissions)
@@ -375,14 +375,14 @@ export function applicationCommands(config?: Config, envEnabledList?: EnvEnabled
         .setName("About user")
         .setType(ApplicationCommandType.User);
 
-    const userAboutOptions = [{name: "Advanced", value: "advanced"}];
+    const userAboutOptions = [{ name: "Advanced", value: "advanced" }];
 
-    if (envEnabledList?.HasTopggToken && config?.apiEnabled?.topgg) userAboutOptions.push({name: "Top.gg", value: "top.gg"});
+    if (envEnabledList?.HasTopggToken && config?.apiEnabled?.topgg) userAboutOptions.push({ name: "Top.gg", value: "top.gg" });
 
-    const  aboutSlashCommand = new SlashCommandBuilder()
+    const aboutSlashCommand = new SlashCommandBuilder()
         .setName("about")
         .setDescription("Replies with information about a user/role")
-        .addSubcommand( 
+        .addSubcommand(
             new SlashCommandSubcommandBuilder()
                 .setName("user")
                 .setDescription("Replies with information about a user")
@@ -397,7 +397,7 @@ export function applicationCommands(config?: Config, envEnabledList?: EnvEnabled
                         .setDescription("Some more information that isn't as useful")
                         .addChoices(...userAboutOptions)
                 )
-        ).addSubcommand( 
+        ).addSubcommand(
             new SlashCommandSubcommandBuilder()
                 .setName("role")
                 .setDescription("Replies with information about a role")
@@ -411,10 +411,10 @@ export function applicationCommands(config?: Config, envEnabledList?: EnvEnabled
                         .setName("extra")
                         .setDescription("Some more information that isn't as useful")
                         .addChoices(
-                            {name: "Advanced", value: "advanced"}
+                            { name: "Advanced", value: "advanced" }
                         )
-                )   
-        ).addSubcommand( 
+                )
+        ).addSubcommand(
             new SlashCommandSubcommandBuilder()
                 .setName("channel")
                 .setDescription("Replies with information about a channel")
@@ -428,12 +428,12 @@ export function applicationCommands(config?: Config, envEnabledList?: EnvEnabled
                         .setName("extra")
                         .setDescription("Some more information that isn't as useful")
                         .addChoices(
-                            {name: "Advanced", value: "advanced"}
+                            { name: "Advanced", value: "advanced" }
                         )
-                )  
+                )
         );
     if (config?.apiEnabled?.reddit) {
-        aboutSlashCommand.addSubcommand( 
+        aboutSlashCommand.addSubcommand(
             new SlashCommandSubcommandBuilder()
                 .setName("subreddit")
                 .setDescription("Get information about a subreddit")
@@ -444,7 +444,7 @@ export function applicationCommands(config?: Config, envEnabledList?: EnvEnabled
                         .setRequired(true)
                         .setAutocomplete(true)
                 )
-        );  
-    }  
+        );
+    }
     return [aboutUserCommand, aboutSlashCommand];
 }

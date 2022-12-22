@@ -12,6 +12,7 @@ const rubik = Rubik({
     // weight: ["300", "400", "500", "700", "800", "900"],
     style: ["italic", "normal"],
     display: "swap",
+    subsets: []
 });
 
 

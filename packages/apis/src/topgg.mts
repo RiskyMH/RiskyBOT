@@ -1,4 +1,4 @@
-import {fetch} from "undici";
+import { fetch } from "undici";
 
 const topggBaseUrl = "https://top.gg/api";
 
@@ -9,9 +9,9 @@ export async function rawUserInfo(id: string, topggKey: string): Promise<RawUser
         "Content-Type": "application/json",
     };
 
-    const rawResult = await fetch( topggBaseUrl+ "/users/"+ id, { headers });
+    const rawResult = await fetch(topggBaseUrl + "/users/" + id, { headers });
 
-    if (rawResult.status !== 200) {
+    if (!rawResult.ok) {
         console.warn("Error fetching top.gg user info: " + rawResult.status);
         return null;
     }
@@ -33,7 +33,7 @@ export async function rawBotInfo(id: string, topggKey: string): Promise<RawBotIn
         "Content-Type": "application/json",
     };
 
-    const rawResult = await fetch( topggBaseUrl+ "/bots/"+ id, { headers });
+    const rawResult = await fetch(topggBaseUrl + "/bots/" + id, { headers });
 
     if (rawResult.status !== 200) {
         console.warn("Error fetching top.gg bot info: " + rawResult.status);
@@ -49,7 +49,7 @@ export async function rawBotInfo(id: string, topggKey: string): Promise<RawBotIn
     return result;
 }
 
-export async function botInfo(id: string, topggKey: string): Promise<BotInfoResult|null|undefined> {
+export async function botInfo(id: string, topggKey: string): Promise<BotInfoResult | null | undefined> {
 
     const result = await rawBotInfo(id, topggKey);
 
@@ -59,7 +59,7 @@ export async function botInfo(id: string, topggKey: string): Promise<BotInfoResu
 
     const safeResult: BotInfoResult = {} as BotInfoResult;
 
-    try{
+    try {
         safeResult.id = String(result?.id || "");
         safeResult.username = String(result?.username || "");
         safeResult.discriminator = String(result?.discriminator || "");
@@ -79,22 +79,22 @@ export async function botInfo(id: string, topggKey: string): Promise<BotInfoResu
         for (const owner of result?.owners || []) safeResult.owners.push(String(owner || ""));
         for (const owner of result?.guilds || []) safeResult.guilds.push(String(owner || ""));
         safeResult.invite = result?.invite ? String(result?.invite) : undefined;
-        safeResult.date = new Date(result?.invite?? new Date);
+        safeResult.date = new Date(result?.invite ?? new Date);
         safeResult.server_count = result?.server_count ? Number(result?.server_count) : undefined;
         safeResult.certifiedBot = Boolean(result?.certifiedBot ?? false);
         safeResult.vanity = result?.vanity ? String(result?.vanity) : undefined;
         safeResult.points = Number(result?.points ?? 0);
         safeResult.monthlyPoints = Number(result?.monthlyPoints ?? 0);
         safeResult.donatebotguildid = String(result?.donatebotguildid ?? "");
-        
+
         return safeResult;
 
-    } catch (err) {console.warn(err); return undefined;}
+    } catch (err) { console.warn(err); return undefined; }
 
 }
 
-export async function userInfo(id: string, topggKey: string): Promise<UserInfoResult|null|undefined> {
-    
+export async function userInfo(id: string, topggKey: string): Promise<UserInfoResult | null | undefined> {
+
     const result = await rawUserInfo(id, topggKey);
 
     if (!result) {
@@ -103,7 +103,7 @@ export async function userInfo(id: string, topggKey: string): Promise<UserInfoRe
 
     const safeResult: UserInfoResult = {} as UserInfoResult;
 
-    try{
+    try {
         safeResult.id = String(result?.id || "");
         safeResult.username = String(result?.username || "");
         safeResult.discriminator = String(result?.discriminator || "");
@@ -126,7 +126,7 @@ export async function userInfo(id: string, topggKey: string): Promise<UserInfoRe
 
         return safeResult;
 
-    } catch (err) {console.warn(err); return undefined;}
+    } catch (err) { console.warn(err); return undefined; }
 
 }
 

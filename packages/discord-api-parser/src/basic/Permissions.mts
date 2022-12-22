@@ -2,7 +2,6 @@ import { PermissionFlagsBits } from "discord-api-types/v10";
 import BitField from "./BitField.mjs";
 
 
-
 export class Permissions extends BitField {
 
     constructor(permissions: bigint | string ) {

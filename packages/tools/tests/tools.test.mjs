@@ -9,9 +9,8 @@ describe("Config", async () => {
 
     const rawLocation = path.join(process.cwd(), "../../" ,"config.yml");
 
-    it("should make an image with", async () => {
+    it("should make config from location", async () => {
         const config = new Config(rawLocation, true);
-        assert.ok(config);
         assert.ok(config);
     });
 

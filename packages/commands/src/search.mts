@@ -1,9 +1,8 @@
-import { inlineCode, italic, EmbedBuilder, SlashCommandBuilder, SlashCommandSubcommandBuilder } from "@discordjs/builders";
-import { trim } from "@riskybot/tools";
 import type { Config, EnvEnabled } from "@riskybot/tools";
-import { urbanDictionary, someRandomApi } from "@riskybot/apis";
-import { SlashCommandStringOption } from "@discordjs/builders";
-
+import { EmbedBuilder, SlashCommandBuilder, SlashCommandStringOption, SlashCommandSubcommandBuilder } from "@discordjs/builders";
+import { inlineCode, italic } from "@discordjs/formatters";
+import { someRandomApi, urbanDictionary } from "@riskybot/apis";
+import { trim } from "@riskybot/tools";
 
 //TODO: Make sure everything works...
 
@@ -15,7 +14,7 @@ export default async function search(config: Config, engine: string, input: stri
     switch (engine) {
         case "urban-dictionary": {
             const urbanDef = await urbanDictionary.define(input);
-            
+
             if (urbanDef && urbanDef.length) {
                 const urbanChosen = urbanDef[0];
 
@@ -33,37 +32,37 @@ export default async function search(config: Config, engine: string, input: stri
                 }
 
                 searEmb
-                    .setAuthor({name: "Urban Dictionary", url: "https://www.urbandictionary.com/", iconURL: "https://www.urbandictionary.com/apple-touch-icon.png"})
+                    .setAuthor({ name: "Urban Dictionary", url: "https://www.urbandictionary.com/", iconURL: "https://www.urbandictionary.com/apple-touch-icon.png" })
                     .setTitle("Urban Dictionary result for " + inlineCode(trim(urbanChosen.word, 15)))
                     .setURL(urbanChosen.permalink)
-                    .addFields([{name: "Definition", value: trim(newDef, 1024)}])
-                    .addFields([{name: "Example", value: italic(trim(newExam, 1024-2))}])
-                    .addFields([{name: "Stats", value: `\`👍${urbanChosen.thumbsUp}\` \`👎${urbanChosen.thumbsDown}\``}])
+                    .addFields([{ name: "Definition", value: trim(newDef, 1024) }])
+                    .addFields([{ name: "Example", value: italic(trim(newExam, 1024 - 2)) }])
+                    .addFields([{ name: "Stats", value: `\`👍${urbanChosen.thumbsUp}\` \`👎${urbanChosen.thumbsDown}\`` }])
                     .setTimestamp(urbanChosen.writtenOn)
-                    .setFooter({text: "Defined by: " + urbanChosen.author});
+                    .setFooter({ text: "Defined by: " + urbanChosen.author });
             } else {
                 if (urbanDef === null) {
                     errorEmb.setTitle("Can't find your term")
                         .setDescription(trim("No results found for " + inlineCode(input), 4096))
-                        .setAuthor({name: "Urban Dictionary", url: "https://www.urbandictionary.com/", iconURL: "https://www.urbandictionary.com/apple-touch-icon.png"});
+                        .setAuthor({ name: "Urban Dictionary", url: "https://www.urbandictionary.com/", iconURL: "https://www.urbandictionary.com/apple-touch-icon.png" });
                 }
                 else if (urbanDef === undefined) errorEmb.setTitle("We had an error").setDescription("An error occurred while using the [`Urban Dictionary`](https://urbandictionary.com) API");
 
                 return { embeds: [errorEmb], ephemeral: true };
             }
         }
-        break;
+            break;
 
         case "lyrics": {
             const lyrics = await someRandomApi.getLyrics(input);
             if (lyrics && lyrics.lyrics) {
                 searEmb
-                    .setThumbnail(lyrics.thumbnail?.genius??"")
-                    .setURL(lyrics.links?.genius??"")
-                    .setDescription(trim(lyrics.lyrics, 4096 ))
-                    .setTitle("Lyrics for " + inlineCode(trim(lyrics.title + " ("+lyrics.author+")", 25)))
-                    .setFooter({text: "Powered using https://some-random-api.ml"});
-                if (lyrics.links?.genius) searEmb.setAuthor({name: "Genius", url: "https://genius.com", iconURL: "https://genius.com/apple-touch-icon.png"});
+                    .setThumbnail(lyrics.thumbnail?.genius ?? "")
+                    .setURL(lyrics.links?.genius ?? "")
+                    .setDescription(trim(lyrics.lyrics, 4096))
+                    .setTitle("Lyrics for " + inlineCode(trim(lyrics.title + " (" + lyrics.author + ")", 25)))
+                    .setFooter({ text: "Powered using https://some-random-api.ml" });
+                if (lyrics.links?.genius) searEmb.setAuthor({ name: "Genius", url: "https://genius.com", iconURL: "https://genius.com/apple-touch-icon.png" });
 
             } else {
                 if (lyrics === null) errorEmb.setDescription(trim("No results found for " + inlineCode(input), 4096));
@@ -110,9 +109,9 @@ export function applicationCommands(config?: Config, envEnabledList?: EnvEnabled
         const searchSlashCommand = new SlashCommandBuilder()
             .setName("search")
             .setDescription("🔍 Use the bot to search from sources");
-            
+
         if (config?.apiEnabled.urbanDictionary) {
-            searchSlashCommand.addSubcommand( 
+            searchSlashCommand.addSubcommand(
                 new SlashCommandSubcommandBuilder()
                     .setName("urban-dictionary")
                     .setDescription("Use Urban Dictionary to define")
@@ -126,7 +125,7 @@ export function applicationCommands(config?: Config, envEnabledList?: EnvEnabled
             );
         }
         if (config?.apiEnabled.someRandomApi) {
-            searchSlashCommand.addSubcommand( 
+            searchSlashCommand.addSubcommand(
                 new SlashCommandSubcommandBuilder()
                     .setName("lyrics")
                     .setDescription("Use Lyrics to search for lyrics")

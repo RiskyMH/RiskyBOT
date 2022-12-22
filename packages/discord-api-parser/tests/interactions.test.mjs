@@ -1,7 +1,7 @@
 import { ApplicationCommandType, InteractionType } from "discord-api-types/v10";
-import assert from "node:assert";
+import { BaseInteraction, ButtonInteraction, ChatInputInteraction, parseRawInteraction } from "../dist/interactions/interactions.mjs";
 import { describe, it } from "node:test";
-import { BaseInteraction, parseRawInteraction, ChatInputInteraction, ButtonInteraction } from "../dist/interactions/interactions.mjs";
+import assert from "node:assert";
 
 // TODO: Add more tests
 
@@ -15,6 +15,7 @@ describe("Chat input interaction", async () => {
         type: InteractionType.ApplicationCommand,
         locale: "en-US",
         token: "token",
+        app_permissions: "0",
         user: {
             id: "user_id",
             username: "username",

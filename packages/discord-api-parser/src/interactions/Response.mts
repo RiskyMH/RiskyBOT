@@ -1,6 +1,5 @@
-import { APIApplicationCommandOptionChoice, InteractionResponseType, Snowflake } from "discord-api-types/v10";
-import { type APIMessage, Routes, MessageFlags } from "discord-api-types/v10";
-import { fetch, Headers } from "undici";
+import { APIApplicationCommandOptionChoice, InteractionResponseType, MessageFlags, Routes, Snowflake, type APIMessage } from "discord-api-types/v10";
+import { Headers, fetch } from "undici";
 import { DISCORD_API_BASE_URL } from "../constants.mjs";
 import BaseInteraction, { InteractionModalResponseData, InteractionResponseData } from "./BaseInteraction.mjs";
 
@@ -23,6 +22,9 @@ export class InteractionResponseMethods extends BaseInteraction {
         if (!res.ok) {
             throw new Error(await res.text());
         }
+
+        // Clearing it from ram
+        res.text();
 
         if (fetchResponse) return this.fetchReply();
         return;
@@ -57,6 +59,9 @@ export class InteractionResponseMethods extends BaseInteraction {
         if (!res.ok) {
             throw new Error(await res.text());
         }
+
+        // Clearing it from ram
+        res.text();
 
         return;
     }
@@ -109,6 +114,9 @@ export class InteractionResponseMethods extends BaseInteraction {
             throw new Error(await res.text());
         }
 
+        // Clearing it from ram
+        res.text();
+
         return;
     }
 
@@ -127,6 +135,9 @@ export class InteractionResponseMethods extends BaseInteraction {
             throw new Error(await res.text());
         }
 
+        // Clearing it from ram
+        res.text();
+
         return;
     }
 
@@ -143,6 +154,9 @@ export class InteractionResponseMethods extends BaseInteraction {
         if (!res.ok) {
             throw new Error(await res.text());
         }
+
+        // Clearing it from ram
+        res.text();
 
         return;
     }
@@ -164,6 +178,9 @@ export class InteractionResponseMethods extends BaseInteraction {
             throw new Error(await res.text());
         }
 
+        // Clearing it from ram
+        res.text();
+
         if (fetchResponse) return this.fetchReply();
         return;
     }
@@ -179,17 +196,22 @@ export class InteractionResponseMethods extends BaseInteraction {
             }
         };
 
-        await fetch(url, { body: JSON.stringify(body), headers: jsonHeaders, method: "POST" });
+        const res = await fetch(url, { body: JSON.stringify(body), headers: jsonHeaders, method: "POST" });
+        
+        if (!res.ok) {
+            throw new Error(await res.text());
+        }
+        
+        // Clearing it from ram
+        res.text();
 
         return;
     }
 
 
-
 }
 
 const jsonHeaders = new Headers({ "content-type": "application/json" });
-
 
 
 

@@ -1,11 +1,13 @@
-import { InteractionType, OAuth2Scopes, PermissionFlagsBits } from "discord-api-types/v10";
 import { Config, stringFromEmbed } from "@riskybot/tools";
-import path from "path";
-// import "dotenv/config";
-import { mini, about, translate, meCredits, random, fun, search, searchAutoComplete, reddit, randomAutoComplete, aboutAutoComplete, toolsCmd, randomButton, evalShowModal, evalResult } from "@riskybot/commands";
-import { codeBlock, EmbedBuilder } from "@discordjs/builders";
+import { InteractionType, OAuth2Scopes, PermissionFlagsBits } from "discord-api-types/v10";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
+import { about, aboutAutoComplete, evalResult, evalShowModal, fun, meCredits, mini, random, randomAutoComplete, randomButton, reddit, search, searchAutoComplete, toolsCmd, translate } from "@riskybot/commands";
 import { parseRawInteraction, verifyInteraction } from "discord-api-parser";
+import { EmbedBuilder } from "@discordjs/builders";
+import { codeBlock } from "@discordjs/formatters";
+import path from "path";
+
+// import "dotenv/config";
 
 const config = new Config(path.join(process.cwd(), "config.yml"), true);
 
@@ -19,7 +21,7 @@ const ownerIds: string[] = [process.env.OWNER_ID || ""];
 export default async function (request: VercelRequest, response: VercelResponse): Promise<void | VercelResponse> {
 
     if (!await verifyInteraction(request, response, process.env.APPLICATION_PUBLIC_KEY ?? "Key")) return;
-    
+
     const interaction = parseRawInteraction(request.body);
 
     // the template embeds for `done` or `error`
@@ -31,38 +33,38 @@ export default async function (request: VercelRequest, response: VercelResponse)
     if (interaction.isChatInputCommand() && interaction.commandName) {
         if (interaction.options && interaction.options.getSubcommand(false)) {
             console.info(`SLASH: ${interaction.commandName} (${interaction.options.getSubcommand()})`);
-        } 
+        }
         else {
             console.info(`SLASH: ${interaction.commandName}`);
         }
-    } 
+    }
     else if ((interaction.isUserCommand() || interaction.isMessageCommand()) && interaction.commandName) {
         console.info(`CONTEXT: ${interaction.commandName}`);
-    } 
+    }
     else if (interaction.isButton() && interaction.customId) {
         console.info(`BUTTON: ${interaction.customId.split("-")[0]}`);
-    } 
+    }
     else if (interaction.isSelectMenu() && interaction.customId) {
         console.info(`SELECT: ${interaction.customId.split("-")[0]}`);
-    } 
+    }
     else if (interaction.isModalSubmit() && interaction.customId) {
         console.info(`MODAL: ${interaction.customId.split("-")[0]}`);
-    } 
+    }
     else if (interaction.isAutocomplete() && interaction.commandName) {
         console.info(`AUTOCOMPLETE: ${interaction.commandName}`);
-    } 
+    }
     else if (interaction.type === InteractionType.Ping) {
         console.info("PING");
-    } 
+    }
     else {
         console.info(`UNKNOWN: ${interaction.type}`);
         // console.info(request.body);
     }
-    
+
     // console.log(JSON.stringify(request.body, null, 2));
-    
+
     if (interaction.isChatInputCommand()) {
-      
+
         switch (interaction.commandName) {
             case "ping": {
                 const data = await mini.ping(config, Number(interaction.createdAt));
@@ -74,33 +76,34 @@ export default async function (request: VercelRequest, response: VercelResponse)
                 const name = interaction.options.getSubcommand(true);
                 const user = interaction.options.getUser("user") || interaction.user;
                 const member = interaction.options.getMember("user");
-                const role = interaction.options.getRole("role") || undefined;
-                const channel = interaction.options.getChannel("channel") || undefined;
-                const stringInput = interaction.options.getString("subreddit") || undefined;
+                const role = interaction.options.getRole("role");
+                const channel = interaction.options.getChannel("channel");
+                const stringInput = interaction.options.getString("subreddit");
                 const advanced = interaction.options.getString("extra") || "";
 
-                const data = await about(config, {user, member, role, channel, stringInput, name }, advanced, process.env.TOPGG_TOKEN);
+
+                const data = await about(config, { user, member, role, channel, stringInput, name }, advanced, process.env.TOPGG_TOKEN);
 
                 await interaction.reply(data);
                 break;
-            }        
-            
+            }
+
             case "translate": {
                 const to = interaction.options.getString("to", true);
                 const msg = interaction.options.getString("input", true);
                 const from = interaction.options.getString("from");
 
                 const data = await translate(config, msg, to, from);
-                
+
                 await interaction.reply(data);
                 break;
             }
 
             case "-aboutme-credits-": {
                 const inviteUrl = `https://discord.com/api/oauth2/authorize?client_id=${interaction.applicationId}&scope=${[OAuth2Scopes.ApplicationsCommands].join(" ")}`;
-                
+
                 const data = await meCredits(config, inviteUrl, "RiskyBOT");
-                
+
                 await interaction.reply(data);
                 break;
             }
@@ -111,8 +114,8 @@ export default async function (request: VercelRequest, response: VercelResponse)
                 const num2 = interaction.options.getInteger("num2") || interaction.options.getInteger("max");
                 const text1 = interaction.options.getString("subreddit") || interaction.options.getString("category");
 
-                const data = await random(config, type, {num1, num2, text1}, interaction.user.id);
-                
+                const data = await random(config, type, { num1, num2, text1 }, interaction.user.id);
+
                 await interaction.reply(data);
                 break;
             }
@@ -125,8 +128,8 @@ export default async function (request: VercelRequest, response: VercelResponse)
                 const text1 = interaction.options.getString("message");
 
                 // TODO: Make there have no possible errors (catch from apis) & make time no longer then 3sec
-                const data = await fun(config, type, {user1, member1, user2, text1});
-                
+                const data = await fun(config, type, { user1, member1, user2, text1 });
+
                 await interaction.reply(data);
                 break;
             }
@@ -143,9 +146,9 @@ export default async function (request: VercelRequest, response: VercelResponse)
 
             case "meme": {
                 const otherSubreddit = interaction.options.getString("other-subreddit") || "dankmemes";
-                
+
                 const data = await reddit(config, "post", otherSubreddit, interaction.user.id);
-                
+
                 await interaction.reply(data);
                 break;
             }
@@ -174,7 +177,7 @@ export default async function (request: VercelRequest, response: VercelResponse)
                 await interaction.showModal(data);
                 break;
             }
-            
+
             default:
                 await interaction.reply({ embeds: [errorEmb.setTitle("Unknown Interaction").setDescription(`Unknown Command: \`/${interaction.commandName}\``)], ephemeral: true });
                 throw new Error(`Unknown Command: /${interaction.commandName}`);
@@ -188,8 +191,8 @@ export default async function (request: VercelRequest, response: VercelResponse)
                 const member = interaction.options.getMember("user");
                 const advanced = "";
 
-                const data = await about(config, {user, member, name: "user"}, advanced, process.env.TOPGG_TOKEN);
-                
+                const data = await about(config, { user, member, name: "user" }, advanced, process.env.TOPGG_TOKEN);
+
                 await interaction.reply(data);
                 break;
             }
@@ -209,7 +212,7 @@ export default async function (request: VercelRequest, response: VercelResponse)
                 const msg = codeBlock("md", await stringFromEmbed(interaction.options.getMessage("message", true)));
 
                 const data = await translate(config, msg, to, from);
-                
+
                 await interaction.reply(data);
                 break;
 
@@ -221,7 +224,7 @@ export default async function (request: VercelRequest, response: VercelResponse)
                 const input = await stringFromEmbed(interaction.options.getMessage("message", true));
 
                 const data = await toolsCmd(config, type, input, input2);
-                
+
                 await interaction.reply(data);
                 break;
 
@@ -242,24 +245,24 @@ export default async function (request: VercelRequest, response: VercelResponse)
         switch (interaction.customId.split("-")[0]) {
             case "random": {
                 const customIdSplitted = interaction.customId.split("-");
-                const origUser = customIdSplitted[customIdSplitted.length-1] || interaction.message.interaction?.user.id;
-                
+                const origUser = customIdSplitted[customIdSplitted.length - 1] || interaction.message.interaction?.user.id;
+
                 const data = await randomButton(config, interaction.customId, origUser);
-                
+
                 await interaction.reply({ ...data, ephemeral: origUser !== interaction.user.id });
                 break;
             }
 
             case "ping": {
                 const data = await mini.ping(config, Number(interaction.createdAt));
-                
+
                 await interaction.update(data);
                 break;
             }
 
             default:
                 await interaction.reply({ embeds: [errorEmb.setTitle("Unknown Interaction").setDescription(`Unknown Button Component: \`${interaction.customId}\``)], ephemeral: true });
-                throw new Error(`Unknown Button Component: ${interaction.customId}`);                           
+                throw new Error(`Unknown Button Component: ${interaction.customId}`);
 
         }
 
@@ -267,9 +270,9 @@ export default async function (request: VercelRequest, response: VercelResponse)
 
     else if (interaction.isSelectMenu()) {
         switch (interaction.customId.split("-")[0]) {
-            default:    
+            default:
                 await interaction.reply({ embeds: [errorEmb.setTitle("Unknown Interaction").setDescription(`Unknown Select Menu Component: \`${interaction.customId}\``)], ephemeral: true });
-                throw new Error(`Unknown Select Menu Component: ${interaction.customId}`);                           
+                throw new Error(`Unknown Select Menu Component: ${interaction.customId}`);
         }
     }
 
@@ -306,7 +309,7 @@ export default async function (request: VercelRequest, response: VercelResponse)
             }
 
             default:
-                await interaction.respond([{name: `Unknown Autocomplete: \`${interaction.commandName}\``, value: `Unknown Autocomplete: \`${interaction.commandName}\``}]);
+                await interaction.respond([{ name: `Unknown Autocomplete: \`${interaction.commandName}\``, value: `Unknown Autocomplete: \`${interaction.commandName}\`` }]);
                 throw new Error(`Unknown Autocomplete: ${interaction.commandName}`);
         }
 
@@ -315,7 +318,7 @@ export default async function (request: VercelRequest, response: VercelResponse)
     else if (interaction.isModalSubmit()) {
         // if (interaction.isFromMessage()) console.log("message");
         switch (interaction.customId) {
-            
+
             // OWNER ONLY COMMANDS BELOW:
             case "eval": {
                 if (!ownerIds.includes(interaction.user.id)) {
@@ -330,11 +333,11 @@ export default async function (request: VercelRequest, response: VercelResponse)
                 } catch (err) { evalRes = err; hasError = true; console.error("EVAL RESULT ERROR BELOW:"); console.error(err); }
 
                 const data = await evalResult(config, input, evalRes, hasError);
-        
+
                 interaction.reply(data);
                 break;
             }
-            default:    
+            default:
                 await interaction.reply({ embeds: [errorEmb.setTitle("Unknown Interaction").setDescription(`Unknown Modal: \`${interaction.customId}\``)], ephemeral: true });
                 throw new Error(`Unknown Modal: ${interaction.customId}`);
         }

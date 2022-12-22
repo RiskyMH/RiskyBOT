@@ -1,19 +1,19 @@
-import { type APIInteraction, ApplicationCommandType, ComponentType, InteractionType, InteractionResponseType } from "discord-api-types/v10";
-import { verify, PlatformAlgorithm } from "discord-verify";
-import PingInteraction from "./PingInteraction.mjs";
-import ChatInputInteraction from "./ChatInputInteraction.mjs";
-import UserContextMenuInteraction from "./UserCommandInteraction.mjs";
-import ButtonInteraction from "./ButtonComponentInteraction.mjs";
-import SelectMenuInteraction from "./SelectMenuComponentInteraction.mjs";
-import AutocompleteInteraction from "./AutocompleteInteraction.mjs";
-import MessageCommandInteraction from "./MessageCommandInteraction.mjs";
-import ModalSubmitInteraction from "./ModalSubmitInteraction.mjs";
-import BaseInteraction from "./BaseInteraction.mjs";
-import ApplicationCommandInteraction from "./ApplicationCommandInteraction.mjs";
-import MessageComponentInteraction from "./MessageComponentInteraction.mjs";
+import { ApplicationCommandType, ComponentType, InteractionResponseType, InteractionType, type APIInteraction } from "discord-api-types/v10";
+import { PlatformAlgorithm, verify } from "discord-verify";
 import crypto from "node:crypto";
+import ApplicationCommandInteraction from "./ApplicationCommandInteraction.mjs";
+import AutocompleteInteraction from "./AutocompleteInteraction.mjs";
+import BaseInteraction from "./BaseInteraction.mjs";
+import ButtonInteraction from "./ButtonComponentInteraction.mjs";
+import ChatInputInteraction from "./ChatInputInteraction.mjs";
+import MessageCommandInteraction from "./MessageCommandInteraction.mjs";
+import MessageComponentInteraction from "./MessageComponentInteraction.mjs";
+import ModalSubmitInteraction from "./ModalSubmitInteraction.mjs";
+import PingInteraction from "./PingInteraction.mjs";
+import SelectMenuInteraction from "./SelectMenuComponentInteraction.mjs";
+import UserContextMenuInteraction from "./UserCommandInteraction.mjs";
+export * from "./ApplicationCommands.mjs";
 
-export { ApplicationCommandInteraction, AutocompleteInteraction, BaseInteraction, ButtonInteraction, ChatInputInteraction, MessageCommandInteraction, MessageComponentInteraction, ModalSubmitInteraction, PingInteraction, SelectMenuInteraction, UserContextMenuInteraction };
 
 /**
  * The Interaction :)
@@ -31,8 +31,9 @@ export async function verifyInteraction(request: any, response: any, publicKey: 
 
     let isValidRequest = false;
     try {
-        if (process.env.VERCEL === "1") isValidRequest = await verify(rawBody, signature, timestamp, publicKey, crypto.webcrypto.subtle, PlatformAlgorithm.VercelProd);
-        else isValidRequest = await verify(rawBody, signature, timestamp, publicKey, crypto.webcrypto.subtle);
+        // if (process.env.VERCEL === "1") isValidRequest = await verify(rawBody, signature, timestamp, publicKey, crypto.webcrypto.subtle, PlatformAlgorithm.VercelProd);
+        // else isValidRequest = await verify(rawBody, signature, timestamp, publicKey, crypto.webcrypto.subtle);
+        isValidRequest = await verify(rawBody, signature, timestamp, publicKey, crypto.webcrypto.subtle);
     } catch {
         isValidRequest = await verify(rawBody, signature, timestamp, publicKey, crypto.webcrypto.subtle, PlatformAlgorithm.OldNode);
         console.warn("Fallback to discord-verify (old node)");
@@ -123,24 +124,25 @@ export function parseRawInteraction(data: APIInteraction): Interaction {
 }
 
 
+
 export {
     AutocompleteOptions as AutocompleteInteractionOptions,
-    AutocompleteOptionsType as AutocompleteInteractionOptionsType,
+    AutocompleteOptionsType as AutocompleteInteractionOptionsType
 } from "./AutocompleteInteraction.mjs";
+export * from "./BaseInteraction.mjs";
 export {
     ChatInputInteractionOption as ChatInputInteractionOption,
     AttachmentOption as InteractionCommandAttachmentOption,
     BaseOption as InteractionCommandBaseOption,
     BooleanOption as InteractionCommandBooleanOption,
     ChannelOption as InteractionCommandChannelOption,
+    formatOption as InteractionCommandFormatOption,
     IntegerOption as InteractionCommandIntegerOption,
     MentionableOption as InteractionCommandMentionableOption,
-    NumberOption as InteractionCommandNumberOption,
+    NumberOption as InteractionCommandNumberOption, Options as InteractionCommandOptions,
     RoleOption as InteractionCommandRoleOption,
     StringOption as InteractionCommandStringOption,
-    UserOption as InteractionCommandUserOption,
-    Options as InteractionCommandOptions,
-    formatOption as InteractionCommandFormatOption,
+    UserOption as InteractionCommandUserOption
 } from "./ChatInputInteraction.mjs";
 export {
     MessageOption as MessageCommandInteractionOption,
@@ -149,9 +151,8 @@ export {
 export {
     ModalMessageModalSubmitInteraction as ModalMessageModalSubmitInteraction,
     BaseField as ModalSubmitInteractionBaseField,
-    TextInputOption as ModalSubmitInteractionTextInputOption,
     ModalSubmitFields as ModalSubmitInteractionFields,
     fields as ModalSubmitInteractionFieldsType,
+    TextInputOption as ModalSubmitInteractionTextInputOption
 } from "./ModalSubmitInteraction.mjs";
-export * from "./BaseInteraction.mjs";
-export * from "./ApplicationCommands.mjs";
+export { ApplicationCommandInteraction, AutocompleteInteraction, BaseInteraction, ButtonInteraction, ChatInputInteraction, MessageCommandInteraction, MessageComponentInteraction, ModalSubmitInteraction, PingInteraction, SelectMenuInteraction, UserContextMenuInteraction };

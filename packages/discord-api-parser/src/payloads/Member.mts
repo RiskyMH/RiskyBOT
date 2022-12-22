@@ -1,7 +1,6 @@
-import { APIGuildMember, APIInteractionDataResolvedGuildMember, APIInteractionGuildMember, ImageFormat, UserAvatarFormat } from "discord-api-types/v10";
-import { CDNRoutes } from "discord-api-types/v10";
-import { DISCORD_CDN_BASE_URL } from "../constants.mjs";
+import { APIGuildMember, APIInteractionDataResolvedGuildMember, APIInteractionGuildMember, CDNRoutes, ImageFormat, UserAvatarFormat } from "discord-api-types/v10";
 import Permissions from "../basic/Permissions.mjs";
+import { DISCORD_CDN_BASE_URL } from "../constants.mjs";
 import User from "./User.mjs";
 
 /** A guild member */

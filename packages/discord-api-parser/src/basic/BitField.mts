@@ -14,6 +14,16 @@ export class BitField {
         return (this.bitfield & bit) === bit;
     }
 
+    /** Only return the string of the bitfield */
+    toString() {
+        return this.bitfield.toString();
+    }
+
+    /** Only return the string of the bitfield */
+    toJSON() {
+        return this.bitfield.toString();
+    }
+
 }
 
 export default BitField;

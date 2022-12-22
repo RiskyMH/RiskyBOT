@@ -1,9 +1,9 @@
 import "./discord-message.css";
-import { Children, PropsWithChildren } from "react";
-import clsx from "clsx";
 import { Avatars, Profile, resolveAvatar } from "../options.mjs";
+import { Children, PropsWithChildren } from "react";
 import { AuthorInfo } from "../author-info/author-info";
 import Ephemeral from "../svgs/ephemeral";
+import clsx from "clsx";
 
 export interface DiscordMessageProps {
 

@@ -1,4 +1,4 @@
-import { APIApplicationCommandInteractionDataOption, APIChatInputApplicationCommandInteraction, ApplicationCommandOptionType, APIInteractionDataResolved, ApplicationCommandType, APIAttachment } from "discord-api-types/v10";
+import { APIApplicationCommandInteractionDataOption, APIAttachment, APIChatInputApplicationCommandInteraction, APIInteractionDataResolved, ApplicationCommandOptionType, ApplicationCommandType } from "discord-api-types/v10";
 import { InteractionDataResolvedChannel } from "../channels/PartialChannel.mjs";
 import { InteractionDataResolvedGuildMember } from "../payloads/Member.mjs";
 import Role from "../payloads/Role.mjs";

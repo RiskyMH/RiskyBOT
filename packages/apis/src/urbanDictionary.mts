@@ -3,9 +3,9 @@ import { fetch } from "undici";
 
 const urbanBaseURL = "https://api.urbandictionary.com/v0/";
 
-export async function rawDefine(term: string): Promise<RawDefineResult|null|undefined> {
+export async function rawDefine(term: string): Promise<RawDefineResult | null | undefined> {
     const rawResult = await fetch(urbanBaseURL + "define?" + new URLSearchParams({ term }));
-    
+
     if (rawResult.status === 404) {
         return null;
     } else if (!rawResult.ok) {
@@ -13,7 +13,7 @@ export async function rawDefine(term: string): Promise<RawDefineResult|null|unde
     }
 
     const result = await rawResult.json() as RawDefineResult;
-    
+
     if (!result.list.length) {
         return null;
     }
@@ -21,9 +21,9 @@ export async function rawDefine(term: string): Promise<RawDefineResult|null|unde
     return RawDefineResult.parse(result);
 }
 
-export async function rawAutoComplete(term: string): Promise<RawAutoCompleteResult|null|undefined> {
+export async function rawAutoComplete(term: string): Promise<RawAutoCompleteResult | null | undefined> {
     const rawResult = await fetch(urbanBaseURL + "autocomplete?" + new URLSearchParams({ term }));
-    
+
     if (rawResult.status === 404) {
         return null;
     } else if (!rawResult || rawResult.status !== 200) {
@@ -33,19 +33,19 @@ export async function rawAutoComplete(term: string): Promise<RawAutoCompleteResu
     const result = await rawResult.json() as RawAutoCompleteResult;
 
     if (!result.length) {
-         return null;
+        return null;
     }
 
     return RawAutoCompleteResult.parse(result);
 }
 
 /** Always returns a list of strings - null if error or no results */
-export async function define(term: string): Promise<DefineResult[]|null|undefined> {
+export async function define(term: string): Promise<DefineResult[] | null | undefined> {
     let result: RawDefineResult | null | undefined;
-    try{
+    try {
         result = await rawDefine(term);
     } catch (e) {
-        console.warn(e); 
+        console.warn(e);
         return undefined;
     }
 
@@ -76,14 +76,14 @@ export async function define(term: string): Promise<DefineResult[]|null|undefine
         definition.thumbsDown = res.thumbs_down;
 
         newResult.push(definition);
-        
+
     }
 
     return newResult;
 }
 
 /** Always returns a list of strings - list of none if error or no results */
-export async function autoComplete(term: string): Promise<AutoCompleteResult|null|undefined> {
+export async function autoComplete(term: string): Promise<AutoCompleteResult | null | undefined> {
     let result: RawAutoCompleteResult | null | undefined;
     try {
         result = await rawAutoComplete(term);
@@ -129,7 +129,7 @@ type RawDefineResult = InferType<typeof RawDefineResult>;
 
 type DefineResult = {
     definition: string;
-    permalink: string | `http${""|"s"}://${string}.urbanup.com/${number}`
+    permalink: string | `http${"" | "s"}://${string}.urbanup.com/${number}`
     thumbsUp: number;
     soundUrl: string[];
     author: string;

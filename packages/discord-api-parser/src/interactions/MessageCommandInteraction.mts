@@ -44,13 +44,13 @@ export class MessageContextMenuInteractionOption {
     readonly options: Record<string, Options> = {};
 
     constructor(data: APIMessageApplicationCommandInteractionData) {
- 
+
         // const message = new Message(data.resolved.messages[data.target_id]);
         const message = data.resolved.messages[data.target_id];
         this.options["message"] = new MessageOption("message", data.target_id, message);
     }
 
-    
+
     get(name: string, required: true): Options;
     get(name: string, required?: boolean): Options | undefined;
     get(name: string, required?: boolean): Options | undefined {
@@ -70,5 +70,5 @@ export class MessageContextMenuInteractionOption {
         const option = this.get(name, required) as MessageOption;
         return option?.message;
     }
-    
+
 }

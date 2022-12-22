@@ -1,8 +1,9 @@
-import {fetch} from "undici";
-import { codeBlock, ContextMenuCommandBuilder, EmbedBuilder, inlineCode, SlashCommandBuilder, SlashCommandStringOption, SlashCommandSubcommandBuilder, spoiler } from "@discordjs/builders";
-import * as tools from "@riskybot/tools";
+import { ContextMenuCommandBuilder, EmbedBuilder, SlashCommandBuilder, SlashCommandStringOption, SlashCommandSubcommandBuilder } from "@discordjs/builders";
+import { codeBlock, inlineCode, spoiler } from "@discordjs/formatters";
 import type { Config, EnvEnabled } from "@riskybot/tools";
+import * as tools from "@riskybot/tools";
 import { ApplicationCommandType } from "discord-api-types/v10";
+import { fetch } from "undici";
 
 
 //TODO: Make sure everything works...
@@ -16,15 +17,15 @@ export default async function toolsCmd(config: Config, engine: string, input: st
     switch (engine) {
         case "rhymes": {
             // TODO: fix types
-            const rhymes: {word:string}[] = await fetch("https://rhymebrain.com/talk?" + new URLSearchParams({ function: "getRhymes", maxResults: "10", word: input })).then((response) => response.json()) as any;
-            
+            const rhymes: { word: string }[] = await fetch("https://rhymebrain.com/talk?" + new URLSearchParams({ function: "getRhymes", maxResults: "10", word: input })).then((response) => response.json()) as any;
+
             if (rhymes.length) {
                 const list = [];
                 for (const rhyme in rhymes) {
-                    list.push(`${Number(rhyme)+1}: ${rhymes[rhyme].word}`);
+                    list.push(`${Number(rhyme) + 1}: ${rhymes[rhyme].word}`);
                 }
                 toolsEmb
-                    .setAuthor({name: "Rhyme Brain", url: "https://rhymebrain.com/en"})
+                    .setAuthor({ name: "Rhyme Brain", url: "https://rhymebrain.com/en" })
                     .setURL(`https://rhymebrain.com/en/What_rhymes_with_${input}.html`)
                     .setTitle("Words that rhyme - " + inlineCode(tools.trim(input, 15)))
                     .setDescription(list.join("\n"));
@@ -33,30 +34,30 @@ export default async function toolsCmd(config: Config, engine: string, input: st
                 return { embeds: [errorEmb], ephemeral: true };
             }
         }
-        break;
+            break;
         case "pastebin": {
             const data = {
-             name: "Discord Paste - (RiskyBOT)",
-             description: "The data",
-             visibility: "unlisted",
-             //  expires: "",
-             files: [
-              {
-               name: "Downloaded data" + (input2 ? `.${input2}`: ""),
-               content: {
-                   format: "text",
-                    highlight_language: input2,
-                    value: input
-               },
-              },
-             ],
+                name: "Discord Paste - (RiskyBOT)",
+                description: "The data",
+                visibility: "unlisted",
+                //  expires: "",
+                files: [
+                    {
+                        name: "Downloaded data" + (input2 ? `.${input2}` : ""),
+                        content: {
+                            format: "text",
+                            highlight_language: input2,
+                            value: input
+                        },
+                    },
+                ],
             };
             // TODO: fix types
-            const pastegg: {result: {id: any, deletion_key: any }} = await fetch("https://api.paste.gg/v1/pastes", {body:JSON.stringify(data), headers: {"Content-Type": "application/json"}, method: "POST"}).then((response) => response.json()) as any;
+            const pastegg: { result: { id: any, deletion_key: any } } = await fetch("https://api.paste.gg/v1/pastes", { body: JSON.stringify(data), headers: { "Content-Type": "application/json" }, method: "POST" }).then((response) => response.json()) as any;
             if (await pastegg?.result) {
 
                 toolsEmb
-                    .setAuthor({name: "Paste.gg", url: "https://paste.gg"})
+                    .setAuthor({ name: "Paste.gg", url: "https://paste.gg" })
                     .setURL(`https://paste.gg/p/anonymous/${pastegg.result.id}`)
                     .setTitle("Upload code - `Paste.gg`")
                     .setDescription(`Code: ${codeBlock(input2, input)}\nURL: https://paste.gg/p/anonymous/${pastegg.result.id}\nDeleation key: ${spoiler(inlineCode(pastegg.result.deletion_key))}`);
@@ -65,18 +66,18 @@ export default async function toolsCmd(config: Config, engine: string, input: st
                 return { embeds: [errorEmb], ephemeral: true };
             }
         }
-        break;
+            break;
 
         case "8ball": {
             const randomIndex = Math.floor(
                 Math.random() * ballResponses.length
             );
             toolsEmb
-            .setTitle("🎱 8Ball")
-            .setDescription(`Q: ${input}\nA: ${ballResponses[randomIndex]}`);
+                .setTitle("🎱 8Ball")
+                .setDescription(`Q: ${input}\nA: ${ballResponses[randomIndex]}`);
 
         }
-        break;
+            break;
 
         case "choose": {
 
@@ -84,8 +85,8 @@ export default async function toolsCmd(config: Config, engine: string, input: st
                 Math.random() * input.split(",").length
             );
             toolsEmb
-            .setTitle("Choose")
-            .setDescription(`I choose.. ${input.split(",")[randomIndex]}!`);
+                .setTitle("Choose")
+                .setDescription(`I choose.. ${input.split(",")[randomIndex]}!`);
 
         }
 
@@ -98,7 +99,7 @@ const ballResponses = [
     "It is decidedly so.",
     "Without a doubt.",
     "Yes definitely.",
-    "You may rely on it.", 
+    "You may rely on it.",
 
     "As I see it, yes.",
     "Most likely.",
@@ -110,7 +111,7 @@ const ballResponses = [
     "Ask again later.",
     "Better not tell you now.",
     "Cannot predict now.",
-    "Concentrate and ask again.", 
+    "Concentrate and ask again.",
 
     "Don't count on it.",
     "My reply is no.",
@@ -175,31 +176,31 @@ export function applicationCommands(config?: Config, envEnabledList?: EnvEnabled
                         .setDescription("Your code's language")
                         .setRequired(false)
                         .setChoices(
-                            {name: "JavaScript", value: "js"},
-                            {name: "CSS", value: "css"},
-                            {name: "Python", value: "py"},
-                            {name: "HTML", value: "html"},
-                            {name: "Java", value: "java"},
-                            {name: "Markdown", value: "md"},
-                            {name: "PHP", value: "php"},
-                            {name: "SQL", value: "sql"},
-                            {name: "Swift", value: "swift"},
-                            {name: "TypeScript", value: "ts"},
-                            {name: "YAML", value: "yaml"},
-                            {name: "Rust", value: "rs"},
-                            {name: "Perl", value: "perl"},
-                            {name: "JSON", value: "json"},
-                            {name: "Go", value: "go"},
-                            {name: "C", value: "c"},
-                            {name: "C#", value: "csharp"},
-                            {name: "C++", value: "cpp"},
-                            {name: "Shell", value: "bash"},
-                            {name: "R", value: "r"},
-                            {name: "PowerShell", value: "ps1"},
-                            {name: "Objective-C", value: "objc"},
-                            {name: "Kotlin", value: "kt"},
-                            {name: "cURL", value: "curl"},
-                            {name: "Docker", value: "dockerfile"}
+                            { name: "JavaScript", value: "js" },
+                            { name: "CSS", value: "css" },
+                            { name: "Python", value: "py" },
+                            { name: "HTML", value: "html" },
+                            { name: "Java", value: "java" },
+                            { name: "Markdown", value: "md" },
+                            { name: "PHP", value: "php" },
+                            { name: "SQL", value: "sql" },
+                            { name: "Swift", value: "swift" },
+                            { name: "TypeScript", value: "ts" },
+                            { name: "YAML", value: "yaml" },
+                            { name: "Rust", value: "rs" },
+                            { name: "Perl", value: "perl" },
+                            { name: "JSON", value: "json" },
+                            { name: "Go", value: "go" },
+                            { name: "C", value: "c" },
+                            { name: "C#", value: "csharp" },
+                            { name: "C++", value: "cpp" },
+                            { name: "Shell", value: "bash" },
+                            { name: "R", value: "r" },
+                            { name: "PowerShell", value: "ps1" },
+                            { name: "Objective-C", value: "objc" },
+                            { name: "Kotlin", value: "kt" },
+                            { name: "cURL", value: "curl" },
+                            { name: "Docker", value: "dockerfile" }
 
                         )
                 )
@@ -207,9 +208,9 @@ export function applicationCommands(config?: Config, envEnabledList?: EnvEnabled
         const pastbinMessageMenu = new ContextMenuCommandBuilder()
             .setName("Save message - Pastebin")
             .setType(ApplicationCommandType.Message);
-            
+
         return [toolsSlashCommand, pastbinMessageMenu];
     }
-    
+
     return [toolsSlashCommand];
 }

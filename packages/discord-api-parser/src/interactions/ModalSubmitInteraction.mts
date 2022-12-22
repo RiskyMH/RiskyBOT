@@ -1,7 +1,7 @@
 import { APIModalSubmitInteraction, ComponentType, InteractionType, LocaleString, ModalSubmitActionRowComponent, ModalSubmitComponent } from "discord-api-types/v10";
 import type { Message } from "../payloads/Message.mjs";
 import BaseInteraction from "./BaseInteraction.mjs";
-import { applyInteractionResponseMixins, createInteractionMixinList, InteractionResponseMixin } from "./Response.mjs";
+import { InteractionResponseMixin, applyInteractionResponseMixins, createInteractionMixinList } from "./Response.mjs";
 
 
 export default class ModalSubmitInteraction extends BaseInteraction {

@@ -1,7 +1,7 @@
 import { DiscordSnowflake } from "@sapphire/snowflake";
-import { APIUser, CDNRoutes, ImageFormat, UserFlags as APIUserFlags, UserAvatarFormat, UserBannerFormat, DefaultUserAvatarAssets, LocaleString, UserPremiumType } from "discord-api-types/v10";
+import { APIUser, UserFlags as APIUserFlags, CDNRoutes, DefaultUserAvatarAssets, ImageFormat, LocaleString, UserAvatarFormat, UserBannerFormat, UserPremiumType } from "discord-api-types/v10";
 import BitField from "../basic/BitField.mjs";
-import {  DISCORD_CDN_BASE_URL } from "../constants.mjs";
+import { DISCORD_CDN_BASE_URL } from "../constants.mjs";
 
 /** A user */
 export class User {

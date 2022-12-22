@@ -1,10 +1,10 @@
 import assert from "node:assert";
-import {describe, it} from "node:test";
+import { describe, it } from "node:test";
 import { urbanDictionary } from "../dist/index.mjs";
 
 // TODO: Add more tests
 
-describe("Urban dictionary Define", async ()  => {
+describe("Urban dictionary Define", async () => {
     const validWord = "hello";
     it(`should get a definition for "${validWord}" (length >= 1)`, async () => {
         const result = await urbanDictionary.define(validWord) ?? [];
@@ -31,5 +31,5 @@ describe("Urban dictionary Autocomplete", async () => {
         const result = await urbanDictionary.autoComplete(invalidWord);
         assert.ok(result === null);
     });
-    
+
 });

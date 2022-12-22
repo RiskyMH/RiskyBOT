@@ -1,8 +1,8 @@
-import { Routes } from "discord-api-types/v10";
-import {defaultApplicationCommands as commands} from "@riskybot/commands";
 import * as tools from "@riskybot/tools";
-import { fetch } from "undici";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
+import { Routes } from "discord-api-types/v10";
+import { defaultApplicationCommands as commands } from "@riskybot/commands";
+import { fetch } from "undici";
 
 const config = new tools.Config("./config.yml", true);
 const EnvEnabled = new tools.EnvEnabled(process.env);
@@ -28,7 +28,7 @@ async function deployGuildCommands() {
     if (!botToken && !bearerToken) {
         if (!applicationId) throw new Error("APPLICATION_ID is not set");
         if (!privateKey) throw new Error("APPLICATION_OAUTH_SECRET is not set");
-        
+
         tools.getBearerTokenFromKey(applicationId, privateKey, ["applications.commands.update"]);
     }
 
@@ -40,7 +40,7 @@ async function deployGuildCommands() {
         ...commands.ownerCmds(config, EnvEnabled),
     ];
     const data = builders.map(command => command.toJSON());
-    
+
     let authorization = "";
     if (botToken) authorization = `Bot ${botToken}`;
     else if (bearerToken) authorization = `Bearer ${bearerToken}`;
@@ -85,7 +85,7 @@ export default async function (request: VercelRequest, response: VercelResponse)
     }
 
     response.send("Deploying...");
-    
+
     await deployGuildCommands();
 }
 

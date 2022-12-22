@@ -1,15 +1,18 @@
-import {fetch} from "undici";
+import { fetch } from "undici";
 
 const someRandomApiBaseURL = "https://some-random-api.ml/";
 
 
-export async function rawLyrics(songTitle: string): Promise<RawLyricsResult|null|undefined> {
-    const rawResult = await fetch(someRandomApiBaseURL + "lyrics?" + new URLSearchParams({ title: songTitle }));
+export async function rawLyrics(songTitle: string): Promise<RawLyricsResult | null | undefined> {
+    const rawResult = await fetch(someRandomApiBaseURL + "others/lyrics?" + new URLSearchParams({ title: songTitle }));
 
     if (rawResult.status === 404) {
+        console.warn("Failed to fetch lyrics from some-random-api.ml, song not found");
         return null;
-    } else if (!rawResult || rawResult.status !== 200) {
-     return undefined;
+    } else if (!rawResult || !rawResult.ok) {
+        console.warn(`Failed to fetch lyrics from some-random-api.ml (code: ${rawResult.status})`);
+        throw new Error(await rawResult.text());
+        // return undefined;
     }
 
     const result: RawLyricsResult = (await rawResult.json()) as RawLyricsResult;
@@ -21,11 +24,11 @@ export async function rawLyrics(songTitle: string): Promise<RawLyricsResult|null
     return result;
 }
 
-export async function getLyrics(songTitle: string): Promise<LyricsResult|null|undefined> {
+export async function getLyrics(songTitle: string): Promise<LyricsResult | null | undefined> {
     let result: RawLyricsResult | null | undefined;
-    try{
+    try {
         result = await rawLyrics(songTitle);
-    } catch (e) {console.warn(e); return undefined;}
+    } catch (e) { console.warn(e); return undefined; }
 
     if (!result) {
         if (result === null) return null;
@@ -35,7 +38,7 @@ export async function getLyrics(songTitle: string): Promise<LyricsResult|null|un
 
     const safeResult: LyricsResult = {} as LyricsResult;
 
-    try{
+    try {
         safeResult.lyrics = String(result?.lyrics || "");
         safeResult.author = String(result?.author || "");
         safeResult.title = String(result?.title || "");
@@ -45,7 +48,7 @@ export async function getLyrics(songTitle: string): Promise<LyricsResult|null|un
         safeResult.links.genius = result?.links?.genius ? String(result?.links?.genius) : undefined;
         safeResult.disclaimer = result?.disclaimer ? String(result?.disclaimer) : undefined;
 
-    } catch (e) {console.warn(e); return null;}
+    } catch (e) { console.warn(e); return null; }
 
     return safeResult;
 }

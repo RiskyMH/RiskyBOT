@@ -30,7 +30,7 @@
         },
         "test:ci": {
             "dependsOn": [
-                "^test:ci",
+                "^test",
                 "build:ci"
             ],
             "outputs": []

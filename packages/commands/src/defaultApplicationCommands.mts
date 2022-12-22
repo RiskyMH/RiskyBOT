@@ -1,17 +1,17 @@
-export {applicationCommands as about} from "./about.mjs";
-export {applicationCommands as fun} from "./fun.mjs";
-export {applicationCommands as meCredits} from "./me+credits.mjs";
-export {applicationCommands as ownerCmds} from "./ownerCmds.mjs";
-export {applicationCommands as random} from "./random.mjs";
-export {applicationCommands as reddit} from "./reddit.mjs";
-export {applicationCommands as search} from "./search.mjs";
-export {applicationCommands as toolsCmd} from "./toolsCmd.mjs";
-export {applicationCommands as translate} from "./translate.mjs";
+export { applicationCommands as about } from "./about.mjs";
+export { applicationCommands as fun } from "./fun.mjs";
+export { applicationCommands as meCredits } from "./me+credits.mjs";
+export { applicationCommands as ownerCmds } from "./ownerCmds.mjs";
+export { applicationCommands as random } from "./random.mjs";
+export { applicationCommands as reddit } from "./reddit.mjs";
+export { applicationCommands as search } from "./search.mjs";
+export { applicationCommands as toolsCmd } from "./toolsCmd.mjs";
+export { applicationCommands as translate } from "./translate.mjs";
 
 // mini's commands
-import { SlashCommandBuilder, SlashCommandStringOption } from "@discordjs/builders";
-import type { Config, EnvEnabled } from "@riskybot/tools";
 
+import type { Config, EnvEnabled } from "@riskybot/tools";
+import { SlashCommandBuilder, SlashCommandStringOption } from "@discordjs/builders";
 
 export function ping(config?: Config, envEnabledList?: EnvEnabled) {
 
@@ -21,7 +21,7 @@ export function ping(config?: Config, envEnabledList?: EnvEnabled) {
     const pingSlashCommand = new SlashCommandBuilder()
         .setName("ping")
         .setDescription("Replies with pong!");
-        return [pingSlashCommand];
+    return [pingSlashCommand];
 }
 
 export function message(config?: Config, envEnabledList?: EnvEnabled) {
@@ -37,5 +37,5 @@ export function message(config?: Config, envEnabledList?: EnvEnabled) {
                 .setDescription("Enter a message")
                 .setRequired(true)
         );
-        return [messageSlashCommand];
+    return [messageSlashCommand];
 }

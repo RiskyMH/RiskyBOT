@@ -1,12 +1,14 @@
-import { InteractionResponseFlags } from "discord-interactions";
-import { verify, PlatformAlgorithm } from "discord-verify";
-import FormData from "form-data";
-import { InteractionType, InteractionResponseType, ApplicationCommandType, ApplicationCommandOptionType } from "discord-api-types/v10";
 import type { APIInteraction, APIInteractionResponseChannelMessageWithSource } from "discord-api-types/v10";
-import crypto from "node:crypto";
-// import { affect, cry } from "@riskybot/image-generate";
-import { fetch } from "undici";
+import { ApplicationCommandOptionType, ApplicationCommandType, InteractionResponseType, InteractionType } from "discord-api-types/v10";
+import { PlatformAlgorithm, verify } from "discord-verify";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
+import FormData from "form-data";
+import { InteractionResponseFlags } from "discord-interactions";
+import crypto from "node:crypto";
+import { fetch } from "undici";
+// import { affect, cry } from "@riskybot/image-generate";
+
+
 
 
 export default async function (request: VercelRequest, response: VercelResponse): Promise<void | VercelResponse> {
@@ -21,8 +23,9 @@ export default async function (request: VercelRequest, response: VercelResponse)
     if (!signature || !timestamp || !rawBody) return response.status(405).json({ error: "Invalid headers and/or body" });
     let isValidRequest = false;
     try {
-        if (process.env.VERCEL === "1") isValidRequest = await verify(rawBody, signature, timestamp, process.env.IMGEN_APPLICATION_PUBLIC_KEY, crypto.webcrypto.subtle, PlatformAlgorithm.VercelProd);
-        else isValidRequest = await verify(rawBody, signature, timestamp, process.env.IMGEN_APPLICATION_PUBLIC_KEY, crypto.webcrypto.subtle);
+        // if (process.env.VERCEL === "1") isValidRequest = await verify(rawBody, signature, timestamp, process.env.IMGEN_APPLICATION_PUBLIC_KEY, crypto.webcrypto.subtle, PlatformAlgorithm.VercelProd);
+        // else isValidRequest = await verify(rawBody, signature, timestamp, process.env.IMGEN_APPLICATION_PUBLIC_KEY, crypto.webcrypto.subtle);
+        isValidRequest = await verify(rawBody, signature, timestamp, process.env.IMGEN_APPLICATION_PUBLIC_KEY, crypto.webcrypto.subtle);
     } catch {
         isValidRequest = await verify(rawBody, signature, timestamp, process.env.IMGEN_APPLICATION_PUBLIC_KEY, crypto.webcrypto.subtle, PlatformAlgorithm.OldNode);
         console.warn("Fallback to discord-verify (old node)");

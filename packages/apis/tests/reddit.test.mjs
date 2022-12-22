@@ -1,5 +1,5 @@
-import assert from "node:assert";
 import { describe, it } from "node:test";
+import assert from "node:assert";
 import { reddit } from "../dist/index.mjs";
 
 // TODO: Add more tests

@@ -1,9 +1,9 @@
-import { ApplicationCommandType, APIUserApplicationCommandInteractionData, ApplicationCommandOptionType, APIApplicationCommandInteractionDataUserOption } from "discord-api-types/v10";
 import type { APIUserApplicationCommandInteraction } from "discord-api-types/v10";
+import { APIApplicationCommandInteractionDataUserOption, APIUserApplicationCommandInteractionData, ApplicationCommandOptionType, ApplicationCommandType } from "discord-api-types/v10";
 import { InteractionDataResolvedGuildMember as InteractionResolvedGuildMember } from "../payloads/Member.mjs";
 import User from "../payloads/User.mjs";
 import ApplicationCommandInteraction from "./ApplicationCommandInteraction.mjs";
-import { formatOption, Options, UserOption } from "./ChatInputInteraction.mjs";
+import { Options, UserOption, formatOption } from "./ChatInputInteraction.mjs";
 
 
 export default class UserCommandInteraction extends ApplicationCommandInteraction {

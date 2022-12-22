@@ -3,14 +3,14 @@
     "description": "A package that parses raw Discord API",
     "version": "4.0.0-test.7",
     "dependencies": {
-        "@sapphire/snowflake": "^3.2.2",
-        "discord-api-types": "0.37.20",
+        "@sapphire/snowflake": "^3.3.0",
+        "discord-api-types": "0.37.24",
         "discord-interactions": "^3.2.0",
         "discord-verify": "^1.0.0",
-        "undici": "^5.13.0"
+        "undici": "^5.14.0"
     },
     "devDependencies": {
-        "typescript": "^4.9.3"
+        "typescript": "^4.9.4"
     },
     "optionalDependencies": {
         "@discordjs/builders": "^1.4.0"

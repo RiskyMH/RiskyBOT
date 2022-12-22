@@ -1,18 +1,18 @@
 import type { ComponentBuilder, EmbedBuilder, ModalBuilder } from "@discordjs/builders";
-import { APIEmbed, APIButtonComponent, APISelectMenuComponent, APIInteraction, InteractionType, ApplicationCommandType, APIAllowedMentions, LocaleString, ComponentType, APIModalInteractionResponseCallbackData } from "discord-api-types/v10";
-import type ApplicationCommandInteraction from "./ApplicationCommandInteraction.mjs";
-import type ChatInputInteraction from "./ChatInputInteraction.mjs";
-import type MessageComponentInteraction from "./MessageComponentInteraction.mjs";
-import type UserCommandInteraction from "./UserCommandInteraction.mjs";
-import type ButtonInteraction from "./ButtonComponentInteraction.mjs";
-import type SelectMenuInteraction from "./SelectMenuComponentInteraction.mjs";
-import type AutocompleteInteraction from "./AutocompleteInteraction.mjs";
-import type ModalSubmitInteraction from "./ModalSubmitInteraction.mjs";
-import type MessageCommandInteraction from "./MessageCommandInteraction.mjs";
+import { DiscordSnowflake } from "@sapphire/snowflake";
+import { APIAllowedMentions, APIButtonComponent, APIEmbed, APIInteraction, APIModalInteractionResponseCallbackData, APISelectMenuComponent, ApplicationCommandType, ComponentType, InteractionType, LocaleString } from "discord-api-types/v10";
+import { Permissions } from "../index.mjs";
 import { InteractionGuildMember } from "../payloads/Member.mjs";
 import User from "../payloads/User.mjs";
-import { Permissions } from "../index.mjs";
-import { DiscordSnowflake } from "@sapphire/snowflake";
+import type ApplicationCommandInteraction from "./ApplicationCommandInteraction.mjs";
+import type AutocompleteInteraction from "./AutocompleteInteraction.mjs";
+import type ButtonInteraction from "./ButtonComponentInteraction.mjs";
+import type ChatInputInteraction from "./ChatInputInteraction.mjs";
+import type MessageCommandInteraction from "./MessageCommandInteraction.mjs";
+import type MessageComponentInteraction from "./MessageComponentInteraction.mjs";
+import type ModalSubmitInteraction from "./ModalSubmitInteraction.mjs";
+import type SelectMenuInteraction from "./SelectMenuComponentInteraction.mjs";
+import type UserCommandInteraction from "./UserCommandInteraction.mjs";
 
 
 export default class BaseInteraction {

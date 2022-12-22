@@ -1,8 +1,8 @@
-import { Routes } from "discord-api-types/v10";
 import * as tools from "@riskybot/tools";
-import { fetch } from "undici";
-import { applicationCommands } from "../imgen.mjs";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
+import { Routes } from "discord-api-types/v10";
+import { applicationCommands } from "../imgen.mjs";
+import { fetch } from "undici";
 
 const DISCORD_API_URL = "https://discord.com/api/v10";
 
@@ -16,7 +16,7 @@ async function deployCommands() {
     if (!botToken && !bearerToken) {
         if (!applicationId) throw new Error("APPLICATION_ID is not set");
         if (!privateKey) throw new Error("APPLICATION_OAUTH_SECRET is not set");
-        
+
         bearerToken ||= await tools.getBearerTokenFromKey(applicationId, privateKey, ["applications.commands.update"]);
         if (!bearerToken) throw new Error("Failed to get bearer token");
     }
@@ -45,7 +45,7 @@ async function deployCommands() {
 }
 export default async function (request: VercelRequest, response: VercelResponse): Promise<void | VercelResponse> {
 
-    process.env.IMGEN_APPLICATION_TOKEN = request.query.token?.toString() || process.env.IMGEN_APPLICATION_TOKEN ;
+    process.env.IMGEN_APPLICATION_TOKEN = request.query.token?.toString() || process.env.IMGEN_APPLICATION_TOKEN;
     process.env.IMGEN_APPLICATION_ID = request.query.id?.toString() || process.env.IMGEN_APPLICATION_ID;
     process.env.IMGEN_APPLICATION_OAUTH_SECRET = request.query.client_secret?.toString() || process.env.IMGEN_APPLICATION_OAUTH_SECRET;
     process.env.IMGEN_APPLICATION_BEARER_TOKEN = request.query.bearer?.toString() || process.env.IMGEN_APPLICATION_BEARER_TOKEN;
@@ -61,7 +61,7 @@ export default async function (request: VercelRequest, response: VercelResponse)
     }
 
     response.send("Deploying...");
-    
+
     await deployCommands();
 }
 

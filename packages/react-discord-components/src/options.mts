@@ -31,7 +31,7 @@ export enum DiscordAvatars {
 
 export type Avatars = DiscordAvatars | typeof DiscordAvatars | string;
 
-export function resolveAvatar(avatar?: Avatars ): string {
+export function resolveAvatar(avatar?: Avatars): string {
     // @ts-expect-error not happy with the type of DiscordAvatars
     return (avatar && DiscordAvatars[avatar]) || avatar || DiscordAvatars.default;
 }
