@@ -4,10 +4,10 @@
     "@discordjs/rest": "^0.2.0-canary.0",
     "axios": "^0.24.0",
     "deepai": "^0.0.3",
-    "discord-api-types": "^0.26.1",
-    "discord.js": "^13.5.0",
+    "discord-api-types": "^0.37.28",
+    "discord.js": "^13.12.0",
     "dotenv": "^10.0.0",
-    "node-fetch": "^3.1.1",
+    "node-fetch": "^3.3.0",
     "translatte": "^3.0.1"
   },
   "type": "module",
@@ -20,19 +20,17 @@
     "start:extra": "node -r dotenv/config src/extra.js",
     "typings-gen": "tsc",
     "deployCommands": "node -r dotenv/config src/applicationCommands/deploy.js",
-    "deployCommands:extra": "node -r dotenv/config src/applicationCommands/deployExtra.js",
-    "ghPagesServe": "cd gh-pages && hugo serve"
+    "deployCommands:extra": "node -r dotenv/config src/applicationCommands/deployExtra.js"
   },
   "author": "RiskyMH",
   "engines": {
-    "node": "17.0"
+    "node": ">=17.0"
   },
   "devDependencies": {
     "@types/dotenv": "^8.2.0",
-    "@typescript-eslint/eslint-plugin": "^5.8.0",
-    "@typescript-eslint/parser": "^5.8.0",
+    "@typescript-eslint/eslint-plugin": "^5.48.2",
+    "@typescript-eslint/parser": "^5.48.2",
     "eslint": "^8.5.0",
-    "hugo-bin": "^0.79.2",
     "jshint": "^2.13.1",
     "typescript": "^4.5.4"
   },
