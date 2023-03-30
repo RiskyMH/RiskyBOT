@@ -37,7 +37,7 @@ export default async function meCredits(client, color) {
      )
      .addField(
       "General",
-      "• Profile Pic: [Flat Icon (Robot)](https://www.flaticon.com/free-icon/robot_2021646)\n• Programming - [discord.js](https://discord.js.org/), [nodejs](https://nodejs.org), [discord api](https://discord.com/developers)\n• Hosting - [replit](https://replit.com/) (at: [repl.co](http://riskybot.riskymh.repl.co/]))"
+      "• Profile Pic: [Flat Icon (Robot)](https://www.flaticon.com/free-icon/robot_2021646)\n• Programming - [discord.js](https://discord.js.org/), [nodejs](https://nodejs.org), [discord api](https://discord.com/developers)\n• Hosting - [railway](https://railway.app)"
      );
     return { embeds: [aboutMe, credits] };
 }
