@@ -3,7 +3,7 @@ import { Client, MessageEmbed } from "discord.js";
 import { readFileSync } from "fs";
 
 import { mini, about, deepai, translate, meCredits, random, fun, search, searchAutoComplete, reddit, randomAutoComplete, aboutAutoComplete, toolsCmd, randomButton } from "./functions/defaults.mjs";
-import  * as tools from "./tools.mjs";
+import * as tools from "./tools.mjs";
 import "dotenv/config";
 
 /** @type {import("./types").ConfigJSON} */
@@ -37,6 +37,30 @@ client.on("interactionCreate", async (interaction) => {
     let errorEmb = new MessageEmbed().setColor(colors.error).setTitle("Error");
 
 
+    // See what commands are run (but privacy - no user)
+    if (interaction.isCommand()) {
+        // Command: /about
+        console.log(`\x1b[34mCommand:\x1b[0m /${interaction.commandName}`);
+    } else if (interaction.isContextMenu()) {
+        // Context Menu: about
+        console.log(`\x1b[34mCommand:\x1b[0m ${interaction.commandName} (context menu)`);
+    } else if (interaction.isButton()) {
+        // Button: random
+        console.log(`\x1b[33mButton:\x1b[0m ${interaction.customId.split("-")[0]}`);
+    } else if (interaction.isSelectMenu()) {
+        // Select Menu: random
+        console.log(`\x1b[33mSelect Menu:\x1b[0m ${interaction.customId.split("-")[0]}`);
+    } else if (interaction.isModalSubmit()) {
+        // Modal Component: random
+        console.log(`\x1b[38;5;202mModal:\x1b[0m ${interaction.customId.split("-")[0]}`);
+    } else if (interaction.isAutocomplete()) {
+        // Autocomplete: random
+        console.log(`\x1b[34mAutocomplete:\x1b[0m /${interaction.commandName} (autocomplete)`);
+    } else {
+        console.log(`\x1b[31mUnknown:\x1b[0m ${interaction}`);
+    }
+
+
     // Slash Commands
     if (interaction.isCommand()) {
 
@@ -59,9 +83,9 @@ client.on("interactionCreate", async (interaction) => {
                     let advanced = interaction.options.getString("extra");
                     let data = await about(client, config, option, advanced, process.env.topggapi);
                     await interaction.reply(data);
- 
+
                 }
-                break;
+                    break;
 
                 case "deep-ai": {
                     let type = interaction.options.getString("type");
@@ -71,7 +95,7 @@ client.on("interactionCreate", async (interaction) => {
                     let data = await deepai(client, input, type, colors.ok, process.env.deepapi);
                     await interaction.editReply(data);
                 }
-                break;
+                    break;
 
                 case "translate": {
                     let from = interaction.options.getString("from");
@@ -82,19 +106,19 @@ client.on("interactionCreate", async (interaction) => {
                     let data = await translate(client, msg, to, from, colors.ok);
                     await interaction.editReply(data);
                 }
-                break;
+                    break;
 
                 case "ping": {
                     let data = await mini.ping(client, colors.ok, interaction.createdTimestamp);
                     await interaction.reply(data);
                 }
-                break;
+                    break;
 
                 case "-aboutme-credits-": {
                     let data = await meCredits(client, colors.ok);
                     await interaction.reply(data);
                 }
-                break;
+                    break;
                 case "random": {
                     let type = interaction.options.getSubcommand();
                     let num1 = interaction.options.getInteger("num1");
@@ -109,7 +133,7 @@ client.on("interactionCreate", async (interaction) => {
                     if (interaction?.deferred) await interaction.editReply(data);
                     else await interaction.reply(data);
                 }
-                break;
+                    break;
 
                 case "fun": {
                     // let type = interaction.options.getString("type");
@@ -117,7 +141,7 @@ client.on("interactionCreate", async (interaction) => {
                     let user1 = interaction.options.getUser("user1");
                     user1 ||= interaction.options.getUser("user");
                     let member1 = interaction.options.getMember("user1");
-                    member1 ||=  interaction.options.getMember("user");
+                    member1 ||= interaction.options.getMember("user");
                     let user2 = interaction.options.getUser("user2");
                     let text = interaction.options.getString("message");
 
@@ -125,8 +149,8 @@ client.on("interactionCreate", async (interaction) => {
                     let data = await fun(client, type, user1, member1, user2, text, colors.ok, colors.error);
                     await interaction.editReply(data);
                 }
-                break;
-                
+                    break;
+
                 case "search": {
                     let type = interaction.options.getSubcommand();
                     let input = interaction.options.getString("input");
@@ -138,9 +162,9 @@ client.on("interactionCreate", async (interaction) => {
 
                     await interaction.editReply(data);
                 }
-                break;
-                
-                case "meme":{
+                    break;
+
+                case "meme": {
                     await interaction.deferReply();
                     let otherSubreddit = interaction.options.getString("other-subreddit") || "dankmemes";
 
@@ -148,9 +172,9 @@ client.on("interactionCreate", async (interaction) => {
                     await interaction.editReply(data);
 
                 }
-                break;
+                    break;
 
-                case "tools":{
+                case "tools": {
                     let type = interaction.options.getSubcommand();
                     let input2 = interaction.options.getString("language");
                     let input = interaction.options.getString("input");
@@ -161,7 +185,7 @@ client.on("interactionCreate", async (interaction) => {
                     let data = await toolsCmd(client, type, input, input2, colors.ok, colors.error);
                     await interaction.reply(data);
                 }
-                break;
+                    break;
             }
 
         } catch (error) {
@@ -174,21 +198,21 @@ client.on("interactionCreate", async (interaction) => {
     // Buttons
     if (interaction.isButton()) {
         try {
-            if (interaction.memberPermissions.has("SEND_MESSAGES")){
+            if (interaction.memberPermissions.has("SEND_MESSAGES")) {
                 switch (interaction.customId.split("-")[0]) {
                     case "random": {
-                        if (["cat", "randomPost"].includes(interaction.customId.split("-")[2])) await interaction.deferReply({fetchReply: true});
+                        if (["cat", "randomPost"].includes(interaction.customId.split("-")[2])) await interaction.deferReply({ fetchReply: true });
                         let data = await randomButton(client, config, interaction.customId);
-                        if (interaction?.deferred) await interaction.editReply({content: interaction.user.toString(), embeds:data.embeds, components: data.components, allowedMentions: {repliedUser: true, users: [interaction.user.id]}});
-                        else await interaction.reply({content: interaction.user.toString(), embeds:data.embeds, components: data.components, allowedMentions: {repliedUser: true, users: [interaction.user.id]}});
+                        if (interaction?.deferred) await interaction.editReply({ content: interaction.user.toString(), embeds: data.embeds, components: data.components, allowedMentions: { repliedUser: true, users: [interaction.user.id] } });
+                        else await interaction.reply({ content: interaction.user.toString(), embeds: data.embeds, components: data.components, allowedMentions: { repliedUser: true, users: [interaction.user.id] } });
                     }
-                    break;
+                        break;
 
                     case "ping": {
                         let data = await mini.ping(client, colors.ok, interaction.createdTimestamp);
                         await interaction.update(data);
                     }
-                    break;
+                        break;
 
                 }
             }
@@ -215,46 +239,46 @@ client.on("interactionCreate", async (interaction) => {
                         }
                     }
                 }
-                break;
-            case "MESSAGE": {
-                // for messages menu
-                switch (interaction.commandName) {
-                    case "Translate message":{
-                        let from = "";
-                        let to = "en"; 
-                        let msg = codeBlock("md", await tools.stringFromEmbed(interaction.options.getMessage("message")));
-
-                        await interaction.deferReply();
-                        let data = await translate(client, msg, to, from, colors.ok);
-                        await interaction.editReply(data);
-
-                    }
                     break;
+                case "MESSAGE": {
+                    // for messages menu
+                    switch (interaction.commandName) {
+                        case "Translate message": {
+                            let from = "";
+                            let to = "en";
+                            let msg = codeBlock("md", await tools.stringFromEmbed(interaction.options.getMessage("message")));
 
-                    case "Continue message (deep ai)":{
-                        let type = "text-generator";
-                        let input = codeBlock("md", await tools.stringFromEmbed(interaction.options.getMessage("message")));
+                            await interaction.deferReply();
+                            let data = await translate(client, msg, to, from, colors.ok);
+                            await interaction.editReply(data);
 
-                        await interaction.deferReply();
-                        let data = await deepai(client, input, type, colors.ok, process.env.deepapi);
-                        await interaction.editReply(data);
+                        }
+                            break;
 
+                        case "Continue message (deep ai)": {
+                            let type = "text-generator";
+                            let input = codeBlock("md", await tools.stringFromEmbed(interaction.options.getMessage("message")));
+
+                            await interaction.deferReply();
+                            let data = await deepai(client, input, type, colors.ok, process.env.deepapi);
+                            await interaction.editReply(data);
+
+                        }
+                            break;
+
+                        case "Save message (pastebin)": {
+
+                            let type = "pastebin";
+                            let input2 = "md";
+                            let input = await tools.stringFromEmbed(interaction.options.getMessage("message"));
+
+                            let data = await toolsCmd(client, type, input, input2, colors.ok, colors.error);
+                            await interaction.reply(data);
+
+                        }
+                            break;
                     }
-                    break;
-
-                    case "Save message (pastebin)":{
-
-                    let type = "pastebin";
-                    let input2 = "md";
-                    let input = await tools.stringFromEmbed(interaction.options.getMessage("message"));
-
-                    let data = await toolsCmd(client, type, input, input2, colors.ok, colors.error);
-                    await interaction.reply(data);
-
-                    }
-                    break;
                 }
-            }
             }
         } catch (error) {
             console.log(error);
@@ -274,7 +298,7 @@ client.on("interactionCreate", async (interaction) => {
 
                     await interaction.respond(data);
                 }
-                break;
+                    break;
                 case "random": {
                     let type = interaction.options.getSubcommand();
                     let input = interaction.options.getString("sub-reddit");
@@ -283,7 +307,7 @@ client.on("interactionCreate", async (interaction) => {
 
                     await interaction.respond(data);
                 }
-                break;
+                    break;
                 case "about": {
                     let type = interaction.options.getSubcommand();
                     let input = interaction.options.getString("sub-reddit");
@@ -292,9 +316,9 @@ client.on("interactionCreate", async (interaction) => {
 
                     await interaction.respond(data);
                 }
-                break;
+                    break;
             }
-        } catch {console.log;}
+        } catch { console.log; }
 
     }
 });
