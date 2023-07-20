@@ -14,26 +14,9 @@ permissions:
     id-token: write
 
 jobs:
-  dependencies:
-    runs-on: ubuntu-latest
-    name: "Install Dependencies"
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Setup node.js v18
-        uses: actions/setup-node@v3
-        with:
-          node-version: 'current'
-          cache: 'yarn'
-          cache-dependency-path: yarn.lock
-
-      - name: Yarn
-        run: yarn --immutable
-
   typescript-build:
-    needs: [dependencies]
     runs-on: ubuntu-latest
-    name: "TypeScript build"
+    name: "TypeScript & ESLint"
     steps:
       - uses: actions/checkout@v3
 
@@ -64,13 +47,15 @@ jobs:
       
       - name: Add custom Problem Matchers
         run: |
-          echo ::add-matcher::.github/problem-matchers/tsc.json   
+          echo ::add-matcher::.github/problem-matchers/tsc.json  
+          echo ::add-matcher::.github/problem-matchers/eslint-compact.json   
+          echo ::add-matcher::.github/problem-matchers/eslint-stylish.json   
+ 
 
       - name: Install dependencies 
         run: yarn install --immutable
 
       - name: Run Build
-        # run: yarn build
         run: yarn turbo run build:ci --cache-dir=".turbo"
         
       # Upload website artifact
@@ -78,30 +63,6 @@ jobs:
         uses: actions/upload-pages-artifact@v1
         with:
           path: apps/website/out
-
-
-  eslint:
-    needs: [dependencies]
-    runs-on: ubuntu-latest
-    name: "ESLint"
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Setup node.js v18
-        uses: actions/setup-node@v3
-        with:
-          node-version: 'current'
-          cache: 'yarn'
-          cache-dependency-path: yarn.lock
-            
-      - name: Add custom Problem Matchers
-        run: |
-          echo ::add-matcher::.github/problem-matchers/eslint-compact.json   
-          echo ::add-matcher::.github/problem-matchers/eslint-stylish.json   
-
-      - name: Install dependencies 
-        # if: ${{ steps.yarn-cache.outputs.cache-hit != 'true' }}
-        run: yarn install --immutable
 
       - name: Run ESLint
         run: yarn turbo run lint --cache-dir=".turbo"
@@ -133,12 +94,16 @@ jobs:
         # if: ${{ steps.yarn-cache.outputs.cache-hit != 'true' }}
         run: yarn install --immutable
 
+      # Should be quick as this is requiring the ts build to succeed (and thus having cache)
+      - name: Run Build
+        run: yarn turbo run build:ci --cache-dir=".turbo"
+
       # Actually run the tests (part of the test stage requires the build)
       - name: Run Tests
         run: yarn turbo run test --cache-dir=".turbo"
   
   npm-publish:
-    needs: [typescript-build, eslint, tests]
+    needs: [typescript-build, tests]
     if: ${{ github.repository_owner == 'RiskyMH' }} && ${{ github.ref == 'refs/heads/main' }}
     name: NPM Publish
     strategy:
@@ -183,7 +148,7 @@ jobs:
 
       # Should be fast as this is requiring the ts build to succeed (and thus having cache)
       - name: Run Build
-        run: yarn turbo run build:ci --cache-dir=".turbo" && yarn tsc --build
+        run: yarn turbo run build --cache-dir=".turbo"
 
       - name: Delete contents in dist/
         run: rm -rf packages${{ matrix.package }}/dist/*
@@ -198,7 +163,7 @@ jobs:
           YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
 
   deploy-commands:
-    needs: [typescript-build, eslint, tests]
+    needs: [typescript-build, tests]
     if: ${{ github.repository_owner == 'RiskyMH' }} && ${{ github.ref == 'refs/heads/main' }}
     name: Deploy Commands
 
@@ -230,7 +195,7 @@ jobs:
 
       # Should be fast as this is requiring the ts build to succeed (and thus having cache)
       - name: Run Build
-        run: yarn turbo run build:ci --cache-dir=".turbo" && yarn tsc --build
+        run: yarn turbo run build:ci --cache-dir=".turbo"
 
       - name: Deploy
         run: yarn deploy-commands
@@ -251,7 +216,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: [typescript-build, eslint, tests]
+    needs: [typescript-build, tests]
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
