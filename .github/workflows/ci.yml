@@ -27,6 +27,9 @@ jobs:
           cache: 'yarn'
           cache-dependency-path: yarn.lock
 
+      - name: Yarn
+        run: yarn --immutable
+
   typescript-build:
     needs: [dependencies]
     runs-on: ubuntu-latest
