@@ -1,8 +1,35 @@
 import { APIApplicationCommandOptionChoice, InteractionResponseType, MessageFlags, Routes, Snowflake, type APIMessage } from "discord-api-types/v10";
 import { Headers, fetch } from "undici";
+import FormData from "form-data";
 import { DISCORD_API_BASE_URL } from "../constants.mjs";
 import BaseInteraction, { InteractionModalResponseData, InteractionResponseData } from "./BaseInteraction.mjs";
+import AttachmentBuilder from "../basic/AttachmentBuilder.mjs";
 
+
+const discordPostForm = (url: string, form: FormData, method = "POST") => fetch(DISCORD_API_BASE_URL + url, { body: form.getBuffer(), headers: form.getHeaders(), method });
+const discordPost = (url: string, body: object, method = "POST") => fetch(DISCORD_API_BASE_URL + url, { body: JSON.stringify(body), headers: jsonHeaders, method });
+const discordDelete = (url: string) => fetch(DISCORD_API_BASE_URL + url, { method: "DELETE" });
+
+
+function addAttachmentsToForm(data: object, attachments: AttachmentBuilder[]): FormData {
+    // @ts-expect-error I know that this exists
+    data["data"]["attachments"] = attachments.map((attachment, index) => ({
+        id: index.toString(),
+        filename: attachment.name,
+    }));
+
+    // @ts-expect-error Not needed
+    data["attachments"] = undefined;
+    const form = new FormData();
+    form.append("payload_json", JSON.stringify(data), { contentType: "application/json" });
+
+    // loop through data.attachments (with index)
+    for (const [index, attachment] of attachments?.entries() ?? []) {
+        form.append(`files[${index}]`, attachment.file, { filename: attachment.name });
+    }
+
+    return form;
+}
 
 export class InteractionResponseMethods extends BaseInteraction {
     /** Reply to the interaction (within 3sec) */
@@ -10,21 +37,19 @@ export class InteractionResponseMethods extends BaseInteraction {
     async reply(data: InteractionResponseData, fetchResponse?: boolean): Promise<void>;
     async reply(data: InteractionResponseData, fetchResponse?: boolean): Promise<void | APIMessage> {
 
-        const url = DISCORD_API_BASE_URL + Routes.interactionCallback(this.id, this.token);
-
-        const body = {
+        const form = addAttachmentsToForm({
             type: InteractionResponseType.ChannelMessageWithSource,
             data: { ...data, flags: data.ephemeral ? MessageFlags.Ephemeral : null },
-        };
+        }, data.attachments ?? []);
 
-        const res = await fetch(url, { body: JSON.stringify(body), headers: jsonHeaders, method: "POST" });
+        const res = await discordPostForm(Routes.interactionCallback(this.id, this.token), form);
 
         if (!res.ok) {
             throw new Error(await res.text());
         }
 
         // Clearing it from ram
-        res.text();
+        await res.text();
 
         if (fetchResponse) return this.fetchReply();
         return;
@@ -33,28 +58,24 @@ export class InteractionResponseMethods extends BaseInteraction {
     /** Edit a response to the interaction */
     async editReply(data: InteractionResponseData, messageId: Snowflake | "@original" = "@original"): Promise<APIMessage> {
 
-        const url = DISCORD_API_BASE_URL + Routes.webhookMessage(this.applicationId, this.token, messageId);
-
-        const body = {
+        const form = addAttachmentsToForm({
             // flags: data?.ephemeral ? MessageFlags.Ephemeral : null,
             ...data,
-        };
+        }, data.attachments ?? []);
 
-        const res = await fetch(url, { body: JSON.stringify(body), headers: jsonHeaders, method: "PATCH" });
+        const res = await discordPostForm(Routes.webhookMessage(this.applicationId, this.token, messageId), form, "PATCH");
 
         if (!res.ok) {
             throw new Error(await res.text());
         }
 
-        return await res.json() as APIMessage;
+        return res.json() as Promise<APIMessage>;
     }
 
     /** Delete a reply from the interaction*/
     async deleteReply(messageId: Snowflake | "@original" = "@original"): Promise<void> {
 
-        const url = DISCORD_API_BASE_URL + Routes.webhookMessage(this.applicationId, this.token, messageId);
-
-        const res = await fetch(url, { method: "DELETE" });
+        const res = await discordDelete(Routes.webhookMessage(this.applicationId, this.token, messageId));
 
         if (!res.ok) {
             throw new Error(await res.text());
@@ -69,14 +90,12 @@ export class InteractionResponseMethods extends BaseInteraction {
     /** Create a new  */
     async followUp(data: InteractionResponseData): Promise<APIMessage> {
 
-        const url = DISCORD_API_BASE_URL + Routes.webhook(this.applicationId, this.token);
-
-        const body = {
+        const form = addAttachmentsToForm({
             flags: data.ephemeral ? MessageFlags.Ephemeral : null,
             ...data,
-        };
+        }, data.attachments ?? []);
 
-        const res = await fetch(url, { body: JSON.stringify(body), headers: jsonHeaders, method: "POST" });
+        const res = await discordPost(Routes.webhook(this.applicationId, this.token), form);
 
         if (!res.ok) {
             throw new Error(await res.text());
@@ -101,14 +120,10 @@ export class InteractionResponseMethods extends BaseInteraction {
 
     async deferReply(data?: { ephemeral?: boolean }): Promise<void> {
 
-        const url = DISCORD_API_BASE_URL + Routes.interactionCallback(this.id, this.token);
-
-        const body = {
+        const res = await discordPost(Routes.interactionCallback(this.id, this.token), {
             type: InteractionResponseType.DeferredChannelMessageWithSource,
             flags: data?.ephemeral ? MessageFlags.Ephemeral : null,
-        };
-
-        const res = await fetch(url, { body: JSON.stringify(body), headers: jsonHeaders, method: "POST" });
+        });
 
         if (!res.ok) {
             throw new Error(await res.text());
@@ -122,14 +137,10 @@ export class InteractionResponseMethods extends BaseInteraction {
 
     async showModal(data: InteractionModalResponseData): Promise<void> {
 
-        const url = DISCORD_API_BASE_URL + Routes.interactionCallback(this.id, this.token);
-
-        const body = {
+        const res = await discordPost(Routes.interactionCallback(this.id, this.token), {
             type: InteractionResponseType.Modal,
             data,
-        };
-
-        const res = await fetch(url, { body: JSON.stringify(body), headers: jsonHeaders, method: "POST" });
+        });
 
         if (!res.ok) {
             throw new Error(await res.text());
@@ -143,13 +154,9 @@ export class InteractionResponseMethods extends BaseInteraction {
 
     async deferUpdate(): Promise<void> {
 
-        const url = DISCORD_API_BASE_URL + Routes.interactionCallback(this.id, this.token);
-
-        const body = {
+        const res = await discordPost(Routes.interactionCallback(this.id, this.token), {
             type: InteractionResponseType.DeferredMessageUpdate,
-        };
-
-        const res = await fetch(url, { body: JSON.stringify(body), headers: jsonHeaders, method: "POST" });
+        });
 
         if (!res.ok) {
             throw new Error(await res.text());
@@ -165,14 +172,12 @@ export class InteractionResponseMethods extends BaseInteraction {
     async update(data: InteractionResponseData, fetchResponse?: boolean): Promise<void>;
     async update(data: InteractionResponseData, fetchResponse?: boolean): Promise<void | APIMessage> {
 
-        const url = DISCORD_API_BASE_URL + Routes.interactionCallback(this.id, this.token);
-
-        const body = {
+        const form = addAttachmentsToForm({
             type: InteractionResponseType.UpdateMessage,
             data: { ...data, flags: data.ephemeral ? MessageFlags.Ephemeral : null },
-        };
+        }, data.attachments ?? []);
 
-        const res = await fetch(url, { body: JSON.stringify(body), headers: jsonHeaders, method: "POST" });
+        const res = await discordPostForm(Routes.interactionCallback(this.id, this.token), form);
 
         if (!res.ok) {
             throw new Error(await res.text());
@@ -187,32 +192,29 @@ export class InteractionResponseMethods extends BaseInteraction {
 
     async respond(choices: APIApplicationCommandOptionChoice[]): Promise<void> {
 
-        const url = DISCORD_API_BASE_URL + Routes.interactionCallback(this.id, this.token);
-
-        const body = {
+        const res = await discordPost(Routes.interactionCallback(this.id, this.token), {
             type: InteractionResponseType.ApplicationCommandAutocompleteResult,
             data: {
                 choices,
             }
-        };
+        });
 
-        const res = await fetch(url, { body: JSON.stringify(body), headers: jsonHeaders, method: "POST" });
-        
         if (!res.ok) {
             throw new Error(await res.text());
         }
-        
+
         // Clearing it from ram
         res.text();
 
         return;
     }
 
-
 }
 
 const jsonHeaders = new Headers({ "content-type": "application/json" });
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// const consume = (any: any) => any;
 
 
 /** @internal methods added in InteractionResponseMethods */

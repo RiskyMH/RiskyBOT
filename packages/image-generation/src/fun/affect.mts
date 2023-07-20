@@ -13,24 +13,22 @@ const imageBg = loadImage(path.join(__dirname, "../../assets", "affect/affect.bm
 
 
 export default async function makeImg(input: { imgLink: string }): Promise<Buffer | { error?: string }> {
-
     const canvas = createCanvas(500, 636);
     const context = canvas.getContext("2d");
-
     context.fillStyle = "#36393f";
     context.fillRect(0, 0, canvas.width, canvas.height);
-
+    
     try {
-        const [{ body: bodyImg }] = await Promise.all([request(input.imgLink)]);
-        const [imgBuffer] = await Promise.all([bodyImg.arrayBuffer()]);
-
+        const { body: bodyImg } = await request(input.imgLink);
+        const imgBuffer = await bodyImg.arrayBuffer();
+        
         context.drawImage(await imageBg, 0, 0, canvas.width, canvas.height);
-
+        
         const image = new Image();
         image.src = Buffer.from(imgBuffer);
         context.drawImage(image, 180, 383, 200, 157);
-
+        
     } catch (e) { console.error(e); return { error: "Error when loading images" }; }
-
+    
     return canvas.toBuffer("image/png");
 }

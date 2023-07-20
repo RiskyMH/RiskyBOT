@@ -1,0 +1,37 @@
+{
+    "name": "@riskybot/error",
+    "description": "",
+    "version": "4.0.0-test.4",
+    "directories": {
+        "lib": "src"
+    },
+    "devDependencies": {
+        "typescript": "^5.1.6"
+    },
+    "exports": {
+        "types": "./dist/index.d.ts",
+        "import": "./dist/Error.mjs"
+    },
+    "files": [
+        "dist"
+    ],
+    "main": "./dist/Error.mjs",
+    "module": "./dist/Error.mjs",
+    "scripts": {
+        "build": "tsc --build",
+        "build:ci": "( cd ../../ && tsc -p ./packages/error/tsconfig.json )",
+        "lint": "eslint src/**/*.mts tests/*.mjs",
+        "prepack": "yarn build",
+        "test": "node --test"
+    },
+    "type": "module",
+    "types": "./dist/index.d.ts",
+    "homepage": "https://github.com/RiskyMH/RiskyBOT/tree/v4/packages/error",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/RiskyMH/RiskyBOT.git"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
+}

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-declaration-merging */
 import type { APIMessage, APIMessageComponentInteraction, ComponentType, InteractionType, LocaleString } from "discord-api-types/v10";
 import BaseInteraction from "./BaseInteraction.mjs";
 import { InteractionResponseMixin, applyInteractionResponseMixins, createInteractionMixinList } from "./Response.mjs";
@@ -25,9 +26,9 @@ export default class MessageComponentInteraction extends BaseInteraction {
         this.locale = interaction.locale;
     }
 
-    isMessageComponent(): true {
-        return true;
-    }
+    // isMessageComponent(): true {
+    //     return true;
+    // }
 
 }
 

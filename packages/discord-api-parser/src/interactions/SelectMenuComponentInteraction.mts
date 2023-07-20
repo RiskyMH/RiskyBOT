@@ -11,9 +11,9 @@ export default class SelectMenuInteraction extends MessageComponentInteraction {
         this.values = interaction.data.values;
     }
 
-    isSelectMenu(): true {
-        return true;
-    }
+    // isSelectMenu(): true {
+    //     return true;
+    // }
 
 
 }

@@ -1,15 +1,24 @@
 import assert from "node:assert";
 import { describe, it } from "node:test";
-import { affect } from "../dist/index.mjs";
+import { affect, cry } from "../dist/index.mjs";
 
 // TODO: Add more tests :)
-// TODO: Get nodejs tests to not crash when using `@napi-rs/canvas`
 
 describe("Affect", async () => {
 
-    const imgUrl = "https://picsum.photos/512";
     it("should make an image with", async () => {
-        const img = await affect({imgLink: imgUrl});
+        const imgLink = "https://picsum.photos/512";
+        const img = await affect({ imgLink });
+        assert.ok(img);
+    });
+
+});
+
+describe("Cry", async () => {
+
+    it("should make an image with", async () => {
+        const text = "HELLO WORLD";
+        const img = await cry({ text });
         assert.ok(img);
     });
 

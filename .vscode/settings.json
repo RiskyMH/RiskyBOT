@@ -10,6 +10,7 @@
     "yaml.completion": true,
     "cSpell.words": [
         "riskybot"
-    ]
+    ],
+    "typescript.tsdk": "node_modules\\typescript\\lib"
 
 }

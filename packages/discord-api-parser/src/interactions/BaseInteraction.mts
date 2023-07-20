@@ -1,7 +1,7 @@
 import type { ComponentBuilder, EmbedBuilder, ModalBuilder } from "@discordjs/builders";
 import { DiscordSnowflake } from "@sapphire/snowflake";
 import { APIAllowedMentions, APIButtonComponent, APIEmbed, APIInteraction, APIModalInteractionResponseCallbackData, APISelectMenuComponent, ApplicationCommandType, ComponentType, InteractionType, LocaleString } from "discord-api-types/v10";
-import { Permissions } from "../index.mjs";
+import { PartialChannel, Permissions } from "../index.mjs";
 import { InteractionGuildMember } from "../payloads/Member.mjs";
 import User from "../payloads/User.mjs";
 import type ApplicationCommandInteraction from "./ApplicationCommandInteraction.mjs";
@@ -13,6 +13,7 @@ import type MessageComponentInteraction from "./MessageComponentInteraction.mjs"
 import type ModalSubmitInteraction from "./ModalSubmitInteraction.mjs";
 import type SelectMenuInteraction from "./SelectMenuComponentInteraction.mjs";
 import type UserCommandInteraction from "./UserCommandInteraction.mjs";
+import AttachmentBuilder from "../basic/AttachmentBuilder.mjs";
 
 
 export default class BaseInteraction {
@@ -23,7 +24,7 @@ export default class BaseInteraction {
     /** ID of the application this interaction is for */
     applicationId: string;
     /** The channel it was sent from */
-    channelId?: string;
+    channel?: PartialChannel;
     /** The guild it was sent from */
     guildId?: string;
     /** Guild member data for the invoking user, including permissions */
@@ -47,7 +48,7 @@ export default class BaseInteraction {
         this.applicationId = interaction.application_id;
         this.applicationPermissions = new Permissions(interaction.app_permissions ?? "0");
 
-        this.channelId = interaction.channel_id;
+        this.channel = interaction.channel;
         this.guildId = interaction.guild_id;
         this.user = new User(interaction.user || interaction.member!.user);
         this.userId = this.user.id;
@@ -71,6 +72,7 @@ export default class BaseInteraction {
     /**
      * Indicates whether this interaction is a {@link ApplicationCommandInteraction}.
      */
+    // isApplicationCommand(): this is ApplicationCommandInteraction {
     isApplicationCommand(): this is ApplicationCommandInteraction {
         return this.type === InteractionType.ApplicationCommand;
     }
@@ -157,7 +159,8 @@ export type InteractionResponseData = {
     /** Is the message ephemeral? */
     ephemeral?: boolean,
     /** Who can be mentioned? */
-    allowed_mentions?: APIAllowedMentions
+    allowed_mentions?: APIAllowedMentions,
+    attachments?: AttachmentBuilder[]
 };
 
 export type InteractionModalResponseData = APIModalInteractionResponseCallbackData | ModalBuilder;

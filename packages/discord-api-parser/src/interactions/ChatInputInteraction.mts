@@ -19,9 +19,9 @@ export default class ChatInputInteraction extends ApplicationCommandInteraction 
 
     }
 
-    isChatInputCommand(): true {
-        return true;
-    }
+    // isChatInputCommand(): true {
+    //     return true;
+    // }
 
 }
 

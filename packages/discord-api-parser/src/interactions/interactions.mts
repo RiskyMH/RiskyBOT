@@ -12,27 +12,35 @@ import ModalSubmitInteraction from "./ModalSubmitInteraction.mjs";
 import PingInteraction from "./PingInteraction.mjs";
 import SelectMenuInteraction from "./SelectMenuComponentInteraction.mjs";
 import UserContextMenuInteraction from "./UserCommandInteraction.mjs";
-export * from "./ApplicationCommands.mjs";
 
 
 /**
  * The Interaction :)
  */
 export type Interaction = PingInteraction | ChatInputInteraction | UserContextMenuInteraction | ButtonInteraction | SelectMenuInteraction | AutocompleteInteraction | MessageCommandInteraction | ModalSubmitInteraction;
+// export type Interaction = BaseInteraction;
 
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function verifyInteraction(request: any, response: any, publicKey: string): Promise<boolean> {
-    if (request.method !== "POST") { response.statusCode = 405; response.send({ error: "Only can use POST method" }); return false; }
+    if (request.method !== "POST") {
+        response.statusCode = 405;
+        response.send({ error: "Only can use POST method" });
+        return false;
+    }
+
     const signature = request.headers["x-signature-ed25519"]?.toString();
     const timestamp = request.headers["x-signature-timestamp"]?.toString();
     const rawBody = JSON.stringify(request.body);
-    if (!signature || !timestamp || !rawBody) { response.statusCode = 405; response.send({ error: "Invalid headers and/or body" }); return false; }
+
+    if (!signature || !timestamp || !rawBody) {
+        response.statusCode = 405;
+        response.send({ error: "Invalid headers and/or body" });
+        return false;
+    }
 
     let isValidRequest = false;
     try {
-        // if (process.env.VERCEL === "1") isValidRequest = await verify(rawBody, signature, timestamp, publicKey, crypto.webcrypto.subtle, PlatformAlgorithm.VercelProd);
-        // else isValidRequest = await verify(rawBody, signature, timestamp, publicKey, crypto.webcrypto.subtle);
         isValidRequest = await verify(rawBody, signature, timestamp, publicKey, crypto.webcrypto.subtle);
     } catch {
         isValidRequest = await verify(rawBody, signature, timestamp, publicKey, crypto.webcrypto.subtle, PlatformAlgorithm.OldNode);
@@ -40,7 +48,11 @@ export async function verifyInteraction(request: any, response: any, publicKey: 
     }
 
 
-    if (!isValidRequest) { response.statusCode = 401; response.send({ error: "Bad request signature" }); return false; }
+    if (!isValidRequest) {
+        response.statusCode = 401;
+        response.send({ error: "Bad request signature" });
+        return false;
+    }
 
     const interaction = request.body as APIInteraction;
 
@@ -57,8 +69,12 @@ export async function verifyInteraction(request: any, response: any, publicKey: 
 
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// declare type Class<T = any> = new (...args: any[]) => T;
+
 export function parseRawInteraction(data: APIInteraction): Interaction {
-    let InteractionClass;
+    // let InteractionClass: Class;
+    let InteractionClass = BaseInteraction;
 
     switch (data.type) {
         case InteractionType.Ping:
@@ -118,7 +134,7 @@ export function parseRawInteraction(data: APIInteraction): Interaction {
             // @ts-expect-error Never should occur, but just in case
             throw new Error("Unknown InteractionType: " + data.type);
     }
-    InteractionClass ||= BaseInteraction;
+    // InteractionClass ||= BaseInteraction;
 
     return new InteractionClass(data) as Interaction;
 }

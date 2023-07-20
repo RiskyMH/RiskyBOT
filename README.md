@@ -1,98 +1,85 @@
-# RiskyBOT (code for it)
+<h1 align="center">
+  <img src="https://bot.riskymh.dev/robot.png" alt="RiskyBOT Logo" width="84">
+  <br>
+  RiskyBOT
+</h1>
 
-The code for my bot and some other fun stuff with Discord  
+<p align="center">A random discord bot with many fun features</p>
 
-This bot uses slash commands (some buttons, and context menu)
+## Getting Started
 
-## Running on Vercel
+This repo contains the code for RiskyBOT and some more specific bots (image generate)
 
-### Step 1: Deploying
+### Installing the dependencies
 
-Click the button below to deploy to Vercel.
+```sh
+yarn install
+```
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FRiskyMH%2FRiskyBOT)
+### Configuring the env vars
 
-When asked for environment variables fill them out:
+If you are developing locally, you need to create `.env` files in both the `apps/web` and `app/bot` folder. Refer to the table below for all the env vars in the project
 
-* `APPLICATION_PUBLIC_KEY`: The Discord application public key for the main bot (required to use `POST /api/riskybot` endpoint)
-* `IMGEN_APPLICATION_PUBLIC_KEY`: The Discord application public key for the imgen bot (required to use `POST /api/imgen` endpoint)
-* MORE OPTIONAL: 
-  * `TOPGG_TOKEN`: The top.gg token (requires a bot listed on Top.gg)
-  * `OWNER_ID`: The owner ID (required for Eval command)
+#### Project: `apps/riskybot`
 
-### Step 2: Deploying the commands
+| Name                                 | Description                                                              | Main Bot? | Deploy Commands? |
+| ------------------------------------ | ------------------------------------------------------------------------ | --------- | ---------------- |
+| `RISKYBOT_APPLICATION_PUBLIC_KEY`    | The Discord public key for the bot                                       | ✔️        |                  |
+| `RISKYBOT_APPLICATION_CLIENT_SECRET` | The Discord client secret for the bot                                    |           | ✔️               |
+| `RISKYBOT_APPLICATION_ID`            | The ID of the bot                                                        |           | ✔️               |
+| `OWNER_GUILD_ID`                     | The ID of the Discord server to register owner only commands (i.e. eval) |           | ❔               |
+| `OWNER_USER_ID`                      | The ID of the user that is the owner (to only allow them to use it)      | ❔        |                  |
+| `TOPGG_TOKEN`                        | The Top.gg token (requires a bot on their website)                       | ❔        | ❔               |
+| `ERROR_WEBHOOK`                      | The webhook URL to send errors if they occur (not recommended in dev)    | ❔        |                  |
 
-> Deploying commands when deployed on Vercel:
+> **Note**: ✔️ (tick) means that it is required and ❔ (question mark) means that it is optional but used. 
 
-For main bot commands:
+#### Project: `apps/imgen`
 
-* Option 1: Go to `/api/applicationCommands/deploy?token={YOUR_BOT_TOKEN}&id={YOUR_BOT_ID}`
-* Option 2: Go to `/api/applicationCommands/deploy?client_secret={YOUR_OAUTH_SECRET}&id={YOUR_APPLICATION_ID}`
+| Name                              | Description                                                              | Main Bot? | Deploy Commands? |
+| --------------------------------- | ------------------------------------------------------------------------ | --------- | ---------------- |
+| `IMGEN_APPLICATION_PUBLIC_KEY`    | The Discord public key for the bot                                       | ✔️        |                  |
+| `IMGEN_APPLICATION_CLIENT_SECRET` | The Discord client secret for the bot                                    |           | ✔️               |
+| `IMGEN_APPLICATION_ID`            | The ID of the bot                                                        |           | ✔️               |
+| `ERROR_WEBHOOK`                   | *same as above `ERROR_WEBHOOK`*                                          | ❔        |                 |
 
+> **Note**: ✔️ (tick) means that it is required and ❔ (question mark) means that it is optional but used.
 
-For main bot owner commands:
+### Running the bots
 
-* Go to `/api/applicationCommands/deployOwnerOnly?{the prev config like above}&guild_id={YOUR_GUILD_ID}`
+To run both the `RiskyBOT` and `Image Generate` projects at the same time, use the following command:
 
-For imgen bot commands:
+```sh
+yarn vercel dev
+```
 
-* Go to `/api/applicationCommands/deployImgen?{the prev config like above}`
+> **Note**: You you will have to create a vercel account for this project and make suer to set the root directory as `apps/bot`
 
-## Running dev locally
+#### Running the bots individually
 
-* `yarn install` (installing dependencies)
-* Optional: changing things, see [below](#how-to-configure) for some examples
-* `yarn deployCommands` (deploying the application commands)
-  * Requires environment variables to be set
-* `yarn vercel dev` (finally running it)
+You can choose to run one of these following commands to run a singular bot (note that it if the bot crashes so does the program):
 
-NOTE: this uses yarn, so you need to have [yarn](https://yarnpkg.com/getting-started/install) installed
+```sh
+yarn run start:riskybot
+yarn run start:imgen
+```
 
-It is slightly harder to run locally, because it uses HTTP endpoint. Currently I use [Cloudflared Tunnel](https://blog.cloudflare.com/tunnel-for-everyone/) and put the url into Discord's dashboard.
+### Registering Discord commands
 
-## FAQ
+To use the context and slash commands you first need to register them in Discord. The easiest way to do that is by running both of these commands:
 
-* Q: There are no commands on the Discord app
-* A: you need to `deployCommands` otherwise it won't work
+```sh
+yarn run deploy-commands:riskybot
+yarn run deploy-commands:imgen
+```
 
-## How to configure
-
-### Using [`config.yml`](./config.yml)
-
-You can currently use this file to change some UI settings (eg. colors)
-
-The available features are in the file by default
-
-### Using [`.env`](./.env)
-
-As with [`config.yml`](./config.yml) the file [`example.env`](./example.env) has the necessary options - copy `example.env` to `.env` and put in your discord key. This is only if running locally (i.e. not on Vercel).
-
-### *`Next few are more technical`*
-
-### Using [`src/main.mts`](./src/main.mts) (Actually modifying the files)
-
-You can do changes to bot by going into the `.mts` files and changing stuff
-
-### Using [`packages/*`](./packages) (Actually modifying the files)
-
-**APIs**: these are for commands to use mainly\
-**Commands**: these the responses for application commands - also has the command builder
-**Utils**: these are for everything's help
-
-NOTE: If changing the commands, you need to `deployCommands`, and update [`main.mts`](./src/main.mts) if changing major names
-
-### Things that have a high likely chance of being accepted in a PR
-
-* Changing the code (not too much)
-* Basically anything else will be looked at
+Notice how there are multiple commands, this is because you only need to do the one that has had commands changed.
 
 ## My hosted bot
 
-For more information see <http://RiskyMH.github.io/RiskyBOT/>  
-
-Everything in my GitHub Pages site is mainly for my instance of the bot, but it can be used for other things
+For more information see <https://bot.riskymh.dev/>  
 
 Quick links:
 
-* Bot invite: [https://discord.com/...](https://discord.com/api/oauth2/authorize?client_id=780657028695326720&scope=applications.commands)
+* Bot Invite: [https://discord.com/...](https://discord.com/api/oauth2/authorize?client_id=780657028695326720&scope=applications.commands)
 * Bot Server: <https://discord.gg/BanFeVWyFP>

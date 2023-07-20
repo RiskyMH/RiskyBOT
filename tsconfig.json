@@ -1,39 +1,3 @@
-// {
-//     // Change this to match your project
-//     "include": ["src/**/*"],
-//     "compilerOptions": {
-//         // Tells TypeScript to read JS files, as
-//         // normally they are ignored as source files
-//         "checkJs": true,
-//         "allowJs": true,
-//         // Generate d.ts files
-//         "declaration": true,
-//         // This compiler run should
-//         // only output d.ts files
-//         "emitDeclarationOnly": true,
-//         // Types should go into this directory.
-//         // Removing this would place the .d.ts files
-//         // next to the .js files
-//         "outDir": "typings",
-//         // go to js file when using IDE functions like
-//         // "Go to Definition" in VSCode
-//         // "declarationMap": true,
-//         "target": "es2021",
-//         "module": "es2022",
-//         "moduleResolution": "Node"
-//        },
-//     "exports": {
-//         "functions": {
-//             "import": "./src/functions/defaults.mjs"
-//         }
-//     },
-//     "typesVersions": {
-//         "*": {
-//             "functions": ["./src/functions/defaults.mjs"],
-//         }
-//     }
-// }
-
 {
     // Mapped from https://www.typescriptlang.org/tsconfig
     "include": ["src/**/*", "api"],
@@ -62,7 +26,7 @@
         // Emit
         "declaration": true,
         "importHelpers": true,
-        "importsNotUsedAsValues": "error",
+        // "importsNotUsedAsValues": "error",
         "inlineSources": true,
         "newLine": "lf",
         "noEmitHelpers": true,

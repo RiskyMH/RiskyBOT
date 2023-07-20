@@ -8,9 +8,9 @@ export default class ButtonInteraction extends MessageComponentInteraction {
         super(interaction);
     }
 
-    isButton(): true {
-        return true;
-    }
+    // isButton(): true {
+    //     return true;
+    // }
 
 
 }

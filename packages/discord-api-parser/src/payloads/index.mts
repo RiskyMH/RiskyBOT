@@ -1,4 +1,5 @@
 export * from "./Application.mjs";
+export * from "./ApplicationCommands.mjs";
 export * from "./Attachment.mjs";
 export * from "./AuditLog.mjs";
 export * from "./AutoModeration.mjs";

@@ -1,4 +1,4 @@
-import { ApplicationCommandType, InteractionType } from "discord-api-types/v10";
+import { ApplicationCommandType, ChannelType, InteractionType } from "discord-api-types/v10";
 import { BaseInteraction, ButtonInteraction, ChatInputInteraction, parseRawInteraction } from "../dist/interactions/interactions.mjs";
 import { describe, it } from "node:test";
 import assert from "node:assert";
@@ -21,6 +21,12 @@ describe("Chat input interaction", async () => {
             username: "username",
             discriminator: "discriminator",
             avatar: "avatar",
+            global_name: "global_name",
+        },
+        channel: {
+            id: "channel_id",
+            name: "channel_name",
+            type: ChannelType.GuildText
         },
         version: 1,
         data: {
@@ -41,5 +47,6 @@ describe("Chat input interaction", async () => {
         assert.ok(interaction.isChatInputCommand());
         assert.ok(interaction instanceof ChatInputInteraction);
         assert.ok(!(interaction instanceof ButtonInteraction));
+        assert.ok(interaction.isChatInputCommand());
     });
 });

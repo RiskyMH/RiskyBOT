@@ -31,9 +31,9 @@ export default class AutocompleteInteraction extends BaseInteraction {
         this.options = new AutocompleteOptions(interaction.data.options, interaction.data.resolved, this.guildId);
     }
 
-    isAutocomplete(): true {
-        return true;
-    }
+    // isAutocomplete(): true {
+    //     return true;
+    // }
     
 }
 

@@ -1,0 +1,17 @@
+{
+    "name": "@riskybot/bot",
+    "private": true,
+    "homepage": "https://github.com/RiskyMH/RiskyBOT/tree/v4/apps/bot",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/RiskyMH/RiskyBOT.git",
+        "directory": "apps/bot"
+    },
+    "dependencies": {
+        "@riskybot/imgen": "workspace:^",
+        "@riskybot/riskybot": "workspace:^"
+    },
+    "devDependencies": {
+        "@vercel/node": "^2.15.6"
+    }
+}

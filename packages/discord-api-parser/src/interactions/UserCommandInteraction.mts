@@ -30,9 +30,9 @@ export default class UserCommandInteraction extends ApplicationCommandInteractio
 
     }
 
-    isUserCommand(): true {
-        return true;
-    }
+    // isUserCommand(): true {
+    //     return true;
+    // }
 
 }
 

@@ -1,7 +1,5 @@
 
 
-// pastegg 
-
 // rhymebrain
 
 // icanhazdadjoke
@@ -15,8 +13,6 @@
 // excuserheroku
 
 // uselessfactspl
-
-// emojihubheroku
 
 
 export default true;

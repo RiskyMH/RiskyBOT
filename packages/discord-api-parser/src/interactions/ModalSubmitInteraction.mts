@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-declaration-merging */
 import { APIModalSubmitInteraction, ComponentType, InteractionType, LocaleString, ModalSubmitActionRowComponent, ModalSubmitComponent } from "discord-api-types/v10";
 import type { Message } from "../payloads/Message.mjs";
 import BaseInteraction from "./BaseInteraction.mjs";
@@ -25,9 +26,9 @@ export default class ModalSubmitInteraction extends BaseInteraction {
         this.message = interaction.message;
     }
 
-    isModalSubmit(): true {
-        return true;
-    }
+    // isModalSubmit(): true {
+    //     return true;
+    // }
 
     /** Whether this is from a message component. */
     isFromMessage(): this is ModalMessageModalSubmitInteraction {

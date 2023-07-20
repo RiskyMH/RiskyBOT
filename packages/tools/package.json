@@ -2,25 +2,21 @@
     "name": "@riskybot/tools",
     "description": "A collection of tools for building and maintaining the RiskyBOT project",
     "version": "4.0.0-test.4",
-    "dependencies": {
-        "js-yaml": "^4.1.0"
-    },
     "directories": {
         "lib": "src"
     },
     "devDependencies": {
-        "@types/js-yaml": "^4.0.5",
-        "typescript": "^4.9.4"
+        "typescript": "^5.1.6"
     },
     "exports": {
         "types": "./dist/index.d.ts",
-        "import": "./dist/index.mjs"
+        "import": "./dist/tools.mjs"
     },
     "files": [
         "dist"
     ],
-    "main": "./dist/index.js",
-    "module": "./dist/index.mjs",
+    "main": "./dist/tools.mjs",
+    "module": "./dist/tools.mjs",
     "scripts": {
         "build": "tsc --build",
         "build:ci": "( cd ../../ && tsc -p ./packages/tools/tsconfig.json )",

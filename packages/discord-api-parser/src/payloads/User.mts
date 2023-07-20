@@ -35,15 +35,15 @@ export class User {
     system?: boolean;
     /** Whether the email on this account has been verified (not available on all user objects) */
     verified?: boolean;
-    
+
 
     constructor(user: APIUser) {
         this.id = user.id;
         this.username = user.username;
         this.discriminator = user.discriminator;
-        this.avatar = user.avatar; 
+        this.avatar = user.avatar;
         this.accentColor = user.accent_color;
-        this.banner = user.banner;  
+        this.banner = user.banner;
         this.bot = user.bot;
         this.email = user.email;
         this.flags = new UserFlags(user.flags || 0);
@@ -53,7 +53,7 @@ export class User {
         this.publicFlags = new UserFlags(user.public_flags || 0);
         this.system = user.system;
         this.verified = user.verified;
-    } 
+    }
 
     /** The date that the user was created */
     get createdAt(): Date {
@@ -61,25 +61,25 @@ export class User {
     }
 
     /** The avatar url for the user */
-    avatarURL(config: {extension: UserAvatarFormat, size: number } = {extension: ImageFormat.PNG, size: 512}): string | null {
+    avatarURL(config: { extension: UserAvatarFormat, size: number } = { extension: ImageFormat.PNG, size: 512 }): string | null {
         if (!this.avatar) return null;
         return DISCORD_CDN_BASE_URL + CDNRoutes.userAvatar(this.id, this.avatar, config.extension) + `?size=${config.size}`;
     }
 
     /** The url for the user's banner */
-    bannerURL(config: {extension: UserBannerFormat, size: number } = {extension: ImageFormat.PNG, size: 512}): string | null {
+    bannerURL(config: { extension: UserBannerFormat, size: number } = { extension: ImageFormat.PNG, size: 512 }): string | null {
         if (!this.banner) return null;
-        return  DISCORD_CDN_BASE_URL+ CDNRoutes.userBanner(this.id, this.banner, config.extension) + `?size=${config.size}`;
+        return DISCORD_CDN_BASE_URL + CDNRoutes.userBanner(this.id, this.banner, config.extension) + `?size=${config.size}`;
     }
 
     /** The url for the user's default avatar */
     get defaultAvatarURL(): string {
-        const discriminatorModulo = Number(this.discriminator) % 5 as DefaultUserAvatarAssets;
-        return DISCORD_CDN_BASE_URL+ CDNRoutes.defaultUserAvatar(discriminatorModulo);
+        const modulo = Number(this.id) % 6 as DefaultUserAvatarAssets;
+        return DISCORD_CDN_BASE_URL + CDNRoutes.defaultUserAvatar(modulo);
     }
 
     /** The url for the user's current display avatar */
-    displayAvatarURL(config: {extension: UserAvatarFormat, size: number } = {extension: ImageFormat.PNG, size: 512}): string {
+    displayAvatarURL(config: { extension: UserAvatarFormat, size: number } = { extension: ImageFormat.PNG, size: 512 }): string {
         return this.avatarURL(config) || this.defaultAvatarURL;
     }
 
@@ -87,8 +87,8 @@ export class User {
     get tag(): string {
         return `${this.username}#${this.discriminator}`;
     }
-    
-    
+
+
 }
 
 

@@ -22,9 +22,9 @@ export default class MessageCommandInteraction extends ApplicationCommandInterac
         this.targetMessage = interaction.data.resolved.messages[this.targetId];
     }
 
-    isMessageCommand(): true {
-        return true;
-    }
+    // isMessageCommand(): true {
+    //     return true;
+    // }
 
 }
 

@@ -3,11 +3,13 @@
     "description": "A set of function to get/use APIs for the project",
     "version": "4.0.0-test.4",
     "dependencies": {
-        "@sapphire/shapeshift": "^3.8.1",
-        "undici": "^5.14.0"
+        "@riskybot/error": "workspace:^",
+        "@sapphire/shapeshift": "^3.9.2",
+        "lru-cache": "^10.0.0",
+        "undici": "^5.22.1"
     },
     "devDependencies": {
-        "typescript": "^4.9.4"
+        "typescript": "^5.1.6"
     },
     "directories": {
         "lib": "src"

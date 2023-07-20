@@ -4,3 +4,6 @@ A collection of functions (commands) for use in the [RiskyBOT](https://github.co
 
 ### Notes
 This is not fully designed to be used as a library, but rather to make the responses of commands for the project.
+
+### Credits:
+Some images and ideas from: <https://github.com/DankMemer/imgen>

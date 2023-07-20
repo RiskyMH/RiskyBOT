@@ -1,0 +1,297 @@
+[
+  {
+    "name": "aboutme-credits",
+    "description": "Replies information about RiskyBOT and my credits",
+    "bot": "riskybot",
+    "options": []
+  },
+  {
+    "name": "about channel",
+    "description": "Replies with information about a channel",
+    "bot": "riskybot",
+    "options": [
+      {
+        "name": "channel",
+        "description": "The channel to get information about",
+        "required": true
+      },
+      {
+        "name": "extra",
+        "description": "Some more information that isn't as useful",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "about role",
+    "description": "Replies with information about a role",
+    "bot": "riskybot",
+    "options": [
+      {
+        "name": "role",
+        "description": "The role to get information about",
+        "required": true
+      },
+      {
+        "name": "extra",
+        "description": "Some more information that isn't as useful",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "about subreddit",
+    "description": "Get information about a subreddit",
+    "bot": "riskybot",
+    "options": [
+      {
+        "name": "subreddit",
+        "description": "The name of the subreddit",
+        "required": true
+      }
+    ]
+  },
+  {
+    "name": "about user",
+    "description": "Replies with information about a user",
+    "bot": "riskybot",
+    "options": [
+      {
+        "name": "user",
+        "description": "The user to get information about",
+        "required": true
+      },
+      {
+        "name": "extra",
+        "description": "Some more information that isn't as useful",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "fun affect",
+    "description": "Show everyone what affected you",
+    "bot": "riskybot",
+    "options": [
+      {
+        "name": "user",
+        "description": "The user that is used",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "ping",
+    "description": "Say hello to the bot",
+    "bot": "riskybot",
+    "options": []
+  },
+  {
+    "name": "random affirmation",
+    "description": "A random affirmation",
+    "bot": "riskybot",
+    "options": []
+  },
+  {
+    "name": "random bird",
+    "description": "🐦 A random bird image",
+    "bot": "riskybot",
+    "options": []
+  },
+  {
+    "name": "random cat",
+    "description": "🐱 A random cat image",
+    "bot": "riskybot",
+    "options": []
+  },
+  {
+    "name": "random dad-joke",
+    "description": "🤣 A random dad joke",
+    "bot": "riskybot",
+    "options": []
+  },
+  {
+    "name": "random dog",
+    "description": "🐶 A random dog image",
+    "bot": "riskybot",
+    "options": []
+  },
+  {
+    "name": "random duck",
+    "description": "🦆 A random duck image",
+    "bot": "riskybot",
+    "options": []
+  },
+  {
+    "name": "random emoji",
+    "description": "A random emoji",
+    "bot": "riskybot",
+    "options": []
+  },
+  {
+    "name": "random fact",
+    "description": "A random fact",
+    "bot": "riskybot",
+    "options": []
+  },
+  {
+    "name": "random insult",
+    "description": "😢 A random insult",
+    "bot": "riskybot",
+    "options": []
+  },
+  {
+    "name": "random number",
+    "description": "A random number",
+    "bot": "riskybot",
+    "options": [
+      {
+        "name": "min",
+        "description": "The min the random number can go",
+        "required": false
+      },
+      {
+        "name": "max",
+        "description": "The max the random number can go",
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "random quote",
+    "description": "🗨️ A random quote",
+    "bot": "riskybot",
+    "options": []
+  },
+  {
+    "name": "random reddit post",
+    "description": "Uses Reddit and your selected subreddit",
+    "bot": "riskybot",
+    "options": [
+      {
+        "name": "subreddit",
+        "description": "The subreddit to get a random post from",
+        "required": true
+      }
+    ]
+  },
+  {
+    "name": "search urban-dictionary",
+    "description": "Use Urban Dictionary to define",
+    "bot": "riskybot",
+    "options": [
+      {
+        "name": "input",
+        "description": "What word do you want to trust Urban Dictionary with?",
+        "required": true
+      }
+    ]
+  },
+  {
+    "name": "tools 8ball",
+    "description": "🎱 Ask the Magic 8 Ball a question!",
+    "bot": "riskybot",
+    "options": [
+      {
+        "name": "question",
+        "description": "Your question",
+        "required": true
+      }
+    ]
+  },
+  {
+    "name": "tools choose",
+    "description": "Use the bot to choose an option",
+    "bot": "riskybot",
+    "options": [
+      {
+        "name": "choices",
+        "description": "The list to choose from (separated by ',')",
+        "required": true
+      }
+    ]
+  },
+  {
+    "name": "tools rhymes",
+    "description": "Find words that rhyme with a provided word",
+    "bot": "riskybot",
+    "options": [
+      {
+        "name": "word",
+        "description": "The word to find rhymes for",
+        "required": true
+      }
+    ]
+  },
+  {
+    "name": "translate",
+    "description": "Translate text between language using Google Translate",
+    "bot": "riskybot",
+    "options": [
+      {
+        "name": "input",
+        "description": "The input for the translator",
+        "required": true
+      },
+      {
+        "name": "language",
+        "description": "The language that the text is going to be translated",
+        "required": true
+      }
+    ]
+  },
+  {
+    "name": "affect",
+    "description": "Show everyone what affected you",
+    "bot": "imgen",
+    "options": [
+      {
+        "name": "img",
+        "description": "The link to an image describing you/someone",
+        "required": true
+      }
+    ]
+  },
+  {
+    "name": "cry",
+    "description": "Show everyone why you are crying",
+    "bot": "imgen",
+    "options": [
+      {
+        "name": "reason",
+        "description": "The reason that you are crying",
+        "required": true
+      }
+    ]
+  },
+  {
+    "name": "image-from attachment",
+    "description": "Get an image from an attachment",
+    "bot": "imgen",
+    "options": [
+      {
+        "name": "attachment",
+        "description": "The attachment to get the image from",
+        "required": true
+      }
+    ]
+  },
+  {
+    "name": "image-from user",
+    "description": "Get an image from a user's avatar",
+    "bot": "imgen",
+    "options": [
+      {
+        "name": "user",
+        "description": "The user to get the image from",
+        "required": true
+      }
+    ]
+  },
+  {
+    "name": "ping",
+    "description": "Why are you trying to ping me?",
+    "bot": "imgen",
+    "options": []
+  }
+]

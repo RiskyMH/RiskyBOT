@@ -12,9 +12,9 @@ export default class PingInteraction extends BaseInteraction {
         super(interaction);
     }
 
-    isPingInteraction(): true {
-        return true;
-    }
+    // isPingInteraction(): true {
+    //     return true;
+    // }
 
     // // @ts-expect-error xxx
     // handle(response) {

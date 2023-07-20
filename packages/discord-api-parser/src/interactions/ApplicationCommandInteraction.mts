@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-declaration-merging */
 import type { APIApplicationCommandInteraction, ApplicationCommandType, InteractionType, LocaleString, Snowflake } from "discord-api-types/v10";
 import BaseInteraction from "./BaseInteraction.mjs";
 import { InteractionResponseMixin, applyInteractionResponseMixins, createInteractionMixinList } from "./Response.mjs";
@@ -27,9 +28,9 @@ export default class ApplicationCommandInteraction extends BaseInteraction {
 
     }
 
-    isApplicationCommand(): true {
-        return true;
-    }
+    // isApplicationCommand(): true {
+    //     return true;
+    // }
 
 
 }

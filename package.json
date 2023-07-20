@@ -3,30 +3,15 @@
     "description": "A random multi-purpose bot",
     "version": "4.0.0",
     "author": "RiskyMH",
-    "dependencies": {
-        "@discordjs/builders": "^1.4.0",
-        "@discordjs/formatters": "^0.1.0",
-        "@riskybot/apis": "workspace:^",
-        "@riskybot/commands": "workspace:^",
-        "@riskybot/image-generate": "workspace:^",
-        "@riskybot/tools": "workspace:^",
-        "discord-api-parser": "workspace:^",
-        "discord-api-types": "0.37.24",
-        "discord-verify": "^1.0.0",
-        "dotenv": "^16.0.3",
-        "form-data": "^4.0.0",
-        "undici": "^5.14.0"
-    },
     "devDependencies": {
-        "@types/js-yaml": "^4.0.5",
-        "@types/node": "^18.11.17",
-        "@typescript-eslint/eslint-plugin": "^5.47.0",
-        "@typescript-eslint/parser": "^5.47.0",
-        "@vercel/node": "^2.8.2",
-        "eslint": "^8.30.0",
-        "turbo": "^1.6.3",
-        "typescript": "^4.9.4",
-        "vercel": "^28.10.1"
+        "@types/node": "^20.4.2",
+        "@typescript-eslint/eslint-plugin": "^6.1.0",
+        "@typescript-eslint/parser": "^6.1.0",
+        "@vercel/node": "^2.15.6",
+        "eslint": "^8.45.0",
+        "turbo": "^1.10.9",
+        "typescript": "^5.1.6",
+        "vercel": "^31.0.4"
     },
     "engines": {
         "node": ">=16.0.0"
@@ -36,18 +21,21 @@
     "module": "system",
     "private": true,
     "scripts": {
-        "build": "turbo run build && tsc --build",
+        "build": "turbo run build",
         "test": "turbo run test",
+        "lint": "turbo run lint --parallel",
         "update": "yarn upgrade-interactive",
-        "deployCommands": "node -r dotenv/config dist/applicationCommands/deploy.mjs",
-        "deployCommands:ownerOnly": "node -r dotenv/config dist/applicationCommands/deployOwnerOnly.mjs",
-        "deployCommands:imgen": "node -r dotenv/config dist/applicationCommands/deployImgen.mjs",
-        "lint": "turbo run lint --parallel && eslint src/**/*.mts"
+        "deploy-commands": "yarn deploy-commands:riskybot && yarn deploy-commands:imgen",
+        "deploy-commands:riskybot": "node -r dotenv/config apps/riskybot/dist/deploy-commands.mjs",
+        "deploy-commands:imgen": "node -r dotenv/config apps/imgen/dist/deploy-commands.mjs",
+        "start:riskybot": "node -r dotenv/config --enable-source-maps apps/riskybot/dist/express.mjs",
+        "start:imgen": "node -r dotenv/config --enable-source-maps apps/imgen/dist/express.mjs",
+        "dev:website": "yarn workspace @riskybot/website dev",
+        "dev:bot": "yarn vercel dev"
     },
-    "type": "module",
-    "packageManager": "yarn@3.3.0",
+    "packageManager": "yarn@3.6.1",
     "workspaces": [
         "packages/*",
-        "website"
+        "apps/*"
     ]
 }
