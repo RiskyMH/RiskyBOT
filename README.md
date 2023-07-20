@@ -18,7 +18,7 @@ yarn install
 
 ### Configuring the env vars
 
-If you are developing locally, you need to create `.env` files in both the `apps/web` and `app/bot` folder. Refer to the table below for all the env vars in the project
+If you are developing locally, you need to create `.env` files in both the `apps/web` and `apps/bot` folder. Refer to the table below for all the env vars in the project
 
 #### Project: `apps/riskybot`
 

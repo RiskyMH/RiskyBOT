@@ -3,7 +3,7 @@
     "private": true,
     "scripts": {
         "build": "tsc --build && npx command-imports",
-        "build:ci": "( cd ../../ && tsc -p ./app/imgen/tsconfig.json )",
+        "build:ci": "( cd ../../ && tsc -p ./apps/imgen/tsconfig.json )",
         "lint": "eslint src/**/*.mts",
         "start": "node dist/express.mjs",
         "deploy-commands": "node dist/deploy-commands.mjs"

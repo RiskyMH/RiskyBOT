@@ -14,6 +14,19 @@ permissions:
     id-token: write
 
 jobs:
+  dependencies:
+    runs-on: ubuntu-latest
+    name: "Install Dependencies"
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup node.js v18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 'current'
+          cache: 'yarn'
+          cache-dependency-path: yarn.lock
+
   typescript-build:
     runs-on: ubuntu-latest
     name: "TypeScript build"
@@ -54,7 +67,7 @@ jobs:
 
       - name: Run Build
         # run: yarn build
-        run: yarn turbo run build:ci --cache-dir=".turbo" && yarn tsc --build
+        run: yarn turbo run build:ci --cache-dir=".turbo"
         
       # Upload website artifact
       - name: Upload website artifact
@@ -86,7 +99,7 @@ jobs:
         run: yarn install --immutable
 
       - name: Run ESLint
-        run: yarn turbo run lint --cache-dir=".turbo" && yarn eslint src/**/*.mts
+        run: yarn turbo run lint --cache-dir=".turbo"
 
   tests:
     runs-on: ubuntu-latest
