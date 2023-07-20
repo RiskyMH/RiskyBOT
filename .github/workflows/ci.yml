@@ -28,6 +28,7 @@ jobs:
           cache-dependency-path: yarn.lock
 
   typescript-build:
+    needs: [dependencies]
     runs-on: ubuntu-latest
     name: "TypeScript build"
     steps:
@@ -77,6 +78,7 @@ jobs:
 
 
   eslint:
+    needs: [dependencies]
     runs-on: ubuntu-latest
     name: "ESLint"
     steps:
