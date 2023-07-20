@@ -104,7 +104,7 @@ jobs:
   
   npm-publish:
     needs: [typescript-build, tests]
-    if: ${{ github.repository_owner == 'RiskyMH' }} && ${{ github.ref == 'refs/heads/main' }}
+    if: ${{ github.repository_owner == 'RiskyMH' && github.ref == 'refs/heads/main' }}
     name: NPM Publish
     strategy:
       fail-fast: false
@@ -148,7 +148,7 @@ jobs:
 
       # Should be fast as this is requiring the ts build to succeed (and thus having cache)
       - name: Run Build
-        run: yarn turbo run build --cache-dir=".turbo"
+        run: yarn turbo run build:ci --cache-dir=".turbo"
 
       - name: Delete contents in dist/
         run: rm -rf packages${{ matrix.package }}/dist/*
@@ -164,7 +164,7 @@ jobs:
 
   deploy-commands:
     needs: [typescript-build, tests]
-    if: ${{ github.repository_owner == 'RiskyMH' }} && ${{ github.ref == 'refs/heads/main' }}
+    if: ${{ github.repository_owner == 'RiskyMH' && github.ref == 'refs/heads/main' }}
     name: Deploy Commands
 
     runs-on: ubuntu-latest
