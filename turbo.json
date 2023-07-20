@@ -29,13 +29,6 @@
                 "build"
             ],
             "outputs": []
-        },
-        "test:ci": {
-            "dependsOn": [
-                "^test",
-                "build:ci"
-            ],
-            "outputs": []
         }
     }
 }

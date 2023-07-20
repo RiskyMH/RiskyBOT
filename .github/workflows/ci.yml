@@ -135,7 +135,7 @@ jobs:
 
       # Actually run the tests (part of the test stage requires the build)
       - name: Run Tests
-        run: yarn turbo run test:ci --cache-dir=".turbo"
+        run: yarn turbo run test --cache-dir=".turbo"
   
   npm-publish:
     needs: [typescript-build, eslint, tests]
