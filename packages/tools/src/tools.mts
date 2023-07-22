@@ -12,6 +12,10 @@ export function resolveColor(color: string | number): number {
     return color;
 }
 
+export function resolveHexColor(color: number): string {
+    return `#${color.toString(16).padStart(6, "0")}`;
+}
+
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore - would use @ts-expect-error but only *some* of the time it errors

@@ -4,6 +4,6 @@
     "include": ["src/**/*", "tests/**/*.mjs"],
     "compilerOptions": {
         "declaration": true,
-        "outDir": "dist",
+        "outDir": "dist"
     },
 }

@@ -1,9 +1,8 @@
 
-
 export interface BasicError {
     title: string;
     message: string;
-    author: {
+    author?: {
         name: string;
         image: string | undefined;
         url: string | undefined;
@@ -13,6 +12,7 @@ export interface BasicError {
 export interface LogError {
     title: string;
     message: string;
+    more?: string;
 }
 
 export default class RiskyBotError extends Error {

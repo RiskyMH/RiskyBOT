@@ -3,7 +3,6 @@ import { BaseInteraction, ButtonInteraction, ChatInputInteraction, parseRawInter
 import { describe, it } from "node:test";
 import assert from "node:assert";
 
-// TODO: Add more tests
 
 describe("Chat input interaction", async () => {
 

@@ -5,10 +5,9 @@ import { ApplicationCommandInteraction, AutocompleteInteraction, Permissions, Us
 import { env } from "#env.mjs";
 import { APIEmbedField, ApplicationCommandType, ChannelType, ImageFormat, PermissionFlagsBits, UserFlags as UserFlagsEnum } from "discord-api-types/v10";
 import config from "#config.mjs";
-import { topgg } from "@riskybot/apis";
-import { listFormatter, trim } from "@riskybot/tools";
+import { reddit, topgg } from "@riskybot/apis";
+import { listFormatter, resolveHexColor, trim } from "@riskybot/tools";
 import { DiscordSnowflake } from "@sapphire/snowflake";
-import { fetch } from "undici";
 import { autoComplete as redditAutocomplete } from "./_reddit.mjs";
 
 
@@ -310,7 +309,7 @@ export default class About extends Command {
                 const embed = new EmbedBuilder()
                     .setTitle("@" + role.name)
                     .addFields([{ name: "Created at", value: time(DiscordSnowflake.timestampFrom(role.id)) }])
-                    .addFields([{ name: "Color", value: role.color.toString() }]) // TODO: make this hex again
+                    .addFields([{ name: "Color", value: resolveHexColor(role.color) }])
                     .addFields(permissionViewer(role.permissions))
                     .addFields([{ name: "Position", value: role.position.toString() }]);
 
@@ -334,14 +333,11 @@ export default class About extends Command {
                 const subreddit = interaction.options.getString("subreddit", true)
                     .replace("r/", "");
 
-                // TODO: add this to @riskybot/apis
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                const redditPostList = await (await fetch("https://reddit.com/r/" + (encodeURIComponent(subreddit)) + "/about.json?" + new URLSearchParams())).json() as Record<any, any>;
+                const info = await reddit.subredditInfo(subreddit);
 
-                if (!redditPostList || !redditPostList?.data?.name || redditPostList.error === 404 || redditPostList.error === 403) {
+                if (!info) {
                     const errorEmb = new EmbedBuilder()
                         .setColor(config.colors.error)
-                        .setDescription("Unknown error with Reddit API")
                         .setTitle("Can't find your subreddit")
                         .setDescription("No results found for" + inlineCode("r/" + subreddit))
                         .setAuthor({ name: "Reddit", url: "https://www.reddit.com/", iconURL: "https://www.reddit.com/favicon.ico" });
@@ -349,11 +345,9 @@ export default class About extends Command {
                     return interaction.reply({ embeds: [errorEmb], ephemeral: true });
                 }
 
-                const info = redditPostList.data;
-
                 const embed = new EmbedBuilder()
                     .setAuthor({ name: "Reddit", url: "https://www.reddit.com/", iconURL: "https://www.reddit.com/favicon.ico" })
-                    .setURL("https://reddit.com" + info.url)
+                    .setURL(info.url)
                     .setColor(config.colors.ok)
                     .setTitle(info.display_name_prefixed)
                     .setThumbnail(info.community_icon.split("?")[0] || info.icon_img || null)

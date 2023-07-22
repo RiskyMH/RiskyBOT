@@ -20,9 +20,8 @@
     "scripts": {
         "build": "tsc --build",
         "build:ci": "( cd ../../ && tsc -p ./packages/error/tsconfig.json )",
-        "lint": "eslint src/**/*.mts tests/*.mjs",
-        "prepack": "yarn build",
-        "test": "node --test"
+        "lint": "eslint src/**/*.mts",
+        "prepack": "yarn build"
     },
     "type": "module",
     "types": "./dist/index.d.ts",

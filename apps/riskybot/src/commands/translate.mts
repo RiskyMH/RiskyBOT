@@ -4,7 +4,7 @@ import Command from "@riskybot/command";
 import { trim } from "@riskybot/tools";
 import { ApplicationCommandInteraction } from "discord-api-parser";
 import { ApplicationCommandType } from "discord-api-types/v10";
-import { fetch } from "undici";
+import { googleTranslate } from "@riskybot/apis";
 
 
 export default class Translate extends Command {
@@ -63,8 +63,7 @@ export default class Translate extends Command {
 
         const from = "auto";
 
-        // TODO: Convert to @riskybot/apis (and add error handling)
-        const [[translation, detectedLanguage]] = await (await fetch(`https://translate.google.com/translate_a/t?client=dict-chrome-ex&${new URLSearchParams({ sl: from, tl: to, q: content })}`)).json() as [[string, string]];
+        const { translatedText: translation, language: detectedLanguage } = await googleTranslate.translate(content, to, from);
 
         const embed = new EmbedBuilder()
             .setColor(config.colors.ok)
@@ -76,11 +75,11 @@ export default class Translate extends Command {
                 iconURL: "https://www.gstatic.com/images/branding/product/1x/translate_64dp.png"
             })
             .addFields([{
-                name: langs[detectedLanguage],
+                name: googleTranslate.langs[detectedLanguage],
                 value: trim(content, 1024), inline: true
             }])
             .addFields([{
-                name: langs[to],
+                name: googleTranslate.langs[to],
                 value: trim(translation, 1024), inline: true
             }]);
 
@@ -90,119 +89,3 @@ export default class Translate extends Command {
 
 }
 
-/**
- *
- * Generated from https://translate.google.com
- *
- * The languages that Google Translate supports (as of 5/15/16) alongside with their ISO 639-1 codes
- * See https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
- */
-const langs: Record<string, string> = {
-    "auto": "Automatic",
-    "af": "Afrikaans",
-    "sq": "Albanian",
-    "am": "Amharic",
-    "ar": "Arabic",
-    "hy": "Armenian",
-    "az": "Azerbaijani",
-    "eu": "Basque",
-    "be": "Belarusian",
-    "bn": "Bengali",
-    "bs": "Bosnian",
-    "bg": "Bulgarian",
-    "ca": "Catalan",
-    "ceb": "Cebuano",
-    "ny": "Chichewa",
-    "zh": "Chinese (Simplified)",
-    "zh-cn": "Chinese (Simplified)",
-    "zh-tw": "Chinese (Traditional)",
-    "co": "Corsican",
-    "hr": "Croatian",
-    "cs": "Czech",
-    "da": "Danish",
-    "nl": "Dutch",
-    "en": "English",
-    "eo": "Esperanto",
-    "et": "Estonian",
-    "tl": "Filipino",
-    "fi": "Finnish",
-    "fr": "French",
-    "fy": "Frisian",
-    "gl": "Galician",
-    "ka": "Georgian",
-    "de": "German",
-    "el": "Greek",
-    "gu": "Gujarati",
-    "ht": "Haitian Creole",
-    "ha": "Hausa",
-    "haw": "Hawaiian",
-    "he": "Hebrew",
-    "iw": "Hebrew",
-    "hi": "Hindi",
-    "hmn": "Hmong",
-    "hu": "Hungarian",
-    "is": "Icelandic",
-    "ig": "Igbo",
-    "id": "Indonesian",
-    "ga": "Irish",
-    "it": "Italian",
-    "ja": "Japanese",
-    "jw": "Javanese",
-    "kn": "Kannada",
-    "kk": "Kazakh",
-    "km": "Khmer",
-    "ko": "Korean",
-    "ku": "Kurdish (Kurmanji)",
-    "ky": "Kyrgyz",
-    "lo": "Lao",
-    "la": "Latin",
-    "lv": "Latvian",
-    "lt": "Lithuanian",
-    "lb": "Luxembourgish",
-    "mk": "Macedonian",
-    "mg": "Malagasy",
-    "ms": "Malay",
-    "ml": "Malayalam",
-    "mt": "Maltese",
-    "mi": "Maori",
-    "mr": "Marathi",
-    "mn": "Mongolian",
-    "my": "Myanmar (Burmese)",
-    "ne": "Nepali",
-    "no": "Norwegian",
-    "ps": "Pashto",
-    "fa": "Persian",
-    "pl": "Polish",
-    "pt": "Portuguese",
-    "pa": "Punjabi",
-    "ro": "Romanian",
-    "ru": "Russian",
-    "sm": "Samoan",
-    "gd": "Scots Gaelic",
-    "sr": "Serbian",
-    "st": "Sesotho",
-    "sn": "Shona",
-    "sd": "Sindhi",
-    "si": "Sinhala",
-    "sk": "Slovak",
-    "sl": "Slovenian",
-    "so": "Somali",
-    "es": "Spanish",
-    "su": "Sundanese",
-    "sw": "Swahili",
-    "sv": "Swedish",
-    "tg": "Tajik",
-    "ta": "Tamil",
-    "te": "Telugu",
-    "th": "Thai",
-    "tr": "Turkish",
-    "uk": "Ukrainian",
-    "ur": "Urdu",
-    "uz": "Uzbek",
-    "vi": "Vietnamese",
-    "cy": "Welsh",
-    "xh": "Xhosa",
-    "yi": "Yiddish",
-    "yo": "Yoruba",
-    "zu": "Zulu"
-};

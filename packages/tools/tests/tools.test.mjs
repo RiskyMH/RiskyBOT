@@ -2,7 +2,6 @@ import assert from "node:assert";
 import { describe, it } from "node:test";
 import { resolveColor, trim } from "../dist/tools.mjs";
 
-// TODO: Add more tests
 
 describe("Trim", async () => {
 

@@ -4,7 +4,7 @@ import path from "path";
 import handleInteraction from "./handle.mjs";
 import { Interaction } from "discord-api-parser";
 import { RESTPostAPIWebhookWithTokenJSONBody, RESTPostAPIApplicationCommandsJSONBody } from "discord-api-types/v10";
-import { deployCommands } from "@riskybot/tools";
+import { deployCommands, trim } from "@riskybot/tools";
 import RiskyBotError from "@riskybot/error";
 import { EmbedBuilder } from "@discordjs/builders";
 import { fetch } from "undici";
@@ -48,10 +48,14 @@ export default class Client {
             return await handleInteraction(interaction, this.commands);
         } catch (error) {
 
+            console.error(error);
+
             const errorColor = 0xED4245;
 
             const embed = new EmbedBuilder()
                 .setColor(errorColor);
+
+            let webhookError = {} as RESTPostAPIWebhookWithTokenJSONBody;
 
             if (error instanceof RiskyBotError) {
                 embed
@@ -67,32 +71,46 @@ export default class Client {
                         });
                 }
 
-                // Replyable interactions
-                if (interaction.isApplicationCommand() || interaction.isMessageComponent() || interaction.isModalSubmit()) {
-                    return interaction.reply({ embeds: [embed] });
-                }
+                const wbDesc = error.logError.more
+                    ? `${error.logError.message}\n\n\`\`\`${trim(error.logError.more, 1028)}\`\`\``
+                    : error.logError.message;
 
-                // https://discord.com/api/webhooks/id/token
-                const url = process.env.ERROR_WEBHOOK;
-                if (url) {
-                    await fetch(url, {
-                        body: JSON.stringify({
-                            content: "hello",
-                            embeds: [
-                                {
-                                    title: error.logError.title,
-                                    description: error.logError.message,
-                                    color: errorColor
-                                }
-                            ]
+                webhookError = {
+                    embeds: [
+                        {
+                            title: error.logError.title,
+                            description: wbDesc,
+                            color: errorColor
+                        }
+                    ]
 
-                        } as RESTPostAPIWebhookWithTokenJSONBody),
-                        method: "POST"
-                    });
-
-                }
+                };
 
 
+            } else {
+                embed
+                    .setTitle("Unknown error")
+                    .setDescription("An unknown error occurred (you somehow broke the bot)");
+            }
+
+            // https://discord.com/api/webhooks/id/token
+            const url = process.env.ERROR_WEBHOOK;
+            if (url) {
+
+                fetch(url, {
+                    body: JSON.stringify(webhookError),
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+
+                });
+
+            }
+
+            // Replyable interactions
+            if (interaction.isApplicationCommand() || interaction.isMessageComponent() || interaction.isModalSubmit()) {
+                return interaction.reply({ embeds: [embed], ephemeral: true });
             }
 
 

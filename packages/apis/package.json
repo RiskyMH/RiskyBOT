@@ -28,7 +28,7 @@
         "build:ci": "( cd ../../ && tsc -p ./packages/apis/tsconfig.json )",
         "lint": "eslint src/**/*.mts tests/*.mjs",
         "prepack": "yarn build",
-        "test": "echo \"node --test\" should be run"
+        "test": "node --test"
     },
     "type": "module",
     "types": "./dist/index.d.ts",

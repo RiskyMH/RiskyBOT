@@ -11,19 +11,19 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@skyra/discord-components-react": "^3.6.0",
-    "discord-api-types": "^0.37.49",
-    "next": "^13.4.10",
+    "discord-api-types": "^0.37.50",
+    "next": "^13.4.12",
     "react": "^18.2.0",
     "react-awesome-reveal": "^4.2.5",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@next/eslint-plugin-next": "^13.4.10",
-    "@types/node": "^20.4.2",
+    "@next/eslint-plugin-next": "^13.4.12",
+    "@types/node": "^20.4.3",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "autoprefixer": "^10.4.14",
-    "postcss": "^8.4.26",
+    "postcss": "^8.4.27",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.1.6"
   },

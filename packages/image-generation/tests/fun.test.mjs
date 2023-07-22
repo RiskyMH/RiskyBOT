@@ -2,7 +2,6 @@ import assert from "node:assert";
 import { describe, it } from "node:test";
 import { affect, cry } from "../dist/index.mjs";
 
-// TODO: Add more tests :)
 
 describe("Affect", async () => {
 

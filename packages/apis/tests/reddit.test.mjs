@@ -2,7 +2,6 @@ import { describe, it } from "node:test";
 import assert from "node:assert";
 import { reddit } from "../dist/index.mjs";
 
-// TODO: Add more tests
 
 describe("Reddit random post", async () => {
     const validSubreddit = "meme";
@@ -12,7 +11,7 @@ describe("Reddit random post", async () => {
     });
 
     const invalidSubreddit = "￼";
-    it(`should NOT a post for "${invalidSubreddit}"`, async () => {
+    it(`should NOT get a post for "r/${invalidSubreddit}"`, async () => {
         const result = await reddit.randomPostInSubreddit(invalidSubreddit);
         assert.ok(result === null);
     });
@@ -34,3 +33,19 @@ describe("Reddit subreddit autocomplete", async () => {
     });
 
 });
+
+describe("Reddit subreddit info", async () => {
+    const validQuery = "meme";
+    it(`should get a subreddit for query "${validQuery}"`, async () => {
+        const result = await reddit.subredditInfo(validQuery) ?? [];
+        assert.ok(result);
+    });
+
+    const invalidQuery = "￼";
+    it(`should NOT get a subreddit for query "${validQuery}"`, async () => {
+        const result = await reddit.subredditAutoComplete(invalidQuery);
+        assert.ok(result === null);
+    });
+
+});
+

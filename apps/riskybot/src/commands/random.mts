@@ -1,10 +1,9 @@
 import config from "#config.mjs";
 import { ActionRowBuilder, ButtonBuilder, EmbedBuilder, MessageActionRowComponentBuilder, SlashCommandBuilder, SlashCommandNumberOption, SlashCommandStringOption, SlashCommandSubcommandBuilder, SlashCommandSubcommandGroupBuilder } from "@discordjs/builders";
-import { reddit } from "@riskybot/apis";
+import { reddit, smallApis } from "@riskybot/apis";
 import Command from "@riskybot/command";
 import { hyperlink, inlineCode, italic } from "@discordjs/formatters";
 import { ApplicationCommandInteraction, AutocompleteInteraction } from "discord-api-parser";
-import { fetch } from "undici";
 import { trim } from "@riskybot/tools";
 import { autoComplete as redditAutocomplete } from "./_reddit.mjs";
 import { ButtonStyle } from "discord-api-types/v10";
@@ -96,20 +95,20 @@ export default class Random extends Command {
 
         switch (type) {
             case "cat": {
-                const cat = await (await fetch("http://aws.random.cat/meow")).json() as { file: string };
+                const cat = await smallApis.randomCat();
 
                 const embed = new EmbedBuilder()
                     .setTitle("🐱 Cat")
-                    .setURL("https://random.cat/view")
-                    .setFooter({ text: "Powered by https://aws.random.cat" })
-                    .setColor(config.colors.washedOut.ok)
-                    .setImage(cat.file);
+                    .setURL("https://thecatapi.com")
+                    .setFooter({ text: "Powered by https://thecatapi.com" })
+                    .setColor(config.colors.ok)
+                    .setImage(cat.url);
 
                 return interaction.reply({ content: "Here is your random cat", embeds: [embed], ephemeral: true });
             }
 
             case "dog": {
-                const dog = await (await fetch("https://dog.ceo/api/breeds/image/random")).json() as { message: string };
+                const dog = await smallApis.randomDog();
 
                 const embed = new EmbedBuilder()
                     .setTitle("🐶 Dog")
@@ -123,7 +122,7 @@ export default class Random extends Command {
 
             case "dadjoke":
             case "dad-joke": {
-                const joke = await (await fetch("https://icanhazdadjoke.com", { headers: { Accept: "application/json" } })).json() as { id: string, joke: string };
+                const joke = await smallApis.randomDadJoke();
 
                 const embed = new EmbedBuilder()
                     .setTitle("🤣 Dad Joke")
@@ -134,8 +133,9 @@ export default class Random extends Command {
 
                 return interaction.reply({ content: "Here is your random dad joke", embeds: [embed] });
             }
+
             case "quote": {
-                const quote = await (await fetch("https://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json")).json() as { quoteText: string, quoteAuthor: string, quoteLink: string };
+                const quote = await smallApis.randomQuote();
 
                 const embed = new EmbedBuilder()
                     .setTitle("Quote")
@@ -148,12 +148,12 @@ export default class Random extends Command {
             }
 
             case "affirmation": {
-                const affirmation = await (await fetch("https://www.affirmations.dev")).json() as { affirmation: string };
+                const affirmation = await smallApis.randomAffirmation();
 
                 const embed = new EmbedBuilder()
                     .setTitle("Affirmation")
-                    .setURL("https://www.affirmations.dev")
-                    .setFooter({ text: "Powered by https://www.affirmations.dev" })
+                    .setURL("https://affirmations.dev")
+                    .setFooter({ text: "Powered by https://affirmations.dev" })
                     .setColor(config.colors.ok)
                     .setDescription(affirmation.affirmation);
 
@@ -161,7 +161,7 @@ export default class Random extends Command {
             }
 
             case "insult": {
-                const insult = await (await fetch("https://evilinsult.com/generate_insult.php?lang=en&type=json")).json() as { insult: string };
+                const insult = await smallApis.randomInsult();
 
                 const embed = new EmbedBuilder()
                     .setTitle("Insult")
@@ -174,7 +174,7 @@ export default class Random extends Command {
             }
 
             case "fact": {
-                const fact = await (await fetch("https://uselessfacts.jsph.pl/api/v2/facts/random?language=en")).json() as { text: string, permalink: string };
+                const fact = await smallApis.randomFact();
 
                 const embed = new EmbedBuilder()
                     .setTitle("Fact")
@@ -187,7 +187,7 @@ export default class Random extends Command {
             }
 
             case "bird": {
-                const bird = await (await fetch("https://shibe.online/api/birds?count=1")).json() as string[];
+                const bird = await smallApis.randomBird();
 
                 const embed = new EmbedBuilder()
                     .setTitle("🐦 Bird")
@@ -200,7 +200,7 @@ export default class Random extends Command {
             }
 
             case "duck": {
-                const duck = await (await fetch("https://random-d.uk/api/v2/quack")).json() as { url: string };
+                const duck = await smallApis.randomDuck();
 
                 const embed = new EmbedBuilder()
                     .setTitle("🦆 Duck")

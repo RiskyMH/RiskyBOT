@@ -3,7 +3,16 @@ import { APIApplicationCommandOptionChoice } from "discord-api-types/v10";
 
 export async function autoComplete(input: string): Promise<APIApplicationCommandOptionChoice[]> {
 
-    const urbanOpt = await reddit.subredditAutoComplete(input, 25);
+    if (input.length === 0) {
+        const urbanOpt = await reddit.popularSubreddits();
+
+        const wordList = urbanOpt
+            .map(word => ({ name: word.display_name_prefixed, value: word.display_name_prefixed }));
+
+        return wordList.slice(0, 25);
+    }
+
+    const urbanOpt = await reddit.subredditAutoComplete(input);
 
     if (!urbanOpt) return [];
 

@@ -12,11 +12,11 @@ const topggAuthor = {
 
 const genericTopggError = {
     author: topggAuthor,
-    message: "Error with Top.gg",
-    title: "An unknown error occurred with [Top.gg API](https://top.gg/)",
+    title: "Error with Top.gg",
+    message: "An unknown error occurred with [Top.gg API](https://top.gg/)",
 };
 
-export async function userInfo(id: string, topggKey: string): Promise<UserInfoResult | null> {
+export async function userInfo(id: string, topggKey: string): Promise<UserInfo | null> {
 
     const headers = {
         Authorization: topggKey,
@@ -29,7 +29,7 @@ export async function userInfo(id: string, topggKey: string): Promise<UserInfoRe
         // No error because it's a 404
         return null;
     } else if (!result.ok) {
-        throw new APIError(genericTopggError, result);
+        throw new APIError(genericTopggError, result, await result.text());
     }
 
     const user = await result.json() as UserInfoResult;
@@ -39,16 +39,16 @@ export async function userInfo(id: string, topggKey: string): Promise<UserInfoRe
         return null;
     }
 
-    const verify = RawUserInfoResult.run(user);
+    const verify = rawUserInfoResult.run(user);
     if (verify.isErr() || !verify.value) {
-        throw new APIError(genericTopggError, result, JSON.stringify(verify.error));
+        throw new APIError(genericTopggError, result, JSON.stringify(verify.error, null, 2));
     }
-    
+
     return verify.value;
 }
 
 
-export async function botInfo(id: string, topggKey: string): Promise<BotInfoResult | null> {
+export async function botInfo(id: string, topggKey: string): Promise<BotInfo | null> {
 
     const headers = {
         Authorization: topggKey,
@@ -56,12 +56,12 @@ export async function botInfo(id: string, topggKey: string): Promise<BotInfoResu
     };
 
     const result = await fetch(topggBaseUrl + "/bots/" + id, { headers });
-    
+
     if (result.status === 404) {
         // No error because it's a 404
         return null;
     } else if (!result.ok) {
-        throw new APIError(genericTopggError, result);
+        throw new APIError(genericTopggError, result, await result.text());
     }
 
 
@@ -72,9 +72,9 @@ export async function botInfo(id: string, topggKey: string): Promise<BotInfoResu
         return null;
     }
 
-    const verify = RawBotInfoResult.run(bot);
+    const verify = rawBotInfoResult.run(bot);
     if (verify.isErr() || !verify.value) {
-        throw new APIError(genericTopggError, result, JSON.stringify(verify.error));
+        throw new APIError(genericTopggError, result, JSON.stringify(verify.error, null, 2));
     }
 
     return bot;
@@ -82,7 +82,7 @@ export async function botInfo(id: string, topggKey: string): Promise<BotInfoResu
 
 
 /** Description from https://docs.top.gg/api/bot/ */
-export const RawBotInfoResult = s.object({
+const rawBotInfoResult = s.object({
     /** The id of the bot */
     id: s.string,
     /** The username of the bot */
@@ -131,11 +131,12 @@ export const RawBotInfoResult = s.object({
     donatebotguildid: s.string.nullable,
 });
 
-export type BotInfoResult = InferType<typeof RawBotInfoResult>;
+type BotInfoResult = InferType<typeof rawBotInfoResult>;
+export type BotInfo = InferType<typeof rawBotInfoResult>;
 
 
 /** Description from https://docs.top.gg/api/bot/ */
-export const RawUserInfoResult = s.object({
+const rawUserInfoResult = s.object({
     /** The id of the user */
     id: s.string,
     /** The username of the user*/
@@ -177,4 +178,5 @@ export const RawUserInfoResult = s.object({
     admin: s.boolean,
 });
 
-export type UserInfoResult = InferType<typeof RawUserInfoResult>;
+type UserInfoResult = InferType<typeof rawUserInfoResult>;
+export type UserInfo = InferType<typeof rawUserInfoResult>;

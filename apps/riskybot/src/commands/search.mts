@@ -24,16 +24,6 @@ export default class Search extends Command {
                         .setRequired(true)
                         .setAutocomplete(true)
                 )
-            // ).addSubcommand(
-            //     new SlashCommandSubcommandBuilder()
-            //         .setName("lyrics")
-            //         .setDescription("Use Lyrics to search for lyrics")
-            //         .addStringOption(
-            //             new SlashCommandStringOption()
-            //                 .setName("song-name")
-            //                 .setDescription("The song name to find lyrics for")
-            //                 .setRequired(true)
-            //         )
         );
 
     async handleApplicationCommand(interaction: ApplicationCommandInteraction) {
@@ -52,21 +42,9 @@ export default class Search extends Command {
                 if (!urbanDef || !urbanDef.length) {
                     const errorEmb = new EmbedBuilder()
                         .setColor(config.colors.error)
-                        .setDescription("Unknown error with Urban Dictionary API");
-
-                    if (urbanDef === null) {
-                        errorEmb
-                            .setTitle("Can't find your term")
-                            .setDescription(trim("No results found for " + inlineCode(input), 4096))
-                            .setAuthor({ name: "Urban Dictionary", url: "https://www.urbandictionary.com/", iconURL: "https://www.urbandictionary.com/apple-touch-icon.png" });
-                    }
-
-                    else if (urbanDef === undefined) {
-                        errorEmb
-                            .setTitle("We had an error")
-                            .setDescription("An error occurred while using the [`Urban Dictionary`](https://urbandictionary.com) API");
-
-                    }
+                        .setTitle("Can't find your term")
+                        .setDescription(trim("No results found for " + inlineCode(input), 4096))
+                        .setAuthor({ name: "Urban Dictionary", url: "https://www.urbandictionary.com/", iconURL: "https://www.urbandictionary.com/apple-touch-icon.png" });
 
                     return interaction.reply({ embeds: [errorEmb], ephemeral: true });
                 }
@@ -86,8 +64,8 @@ export default class Search extends Command {
                     .setColor(config.colors.ok)
                     .setURL(urbanChosen.permalink)
                     .setDescription(trim(definition, 4096))
-                    .addFields([{ name: "Stats", value: `\`👍${urbanChosen.thumbsUp}\` \`👎${urbanChosen.thumbsDown}\`` }])
-                    .setTimestamp(urbanChosen.writtenOn)
+                    .addFields([{ name: "Stats", value: `\`👍${urbanChosen.thumbs_up}\` \`👎${urbanChosen.thumbs_down}\`` }])
+                    .setTimestamp(urbanChosen.written_on)
                     .setFooter({ text: "Defined by: " + urbanChosen.author });
 
                 return interaction.reply({ embeds: [embed] });
@@ -103,7 +81,6 @@ export default class Search extends Command {
                 if (!input.length) return interaction.respond([]);
 
                 const complete = await urbanDictionary.autoComplete(input);
-
                 if (!complete || !complete.length) return interaction.respond([]);
 
                 const wordList = complete.map((word: string) => ({ name: word, value: word }));

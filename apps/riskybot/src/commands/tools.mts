@@ -3,9 +3,9 @@ import { ActionRowBuilder, ButtonBuilder, ContextMenuCommandBuilder, EmbedBuilde
 import Command from "@riskybot/command";
 import { inlineCode, italic } from "@discordjs/formatters";
 import { ApplicationCommandInteraction, AttachmentBuilder } from "discord-api-parser";
-import { fetch } from "undici";
 import { trim } from "@riskybot/tools";
 import { ApplicationCommandType, ButtonStyle } from "discord-api-types/v10";
+import { smallApis } from "@riskybot/apis";
 
 
 export default class Tools extends Command {
@@ -77,7 +77,7 @@ export default class Tools extends Command {
                 if (!interaction.isChatInputCommand()) return;
 
                 const word = interaction.options.getString("word", true);
-                const rhymes = await (await fetch("https://rhymebrain.com/talk?" + new URLSearchParams({ function: "getRhymes", maxResults: "10", word }))).json() as { word: string }[];
+                const rhymes = await smallApis.getRhymes(word);
 
                 if (!rhymes.length) {
                     const embed = new EmbedBuilder()
