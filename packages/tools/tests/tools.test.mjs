@@ -1,6 +1,6 @@
 import assert from "node:assert";
 import { describe, it } from "node:test";
-import { resolveColor, trim } from "../dist/tools.mjs";
+import { resolveColor, resolveHexColor, trim } from "../dist/tools.mjs";
 
 
 describe("Trim", async () => {
@@ -44,7 +44,7 @@ describe("Resolve Color (inverse)", async () => {
     it("should work", async () => {
         const string = 0x1A2B3C;
         const expected = "#1a2b3c";
-        const result = resolveColor(string);
+        const result = resolveHexColor(string).toLowerCase();
         assert.strictEqual(result, expected);
     });
 
