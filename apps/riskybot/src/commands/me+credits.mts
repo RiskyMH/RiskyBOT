@@ -24,7 +24,7 @@ export default class Random extends Command {
             .setColor(config.colors.ok)
             .addFields([{
                 name: "Links",
-                value: `* [Invite](${inviteUrl})\n* [GitHub](https://github.com/RiskyMH/RiskyBOT)\n* [Website](https://bot.riskymh.dev)\n* [Server](https://discord.gg/34sQduaUh2)\n* [Privacy Policy](https://bot.riskymh.dev/legal)`
+                value: `* [Invite](${inviteUrl})\n* [GitHub](https://github.com/RiskyMH/RiskyBOT)\n* [Website](https://bot.riskymh.dev)\n* [Server](https://discord.gg/BanFeVWyFP)\n* [Privacy Policy](https://bot.riskymh.dev/legal)`
             }])
             .addFields([{
                 name: "Commands",
@@ -50,6 +50,5 @@ export default class Random extends Command {
         return interaction.reply({ embeds: [aboutMe, credits] });
 
     }
-
 
 }

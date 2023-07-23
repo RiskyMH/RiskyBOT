@@ -286,8 +286,9 @@ export default class About extends Command {
 
                 const embed = new EmbedBuilder()
                     .setTitle("#" + channel.name)
+                    .setColor(config.colors.ok)
                     .addFields([{ name: "Type", value: channelEmoji[channel.type] }])
-                    .addFields([{ name: "Created at", value: time(DiscordSnowflake.timestampFrom(channel.id)) }]);
+                    .addFields([{ name: "Created at", value: time(new Date(DiscordSnowflake.timestampFrom(channel.id))) }]);
 
                 if (extra === "advanced") {
                     const extraEmbed = new EmbedBuilder()
@@ -308,7 +309,8 @@ export default class About extends Command {
 
                 const embed = new EmbedBuilder()
                     .setTitle("@" + role.name)
-                    .addFields([{ name: "Created at", value: time(DiscordSnowflake.timestampFrom(role.id)) }])
+                    .setColor(config.colors.ok)
+                    .addFields([{ name: "Created at", value: time(new Date(DiscordSnowflake.timestampFrom(role.id))) }])
                     .addFields([{ name: "Color", value: resolveHexColor(role.color) }])
                     .addFields(permissionViewer(role.permissions))
                     .addFields([{ name: "Position", value: role.position.toString() }]);
@@ -409,7 +411,7 @@ const userFlagsEmoji = {
     [UserFlagsEnum.VerifiedBot]: "<:VerifiedBot:899099370228695130>",
     [UserFlagsEnum.TeamPseudoUser]: "<:TeamUser:899099370232889364>",
     [UserFlagsEnum.Partner]: "<:PartneredServerOwner:899099370396450827>",
-    [UserFlagsEnum.BotHTTPInteractions]: "BotHTTPInteractions",
+    [UserFlagsEnum.BotHTTPInteractions]: "HTTP Interaction BOT",
     [UserFlagsEnum.Quarantined]: "<:Quarantined:899099370109879552>",
     [UserFlagsEnum.ActiveDeveloper]: "Active dev",
 };
@@ -419,7 +421,7 @@ function userFlagsMapper(flags: UserFlags): string[] {
     if (!flags) return [];
 
     return Object.entries(userFlagsEmoji)
-        .filter(([flag, ]) => flags.has(BigInt(flag)))
+        .filter(([flag,]) => flags.has(BigInt(flag)))
         .map(([, emoji]) => emoji);
 }
 

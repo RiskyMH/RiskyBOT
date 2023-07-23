@@ -88,7 +88,7 @@ export default class Tools extends Command {
                     return interaction.reply({ embeds: [embed], ephemeral: true });
                 }
 
-                const list = rhymes.map((rhyme, index) => `${index + 1}: ${rhyme}`);
+                const list = rhymes.map((rhyme, index) => `${index + 1}: ${rhyme.word}`);
 
                 const embed = new EmbedBuilder()
                     .setAuthor({ name: "Rhyme Brain", url: "https://rhymebrain.com/en" })

@@ -30,5 +30,5 @@ fs.writeFileSync(path.join(process.cwd(), "dist/commands/index.mjs"), importFile
 const mainLocation = path.join(process.cwd(), "dist/main.mjs");
 const mainFile = fs.readFileSync(mainLocation, "utf-8");
 
-const newData = mainFile + "\n import * from './commands/index.mjs'";
+const newData = mainFile + "\nimport * as cmds from './commands/index.mjs'";
 fs.writeFileSync(mainLocation, newData);

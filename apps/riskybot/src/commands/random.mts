@@ -104,7 +104,7 @@ export default class Random extends Command {
                     .setColor(config.colors.ok)
                     .setImage(cat.url);
 
-                return interaction.reply({ content: "Here is your random cat", embeds: [embed], ephemeral: true });
+                return interaction.reply({ content: "Here is your random cat", embeds: [embed] });
             }
 
             case "dog": {

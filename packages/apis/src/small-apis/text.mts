@@ -4,10 +4,10 @@ import { APIError, InferArrayType } from "../global.mjs";
 import { LRUCache } from "lru-cache";
 
 
-const rhymeCache = new LRUCache<string, RhymeResult[]>({ max: 100, ttl: 1000 * 60 * 60 });
+const rhymeCache = new LRUCache<string, RhymeResult>({ max: 100, ttl: 1000 * 60 * 60 });
 
 // https://rhymebrain.com/talk?function=getRhymes&maxResults=10&word=word
-export async function getRhymes(word: string, cache = true): Promise<RhymeResult[]> {
+export async function getRhymes(word: string, cache = true): Promise<RhymeResult> {
     if (cache) {
         const cached = rhymeCache.get(word);
         if (cached) {
@@ -22,7 +22,7 @@ export async function getRhymes(word: string, cache = true): Promise<RhymeResult
         throw new APIError(rhymeError, result, await result.text());
     }
 
-    const rhymes = await result.json() as RhymeResult[];
+    const rhymes = await result.json() as RhymeResult;
 
     const verify = rhymeResult.run(rhymes);
     if (verify.isErr() || !verify.value) {
