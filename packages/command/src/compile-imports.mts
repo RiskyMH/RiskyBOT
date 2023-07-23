@@ -21,6 +21,14 @@ for (const file of files) {
     importFile += `export * from "${location}";\n`;
 }
 
-// save the file to the dist folder (dist/imports.mjs)
+// save the file to the dist folder (dist/commands/index.mjs)
 import fs from "node:fs";
 fs.writeFileSync(path.join(process.cwd(), "dist/commands/index.mjs"), importFile);
+
+
+// add import to bottom of dist/main.mjs
+const mainLocation = path.join(process.cwd(), "dist/main.mjs");
+const mainFile = fs.readFileSync(mainLocation, "utf-8");
+
+const newData = mainFile + "\n import * from './commands/index.mjs'";
+fs.writeFileSync(mainLocation, newData);

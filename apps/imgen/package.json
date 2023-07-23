@@ -8,7 +8,7 @@
         "directory": "apps/imgen"
     },
     "scripts": {
-        "build": "npx command-imports && tsc --build",
+        "build": "tsc --build && npx command-imports",
         "build:ci": "( cd ../../ && tsc -p ./apps/imgen/tsconfig.json )",
         "lint": "eslint src/**/*.mts",
         "start": "node dist/express.mjs",

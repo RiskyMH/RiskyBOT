@@ -23,7 +23,3 @@ export default async function handle(request: Request, response: Response) {
 }
 
 export { handle, client };
-
-// Temporary fix for Vercel to know about these files 
-// @ts-expect-error This will exist for build
-export * as cmds from "./commands/index.mjs";

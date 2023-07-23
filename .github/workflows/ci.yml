@@ -120,7 +120,7 @@ jobs:
         # run: yarn workspace ${{ matrix.package }} npm publish || true
         run: yarn workspace ${{ matrix.package }} npm publish || yarn workspace ${{ matrix.package }} npm publish --tolerate-republish
         env:
-          YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
 
   deploy-commands:
     needs: [main]
@@ -150,8 +150,7 @@ jobs:
         with:
           path: .turbo
           key: turbo-${{ github.ref_name }}-${{ github.sha }}
-          restore-keys: |
-            turbo${{ github.ref_name }}-
+          restore-keys: turbo${{ github.ref_name }}-
 
 
       # Should be fast as this is requiring the ts build to succeed (and thus having cache)
