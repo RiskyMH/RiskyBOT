@@ -60,7 +60,8 @@ jobs:
   
   npm-publish:
     needs: [main]
-    if: ${{ github.repository_owner == 'RiskyMH' && github.ref == 'refs/heads/main' }}
+    # if: ${{ github.repository_owner == 'RiskyMH' && github.ref == 'refs/heads/main' }}
+    if: ${{ github.repository_owner == 'RiskyMH' }}
     name: NPM Publish
     strategy:
       fail-fast: false
@@ -123,7 +124,8 @@ jobs:
 
   deploy-commands:
     needs: [main]
-    if: ${{ github.repository_owner == 'RiskyMH' && github.ref == 'refs/heads/main' }}
+    # if: ${{ github.repository_owner == 'RiskyMH' && github.ref == 'refs/heads/main' }}
+    if: ${{ github.repository_owner == 'RiskyMH' }}
     name: Deploy Commands
 
     runs-on: ubuntu-latest
