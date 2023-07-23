@@ -2,8 +2,8 @@ name: "Continuous Integration"
 
 on:
   push:
-    # branches: 
-    #   - main
+    branches: 
+      - main
 
   # pull_request:
 
@@ -60,8 +60,7 @@ jobs:
   
   npm-publish:
     needs: [main]
-    # if: ${{ github.repository_owner == 'RiskyMH' && github.ref == 'refs/heads/main' }}
-    if: ${{ github.repository_owner == 'RiskyMH' }}
+    if: ${{ github.repository_owner == 'RiskyMH' && github.ref == 'refs/heads/main' }}
     name: NPM Publish
     strategy:
       fail-fast: false
@@ -124,8 +123,7 @@ jobs:
 
   deploy-commands:
     needs: [main]
-    # if: ${{ github.repository_owner == 'RiskyMH' && github.ref == 'refs/heads/main' }}
-    if: ${{ github.repository_owner == 'RiskyMH' }}
+    if: ${{ github.repository_owner == 'RiskyMH' && github.ref == 'refs/heads/main' }}
     name: Deploy Commands
 
     runs-on: ubuntu-latest

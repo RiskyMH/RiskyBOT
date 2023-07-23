@@ -13,7 +13,7 @@ export interface WebsiteCommand {
     }[]
 }
 
-// TODO: Object of list instead of list
+// Possible TODO: Object of list instead of list
 
 export default function addCommandToWebsite(commands: RESTPostAPIApplicationCommandsJSONBody[], dir: string) {
     const file = path.join(dir, "../../website/assets/commands.json");

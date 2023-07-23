@@ -7,7 +7,6 @@ import CommandListCommand from "../components/CommandListCommand";
 import CommandsBrokenDropdown from "../components/CommandsBrokenDropdown";
 import OpenGraph from "../components/OpenGraph";
 
-const commandOrder = ["truth", "dare", "tod", "wyr", "nhie", "paranoia", "random", "help", "invite"];
 
 const CommandsPage: NextPage = () => {
 	const [query, setQuery] = useState("");
@@ -17,15 +16,11 @@ const CommandsPage: NextPage = () => {
 		.replace(/[^a-zA-Z\s]/g, "")
 		.toLowerCase();
 		
-	const sort = (a, b) =>
-		(commandOrder.includes(a.name) ? commandOrder.indexOf(a.name) : 999) -
-		(commandOrder.includes(b.name) ? commandOrder.indexOf(b.name) : 999);
-
 	const combined = [
-		...commands.filter(c => (c?.bot?.toLowerCase() ?? "riskybot") == noCharQuery).sort(sort),
-		...commands.filter(c => c.name.toLowerCase().includes(noCharQuery)).sort(sort),
-		...commands.filter(c => c.description.toLowerCase().includes(noCharQuery)).sort(sort),
-		// ...commands.filter(c => c.alias?.toLowerCase().includes(noCharQuery)).sort(sort),
+		...commands.filter(c => (c?.bot?.toLowerCase() ?? "riskybot") == noCharQuery),
+		...commands.filter(c => c.name.toLowerCase().includes(noCharQuery)),
+		...commands.filter(c => c.description.toLowerCase().includes(noCharQuery)),
+		// ...commands.filter(c => c.alias?.toLowerCase().includes(noCharQuery)),
 	];
 
 	const filteredCommands = combined.filter(
