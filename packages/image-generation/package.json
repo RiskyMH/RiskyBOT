@@ -3,7 +3,7 @@
     "description": "A simple image generation package for RiskyBOT",
     "version": "4.0.0",
     "author": "RiskyMH",
-    "homepage": "https://github.com/RiskyMH/RiskyBOT/tree/v4/packages/image-generation",
+    "homepage": "https://github.com/RiskyMH/RiskyBOT/tree/main/packages/image-generation",
     "repository": {
         "type": "git",
         "url": "https://github.com/RiskyMH/RiskyBOT.git",

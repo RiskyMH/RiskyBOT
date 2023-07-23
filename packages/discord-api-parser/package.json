@@ -3,7 +3,7 @@
     "description": "A package that parses raw Discord API",
     "version": "4.0.0",
     "author": "RiskyMH",
-    "homepage": "https://github.com/RiskyMH/RiskyBOT/tree/v4/packages/discord-api-parser",
+    "homepage": "https://github.com/RiskyMH/RiskyBOT/tree/main/packages/discord-api-parser",
     "repository": {
         "type": "git",
         "url": "https://github.com/RiskyMH/RiskyBOT.git",

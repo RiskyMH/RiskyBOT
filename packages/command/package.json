@@ -2,7 +2,7 @@
     "name": "@riskybot/command",
     "description": "The command handler for RiskyBOT",
     "version": "4.0.0",
-    "homepage": "https://github.com/RiskyMH/RiskyBOT/tree/v4/packages/command",
+    "homepage": "https://github.com/RiskyMH/RiskyBOT/tree/main/packages/command",
     "repository": {
         "type": "git",
         "url": "https://github.com/RiskyMH/RiskyBOT.git",

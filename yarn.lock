@@ -2440,6 +2440,7 @@ __metadata:
   dependencies:
     "@riskybot/error": "workspace:^"
     "@sapphire/shapeshift": ^3.9.2
+    eslint: ^8.45.0
     lru-cache: ^10.0.0
     typescript: ^5.1.6
     undici: ^5.22.1
