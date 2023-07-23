@@ -27,7 +27,8 @@ export default function addCommandToWebsite(commands: RESTPostAPIApplicationComm
     } else if (dir.endsWith("imgen\\dist")) {
         bot = "imgen";
     } else {
-        throw new Error("Unknown bot");
+        console.log("Unknown bot");
+        return;
     }
     const JSONCommands = json.filter((c) => c.bot !== bot);
 

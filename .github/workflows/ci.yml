@@ -120,7 +120,7 @@ jobs:
         # run: yarn workspace ${{ matrix.package }} npm publish || true
         run: yarn workspace ${{ matrix.package }} npm publish || yarn workspace ${{ matrix.package }} npm publish --tolerate-republish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+          YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
 
   deploy-commands:
     needs: [main]
