@@ -3,7 +3,7 @@
     "description": "The custom error class for RiskyBOT",
     "version": "4.0.0",
     "author": "RiskyMH",
-    "homepage": "https://github.com/RiskyMH/RiskyBOT/tree/v4/packages/error",
+    "homepage": "https://github.com/RiskyMH/RiskyBOT/tree/main/packages/error",
     "repository": {
         "type": "git",
         "url": "https://github.com/RiskyMH/RiskyBOT.git",

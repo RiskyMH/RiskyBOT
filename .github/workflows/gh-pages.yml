@@ -46,7 +46,7 @@ jobs:
 
    - name: Setup Pages
      id: pages
-     uses: actions/configure-pages@v2
+     uses: actions/configure-pages@v3
      with:
       static_site_generator: next
       generator_config_file: apps/website/next.config.js
@@ -70,7 +70,7 @@ jobs:
      run: yarn next export
 
    - name: Upload artifact
-     uses: actions/upload-pages-artifact@v1
+     uses: actions/upload-pages-artifact@v2
      with:
       path: ${{ github.workspace }}/apps/website/out
 
@@ -86,4 +86,4 @@ jobs:
   steps:
    - name: Deploy to GitHub Pages
      id: deployment
-     uses: actions/deploy-pages@v1
+     uses: actions/deploy-pages@v2

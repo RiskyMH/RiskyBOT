@@ -3,7 +3,7 @@
     "description": "A collection of tools for building and maintaining the RiskyBOT project",
     "version": "4.0.0",
     "author": "RiskyMH",
-    "homepage": "https://github.com/RiskyMH/RiskyBOT/tree/v4/packages/tools",
+    "homepage": "https://github.com/RiskyMH/RiskyBOT/tree/main/packages/tools",
     "repository": {
         "type": "git",
         "url": "https://github.com/RiskyMH/RiskyBOT.git",
