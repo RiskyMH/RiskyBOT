@@ -1,32 +1,49 @@
 {
-    // Change this to match your project
-    "include": ["src/**/*"],
+    // Mapped from https://www.typescriptlang.org/tsconfig
+    // "include": ["src/**/*"],
+    // Type definitions for json-schema 4.0, 6.0 and 7.0
+    "exclude": [
+        "**/*.d.ts",
+        "dist",
+        "node_modules"
+    ],
     "compilerOptions": {
-        // Tells TypeScript to read JS files, as
-        // normally they are ignored as source files
-        "checkJs": true,
-        "allowJs": true,
-        // Generate d.ts files
+        "skipLibCheck": true,
+        // Type Checking
+        "allowUnreachableCode": false,
+        "allowUnusedLabels": false,
+        // if true: conflicts with discord-api-types
+        "exactOptionalPropertyTypes": false,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitReturns": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "strict": true,
+        "useUnknownInCatchVariables": true,
+        // Modules
+        "module": "esnext",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        // Emit
         "declaration": true,
-        // This compiler run should
-        // only output d.ts files
-        "emitDeclarationOnly": true,
-        // Types should go into this directory.
-        // Removing this would place the .d.ts files
-        // next to the .js files
-        "outDir": "typings",
-        "target": "es2021",
-        "module": "es2022",
-        "moduleResolution": "Node"
-       },
-    "exports": {
-        "functions": {
-            "import": "./src/functions/defaults.mjs"
-        }
-    },
-    "typesVersions": {
-        "*": {
-            "functions": ["./src/functions/defaults.mj"],
-        }
+        "importHelpers": true,
+        "inlineSources": true,
+        "newLine": "lf",
+        "noEmitHelpers": true,
+        "outDir": "dist",
+        "preserveConstEnums": true,
+        "removeComments": false,
+        "sourceMap": true,
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        // Language and Environment
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "lib": [
+            "ES2021",
+            "ES2021.intl"
+        ],
+        "target": "ES2021",
+        "useDefineForClassFields": true,
     }
 }

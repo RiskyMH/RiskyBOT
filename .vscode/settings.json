@@ -1,0 +1,16 @@
+{
+    "[yaml]": {
+        "editor.insertSpaces": true,
+        "editor.tabSize": 2,
+        "editor.autoIndent": "advanced",
+    },
+    // "yaml.schemas": { 
+    //     "./config.schema.json": "/config.yml"
+    // },
+    "yaml.completion": true,
+    "cSpell.words": [
+        "riskybot"
+    ],
+    "typescript.tsdk": "node_modules\\typescript\\lib"
+
+}

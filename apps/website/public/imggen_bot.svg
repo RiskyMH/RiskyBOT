@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg fill="none" version="1.1" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+ <title>Image Generate Icon</title>
+ <rect width="32" height="32" fill="#142612"/>
+ <path d="M0 16L32 0V16L0 32V16Z" fill="#5FD554" fill-opacity=".0333"/>
+ <path d="m24 17.5v-5.5c0-2.2091-1.7909-4-4-4h-8c-2.2091 0-4 1.7909-4 4v8c0 2.2091 1.7909 4 4 4h5" stroke="#5FD554" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+ <path d="m21 18v3m0 3v-3m-3 0h3m3 0h-3" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+ <g fill="none" stroke="#5fd554" stroke-linecap="round">
+  <circle cx="19.618" cy="12.48" r="1.7374" stroke-width="1.303"/>
+  <path d="m13.128 18.707c0.5849-1.1927 1.7091-2 3-2 0.7464 0 1.4371 0.2699 2 0.7281" stroke-width="1.5"/>
+  <path d="m13.128 18.707c-0.5849-1.1927-1.7091-2-3-2-0.7464 0-1.4371 0.2699-2 0.7281" stroke-width="1.5"/>
+ </g>
+ <metadata>
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:title>Image Generate Icon</dc:title>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+</svg>

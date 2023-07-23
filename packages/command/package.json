@@ -1,0 +1,50 @@
+{
+    "name": "@riskybot/command",
+    "description": "The command handler for RiskyBOT",
+    "version": "4.0.0",
+    "homepage": "https://github.com/RiskyMH/RiskyBOT/tree/v4/packages/command",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/RiskyMH/RiskyBOT.git",
+        "directory": "packages/command"
+    },
+    "scripts": {
+        "build": "tsc --build",
+        "build:ci": "( cd ../../ && tsc -p ./packages/command/tsconfig.json )",
+        "lint": "eslint src/**/*.mts",
+        "prepack": "yarn build"
+    },
+    "bin": {
+        "command-imports": "./dist/compile-imports.mjs"
+    },
+    "dependencies": {
+        "@discordjs/builders": "^1.6.3",
+        "@riskybot/error": "workspace:^",
+        "@riskybot/tools": "workspace:^",
+        "discord-api-parser": "workspace:^",
+        "discord-api-types": "^0.37.50",
+        "glob": "^10.3.3",
+        "undici": "^5.22.1"
+    },
+    "devDependencies": {
+        "eslint": "^8.45.0",
+        "typescript": "^5.1.6"
+    },
+    "type": "module",
+    "main": "./dist/index.js",
+    "module": "./dist/index.mjs",
+    "types": "./dist/index.d.ts",
+    "exports": {
+        "types": "./dist/index.d.ts",
+        "import": "./dist/index.mjs"
+    },
+    "directories": {
+        "lib": "src"
+    },
+    "files": [
+        "dist"
+    ],
+    "publishConfig": {
+        "access": "public"
+    }
+}

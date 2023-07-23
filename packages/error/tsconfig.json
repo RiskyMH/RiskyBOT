@@ -1,0 +1,9 @@
+{
+    // Mapped from https://www.typescriptlang.org/tsconfig
+    "extends": "../../tsconfig.json",
+    "include": ["src/**/*"],
+    "compilerOptions": {
+        "declaration": true,
+        "outDir": "dist",
+    }
+}

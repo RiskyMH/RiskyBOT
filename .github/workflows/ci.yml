@@ -1,0 +1,160 @@
+name: "Continuous Integration"
+
+on:
+  push:
+    branches: 
+      - main
+
+  pull_request:
+    branches: 
+      - main
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    name: "Main CI (TS, Lint, Tests)"
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup node.js v18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 'current'
+          cache: 'yarn'
+          cache-dependency-path: yarn.lock
+
+      - name: Turbo cache
+        id: turbo-cache
+        uses: actions/cache@v3
+        with:
+          path: .turbo
+          key: turbo-${{ github.ref_name }}-${{ github.sha }}
+          restore-keys: |
+            turbo-${{ github.ref_name }}-
+            turbo-${{ github.job }}-
+
+      - name: Add custom Problem Matchers
+        run: |
+          echo ::add-matcher::.github/problem-matchers/tsc.json  
+          echo ::add-matcher::.github/problem-matchers/eslint-compact.json   
+          echo ::add-matcher::.github/problem-matchers/eslint-stylish.json   
+
+      - name: Install dependencies 
+        run: yarn install --immutable
+
+      - name: Run Build
+        run: yarn turbo run build:ci --cache-dir=".turbo"
+        
+      - name: Run ESLint
+        run: yarn turbo run lint --cache-dir=".turbo"
+
+      - name: Run Tests
+        run: yarn turbo run test --cache-dir=".turbo"
+  
+  npm-publish:
+    needs: [main]
+    if: ${{ github.repository_owner == 'RiskyMH' && github.ref == 'refs/heads/main' }}
+    name: NPM Publish
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - package: '@riskybot/tools'
+            folder: 'tools'
+          - package: '@riskybot/error'
+            folder: 'command'
+          - package: '@riskybot/command'
+            folder: 'command'
+          - package: '@riskybot/apis'
+            folder: 'apis'
+          - package: '@riskybot/image-generate'
+            folder: 'image-generation'
+          - package: 'discord-api-parser'
+            folder: 'discord-api-parser'
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install node.js v16
+        uses: actions/setup-node@v3
+        with:
+          node-version: 'current'
+          registry-url: https://registry.npmjs.org/
+          cache: 'yarn'
+          cache-dependency-path: yarn.lock
+
+      - name: Install dependencies
+        run: yarn --immutable
+
+      - name: Turbo cache
+        id: turbo-cache
+        uses: actions/cache@v3
+        with:
+          path: .turbo
+          key: turbo${{ github.ref_name }}-${{ github.sha }}
+          restore-keys: |
+            turbo-${{ github.ref_name }}-
+
+      # Should be fast as this is requiring the ts build to succeed (and thus having cache)
+      - name: Run Build
+        run: yarn turbo run build:ci --cache-dir=".turbo"
+
+      - name: Delete contents in dist/
+        run: rm -rf packages/${{ matrix.folder }}/dist/*
+
+      - name: Publish package
+        # run: yarn workspace ${{ matrix.package }} npm publish --tolerate-republish
+        # run: yarn workspace ${{ matrix.package }} npm publish || true
+        run: yarn workspace ${{ matrix.package }} npm publish || yarn workspace ${{ matrix.package }} npm publish --tolerate-republish
+        env:
+          YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+
+  deploy-commands:
+    needs: [main]
+    if: ${{ github.repository_owner == 'RiskyMH' && github.ref == 'refs/heads/main' }}
+    name: Deploy Commands
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install node.js v16
+        uses: actions/setup-node@v3
+        with:
+          node-version: 'current'
+          registry-url: https://registry.npmjs.org/
+          cache: 'yarn'
+          cache-dependency-path: yarn.lock
+
+      - name: Install dependencies
+        run: yarn --immutable
+
+      - name: Turbo cache
+        id: turbo-cache
+        uses: actions/cache@v3
+        with:
+          path: .turbo
+          key: turbo-${{ github.ref_name }}-${{ github.sha }}
+          restore-keys: turbo${{ github.ref_name }}-
+
+
+      # Should be fast as this is requiring the ts build to succeed (and thus having cache)
+      - name: Run Build
+        run: yarn turbo run build:ci --cache-dir=".turbo"
+
+      - name: Deploy
+        run: yarn deploy-commands
+        env:
+          RISKYBOT_APPLICATION_CLIENT_SECRET: ${{ secrets.RISKYBOT_APPLICATION_CLIENT_SECRET }}
+          RISKYBOT_APPLICATION_ID: ${{ secrets.RISKYBOT_APPLICATION_ID }}
+          IMGEN_APPLICATION_CLIENT_SECRET: ${{ secrets.IMGEN_APPLICATION_CLIENT_SECRET }}
+          IMGEN_APPLICATION_ID: ${{ secrets.IMGEN_APPLICATION_ID }}
+          OWNER_GUILD_ID: ${{ secrets.OWNER_GUILD_ID }}
+
+          TOPGG_TOKEN: 'true'
+          RISKYBOT_APPLICATION_PUBLIC_KEY: 'true'
+          IMGEN_APPLICATION_PUBLIC_KEY: 'true'
+      

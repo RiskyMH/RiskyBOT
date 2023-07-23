@@ -1,0 +1,44 @@
+{
+    "name": "@riskybot/apis",
+    "description": "A set of functions to get/use APIs",
+    "version": "4.0.0",
+    "homepage": "https://github.com/RiskyMH/RiskyBOT/tree/v4/packages/apis",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/RiskyMH/RiskyBOT.git",
+        "directory": "packages/apis"
+    },
+    "scripts": {
+        "build": "tsc --build",
+        "build:ci": "( cd ../../ && tsc -p ./packages/apis/tsconfig.json )",
+        "lint": "eslint src/**/*.mts tests/*.mjs",
+        "prepack": "yarn build",
+        "test": "node --test"
+    },
+    "dependencies": {
+        "@riskybot/error": "workspace:^",
+        "@sapphire/shapeshift": "^3.9.2",
+        "lru-cache": "^10.0.0",
+        "undici": "^5.22.1"
+    },
+    "devDependencies": {
+        "typescript": "^5.1.6"
+    },
+    "type": "module",
+    "main": "./dist/index.js",
+    "module": "./dist/index.mjs",
+    "types": "./dist/index.d.ts",
+    "exports": {
+        "types": "./dist/index.d.ts",
+        "import": "./dist/index.mjs"
+    },
+    "directories": {
+        "lib": "src"
+    },
+    "files": [
+        "dist"
+    ],
+    "publishConfig": {
+        "access": "public"
+    }
+}

@@ -5,26 +5,52 @@
     },
     "extends": [
         "eslint:recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaVersion": 13,
-        "sourceType": "module"
+        "sourceType": "module",
+        "project": [
+            "./tsconfig.json",
+            "./packages/*/tsconfig.json",
+            "./apps/*/tsconfig.json"
+        ]
     },
     "plugins": [
         "@typescript-eslint"
     ],
     "rules": {
-
+        // "no-dupe-class-members": "off",
+        "@typescript-eslint/no-empty-interface": "off",
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "no-constant-binary-expression": "error",
         "quotes": [
             "error",
             "double"
         ],
-        "semi": [
+        // "semi": [
+        //     "error",
+        //     "always"
+        // ],
+        "semi": "off",
+        "@typescript-eslint/semi": [
             "error",
             "always"
         ],
-        "no-unused-vars":"warn"
+        // "no-unused-vars":"warn",
+        "no-unused-expressions": "error",
+        "no-warning-comments": "warn",
+        "no-console": [
+            "warn",
+            {
+                "allow": [
+                    "warn",
+                    "error",
+                    "info"
+                ]
+            }
+        ]
     }
 }

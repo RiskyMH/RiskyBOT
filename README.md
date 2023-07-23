@@ -1,55 +1,85 @@
-# RiskyBOT (code for it)
+<h1 align="center">
+  <img src="https://bot.riskymh.dev/robot.png" alt="RiskyBOT Logo" width="84">
+  <br>
+  RiskyBOT
+</h1>
 
-The code for my bot and some other fun stuff with @discordjs  
+<p align="center">A random discord bot with many fun features</p>
 
-This bot uses slash commands (some buttons, and context menu)
+## Getting Started
 
-## Running
-This bot is run by `npm start`\
-To add the commands run `npm run deployCommands`
+This repo contains the code for RiskyBOT and some more specific bots (image generate)
 
-### Running Extra
-This bot is run by `npm run start:extra`\
-To add the commands run `npm run deployCommands:extra`
+### Installing the dependencies
 
-*ps. don't use normal and extra at same time*
+```sh
+yarn install
+```
 
-## FAQ
-* Q: What is the Extra file (Riskybot 2)
-* A: It is has some extra commands and does stuff with text input (reaction to some words)
+### Configuring the env vars
 
-* Q: There are no commands on the Discord app
-* A: you need to `deployCommands` otherwise it wont work
+If you are developing locally, you need to create `.env` files in both the `apps/web` and `apps/bot` folder. Refer to the table below for all the env vars in the project
 
-## How to configure
-### Using [`config.json`](./config.json)
-You can currently use this file to change some UI settings (eg. colures)
+#### Project: `apps/riskybot`
 
-The available features are in the file by default
+| Name                                 | Description                                                              | Main Bot? | Deploy Commands? |
+| ------------------------------------ | ------------------------------------------------------------------------ | --------- | ---------------- |
+| `RISKYBOT_APPLICATION_PUBLIC_KEY`    | The Discord public key for the bot                                       | ✔️        |                  |
+| `RISKYBOT_APPLICATION_CLIENT_SECRET` | The Discord client secret for the bot                                    |           | ✔️               |
+| `RISKYBOT_APPLICATION_ID`            | The ID of the bot                                                        |           | ✔️               |
+| `OWNER_GUILD_ID`                     | The ID of the Discord server to register owner only commands (i.e. eval) |           | ❔               |
+| `OWNER_USER_ID`                      | The ID of the user that is the owner (to only allow them to use it)      | ❔        |                  |
+| `TOPGG_TOKEN`                        | The Top.gg token (requires a bot on their website)                       | ❔        | ❔               |
+| `ERROR_WEBHOOK`                      | The webhook URL to send errors if they occur (not recommended in dev)    | ❔        |                  |
 
-### Using [`.env`](./.env)
-As with [`config.json`](./config.json) the file [`example.env`](./example.env) has the necessary options - copy `example.env` to `.env` and put in your discord key
+> **Note**: ✔️ (tick) means that it is required and ❔ (question mark) means that it is optional but used. 
 
-This is used for extra config but it is not the best way to be using this - used for extra
+#### Project: `apps/imgen`
 
-### *`Next few are more technical`*
-### Using [`src/deployCommands/commands.json`](./src/deployCommands/commands.json)
-With this (and the [`commandsExtra.json`](src/deployCommands/commandsExtra.json)) file you can change how the slash commands work \
-You can:
-- change their description
-- remove commands/parts of
-- add more (see below)
+| Name                              | Description                                                              | Main Bot? | Deploy Commands? |
+| --------------------------------- | ------------------------------------------------------------------------ | --------- | ---------------- |
+| `IMGEN_APPLICATION_PUBLIC_KEY`    | The Discord public key for the bot                                       | ✔️        |                  |
+| `IMGEN_APPLICATION_CLIENT_SECRET` | The Discord client secret for the bot                                    |           | ✔️               |
+| `IMGEN_APPLICATION_ID`            | The ID of the bot                                                        |           | ✔️               |
+| `ERROR_WEBHOOK`                   | *same as above `ERROR_WEBHOOK`*                                          | ❔        |                 |
 
-### Using [`src/main.js`](./src/main.js) (Actually modifying the files)
-You can do changes to bot by going into the `.js` or `.mjs` files and changing stuff
+> **Note**: ✔️ (tick) means that it is required and ❔ (question mark) means that it is optional but used.
 
-You can change the behavior of commands by changing the code - be aware thet somethings to change also have to be changed in the [commands](./src/applicationCommands) and the [functions](./src/functions)
+### Running the bots
+
+To run both the `RiskyBOT` and `Image Generate` projects at the same time, use the following command:
+
+```sh
+yarn vercel dev
+```
+
+> **Note**: You you will have to create a vercel account for this project and make suer to set the root directory as `apps/bot`
+
+#### Running the bots individually
+
+You can choose to run one of these following commands to run a singular bot (note that it if the bot crashes so does the program):
+
+```sh
+yarn run start:riskybot
+yarn run start:imgen
+```
+
+### Registering Discord commands
+
+To use the context and slash commands you first need to register them in Discord. The easiest way to do that is by running both of these commands:
+
+```sh
+yarn run deploy-commands:riskybot
+yarn run deploy-commands:imgen
+```
+
+Notice how there are multiple commands, this is because you only need to do the one that has had commands changed.
 
 ## My hosted bot
-For more information see http://RiskyMH.github.io/RiskyBOT/docs/about/  
 
-Everything in my GitHub Pages site is mainly for my instance of the bot but it can be used for other things
+For more information see <https://bot.riskymh.dev/>  
 
 Quick links:
-* Bot invite: [link](https://discord.com/api/oauth2/authorize?client_id=780657028695326720&scope=applications.commands)
-* Bot Server: https://discord.gg/BanFeVWyFP
+
+* Bot Invite: [https://discord.com/...](https://discord.com/api/oauth2/authorize?client_id=780657028695326720&scope=applications.commands)
+* Bot Server: <https://discord.gg/BanFeVWyFP>
