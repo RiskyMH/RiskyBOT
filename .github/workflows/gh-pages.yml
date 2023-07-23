@@ -5,13 +5,13 @@ on:
   branches:
    - main # Set a branch to deploy
   paths:
-   - "website/**"
+   - "apps/website/**"
 
  # TODO: only for push, not for pull request
  # as website build is in ci (this is for gh pages deploy)
  pull_request:
   paths:
-   - "website/**"
+   - "apps/website/**"
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
