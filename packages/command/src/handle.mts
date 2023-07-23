@@ -33,7 +33,6 @@ export default function handleInteraction(interaction: Interaction, commands: Co
     }
     else {
         console.info(`UNKNOWN: ${interaction.type}`);
-        // console.info(request.body);
     }
 
 
@@ -86,8 +85,6 @@ export default function handleInteraction(interaction: Interaction, commands: Co
     }
 
     else {
-        // console.warn(`Unknown interaction type: ${interaction.type}`);
-        // interaction
         return;
     }
     
@@ -95,5 +92,3 @@ export default function handleInteraction(interaction: Interaction, commands: Co
 
 
 }
-
-

@@ -19,18 +19,12 @@
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^13.4.12",
-    "@types/node": "^20.4.3",
+    "@types/node": "^20.4.4",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.27",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.1.6"
-  },
-  "homepage": "https://github.com/RiskyMH/RiskyBOT/tree/v4/apps/website",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/RiskyMH/RiskyBOT.git",
-    "directory": "apps/website"
   }
 }

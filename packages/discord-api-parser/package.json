@@ -1,7 +1,21 @@
 {
     "name": "discord-api-parser",
     "description": "A package that parses raw Discord API",
-    "version": "4.0.0-test.7",
+    "version": "4.0.0-test.10",
+    "author": "RiskyMH",
+    "homepage": "https://github.com/RiskyMH/RiskyBOT/tree/v4/packages/discord-api-parser",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/RiskyMH/RiskyBOT.git",
+        "directory": "packages/discord-api-parser"
+    },
+    "scripts": {
+        "build": "tsc --build",
+        "build:ci": "( cd ../../ && tsc -p ./packages/discord-api-parser/tsconfig.json )",
+        "lint": "eslint src/**/*.mts tests/*.mjs",
+        "prepack": "yarn build",
+        "test": "node --test"
+    },
     "dependencies": {
         "@sapphire/snowflake": "^3.5.1",
         "discord-api-types": "0.37.50",
@@ -11,37 +25,26 @@
         "undici": "^5.22.1"
     },
     "devDependencies": {
+        "eslint": "^8.45.0",
         "typescript": "^5.1.6"
     },
     "optionalDependencies": {
         "@discordjs/builders": "^1.6.3"
     },
-    "directories": {
-        "lib": "src"
-    },
+    "type": "module",
+    "main": "./dist/index.js",
+    "module": "./dist/index.mjs",
+    "types": "./dist/index.d.ts",
     "exports": {
         "import": "./dist/index.mjs",
         "types": "./dist/index.d.ts"
     },
+    "directories": {
+        "lib": "src"
+    },
     "files": [
         "dist"
     ],
-    "main": "./dist/index.js",
-    "module": "./dist/index.mjs",
-    "scripts": {
-        "build": "tsc --build",
-        "build:ci": "( cd ../../ && tsc -p ./packages/discord-api-parser/tsconfig.json )",
-        "lint": "eslint src/**/*.mts tests/*.mjs",
-        "prepack": "yarn build",
-        "test": "node --test"
-    },
-    "type": "module",
-    "types": "./dist/index.d.ts",
-    "homepage": "https://github.com/RiskyMH/RiskyBOT/tree/v4/packages/discord-api-parser",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/RiskyMH/RiskyBOT.git"
-    },
     "publishConfig": {
         "access": "public"
     }

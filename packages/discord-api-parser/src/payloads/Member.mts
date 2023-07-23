@@ -64,13 +64,11 @@ export class InteractionGuildMember extends GuildMember {
     /** The permissions the member has */
     permissions: Permissions;
 
-
     constructor(member: APIInteractionGuildMember, guildId: string, userId?: string) {
         super(member, guildId, userId);
 
         this.permissions = new Permissions(member.permissions);
     }
-
 
 }
 

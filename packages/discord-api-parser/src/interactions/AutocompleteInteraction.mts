@@ -30,10 +30,6 @@ export default class AutocompleteInteraction extends BaseInteraction {
         this.locale = interaction.locale;
         this.options = new AutocompleteOptions(interaction.data.options, interaction.data.resolved, this.guildId);
     }
-
-    // isAutocomplete(): true {
-    //     return true;
-    // }
     
 }
 

@@ -1,6 +1,6 @@
 import { glob } from "glob";
 import Command from "./Command.mjs";
-import path from "path";
+import path from "node:path";
 import handleInteraction from "./handle.mjs";
 import { Interaction } from "discord-api-parser";
 import { RESTPostAPIWebhookWithTokenJSONBody, RESTPostAPIApplicationCommandsJSONBody } from "discord-api-types/v10";
@@ -8,7 +8,6 @@ import { deployCommands, trim } from "@riskybot/tools";
 import RiskyBotError from "@riskybot/error";
 import { EmbedBuilder } from "@discordjs/builders";
 import { fetch } from "undici";
-import addCommandToWebsite from "./add-command-to-website.mjs";
 
 
 export default class Client {
@@ -28,7 +27,6 @@ export default class Client {
 
         await Promise.all(files.map(async file => {
             const location = file
-                // .replace(this.dir, ".")
                 .replace("C:\\", "/")
                 .replaceAll("\\", "/");
 
@@ -44,6 +42,7 @@ export default class Client {
         if (!this.commands.length) {
             throw new Error("No commands");
         }
+
         try {
             return await handleInteraction(interaction, this.commands);
         } catch (error) {
@@ -145,8 +144,6 @@ export default class Client {
         clientSecret: string;
         guildId?: string;
     }) {
-
-        addCommandToWebsite(this.getAPICommands(), this.dir);
 
         await deployCommands({
             applicationId,

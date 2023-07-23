@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { glob } from "glob";
-import path from "path";
+import path from "node:path";
 
 const folder = path.join(process.cwd(), "dist/commands/**/*.mjs")
     .replace(/\\/g, "/");

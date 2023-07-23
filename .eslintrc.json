@@ -12,7 +12,11 @@
     "parserOptions": {
         "ecmaVersion": 13,
         "sourceType": "module",
-        "project": ["./tsconfig.json", "./packages/*/tsconfig.json", "./apps/*/tsconfig.json"]
+        "project": [
+            "./tsconfig.json",
+            "./packages/*/tsconfig.json",
+            "./apps/*/tsconfig.json"
+        ]
     },
     "plugins": [
         "@typescript-eslint"
@@ -22,7 +26,6 @@
         "@typescript-eslint/no-empty-interface": "off",
         "@typescript-eslint/no-non-null-assertion": "off",
         "no-constant-binary-expression": "error",
-
         "quotes": [
             "error",
             "double"
@@ -31,16 +34,23 @@
         //     "error",
         //     "always"
         // ],
-          "semi": "off",
-          "@typescript-eslint/semi": ["error", "always"],
+        "semi": "off",
+        "@typescript-eslint/semi": [
+            "error",
+            "always"
+        ],
         // "no-unused-vars":"warn",
         "no-unused-expressions": "error",
         "no-warning-comments": "warn",
         "no-console": [
             "warn",
             {
-                "allow": ["warn", "error", "info"]
+                "allow": [
+                    "warn",
+                    "error",
+                    "info"
+                ]
             }
-        ]        
+        ]
     }
 }

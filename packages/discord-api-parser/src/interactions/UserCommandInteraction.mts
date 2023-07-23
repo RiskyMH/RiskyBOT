@@ -30,10 +30,6 @@ export default class UserCommandInteraction extends ApplicationCommandInteractio
 
     }
 
-    // isUserCommand(): true {
-    //     return true;
-    // }
-
 }
 
 export class UserContextMenuInteractionOption {

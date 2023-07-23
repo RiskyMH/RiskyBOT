@@ -1,3 +1,6 @@
+import { addCommandToWebsite } from "@riskybot/command";
+import { dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 import { client } from "./main.mjs";
 import { s } from "@sapphire/shapeshift";
 
@@ -14,3 +17,7 @@ client.deployCommands({
     clientSecret: env.RISKYBOT_APPLICATION_CLIENT_SECRET,
     guildId: env.OWNER_GUILD_ID,
 });
+
+// Not necessary if you don't have a website
+const __dirname = dirname(fileURLToPath(import.meta.url));
+addCommandToWebsite(client.getAPICommands(), __dirname);

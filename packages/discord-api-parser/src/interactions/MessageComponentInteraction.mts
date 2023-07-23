@@ -6,7 +6,7 @@ import { InteractionResponseMixin, applyInteractionResponseMixins, createInterac
 
 export default class MessageComponentInteraction extends BaseInteraction {
     declare type: InteractionType.MessageComponent;
-    
+
     /** The custom id of the component */
     customId: string;
     /** For components, the message they were attached to */
@@ -26,10 +26,6 @@ export default class MessageComponentInteraction extends BaseInteraction {
         this.locale = interaction.locale;
     }
 
-    // isMessageComponent(): true {
-    //     return true;
-    // }
-
 }
 
 
@@ -47,5 +43,5 @@ const allowedResponses = createInteractionMixinList([
 
 applyInteractionResponseMixins(MessageComponentInteraction, allowedResponses);
 
-export default interface MessageComponentInteraction extends InteractionResponseMixin<typeof allowedResponses> {}
+export default interface MessageComponentInteraction extends InteractionResponseMixin<typeof allowedResponses> { }
 

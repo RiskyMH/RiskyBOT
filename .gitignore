@@ -1,6 +1,4 @@
-# random
 _site
-# *cache*
 _gen
 soon.js
 gen/*
@@ -147,6 +145,4 @@ dist
 !.yarn/versions
 install-state.gz*
 
-
 .vercel
-!api

@@ -34,7 +34,6 @@ export default class RiskyBotError extends Error {
         this.logError = logError;
     }
 
-
 }
 
 export { RiskyBotError };

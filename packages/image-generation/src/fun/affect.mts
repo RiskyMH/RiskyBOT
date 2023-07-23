@@ -2,12 +2,11 @@
 // - Images and ideas from: https://github.com/DankMemer/imgen
 
 import { Image, createCanvas, loadImage } from "@napi-rs/canvas";
-import path, { dirname } from "path";
-import { fileURLToPath } from "url";
+import path, { dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 import { request } from "undici";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const imageBg = loadImage(path.join(__dirname, "../../assets", "affect/affect.bmp"));
 

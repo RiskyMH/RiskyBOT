@@ -34,7 +34,9 @@ jobs:
           path: .turbo
           key: turbo-${{ github.ref_name }}-${{ github.sha }}
           restore-keys: |
+            turbo-${{ github.ref_name }}-
             turbo-${{ github.job }}-
+
   
       
       - name: Add custom Problem Matchers
@@ -66,6 +68,8 @@ jobs:
         include:
           - package: '@riskybot/tools'
             folder: 'tools'
+          - package: '@riskybot/error'
+            folder: 'command'
           - package: '@riskybot/command'
             folder: 'command'
           - package: '@riskybot/apis'
@@ -105,14 +109,15 @@ jobs:
         run: yarn turbo run build:ci --cache-dir=".turbo"
 
       - name: Delete contents in dist/
-        run: rm -rf packages${{ matrix.package }}/dist/*
+        run: rm -rf packages/${{ matrix.folder }}/dist/*
         
       - name: Run local build for package
         run: yarn workspace ${{ matrix.package }} build
 
       - name: Publish package
-        run: |
-          yarn workspace ${{ matrix.package }} npm publish || true
+        # run: yarn workspace ${{ matrix.package }} npm publish --tolerate-republish
+        # run: yarn workspace ${{ matrix.package }} npm publish || true
+        run: yarn workspace ${{ matrix.package }} npm publish || yarn workspace ${{ matrix.package }} npm publish --tolerate-republish
         env:
           YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
 

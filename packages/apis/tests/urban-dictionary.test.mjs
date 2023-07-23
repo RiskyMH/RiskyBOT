@@ -2,7 +2,6 @@ import assert from "node:assert";
 import { describe, it } from "node:test";
 import { urbanDictionary } from "../dist/index.mjs";
 
-
 describe("Urban dictionary Define", async () => {
     const validWord = "hello";
     it(`should get a definition for "${validWord}" (length >= 1)`, async () => {

@@ -83,12 +83,6 @@ export class User {
         return this.avatarURL(config) || this.defaultAvatarURL;
     }
 
-    /** The user's tag */
-    get tag(): string {
-        return `${this.username}#${this.discriminator}`;
-    }
-
-
 }
 
 

@@ -2,7 +2,7 @@ import type { APIMessageComponentSelectMenuInteraction, ComponentType } from "di
 import MessageComponentInteraction from "./MessageComponentInteraction.mjs";
 
 export default class SelectMenuInteraction extends MessageComponentInteraction {
-    declare componentType: ComponentType.StringSelect | ComponentType.RoleSelect | ComponentType.UserSelect | ComponentType.ChannelSelect | ComponentType.MentionableSelect ;
+    declare componentType: ComponentType.StringSelect | ComponentType.RoleSelect | ComponentType.UserSelect | ComponentType.ChannelSelect | ComponentType.MentionableSelect;
     /** The values of the select menu */
     values: string[];
 
@@ -10,10 +10,5 @@ export default class SelectMenuInteraction extends MessageComponentInteraction {
         super(interaction);
         this.values = interaction.data.values;
     }
-
-    // isSelectMenu(): true {
-    //     return true;
-    // }
-
 
 }

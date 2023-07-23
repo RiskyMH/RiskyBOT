@@ -17,6 +17,8 @@ const genericRedditError = {
     message: "An unknown error occurred with [Reddit API](https://reddit.com/)",
 };
 
+// TODO: fill in the rest of the fields (post, subreddit, etc.)
+
 export async function randomPostInSubreddit(subreddit: string): Promise<Post | null> {
     const searchParams = new URLSearchParams({ sort: "top", t: "daily", limit: "500", include_over_18: "false" });
     const result = await fetch(`${redditBaseURL}/r/${encodeURIComponent(subreddit)}/random.json?${searchParams}`);
@@ -153,7 +155,6 @@ export enum RedditFullnamesTypePrefixes {
     Award = "t6"
 }
 
-// TODO: fill in the rest of the fields
 const post = s.object({
     subreddit: s.string,
     selftext: s.string,
@@ -198,7 +199,6 @@ const rawPostResult = s.object({
 
 type RawPostResult = InferType<typeof post>;
 
-// TODO: fill in the rest of the fields
 const subredditInfoObject = s.object({
     name: s.string,
     public_description: s.string,
@@ -213,7 +213,6 @@ const subredditInfoObject = s.object({
 
 export type SubredditInfo = InferType<typeof subredditInfoObject>;
 
-// TODO: fill in the rest of the fields
 const autoCompleteSubreddit = s.object({
     numSubscribers: s.number,
     name: s.string,

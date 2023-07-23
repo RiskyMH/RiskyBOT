@@ -58,8 +58,8 @@ const Home: NextPage = () => {
                 </div>
                 <Divider type="curveUp" className="fill-theme-d4" />
                 {/* Features */}
-                <div className="py-6 bg-theme-d4 md:py-12">
-                    <div className="my-12 mx-auto grid max-w-7xl grid-cols-1 justify-center gap-12 px-8 text-left md:my-24 md:grid-cols-2">
+                <div className="py-12 bg-theme-d4 md:py-12">
+                    <div className="my-12 mx-auto grid max-w-7xl grid-cols-1 justify-center gap-12 px-8 text-left md:grid-cols-2">
                         <div className="col-span-1 my-auto justify-center">
                             <Fade direction='up' cascade damping={1e-1} triggerOnce>
                                 <h2 className="text-4xl font-bold">Get to do enjoy your server again!</h2>
@@ -73,14 +73,14 @@ const Home: NextPage = () => {
                                 </p>
                             </Fade>
                         </div>
-                        <div className="col-span-1 hidden justify-center md:block !rotate-6">
+                        <div className="col-span-1 hidden justify-center md:block ">
                             <Fade>
                                 <RedditCommand />
                             </Fade>
                         </div>
                     </div>
-                    <div className="my-12 mx-auto grid max-w-7xl grid-cols-1 justify-center gap-12 px-8 text-left md:my-24 md:grid-cols-2">
-                        <div className="col-span-1 my-auto hidden select-none justify-center p-4 md:block !-rotate-6">
+                    <div className="my-12 mx-auto grid max-w-7xl grid-cols-1 justify-center gap-12 px-8 text-left md:grid-cols-2">
+                        <div className="col-span-1 my-auto hidden select-none justify-center p-4 md:block">
                             <Fade>
                                 <RandomToolCommand />
                             </Fade>
@@ -101,7 +101,7 @@ const Home: NextPage = () => {
                         </div>
 
                     </div>
-                    <div className="my-12 mx-auto grid max-w-7xl grid-cols-1 justify-center gap-12 px-8 text-left md:my-24 md:grid-cols-2">
+                    <div className="my-12 mx-auto grid max-w-7xl grid-cols-1 justify-center gap-12 px-8 text-left md:grid-cols-2">
                         <div className="col-span-1 my-auto justify-center">
                             <Fade direction='up' cascade damping={1e-1} triggerOnce>
                                 <h2 className="text-4xl font-bold">Lots of information!</h2>
@@ -112,7 +112,7 @@ const Home: NextPage = () => {
                             </Fade>
 
                         </div>
-                        <div className="col-span-1 my-auto hidden justify-center rounded-md p-4 md:block !rotate-6">
+                        <div className="col-span-1 my-auto hidden justify-center rounded-md p-4 md:block">
                             <Fade>
                                 <AboutUserCommand />
                             </Fade>

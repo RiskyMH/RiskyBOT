@@ -1,7 +1,20 @@
 {
     "name": "@riskybot/apis",
-    "description": "A set of function to get/use APIs for the project",
-    "version": "4.0.0-test.4",
+    "description": "A set of functions to get/use APIs",
+    "version": "4.0.0-test.10",
+    "homepage": "https://github.com/RiskyMH/RiskyBOT/tree/v4/packages/apis",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/RiskyMH/RiskyBOT.git",
+        "directory": "packages/apis"
+    },
+    "scripts": {
+        "build": "tsc --build",
+        "build:ci": "( cd ../../ && tsc -p ./packages/apis/tsconfig.json )",
+        "lint": "eslint src/**/*.mts tests/*.mjs",
+        "prepack": "yarn build",
+        "test": "node --test"
+    },
     "dependencies": {
         "@riskybot/error": "workspace:^",
         "@sapphire/shapeshift": "^3.9.2",
@@ -11,32 +24,20 @@
     "devDependencies": {
         "typescript": "^5.1.6"
     },
-    "directories": {
-        "lib": "src"
-    },
+    "type": "module",
+    "main": "./dist/index.js",
+    "module": "./dist/index.mjs",
+    "types": "./dist/index.d.ts",
     "exports": {
         "types": "./dist/index.d.ts",
         "import": "./dist/index.mjs"
     },
+    "directories": {
+        "lib": "src"
+    },
     "files": [
         "dist"
     ],
-    "main": "./dist/index.js",
-    "module": "./dist/index.mjs",
-    "scripts": {
-        "build": "tsc --build",
-        "build:ci": "( cd ../../ && tsc -p ./packages/apis/tsconfig.json )",
-        "lint": "eslint src/**/*.mts tests/*.mjs",
-        "prepack": "yarn build",
-        "test": "node --test"
-    },
-    "type": "module",
-    "types": "./dist/index.d.ts",
-    "homepage": "https://github.com/RiskyMH/RiskyBOT/tree/v4/packages/apis",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/RiskyMH/RiskyBOT.git"
-    },
     "publishConfig": {
         "access": "public"
     }

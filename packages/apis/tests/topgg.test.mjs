@@ -22,5 +22,4 @@ describe("Top.gg bot info", async () => {
 
     // SOMETIME TODO: Add a valid token and add tests for it
 
-
 });

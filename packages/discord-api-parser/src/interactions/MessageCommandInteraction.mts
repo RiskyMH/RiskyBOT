@@ -1,5 +1,4 @@
-import { APIMessageApplicationCommandInteraction, APIMessageApplicationCommandInteractionData, ApplicationCommandOptionType, ApplicationCommandType } from "discord-api-types/v10";
-import type Message from "../payloads/Message.mjs";
+import { APIMessage, APIMessageApplicationCommandInteraction, APIMessageApplicationCommandInteractionData, ApplicationCommandOptionType, ApplicationCommandType } from "discord-api-types/v10";
 import ApplicationCommandInteraction from "./ApplicationCommandInteraction.mjs";
 import { BaseOption, type Options } from "./ChatInputInteraction.mjs";
 
@@ -12,7 +11,7 @@ export default class MessageCommandInteraction extends ApplicationCommandInterac
     /** The id of the target user */
     targetId: string;
     /** The target user */
-    targetMessage: Message;
+    targetMessage: APIMessage;
 
     constructor(interaction: APIMessageApplicationCommandInteraction) {
         super(interaction);
@@ -22,18 +21,14 @@ export default class MessageCommandInteraction extends ApplicationCommandInterac
         this.targetMessage = interaction.data.resolved.messages[this.targetId];
     }
 
-    // isMessageCommand(): true {
-    //     return true;
-    // }
-
 }
 
 export class MessageOption extends BaseOption {
     declare type: ApplicationCommandOptionType;
     declare value: string;
-    message: Message;
+    message: APIMessage;
 
-    constructor(name: string, value: string, message: Message) {
+    constructor(name: string, value: string, message: APIMessage) {
         super(ApplicationCommandOptionType.Attachment, name, value);
         this.message = message;
     }
@@ -64,9 +59,9 @@ export class MessageContextMenuInteractionOption {
         return option;
     }
 
-    getMessage(name: string, required: true): Message;
-    getMessage(name: string, required?: boolean): Message | undefined;
-    getMessage(name: string, required?: boolean): Message | undefined {
+    getMessage(name: string, required: true): APIMessage;
+    getMessage(name: string, required?: boolean): APIMessage | undefined;
+    getMessage(name: string, required?: boolean): APIMessage | undefined {
         const option = this.get(name, required) as MessageOption;
         return option?.message;
     }

@@ -13,6 +13,7 @@ import type MessageComponentInteraction from "./MessageComponentInteraction.mjs"
 import type ModalSubmitInteraction from "./ModalSubmitInteraction.mjs";
 import type SelectMenuInteraction from "./SelectMenuComponentInteraction.mjs";
 import type UserCommandInteraction from "./UserCommandInteraction.mjs";
+import type PingInteraction from "./PingInteraction.mjs";
 import AttachmentBuilder from "../basic/AttachmentBuilder.mjs";
 
 
@@ -44,7 +45,7 @@ export default class BaseInteraction {
 
         this.id = interaction.id;
         this.token = interaction.token;
-        
+
         this.applicationId = interaction.application_id;
         this.applicationPermissions = new Permissions(interaction.app_permissions ?? "0");
 
@@ -72,7 +73,6 @@ export default class BaseInteraction {
     /**
      * Indicates whether this interaction is a {@link ApplicationCommandInteraction}.
      */
-    // isApplicationCommand(): this is ApplicationCommandInteraction {
     isApplicationCommand(): this is ApplicationCommandInteraction {
         return this.type === InteractionType.ApplicationCommand;
     }
@@ -101,7 +101,7 @@ export default class BaseInteraction {
     /**
      * Indicates whether this interaction is a {@link MessageComponentInteraction}.
      */
-    isMessageComponent() : this is MessageComponentInteraction {
+    isMessageComponent(): this is MessageComponentInteraction {
         return this.type === InteractionType.MessageComponent;
     }
 
@@ -117,12 +117,12 @@ export default class BaseInteraction {
      */
     isSelectMenu(): this is SelectMenuInteraction {
         return this.isMessageComponent() && [
-                ComponentType.StringSelect,
-                ComponentType.UserSelect,
-                ComponentType.RoleSelect,
-                ComponentType.MentionableSelect,
-                ComponentType.ChannelSelect,
-            ].includes(this.componentType);
+            ComponentType.StringSelect,
+            ComponentType.UserSelect,
+            ComponentType.RoleSelect,
+            ComponentType.MentionableSelect,
+            ComponentType.ChannelSelect,
+        ].includes(this.componentType);
     }
 
     /**
@@ -139,27 +139,27 @@ export default class BaseInteraction {
         return this.type === InteractionType.ModalSubmit;
     }
 
-    // /**
-    //  * Indicates whether this interaction is a {@link PingInteraction}.
-    //  */
-    // isPingInteraction(): this is PingInteraction {
-    //     return this.type === InteractionType.Ping;
-    // }
+    /**
+     * Indicates whether this interaction is a {@link PingInteraction}.
+     */
+    isPingInteraction(): this is PingInteraction {
+        return this.type === InteractionType.Ping;
+    }
 
-    
 }
 
 export type InteractionResponseData = {
     /** The content of a message */
-    content?: string, 
+    content?: string,
     /** The embeds of a message */
-    embeds?: (APIEmbed | EmbedBuilder)[], 
+    embeds?: (APIEmbed | EmbedBuilder)[],
     /** The components of a message */
     components?: (APIButtonComponent | APISelectMenuComponent | ComponentBuilder)[]
     /** Is the message ephemeral? */
     ephemeral?: boolean,
     /** Who can be mentioned? */
     allowed_mentions?: APIAllowedMentions,
+    /** The attachments to send */
     attachments?: AttachmentBuilder[]
 };
 

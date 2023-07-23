@@ -19,10 +19,6 @@ export default class ChatInputInteraction extends ApplicationCommandInteraction 
 
     }
 
-    // isChatInputCommand(): true {
-    //     return true;
-    // }
-
 }
 
 export type Options = StringOption | NumberOption | UserOption | RoleOption | BooleanOption | IntegerOption | ChannelOption | AttachmentOption | MentionableOption | MessageOption;

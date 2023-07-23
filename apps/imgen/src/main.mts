@@ -1,8 +1,8 @@
 import { Client } from "@riskybot/command";
 import { parseRawInteraction, verifyInteraction } from "discord-api-parser";
 import type { Request, Response } from "express";
-import { dirname } from "path";
-import { fileURLToPath } from "url";
+import { dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 import { env } from "#env.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));

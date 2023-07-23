@@ -37,3 +37,16 @@ describe("Resolve Color", async () => {
     });
 
 });
+
+describe("Resolve Color (inverse)", async () => {
+
+    // should work (0x1A2B3C = #1a2b3c)
+    it("should work", async () => {
+        const string = 0x1A2B3C;
+        const expected = "#1a2b3c";
+        const result = resolveColor(string);
+        assert.strictEqual(result, expected);
+    });
+
+}
+);

@@ -5,3 +5,5 @@ A collection of tools for building and maintaining the [RiskyBOT](https://github
 ### Notes
 
 This is not fully designed to be used as a library, but rather to just help with the project.
+
+This package is subject to change at any time, and may not be stable (not fully semver).

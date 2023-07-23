@@ -46,6 +46,6 @@ describe("Chat input interaction", async () => {
         assert.ok(interaction.isChatInputCommand());
         assert.ok(interaction instanceof ChatInputInteraction);
         assert.ok(!(interaction instanceof ButtonInteraction));
-        assert.ok(interaction.isChatInputCommand());
+        assert.ok(interaction.commandType === ApplicationCommandType.ChatInput);
     });
 });

@@ -1,4 +1,4 @@
-import { type APIMessage, type RESTPostAPIApplicationCommandsJSONBody, Routes } from "discord-api-types/v10";
+import { type RESTPostAPIApplicationCommandsJSONBody, Routes } from "discord-api-types/v10";
 import { fetch } from "undici";
 
 export function resolveColor(color: string | number): number {
@@ -16,13 +16,10 @@ export function resolveHexColor(color: number): string {
     return `#${color.toString(16).padStart(6, "0")}`;
 }
 
-
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore - would use @ts-expect-error but only *some* of the time it errors
-export const listFormatter: Intl.ListFormat = new Intl.ListFormat("en", { style: "long" });
+export const listFormatter = new Intl.ListFormat("en", { style: "long" });
 
 export const trim = (str: string, max: number): string =>
-    (str.length ?? "") > max ? `${str.slice(0, max - 1)}…` : str;
+    (str.length) > max ? `${str.slice(0, max - 1)}…` : str;
 
 export async function getBetweenStr(string: string, statChar: string, endChar: string, splitChar = ""): Promise<string | string[]> {
     const string2 = string.substring(
@@ -31,34 +28,7 @@ export async function getBetweenStr(string: string, statChar: string, endChar: s
     );
 
     if (splitChar) return string2.split(splitChar);
-    else return string2;
-}
-
-
-export async function stringFromEmbed(message: APIMessage): Promise<string> {
-    let msg = message?.content || "";
-
-    for (const emb of message?.embeds ?? []) {
-        msg += "\n";
-        if (emb.author) {
-            // if (emb.author.url) msg += `![Author icon](${emb.author.url}) ${emb.author.name}`;
-            msg += `\n# ${emb.author.name}${emb.author.url ? ` (url: ${emb.author.url})` : ""}`;
-        }
-        if (emb.title) msg += `\n# ${emb.title}${emb.url ? ` (url: ${emb.url})` : ""}`;
-        if (emb.description) msg += `\n${emb.description}`;
-        for (const embField of emb?.fields ?? []) {
-            msg += `\n## ${embField.name}`;
-            msg += `\n${embField.value}`;
-        }
-        if (emb.footer) msg += `\n *${emb.footer.text}*`;
-        if (emb.timestamp) msg += `\n *${emb.timestamp.toLocaleString()}*`;
-        if (emb.image) msg += `\n *Image url: ${emb.image.url}*`;
-        if (emb.video) msg += `\n *Video url: ${emb.video.url}*`;
-        if (emb.thumbnail) msg += `\n *Thumbnail url: ${emb.thumbnail.url}*`;
-        // if (emb.color) msg+= `\nColor: ${emb.color}`
-    }
-
-    return msg;
+    return string2;
 }
 
 
@@ -109,4 +79,3 @@ export async function deployCommands({ applicationId, clientSecret, guildId, com
 
     return json;
 }
-

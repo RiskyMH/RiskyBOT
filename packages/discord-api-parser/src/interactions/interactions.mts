@@ -18,7 +18,6 @@ import UserContextMenuInteraction from "./UserCommandInteraction.mjs";
  * The Interaction :)
  */
 export type Interaction = PingInteraction | ChatInputInteraction | UserContextMenuInteraction | ButtonInteraction | SelectMenuInteraction | AutocompleteInteraction | MessageCommandInteraction | ModalSubmitInteraction;
-// export type Interaction = BaseInteraction;
 
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -69,11 +68,8 @@ export async function verifyInteraction(request: any, response: any, publicKey: 
 
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-// declare type Class<T = any> = new (...args: any[]) => T;
 
 export function parseRawInteraction(data: APIInteraction): Interaction {
-    // let InteractionClass: Class;
     let InteractionClass = BaseInteraction;
 
     switch (data.type) {
@@ -111,7 +107,7 @@ export function parseRawInteraction(data: APIInteraction): Interaction {
                     InteractionClass = ButtonInteraction;
                     break;
 
-                // TODO: Implement these select menus better
+                // Later TODO: Implement these select menus better
                 case ComponentType.RoleSelect:
                 case ComponentType.UserSelect:
                 case ComponentType.ChannelSelect:
@@ -134,7 +130,6 @@ export function parseRawInteraction(data: APIInteraction): Interaction {
             // @ts-expect-error Never should occur, but just in case
             throw new Error("Unknown InteractionType: " + data.type);
     }
-    // InteractionClass ||= BaseInteraction;
 
     return new InteractionClass(data) as Interaction;
 }

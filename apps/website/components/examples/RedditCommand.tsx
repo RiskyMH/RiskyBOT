@@ -15,6 +15,10 @@ import { addBasePath } from "next/dist/client/add-base-path";
 import { useEffect, useState } from "react";
 import { BOT_INVITE_URL } from "../../constants";
 
+
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+
 export default function DiscordRedditExample() {
     const imgUrl = addBasePath("/robot.svg");
 
@@ -39,52 +43,36 @@ export default function DiscordRedditExample() {
         fetchQuestion();
     }, []);
 
-    function fetchQuestion(subreddit = "meme") {
-        setCount(count + 1);
-
+    async function fetchQuestion(subreddit = "meme") {
+        setCount((c) => c + 1);
+        
         setLoading(true);
-        // let url = `https://api.reddit.com/r/${subreddit}/random.json?include_over_18=false`;
-        // Because of CORS, we need to use a proxy
-        const url = "http://localhost:3001/api/proxy/reddit?type=post&subreddit=" + subreddit;
-        // if (process.env.NODE_ENV === "development") url = "http://localhost:3001/api/proxy/reddit?type=post&subreddit=" + subreddit;
-        if (count >= 3) return;
+        if (count >= 4) return;
 
-        // TODO: use the fetch
-        // Just trying to not have it run right now
-        // eslint-disable-next-line no-constant-condition
-        if (false)
-        // @ts-expect-error above
-        fetch(url)
-            .then(res => res.json())
-            .then(data => {
-                setData(data);
-                setLoading(false);
-                fetchResponse();
-                setLoadedLegitPost(true);
-            })
-            .catch(err => {
-                console.error(err);
-                setLoading(false);
-                fetchResponse();
+        console.info(`Fetching new post from ${subreddit}...`);
 
+        // Later TODO: Not use static data (use API for random)
 
-                if (!hasLoadedLegitPost) {
-                    setData({
-                        title: "is't possible to have this much power",
-                        ups: 150449,
-                        downs: 0,
-                        num_comments: 867,
-                        permalink: "/r/dankmemes/comments/jkbo9t/is_t_possible_to_have_this_much_power/",
-                        url: "https://i.redd.it/ns2zniy2s1w51.gif",
-                        subreddit_name_prefixed: "r/dankmemes",
-                        selftext: "",
-                        created_utc: 1603983862,
-                        author: "zakuria44",
-                    });
-                    setLoadedLegitPost(true);
+        // Simulate a 1 second delay
+        await wait(1000);
 
-                }
-            });
+        setData({
+            title: "is't possible to have this much power",
+            ups: 150449,
+            downs: 0,
+            num_comments: 867,
+            permalink: "/r/dankmemes/comments/jkbo9t/is_t_possible_to_have_this_much_power/",
+            url: "https://i.redd.it/ns2zniy2s1w51.gif",
+            subreddit_name_prefixed: "r/dankmemes",
+            selftext: "",
+            created_utc: 1603983862,
+            author: "zakuria44",
+        });
+
+        setLoadedLegitPost(true);
+        setLoading(false);
+        fetchResponse();
+
     }
 
     function fetchResponse() {
@@ -104,7 +92,7 @@ export default function DiscordRedditExample() {
             </DiscordMessage>
             <style>{css}</style>
             <DiscordMessage author="RiskyBOT" avatar={imgUrl} bot verified>
-                <DiscordCommand slot="reply" author="Friend" avatar="orange" command="/random reddit-post"></DiscordCommand>
+                <DiscordCommand slot="reply" author="Friend" avatar="orange" command="/random reddit post" />
                 <DiscordEmbed
                     slot="embeds"
                     color="#3B82F6"
@@ -191,7 +179,7 @@ export default function DiscordRedditExample() {
 
 
 
-    return count <= 3 ? IntroMessage : RatelimitMessage;
+    return count <= 4 ? IntroMessage : RatelimitMessage;
 }
 
 const css = `  

@@ -1,3 +1,4 @@
+/** A class for sending an attachment to discord (eg for interaction reply) */
 export class AttachmentBuilder {
     file: Buffer;
     name: string;

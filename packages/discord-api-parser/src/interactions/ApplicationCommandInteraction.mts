@@ -28,11 +28,6 @@ export default class ApplicationCommandInteraction extends BaseInteraction {
 
     }
 
-    // isApplicationCommand(): true {
-    //     return true;
-    // }
-
-
 }
 
 const allowedResponses = createInteractionMixinList([
@@ -48,4 +43,3 @@ const allowedResponses = createInteractionMixinList([
 applyInteractionResponseMixins(ApplicationCommandInteraction, allowedResponses);
 
 export default interface ApplicationCommandInteraction extends InteractionResponseMixin<typeof allowedResponses> { }
-
