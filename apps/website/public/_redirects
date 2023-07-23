@@ -1,1 +1,7 @@
 # Redirects the old site's pages into the new (using cloudflare)
+
+/RiskyBOT/* https://bot.riskymh.dev 301
+/branding https://bot.riskymh.dev/other-bots 301
+/docs/* https://bot.riskymh.dev 301
+/docs https://bot.riskymh.dev 301
+/docs/riskybots https://bot.riskymh.dev/other-bots 301
