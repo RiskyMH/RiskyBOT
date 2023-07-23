@@ -162,9 +162,11 @@ jobs:
         env:
           RISKYBOT_APPLICATION_CLIENT_SECRET: ${{ secrets.RISKYBOT_APPLICATION_CLIENT_SECRET }}
           RISKYBOT_APPLICATION_ID: ${{ secrets.RISKYBOT_APPLICATION_ID }}
-          OWNER_GUILD_ID: ${{ secrets.OWNER_GUILD_ID }}
           IMGEN_APPLICATION_CLIENT_SECRET: ${{ secrets.IMGEN_APPLICATION_CLIENT_SECRET }}
           IMGEN_APPLICATION_ID: ${{ secrets.IMGEN_APPLICATION_ID }}
+          OWNER_GUILD_ID: ${{ secrets.OWNER_GUILD_ID }}
 
-          TOPGG_TOKEN: ${{ secrets.TOPGG_TOKEN }}
+          TOPGG_TOKEN: 'true'
+          RISKYBOT_APPLICATION_PUBLIC_KEY: 'true'
+          IMGEN_APPLICATION_PUBLIC_KEY: 'true'
       
