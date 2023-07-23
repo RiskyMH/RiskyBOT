@@ -8,7 +8,7 @@
         "directory": "apps/riskybot"
     },
     "scripts": {
-        "build": "tsc --build && npx command-imports",
+        "build": "npx command-imports && tsc --build",
         "build:ci": "( cd ../../ && tsc -p ./apps/riskybot/tsconfig.json )",
         "lint": "eslint src/**/*.mts",
         "start": "node dist/express.mjs",
