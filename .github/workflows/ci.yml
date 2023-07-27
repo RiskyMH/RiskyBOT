@@ -105,11 +105,10 @@ jobs:
         run: rm -rf packages/${{ matrix.folder }}/dist/*
 
       - name: Publish package
-        # run: yarn workspace ${{ matrix.package }} npm publish --tolerate-republish
-        # run: yarn workspace ${{ matrix.package }} npm publish || true
-        run: yarn workspace ${{ matrix.package }} npm publish || yarn workspace ${{ matrix.package }} npm publish --tolerate-republish
+        run: yarn workspace ${{ matrix.package }} npm publish --tolerate-republish || yarn workspace ${{ matrix.package }} npm publish
         env:
           YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
 
   deploy-commands:
     needs: [main]
