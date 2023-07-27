@@ -55,6 +55,10 @@ jobs:
     needs: [main]
     if: ${{ github.repository_owner == 'RiskyMH' && github.ref == 'refs/heads/main' }}
     name: NPM Publish
+    permissions:
+      id-token: write
+      contents: read
+      
     strategy:
       fail-fast: false
       matrix:
