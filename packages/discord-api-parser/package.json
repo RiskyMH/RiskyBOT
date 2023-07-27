@@ -1,7 +1,7 @@
 {
     "name": "discord-api-parser",
     "description": "A package that parses raw Discord API",
-    "version": "4.0.1",
+    "version": "4.0.2",
     "author": "RiskyMH",
     "homepage": "https://github.com/RiskyMH/RiskyBOT/tree/main/packages/discord-api-parser",
     "repository": {
