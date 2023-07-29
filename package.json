@@ -26,14 +26,14 @@
         "dev:bot": "yarn vercel dev"
     },
     "devDependencies": {
-        "@types/node": "^20.4.4",
+        "@types/node": "^20.4.5",
         "@typescript-eslint/eslint-plugin": "^6.2.0",
         "@typescript-eslint/parser": "^6.2.0",
         "@vercel/node": "^2.15.6",
-        "eslint": "^8.45.0",
-        "turbo": "^1.10.11",
+        "eslint": "^8.46.0",
+        "turbo": "^1.10.12",
         "typescript": "^5.1.6",
-        "vercel": "^31.1.0"
+        "vercel": "^31.2.0"
     },
     "packageManager": "yarn@3.6.1",
     "workspaces": [
