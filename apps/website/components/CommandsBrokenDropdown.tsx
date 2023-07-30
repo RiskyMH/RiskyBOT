@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { BOT_INVITE_URL } from "../constants";
 
 export default function CommandsBrokenDropdown() {
     const collapseElement = useRef(null);
@@ -37,7 +38,7 @@ export default function CommandsBrokenDropdown() {
                             </li>
                             <li>
                                 The bot may not be added with the commands scope. Try re-inviting it with this link:{" "}
-                                <a href="/invite" target="_blank" rel="noopener noreferrer" className="text-blue-500">
+                                <a href={BOT_INVITE_URL} target="_blank" rel="noopener noreferrer" className="text-blue-500">
                                     Invite Bot
                                 </a>
                             </li>

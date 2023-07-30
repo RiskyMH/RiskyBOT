@@ -8,16 +8,16 @@ export default function OpenGraph({
 	description = "Add RiskyBOT to your Discord server! Featuring heaps of commands that are all fun and useful, RiskyBOT is the perfect way to make servers with friends more fun and exciting.",
 }) {
 	const router = useRouter();
-	const url = `https://riskymh.github.io/RiskyBOT${addBasePath(router.asPath)}`;
+	const url = `https://bot.riskymh.dev${router.asPath}`;
 
 	// application/ld+json metadata
 	const structuredData = {
 		"@context": "https://schema.org",
 		"@type": "Organization",
-		url: "https://riskymh.github.io/RiskyBOT",
-		logo: "https://riskymh.github.io/RiskyBOT/robot.png",
+		url: "https://bot.riskymh.dev",
+		logo: "https://bot.riskymh.dev/robot.png",
 		description: "Add RiskyBOT to your Discord server! Featuring heaps of commands that are all fun and useful, RiskyBOT is the perfect way to make servers with friends more fun and exciting.",
-		// thumbnailUrl: "https://riskymh.github.io/RiskyBOT/robot.png",
+		// thumbnailUrl: "https://bot.riskymh.dev/robot.png",
 		sameAs: [BOT_INVITE_URL, SERVER_INVITE_URL, "https://github.com/RiskyMH/RiskyBOT"],
 		name: "RiskyBOT",
 		member: {
