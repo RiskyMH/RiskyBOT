@@ -22,7 +22,7 @@
         "@riskybot/error": "workspace:^",
         "@riskybot/tools": "workspace:^",
         "discord-api-parser": "workspace:^",
-        "discord-api-types": "^0.37.50",
+        "discord-api-types": "^0.37.51",
         "glob": "^10.3.3",
         "undici": "^5.22.1"
     },

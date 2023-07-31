@@ -719,7 +719,7 @@ __metadata:
     "@riskybot/error": "workspace:^"
     "@riskybot/tools": "workspace:^"
     discord-api-parser: "workspace:^"
-    discord-api-types: ^0.37.50
+    discord-api-types: ^0.37.51
     eslint: ^8.46.0
     glob: ^10.3.3
     typescript: ^5.1.6
@@ -760,7 +760,7 @@ __metadata:
     "@sapphire/shapeshift": ^3.9.2
     "@types/express": ^4.17.17
     discord-api-parser: "workspace:^"
-    discord-api-types: ^0.37.50
+    discord-api-types: ^0.37.51
     eslint: ^8.46.0
     express: ^4.18.2
     typescript: ^5.1.6
@@ -780,7 +780,7 @@ __metadata:
     "@sapphire/snowflake": ^3.5.1
     "@types/express": ^4.17.17
     discord-api-parser: "workspace:^"
-    discord-api-types: ^0.37.50
+    discord-api-types: ^0.37.51
     eslint: ^8.46.0
     express: ^4.18.2
     typescript: ^5.1.6
@@ -807,7 +807,7 @@ __metadata:
     "@types/react": ^18.2.17
     "@types/react-dom": ^18.2.7
     autoprefixer: ^10.4.14
-    discord-api-types: ^0.37.50
+    discord-api-types: ^0.37.51
     next: ^13.4.12
     postcss: ^8.4.27
     react: ^18.2.0
@@ -2166,7 +2166,7 @@ __metadata:
   dependencies:
     "@discordjs/builders": ^1.6.3
     "@sapphire/snowflake": ^3.5.1
-    discord-api-types: 0.37.50
+    discord-api-types: 0.37.51
     discord-interactions: ^3.4.0
     discord-verify: ^1.2.0
     eslint: ^8.46.0
@@ -2179,7 +2179,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"discord-api-types@npm:0.37.50, discord-api-types@npm:^0.37.41, discord-api-types@npm:^0.37.50":
+"discord-api-types@npm:0.37.51, discord-api-types@npm:^0.37.51":
+  version: 0.37.51
+  resolution: "discord-api-types@npm:0.37.51"
+  checksum: 0f6c8a5c316896e333ffb7c95ad31eff51053848cff23a9e47849e27b1f92a342df3e90eb304bf1d1410981b64d7d07a327f883722ffe75c064ae096dd3e9721
+  languageName: node
+  linkType: hard
+
+"discord-api-types@npm:^0.37.41":
   version: 0.37.50
   resolution: "discord-api-types@npm:0.37.50"
   checksum: 08dc5145dbefda5f52b479cd42d96ac2b8110300861855e1f92cc8a0a6525a4059e32724cd5237490c286f5afd86797a86823238cd5eee016198560bb36f6d43

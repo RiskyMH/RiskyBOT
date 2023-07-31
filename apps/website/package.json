@@ -11,7 +11,7 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@skyra/discord-components-react": "^3.6.0",
-    "discord-api-types": "^0.37.50",
+    "discord-api-types": "^0.37.51",
     "next": "^13.4.12",
     "react": "^18.2.0",
     "react-awesome-reveal": "^4.2.5",
