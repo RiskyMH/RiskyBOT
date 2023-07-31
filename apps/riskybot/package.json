@@ -15,7 +15,7 @@
         "deploy-commands": "node dist/deploy-commands.mjs"
     },
     "dependencies": {
-        "@discordjs/builders": "^1.6.3",
+        "@discordjs/builders": "^1.6.4",
         "@discordjs/formatters": "^0.3.1",
         "@riskybot/apis": "workspace:^",
         "@riskybot/command": "workspace:^",
@@ -23,7 +23,7 @@
         "@sapphire/shapeshift": "^3.9.2",
         "@sapphire/snowflake": "^3.5.1",
         "discord-api-parser": "workspace:^",
-        "discord-api-types": "^0.37.50",
+        "discord-api-types": "^0.37.51",
         "express": "^4.18.2"
     },
     "devDependencies": {
