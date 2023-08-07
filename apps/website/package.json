@@ -11,15 +11,15 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@skyra/discord-components-react": "^3.6.0",
-    "discord-api-types": "^0.37.51",
-    "next": "^13.4.12",
+    "discord-api-types": "^0.37.52",
+    "next": "^13.4.13",
     "react": "^18.2.0",
     "react-awesome-reveal": "^4.2.5",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@next/eslint-plugin-next": "^13.4.12",
-    "@types/node": "^20.4.5",
+    "@next/eslint-plugin-next": "^13.4.13",
+    "@types/node": "^20.4.8",
     "@types/react": "^18.2.18",
     "@types/react-dom": "^18.2.7",
     "autoprefixer": "^10.4.14",

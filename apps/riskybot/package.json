@@ -23,7 +23,7 @@
         "@sapphire/shapeshift": "^3.9.2",
         "@sapphire/snowflake": "^3.5.1",
         "discord-api-parser": "workspace:^",
-        "discord-api-types": "^0.37.51",
+        "discord-api-types": "^0.37.52",
         "express": "^4.18.2"
     },
     "devDependencies": {
