@@ -17,11 +17,11 @@
         "test": "node --test"
     },
     "dependencies": {
-        "@napi-rs/canvas": "0.1.41",
+        "@napi-rs/canvas": "0.1.43",
         "undici": "^5.23.0"
     },
     "devDependencies": {
-        "eslint": "^8.46.0",
+        "eslint": "^8.47.0",
         "typescript": "^5.1.6"
     },
     "type": "module",

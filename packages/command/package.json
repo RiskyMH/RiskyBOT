@@ -22,12 +22,12 @@
         "@riskybot/error": "workspace:^",
         "@riskybot/tools": "workspace:^",
         "discord-api-parser": "workspace:^",
-        "discord-api-types": "^0.37.52",
+        "discord-api-types": "^0.37.53",
         "glob": "^10.3.3",
         "undici": "^5.23.0"
     },
     "devDependencies": {
-        "eslint": "^8.46.0",
+        "eslint": "^8.47.0",
         "typescript": "^5.1.6"
     },
     "type": "module",
