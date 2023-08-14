@@ -1,7 +1,7 @@
 {
     "name": "@riskybot/apis",
     "description": "A set of functions to get/use APIs",
-    "version": "4.0.2",
+    "version": "4.0.3",
     "homepage": "https://github.com/RiskyMH/RiskyBOT/tree/main/packages/apis",
     "repository": {
         "type": "git",
