@@ -1,7 +1,7 @@
 {
     "name": "@riskybot/error",
     "description": "The custom error class for RiskyBOT",
-    "version": "4.0.2",
+    "version": "4.0.3",
     "author": "RiskyMH",
     "homepage": "https://github.com/RiskyMH/RiskyBOT/tree/main/packages/error",
     "repository": {
@@ -16,7 +16,7 @@
         "prepack": "yarn build"
     },
     "devDependencies": {
-        "eslint": "^8.46.0",
+        "eslint": "^8.47.0",
         "typescript": "^5.1.6"
     },
     "type": "module",

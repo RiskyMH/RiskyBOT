@@ -11,7 +11,7 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@skyra/discord-components-react": "^3.6.0",
-    "discord-api-types": "^0.37.52",
+    "discord-api-types": "^0.37.53",
     "next": "^13.4.13",
     "react": "^18.2.0",
     "react-awesome-reveal": "^4.2.5",
@@ -19,10 +19,10 @@
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^13.4.13",
-    "@types/node": "^20.4.8",
-    "@types/react": "^18.2.18",
+    "@types/node": "^20.5.0",
+    "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
-    "autoprefixer": "^10.4.14",
+    "autoprefixer": "^10.4.15",
     "postcss": "^8.4.27",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.1.6"

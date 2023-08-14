@@ -1,7 +1,7 @@
 {
     "name": "discord-api-parser",
     "description": "A package that parses raw Discord API",
-    "version": "4.0.2",
+    "version": "4.0.3",
     "author": "RiskyMH",
     "homepage": "https://github.com/RiskyMH/RiskyBOT/tree/main/packages/discord-api-parser",
     "repository": {
@@ -18,14 +18,14 @@
     },
     "dependencies": {
         "@sapphire/snowflake": "^3.5.1",
-        "discord-api-types": "0.37.52",
+        "discord-api-types": "0.37.53",
         "discord-interactions": "^3.4.0",
         "discord-verify": "^1.2.0",
         "form-data": "^4.0.0",
         "undici": "^5.23.0"
     },
     "devDependencies": {
-        "eslint": "^8.46.0",
+        "eslint": "^8.47.0",
         "typescript": "^5.1.6"
     },
     "optionalDependencies": {

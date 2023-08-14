@@ -1,7 +1,7 @@
 {
     "name": "@riskybot/apis",
     "description": "A set of functions to get/use APIs",
-    "version": "4.0.2",
+    "version": "4.0.3",
     "homepage": "https://github.com/RiskyMH/RiskyBOT/tree/main/packages/apis",
     "repository": {
         "type": "git",
@@ -18,11 +18,11 @@
     "dependencies": {
         "@riskybot/error": "workspace:^",
         "@sapphire/shapeshift": "^3.9.2",
-        "lru-cache": "^10.0.0",
+        "lru-cache": "^10.0.1",
         "undici": "^5.23.0"
     },
     "devDependencies": {
-        "eslint": "^8.46.0",
+        "eslint": "^8.47.0",
         "typescript": "^5.1.6"
     },
     "type": "module",

@@ -1,7 +1,7 @@
 {
     "name": "@riskybot/image-generate",
     "description": "A simple image generation package for RiskyBOT",
-    "version": "4.0.2",
+    "version": "4.0.3",
     "author": "RiskyMH",
     "homepage": "https://github.com/RiskyMH/RiskyBOT/tree/main/packages/image-generation",
     "repository": {
@@ -17,11 +17,11 @@
         "test": "node --test"
     },
     "dependencies": {
-        "@napi-rs/canvas": "0.1.41",
+        "@napi-rs/canvas": "0.1.43",
         "undici": "^5.23.0"
     },
     "devDependencies": {
-        "eslint": "^8.46.0",
+        "eslint": "^8.47.0",
         "typescript": "^5.1.6"
     },
     "type": "module",
