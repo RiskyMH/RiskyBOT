@@ -19,7 +19,7 @@ export default function addCommandToWebsite(commands: RESTPostAPIApplicationComm
     const file = path.join(dir, "../../website/assets/commands.json");
 
     // remove all commands that are from riskybot
-    const json = JSON.parse(readFileSync(file, "utf-8")) as WebsiteCommand[];
+    const json = JSON.parse(readFileSync(file, "utf8")) as WebsiteCommand[];
 
     let bot: string;
     if (dir.endsWith("riskybot\\dist")) {
@@ -94,12 +94,12 @@ export default function addCommandToWebsite(commands: RESTPostAPIApplicationComm
         ...JSONCommands,
         ...botCommands
             .sort((a, b) => a.name.localeCompare(b.name))
-            .map(c => ({ ...c, name: c.name.replace("-aboutme-credits-", "aboutme-credits") })), // fix aboutme-credits
+            .map(command => ({ ...command, name: command.name.replace("-aboutme-credits-", "aboutme-credits") })), // fix aboutme-credits
     ];
 
     // save it 
     const data = JSON.stringify(cmds, null, 2);
-    writeFileSync(file, data, "utf-8");
+    writeFileSync(file, data, "utf8");
 
 
 }

@@ -1,9 +1,12 @@
 {
     // Mapped from https://www.typescriptlang.org/tsconfig
     "extends": "../../tsconfig.json",
-    "include": ["src/**/*", "tests/**/*.mjs"],
+    "include": [
+        "src/**/*",
+        "tests/**/*.mjs"
+    ],
     "compilerOptions": {
         "declaration": true,
-        "outDir": "dist",
-    }
+        "outDir": "dist"
+    },
 }

@@ -15,6 +15,7 @@ export default class About extends Command {
     name = "about";
     description = "Replies with information about a user/role";
 
+    // eslint-disable-next-line unicorn/consistent-function-scoping
     command = (() => {
         const userAboutOptions = [{ name: "Advanced", value: "advanced" }];
         if (env.TOPGG_TOKEN) userAboutOptions.push({ name: "Top.gg", value: "top.gg" });
@@ -171,8 +172,8 @@ export default class About extends Command {
                         ]);
 
 
-                    if (member.roles.length) {
-                        embed.addFields([{ name: "Roles", value: member.roles.map((e) => (roleMention(e))).join(" ") }]);
+                    if (member.roles.length > 0) {
+                        embed.addFields([{ name: "Roles", value: member.roles.map(id => roleMention(id)).join(" ") }]);
                     }
 
                     if (member.communicationDisabledUntil) {

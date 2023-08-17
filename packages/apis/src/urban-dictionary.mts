@@ -38,7 +38,7 @@ export async function define(term: string, cache = true): Promise<Definition | n
     }
     const definition = await result.json() as RawDefineResult;
 
-    if (!definition.list.length) {
+    if (definition.list.length === 0) {
         return null;
     }
 
@@ -73,7 +73,7 @@ export async function autoComplete(term: string, cache = true): Promise<AutoComp
     }
     const definition = await result.json() as RawAutoCompleteResult;
 
-    if (!definition || !definition.length) {
+    if (!definition || definition.length === 0) {
         return null;
     }
 

@@ -27,14 +27,15 @@
     },
     "devDependencies": {
         "@types/node": "^20.5.0",
-        "@typescript-eslint/eslint-plugin": "^6.3.0",
-        "@typescript-eslint/parser": "^6.3.0",
-        "@vercel/node": "^2.15.9",
+        "@typescript-eslint/eslint-plugin": "^6.4.0",
+        "@typescript-eslint/parser": "^6.4.0",
+        "@vercel/node": "^2.15.10",
         "dotenv": "^16.3.1",
         "eslint": "^8.47.0",
+        "eslint-plugin-unicorn": "^48.0.1",
         "turbo": "^1.10.12",
         "typescript": "^5.1.6",
-        "vercel": "^31.2.3"
+        "vercel": "^31.4.0"
     },
     "packageManager": "yarn@3.6.1",
     "workspaces": [

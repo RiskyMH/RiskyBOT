@@ -39,7 +39,7 @@ export default class Search extends Command {
                 const input = interaction.options.getString("input", true);
                 const urbanDef = await urbanDictionary.define(input);
 
-                if (!urbanDef || !urbanDef.length) {
+                if (!urbanDef || urbanDef.length === 0) {
                     const errorEmb = new EmbedBuilder()
                         .setColor(config.colors.error)
                         .setTitle("Can't find your term")
@@ -53,7 +53,7 @@ export default class Search extends Command {
                 let definition = `${urbanChosen.definition}\n\n*${urbanChosen.example.replaceAll("*", "\\*")}*`;
 
                 const linkRegex = /\[([\S\s][^\]]*)\]/g;
-                definition = definition.replace(linkRegex, (_match, term) => {
+                definition = definition.replaceAll(linkRegex, (_match, term) => {
                     const encodedTerm = encodeURIComponent(term);
                     return `[${term}](https://www.urbandictionary.com/define.php?term=${encodedTerm})`;
                 });
@@ -78,12 +78,12 @@ export default class Search extends Command {
         switch (interaction.options.getSubcommand()) {
             case "urban-dictionary": {
                 const input = interaction.options.getString("input", true);
-                if (!input.length) return interaction.respond([]);
+                if (input.length === 0) return interaction.respond([]);
 
                 const complete = await urbanDictionary.autoComplete(input);
-                if (!complete || !complete.length) return interaction.respond([]);
+                if (!complete || complete.length === 0) return interaction.respond([]);
 
-                const wordList = complete.map((word: string) => ({ name: word, value: word }));
+                const wordList = complete.map(word => ({ name: word, value: word }));
 
                 if ((wordList[0].name.toLowerCase() !== input.toLowerCase())) {
                     wordList.unshift({ name: input, value: input });

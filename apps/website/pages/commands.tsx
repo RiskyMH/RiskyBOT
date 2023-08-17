@@ -13,7 +13,7 @@ const CommandsPage: NextPage = () => {
 
 	const noCharQuery = query
 		.replace("-", " ")
-		.replace(/[^a-zA-Z\s]/g, "")
+		.replaceAll(/[^a-zA-Z\s]/g, "")
 		.toLowerCase();
 		
 	const combined = [

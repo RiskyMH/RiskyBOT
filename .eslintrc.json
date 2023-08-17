@@ -1,12 +1,13 @@
 {
     "env": {
-        "es2021": true,
+        "es2024": true,
         "node": true
     },
     "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/eslint-recommended",
-        "plugin:@typescript-eslint/recommended"
+        "plugin:@typescript-eslint/recommended",
+        "plugin:unicorn/recommended"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -19,7 +20,8 @@
         ]
     },
     "plugins": [
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "unicorn"
     ],
     "rules": {
         // "no-dupe-class-members": "off",
@@ -51,6 +53,12 @@
                     "info"
                 ]
             }
-        ]
+        ],
+        "unicorn/prevent-abbreviations": "off",
+        "unicorn/no-null": "off",
+        "unicorn/no-nested-ternary": "off",
+        "unicorn/better-regex": "off",
+        "unicorn/filename-case": "off",
+        "unicorn/no-object-as-default-parameter": "off"
     }
 }

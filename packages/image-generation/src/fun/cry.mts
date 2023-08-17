@@ -20,7 +20,7 @@ export default async function makeImg(input: { text: string }): Promise<Buffer |
     try {
         context.drawImage(await imageBg, 0, 0, canvas.width, canvas.height);
 
-    } catch (e) { console.error(e); return { error: "Error when fetching assets" }; }
+    } catch (error) { console.error(error); return { error: "Error when fetching assets" }; }
 
     context.font = "900 20pt tahoma, twemoji";
     wrapText(context, input.text, 385, 85, 175, 24 + 12);

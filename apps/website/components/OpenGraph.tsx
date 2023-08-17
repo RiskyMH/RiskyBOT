@@ -30,8 +30,8 @@ export default function OpenGraph({
 		}
 	};
 
-	const simpleTitle = title !== "RiskyBOT" ? title.replace("RiskyBOT - ", "RiskyBOT | ") : title;
-	const siteName = title !== "RiskyBOT" ? "" : "";
+	const simpleTitle = title === "RiskyBOT" ? title : title.replace("RiskyBOT - ", "RiskyBOT | ");
+	const siteName = title === "RiskyBOT" ? "" : "";
 
 	return (
 		<Head>

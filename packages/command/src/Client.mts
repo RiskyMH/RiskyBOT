@@ -16,12 +16,12 @@ export default class Client {
     commands: Command[] = [];
 
     constructor(dir: string) {
-        this.dir = dir.replace(/\\/g, "/");
+        this.dir = dir.replaceAll("\\", "/");
     }
 
     async getCommands() {
         const folder = path.join(this.dir, "/commands/**/*.mjs")
-            .replace(/\\/g, "/");
+            .replaceAll("\\", "/");
 
         const files = glob.sync(folder);
 
@@ -32,6 +32,7 @@ export default class Client {
 
             if (/^(?:.*[\\/])?_[^\\/]*$/.test(location) || location.endsWith("/index.mjs")) return;
 
+            // eslint-disable-next-line unicorn/no-await-expression-member
             const command = new (await import(location)).default();
             this.commands.push(command);
         }));
@@ -39,7 +40,7 @@ export default class Client {
     }
 
     async handleInteraction(interaction: Interaction) {
-        if (!this.commands.length) {
+        if (this.commands.length === 0) {
             throw new Error("No commands");
         }
 
@@ -49,7 +50,7 @@ export default class Client {
 
             console.error(error);
 
-            const errorColor = 0xED4245;
+            const errorColor = 0xED_42_45;
 
             const embed = new EmbedBuilder()
                 .setColor(errorColor);

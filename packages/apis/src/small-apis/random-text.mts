@@ -117,13 +117,13 @@ const randomInsultError = {
 };
 
 const randomInsultResult = s.object({
-    number: s.string.transform(num => parseInt(num)),
+    number: s.string.transform(num => Number.parseInt(num)),
     language: s.string,
     insult: s.string,
     created: s.string.transform(d => new Date(d)),
-    shown: s.string.transform(num => parseInt(num)),
+    shown: s.string.transform(num => Number.parseInt(num)),
     createdby: s.string,
-    active: s.string.transform(num => parseInt(num)),
+    active: s.string.transform(num => Number.parseInt(num)),
     comment: s.string,
 });
 

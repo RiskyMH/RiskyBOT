@@ -59,7 +59,7 @@ export default class Translate extends Command {
         }
 
         const to = (interaction.isChatInputCommand() && interaction.options.getString("language", true))
-            || (interaction.locale.replace(/en-(US|GB)/g, "en"));
+            || (interaction.locale.replaceAll(/en-(US|GB)/g, "en"));
 
         const from = "auto";
 

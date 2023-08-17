@@ -56,10 +56,10 @@ export default class Eval extends Command {
 
         try {
             evalResult = await eval(input);
-        } catch (err) {
-            evalResult = err;
+        } catch (error) {
+            evalResult = error;
             hasError = true;
-            console.error("EVAL RESULT ERROR BELOW:\n", err);
+            console.error("EVAL RESULT ERROR BELOW:\n", error);
         }
 
         const evalResultEmbed = new EmbedBuilder()
