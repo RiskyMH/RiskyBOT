@@ -64,14 +64,14 @@ export default function DiscordRandomToolExample() {
 
                 >
                     <DiscordEmbedDescription slot="description">
-                        <p>Number: <DiscordBold className="font-bold">{!loading ? data.toLocaleString() : "..."}</DiscordBold> </p>
+                        <p>Number: <DiscordBold className="font-bold">{loading ? "..." : data.toLocaleString()}</DiscordBold> </p>
                     </DiscordEmbedDescription>
                 </DiscordEmbed>
                 <DiscordAttachments slot="components">
                     <DiscordActionRow>
                         <DiscordButton
                             type="primary"
-                            onClick={e => (!e.currentTarget.disabled ? fetchNumber() : null)}
+                            onClick={e => (e.currentTarget.disabled ? null : fetchNumber())}
                             disabled={loading}
                         >
                             Another?

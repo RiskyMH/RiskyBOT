@@ -6,7 +6,7 @@ describe("Urban dictionary Define", async () => {
     const validWord = "hello";
     it(`should get a definition for "${validWord}" (length >= 1)`, async () => {
         const result = await urbanDictionary.define(validWord);
-        assert.ok(result && result.length >= 1);
+        assert.ok(result && result.length > 0);
     });
 
     const invalidWord = "￼";
@@ -21,7 +21,7 @@ describe("Urban dictionary Autocomplete", async () => {
     const validWord = "hello";
     it(`should get autocomplete results for "${validWord}" (length >= 1)`, async () => {
         const result = await urbanDictionary.autoComplete(validWord);
-        assert.ok(result && result.length >= 1);
+        assert.ok(result && result.length > 0);
     });
 
     const invalidWord = "￼";

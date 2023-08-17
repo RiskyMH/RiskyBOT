@@ -31,7 +31,7 @@ describe("Resolve Color", async () => {
     // should work (#1A2B3C = 0x1A2B3C)
     it("should work", async () => {
         const string = "#1A2B3C";
-        const expected = 0x1A2B3C;
+        const expected = 0x1A_2B_3C;
         const result = resolveColor(string);
         assert.strictEqual(result, expected);
     });
@@ -42,7 +42,7 @@ describe("Resolve Color (inverse)", async () => {
 
     // should work (0x1A2B3C = #1a2b3c)
     it("should work", async () => {
-        const string = 0x1A2B3C;
+        const string = 0x1A_2B_3C;
         const expected = "#1a2b3c";
         const result = resolveHexColor(string).toLowerCase();
         assert.strictEqual(result, expected);

@@ -3,10 +3,10 @@ import { fetch } from "undici";
 
 export function resolveColor(color: string | number): number {
     if (typeof color === "string") {
-        color = parseInt(color.replace("#", ""), 16);
+        color = Number.parseInt(color.replace("#", ""), 16);
     }
 
-    if (color < 0 || color > 0xffffff) throw new RangeError("ColorRange");
+    if (color < 0 || color > 0xFF_FF_FF) throw new RangeError("ColorRange");
     else if (Number.isNaN(color)) throw new TypeError("ColorConvert");
 
     return color;
@@ -18,19 +18,7 @@ export function resolveHexColor(color: number): string {
 
 export const listFormatter = new Intl.ListFormat("en", { style: "long" });
 
-export const trim = (str: string, max: number): string =>
-    (str.length) > max ? `${str.slice(0, max - 1)}…` : str;
-
-export async function getBetweenStr(string: string, statChar: string, endChar: string, splitChar = ""): Promise<string | string[]> {
-    const string2 = string.substring(
-        string.indexOf(statChar) + 1,
-        string.lastIndexOf(endChar)
-    );
-
-    if (splitChar) return string2.split(splitChar);
-    return string2;
-}
-
+export const trim = (str: string, max: number): string => (str.length) > max ? `${str.slice(0, max - 1)}…` : str;
 
 const DISCORD_API_URL = "https://discord.com/api/v10";
 

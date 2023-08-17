@@ -79,7 +79,7 @@ export default class Tools extends Command {
                 const word = interaction.options.getString("word", true);
                 const rhymes = await smallApis.getRhymes(word);
 
-                if (!rhymes.length) {
+                if (rhymes.length === 0) {
                     const embed = new EmbedBuilder()
                         .setColor(config.colors.error)
                         .setTitle("No rhymes found")

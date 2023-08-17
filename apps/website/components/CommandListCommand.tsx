@@ -9,11 +9,7 @@ export default function CommandListCommand({ name, description, options, bot = "
     const collapseCommand = useCallback(() => {
         history.pushState({}, "", `#${name.replaceAll(" ", "-")}`);
         const elem = collapseElement.current;
-        if (elem.clientHeight) {
-            elem.style.height = 0;
-        } else {
-            elem.style.height = elem.scrollHeight + "px";
-        }
+        elem.style.height = elem.clientHeight ? 0 : elem.scrollHeight + "px";
     }, [name]);
 
     useEffect(() => {
@@ -53,7 +49,7 @@ export default function CommandListCommand({ name, description, options, bot = "
                             <h3 className="font-semibold">Options:</h3>
                         </div>
                         <div>
-                            {options.length
+                            {options.length > 0
                                 ? options.map((opt, index) => (
                                     <p key={index} className="ml-4">
                                         <span className="font-medium">

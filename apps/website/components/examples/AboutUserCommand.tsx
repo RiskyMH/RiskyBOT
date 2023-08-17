@@ -46,10 +46,10 @@ export default function DiscordAboutUserExample() {
                     <DiscordEmbedFields slot="fields">
                         <DiscordEmbedField fieldTitle="Made">
                             <DiscordTime>
-                                {discordDate(new Date(1606193539547))}
+                                {discordDate(new Date(1_606_193_539_547))}
                             </DiscordTime>
                             <DiscordTime className="ml-1">
-                                ({discordDateRelativeYears(new Date(1606193539547))})
+                                ({discordDateRelativeYears(new Date(1_606_193_539_547))})
                             </DiscordTime>
                         </DiscordEmbedField>
 

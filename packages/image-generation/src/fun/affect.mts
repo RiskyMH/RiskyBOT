@@ -27,7 +27,7 @@ export default async function makeImg(input: { imgLink: string }): Promise<Buffe
         image.src = Buffer.from(imgBuffer);
         context.drawImage(image, 180, 383, 200, 157);
         
-    } catch (e) { console.error(e); return { error: "Error when loading images" }; }
+    } catch (error) { console.error(error); return { error: "Error when loading images" }; }
     
     return canvas.toBuffer("image/png");
 }

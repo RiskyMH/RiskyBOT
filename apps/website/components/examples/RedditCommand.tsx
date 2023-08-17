@@ -58,14 +58,14 @@ export default function DiscordRedditExample() {
 
         setData({
             title: "is't possible to have this much power",
-            ups: 150449,
+            ups: 150_449,
             downs: 0,
             num_comments: 867,
             permalink: "/r/dankmemes/comments/jkbo9t/is_t_possible_to_have_this_much_power/",
             url: "https://i.redd.it/ns2zniy2s1w51.gif",
             subreddit_name_prefixed: "r/dankmemes",
             selftext: "",
-            created_utc: 1603983862,
+            created_utc: 1_603_983_862,
             author: "zakuria44",
         });
 
@@ -117,9 +117,9 @@ export default function DiscordRedditExample() {
                     } </DiscordEmbedDescription>
 
 
-                    <DiscordEmbedFooter slot="footer" timestamp={!isLoading ? new Date(data?.created_utc * 1000) : null}>
+                    <DiscordEmbedFooter slot="footer" timestamp={isLoading ? null : new Date(data?.created_utc * 1000)}>
                         <p>
-                            {!isLoading ? "Posted by " + data?.author : "Loading new post..."}
+                            {isLoading ? "Loading new post..." : "Posted by " + data?.author}
                         </p>
                     </DiscordEmbedFooter>
 
@@ -129,7 +129,7 @@ export default function DiscordRedditExample() {
                         <DiscordButton
                             type="primary"
                             disabled={isLoading}
-                            onClick={e => (!e.currentTarget.disabled ? fetchQuestion() : null)}>
+                            onClick={e => (e.currentTarget.disabled ? null : fetchQuestion())}>
                             Another?
                         </DiscordButton>
                         {

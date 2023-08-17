@@ -74,10 +74,13 @@ export class TextInputOption extends BaseField {
 
 function formatField(component: ModalSubmitComponent): fields {
     switch (component.type) {
-        case ComponentType.TextInput:
+        case ComponentType.TextInput: {
             return new TextInputOption(component.custom_id, component.value);
-        default:
+        }
+
+        default: {
             throw new Error(`Unknown component type: ${component.type}`);
+        }
     }
 }
 

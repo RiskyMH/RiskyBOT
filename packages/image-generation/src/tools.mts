@@ -4,13 +4,13 @@ export function wrapText(context: SKRSContext2D, text: string, x: number, y: num
     const words = text.split(" ");
     let line = "";
 
-    for (let n = 0; n < words.length; n++) {
-        const testLine = line + words[n] + " ";
+    for (const [n, word] of words.entries()) {
+        const testLine = line + word + " ";
         const metrics = context.measureText(testLine);
         const testWidth = metrics.width;
         if (testWidth > maxWidth && n > 0) {
             context.fillText(line, x, y);
-            line = words[n] + " ";
+            line = word + " ";
             y += lineHeight;
         } else {
             line = testLine;

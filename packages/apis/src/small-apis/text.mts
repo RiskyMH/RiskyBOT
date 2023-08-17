@@ -43,7 +43,7 @@ const rhymeResult = s.object({
     freq: s.number,
     score: s.number,
     flags: s.string,
-    syllables: s.string.transform(num => parseInt(num)),
+    syllables: s.string.transform(num => Number.parseInt(num)),
 }).array;
 
 type RhymeResult = InferArrayType<typeof rhymeResult>;

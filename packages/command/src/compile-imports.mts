@@ -4,7 +4,7 @@ import { glob } from "glob";
 import path from "node:path";
 
 const folder = path.join(process.cwd(), "dist/commands/**/*.mjs")
-    .replace(/\\/g, "/");
+    .replaceAll("\\", "/");
 
 const files = glob.sync(folder);
 
@@ -28,7 +28,7 @@ fs.writeFileSync(path.join(process.cwd(), "dist/commands/index.mjs"), importFile
 
 // add import to bottom of dist/main.mjs
 const mainLocation = path.join(process.cwd(), "dist/main.mjs");
-const mainFile = fs.readFileSync(mainLocation, "utf-8");
+const mainFile = fs.readFileSync(mainLocation, "utf8");
 
 const newData = mainFile + "\nimport * as cmds from './commands/index.mjs'";
 fs.writeFileSync(mainLocation, newData);

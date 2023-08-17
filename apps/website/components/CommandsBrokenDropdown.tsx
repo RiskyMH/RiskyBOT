@@ -6,11 +6,7 @@ export default function CommandsBrokenDropdown() {
 
     function collapseCommand() {
         const elem = collapseElement.current;
-        if (elem.clientHeight) {
-            elem.style.height = 0;
-        } else {
-            elem.style.height = elem.scrollHeight + "px";
-        }
+        elem.style.height = elem.clientHeight ? 0 : elem.scrollHeight + "px";
     }
 
     return (

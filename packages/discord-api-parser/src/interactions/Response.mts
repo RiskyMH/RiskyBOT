@@ -245,7 +245,7 @@ export function createInteractionMixinList<T extends ResponseMethodName>(list: T
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function applyInteractionResponseMixins(base: any, methods: readonly ResponseMethodName[]): void {
-    methods.forEach(method => {
+    for (const method of methods) {
         base.prototype[method] = InteractionResponseMethods.prototype[method];
-    });
+    }
 }

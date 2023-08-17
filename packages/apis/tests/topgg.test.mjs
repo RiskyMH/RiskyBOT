@@ -10,12 +10,12 @@ describe("Top.gg bot info", async () => {
             // Should error out
             await topgg.botInfo(validId, "token");
             assert.ok(false);
-        } catch (e) {
-            if (e instanceof RiskyBotError) {
+        } catch (error) {
+            if (error instanceof RiskyBotError) {
                 assert.ok(true);
             } else {
                 // Wasn't a RiskyBotError
-                throw e;
+                throw error;
             }
         }
     });
