@@ -29,10 +29,10 @@ jobs:
             cache: 'yarn'
             cache-dependency-path: yarn.lock
 
-        - name: Install dependencies
-          run: yarn --immutable
+        # - name: Install dependencies
+        #   run: yarn --immutable
 
-        - run: yarn up ** -R
+        - run: "yarn up ** -R"
           name: Recursively update
         
         - name: Configure git
