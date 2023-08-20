@@ -30,7 +30,8 @@ jobs:
         - name: Install dependencies
           run: yarn --immutable
 
-        - run: yarn up ** -R --verbose
+        - run: |
+            yarn up ** -R
           name: Recursively update all dependencies
         
         - run: git config --global user.name "dependabot[bot]"
