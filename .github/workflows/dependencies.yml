@@ -32,7 +32,7 @@ jobs:
         # - name: Install dependencies
         #   run: yarn --immutable
 
-        - run: .github/recursive-update.sh
+        - run: ./.github/recursive-update.sh
           name: Recursively update
         
         - name: Configure git
