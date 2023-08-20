@@ -40,4 +40,5 @@ jobs:
           run: |
                 git add .
                 git commit -m "Recursively update dependencies" || true
+                git push
             
