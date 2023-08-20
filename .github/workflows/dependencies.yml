@@ -32,7 +32,7 @@ jobs:
         # - name: Install dependencies
         #   run: yarn --immutable
 
-        - run: "yarn up ** -R"
+        - run: .github/recursive-update.sh
           name: Recursively update
         
         - name: Configure git
@@ -43,6 +43,6 @@ jobs:
         - name: Commit
           run: |
                 git add .
-                git commit -m "Recursively update dependencies"
+                git commit -m "Recursively update dependencies" || true
                 git push
             
