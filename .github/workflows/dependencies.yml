@@ -34,7 +34,7 @@ jobs:
 
         - run: ./.github/scripts/recursive-update.sh
           shell: bash
-          name: Recursively update
+          name: Recursively update the dependencies
         
         - name: Configure git
           run: |
