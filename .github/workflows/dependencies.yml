@@ -14,7 +14,7 @@ jobs:
     recursive-update:
         runs-on: ubuntu-latest
         # if: github.actor == 'dependabot[bot]'
-        name: Recursively update all dependencies
+        name: Recursively update dependencies
         steps:
         - name: Checkout repository
           uses: actions/checkout@v3
@@ -24,24 +24,20 @@ jobs:
           with:
             node-version: 'current'
             registry-url: https://registry.npmjs.org/
-            # cache: 'yarn'
-            # cache-dependency-path: yarn.lock
+            cache: 'yarn'
+            cache-dependency-path: yarn.lock
 
-        - name: Install dependencies
-          run: yarn --immutable
+        # - name: Install dependencies
+        #   run: yarn --immutable
 
-        - run: |
-            yarn up ** -R
-          name: Recursively update all dependencies
+        - run: yarn up ** -R
+          name: Recursively update
         
         - run: git config --global user.name "dependabot[bot]"
         - run: git config --global user.email "dependabot[bot]@users.noreply.github.com"
 
-        - name: Check for Changes and Commit
+        - name: Commit
           run: |
-            if git diff --quiet yarn.lock; then
-                echo "No changes to file."
-            else
-                git add yarn.lock
-                git commit -m "Recursively update all dependencies"
-            fi
+                git add .
+                git commit -m "Recursively update dependencies" || true
+            
