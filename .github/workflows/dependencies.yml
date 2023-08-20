@@ -4,8 +4,8 @@ name: More Dependabot
 # run when dependabot updates package and opens a PR
 on:
   push: 
-    # branches:
-    #   - dependabot/npm_and_yarn/**
+    branches:
+      - dependabot/npm_and_yarn/**
   
 
 # Set the access for individual scopes, or use permissions: write-all
@@ -15,7 +15,7 @@ permissions:
 jobs:
     recursive-update:
         runs-on: ubuntu-latest
-        # if: github.actor == 'dependabot[bot]'
+        if: github.actor == 'dependabot[bot]'
         name: Recursively update dependencies
         steps:
         - name: Checkout repository
@@ -29,9 +29,6 @@ jobs:
             cache: 'yarn'
             cache-dependency-path: yarn.lock
 
-        # - name: Install dependencies
-        #   run: yarn --immutable
-
         - run: chmod +x ./.github/scripts/recursive-update.sh
           shell: bash
           name: Fix permissions
@@ -42,12 +39,12 @@ jobs:
         
         - name: Configure git
           run: |
-                git config --global user.name "dependabot[bot]"
-                git config --global user.email "dependabot[bot]@users.noreply.github.com"
+            git config --global user.name "dependabot[bot]"
+            git config --global user.email "dependabot[bot]@users.noreply.github.com"
 
         - name: Commit
           run: |
-                git add .
-                git commit -m "Recursively update dependencies" || true
-                git push
+            git add .
+            git commit -m "Recursively update dependencies" || true
+            git push
             
