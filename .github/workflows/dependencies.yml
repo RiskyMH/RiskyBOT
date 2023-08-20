@@ -32,7 +32,7 @@ jobs:
         # - name: Install dependencies
         #   run: yarn --immutable
 
-        - run: git update-index --chmod=+x ./.github/scripts/recursive-update.sh
+        - run: chmod +x ./.github/scripts/recursive-update.sh
           shell: bash
           name: Fix permissions
 
