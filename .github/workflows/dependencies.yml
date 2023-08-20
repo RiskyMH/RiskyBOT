@@ -19,7 +19,7 @@ jobs:
         - name: Checkout repository
           uses: actions/checkout@v3
 
-        - name: Install node.js v16
+        - name: Install node.js
           uses: actions/setup-node@v3
           with:
             node-version: 'current'
@@ -30,7 +30,7 @@ jobs:
         - name: Install dependencies
           run: yarn --immutable
 
-        - run: yarn up ** -R
+        - run: yarn up ** -R --verbose
           name: Recursively update all dependencies
         
         - run: git config --global user.name "dependabot[bot]"
