@@ -3,8 +3,10 @@ name: More Dependabot
 
 # run when dependabot updates package and opens a PR
 on:
-  pull_request:
-    types: [opened, synchronize]
+  push: 
+    # branches:
+    #   - dependabot/npm_and_yarn/**
+  
 
 # Set the access for individual scopes, or use permissions: write-all
 permissions:
