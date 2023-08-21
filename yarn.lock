@@ -101,34 +101,34 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@discordjs/builders@npm:^1.6.4":
-  version: 1.6.4
-  resolution: "@discordjs/builders@npm:1.6.4"
+"@discordjs/builders@npm:^1.6.5":
+  version: 1.6.5
+  resolution: "@discordjs/builders@npm:1.6.5"
   dependencies:
-    "@discordjs/formatters": ^0.3.1
-    "@discordjs/util": ^1.0.0
+    "@discordjs/formatters": ^0.3.2
+    "@discordjs/util": ^1.0.1
     "@sapphire/shapeshift": ^3.9.2
-    discord-api-types: ^0.37.50
+    discord-api-types: 0.37.50
     fast-deep-equal: ^3.1.3
     ts-mixer: ^6.0.3
     tslib: ^2.6.1
-  checksum: 059ebe77b1b955daa1c16d62679c338b34e5c8160dcc446719452b05b61fb8d5f6d7fad8dd9cb7ce2d90c2d1014031f6feedd7c71943cddf04a4e83e4fcccfe3
+  checksum: 9c5c4d483a79a7c2f73d661433365f2996ae3bc74f95b70a2a31a26b582b7327d45217a78dfe8e304737661731690ef6e34ade7575f63fe8ab61d70ca53b2279
   languageName: node
   linkType: hard
 
-"@discordjs/formatters@npm:^0.3.1":
-  version: 0.3.1
-  resolution: "@discordjs/formatters@npm:0.3.1"
+"@discordjs/formatters@npm:^0.3.2":
+  version: 0.3.2
+  resolution: "@discordjs/formatters@npm:0.3.2"
   dependencies:
-    discord-api-types: ^0.37.41
-  checksum: 96355687853a203b280484419cd96a79b79b4b98f0469ec15be073862fb340cbd60ca2ea68f3d4684e17ff0e8c5f04ddcc6dd88188808e01fcbe0e3eea052d6d
+    discord-api-types: 0.37.50
+  checksum: 653c88595fc6c25c1beedcd88b05a3f1241fef69844cc96e45f2cd34fea9ff07892c7f3b57edb4008ad59f7e62bca1b7b35400c6200b07ed42eef7189672d509
   languageName: node
   linkType: hard
 
-"@discordjs/util@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "@discordjs/util@npm:1.0.0"
-  checksum: bbd800408c9ac20e9f298ea954592d674c92cbf1ec255ae5b07b2d5c444557a8580b3e95359600897db18ffc129eec5cabc37f1ba40ea6df24f2e9666a2dbc54
+"@discordjs/util@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "@discordjs/util@npm:1.0.1"
+  checksum: b55d5284cd8306b0e77a303c41fa99dcc650babaf9ef2f02ea38b1f8ecc7218a7694128714343379dbf6b2a402a0851e00862c0d974ad07b8e980722f5139d73
   languageName: node
   linkType: hard
 
@@ -553,81 +553,81 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/env@npm:13.4.16":
-  version: 13.4.16
-  resolution: "@next/env@npm:13.4.16"
-  checksum: 2fc506a0c2e4b0596297fc488b9f589cd0d7757b87a1876e77dd83f52b1240aa8932cbd81fb88e1dc9eacec7489d9d2d7dcb063e3b2bcd8099136d6700bcc2f8
+"@next/env@npm:13.4.19":
+  version: 13.4.19
+  resolution: "@next/env@npm:13.4.19"
+  checksum: ace4f82890954ade0164fbe2b7ff988268d2b99b2e80caa6707c51fa4cbfaaa31e48fbbcecd4fd142af3503c544e1b4c91e8185d4af253c8fb46550e9e70ad7e
   languageName: node
   linkType: hard
 
-"@next/eslint-plugin-next@npm:^13.4.16":
-  version: 13.4.16
-  resolution: "@next/eslint-plugin-next@npm:13.4.16"
+"@next/eslint-plugin-next@npm:^13.4.19":
+  version: 13.4.19
+  resolution: "@next/eslint-plugin-next@npm:13.4.19"
   dependencies:
     glob: 7.1.7
-  checksum: a1c36bec66b1553b7fb4c32037fecaa0e25496edccb4fed7fc1b118116b5bd81e83804875d7bab310d03e68b06e636f385de6d8d32ed1d30fb19b07865da03f3
+  checksum: d60c136e4a8d156b50d4b248eef9918bbf4bd7da293487cdf1f7bc172b07beeae4a2822798942d2f87999af86c53d871ebea592f3d6099ae23a0746d2abf7c73
   languageName: node
   linkType: hard
 
-"@next/swc-darwin-arm64@npm:13.4.16":
-  version: 13.4.16
-  resolution: "@next/swc-darwin-arm64@npm:13.4.16"
+"@next/swc-darwin-arm64@npm:13.4.19":
+  version: 13.4.19
+  resolution: "@next/swc-darwin-arm64@npm:13.4.19"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@next/swc-darwin-x64@npm:13.4.16":
-  version: 13.4.16
-  resolution: "@next/swc-darwin-x64@npm:13.4.16"
+"@next/swc-darwin-x64@npm:13.4.19":
+  version: 13.4.19
+  resolution: "@next/swc-darwin-x64@npm:13.4.19"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@next/swc-linux-arm64-gnu@npm:13.4.16":
-  version: 13.4.16
-  resolution: "@next/swc-linux-arm64-gnu@npm:13.4.16"
+"@next/swc-linux-arm64-gnu@npm:13.4.19":
+  version: 13.4.19
+  resolution: "@next/swc-linux-arm64-gnu@npm:13.4.19"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@next/swc-linux-arm64-musl@npm:13.4.16":
-  version: 13.4.16
-  resolution: "@next/swc-linux-arm64-musl@npm:13.4.16"
+"@next/swc-linux-arm64-musl@npm:13.4.19":
+  version: 13.4.19
+  resolution: "@next/swc-linux-arm64-musl@npm:13.4.19"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
 
-"@next/swc-linux-x64-gnu@npm:13.4.16":
-  version: 13.4.16
-  resolution: "@next/swc-linux-x64-gnu@npm:13.4.16"
+"@next/swc-linux-x64-gnu@npm:13.4.19":
+  version: 13.4.19
+  resolution: "@next/swc-linux-x64-gnu@npm:13.4.19"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@next/swc-linux-x64-musl@npm:13.4.16":
-  version: 13.4.16
-  resolution: "@next/swc-linux-x64-musl@npm:13.4.16"
+"@next/swc-linux-x64-musl@npm:13.4.19":
+  version: 13.4.19
+  resolution: "@next/swc-linux-x64-musl@npm:13.4.19"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
 
-"@next/swc-win32-arm64-msvc@npm:13.4.16":
-  version: 13.4.16
-  resolution: "@next/swc-win32-arm64-msvc@npm:13.4.16"
+"@next/swc-win32-arm64-msvc@npm:13.4.19":
+  version: 13.4.19
+  resolution: "@next/swc-win32-arm64-msvc@npm:13.4.19"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@next/swc-win32-ia32-msvc@npm:13.4.16":
-  version: 13.4.16
-  resolution: "@next/swc-win32-ia32-msvc@npm:13.4.16"
+"@next/swc-win32-ia32-msvc@npm:13.4.19":
+  version: 13.4.19
+  resolution: "@next/swc-win32-ia32-msvc@npm:13.4.19"
   conditions: os=win32 & cpu=ia32
   languageName: node
   linkType: hard
 
-"@next/swc-win32-x64-msvc@npm:13.4.16":
-  version: 13.4.16
-  resolution: "@next/swc-win32-x64-msvc@npm:13.4.16"
+"@next/swc-win32-x64-msvc@npm:13.4.19":
+  version: 13.4.19
+  resolution: "@next/swc-win32-x64-msvc@npm:13.4.19"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -702,11 +702,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@riskybot/command@workspace:packages/command"
   dependencies:
-    "@discordjs/builders": ^1.6.4
+    "@discordjs/builders": ^1.6.5
     "@riskybot/error": "workspace:^"
     "@riskybot/tools": "workspace:^"
     discord-api-parser: "workspace:^"
-    discord-api-types: ^0.37.53
+    discord-api-types: ^0.37.54
     eslint: ^8.47.0
     glob: ^10.3.3
     typescript: ^5.1.6
@@ -740,14 +740,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@riskybot/imgen@workspace:apps/imgen"
   dependencies:
-    "@discordjs/builders": ^1.6.4
-    "@discordjs/formatters": ^0.3.1
+    "@discordjs/builders": ^1.6.5
+    "@discordjs/formatters": ^0.3.2
     "@riskybot/command": "workspace:^"
     "@riskybot/image-generate": "workspace:^"
     "@sapphire/shapeshift": ^3.9.2
     "@types/express": ^4.17.17
     discord-api-parser: "workspace:^"
-    discord-api-types: ^0.37.53
+    discord-api-types: ^0.37.54
     eslint: ^8.47.0
     express: ^4.18.2
     typescript: ^5.1.6
@@ -758,8 +758,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@riskybot/riskybot@workspace:apps/riskybot"
   dependencies:
-    "@discordjs/builders": ^1.6.4
-    "@discordjs/formatters": ^0.3.1
+    "@discordjs/builders": ^1.6.5
+    "@discordjs/formatters": ^0.3.2
     "@riskybot/apis": "workspace:^"
     "@riskybot/command": "workspace:^"
     "@riskybot/image-generate": "workspace:^"
@@ -767,7 +767,7 @@ __metadata:
     "@sapphire/snowflake": ^3.5.1
     "@types/express": ^4.17.17
     discord-api-parser: "workspace:^"
-    discord-api-types: ^0.37.53
+    discord-api-types: ^0.37.54
     eslint: ^8.47.0
     express: ^4.18.2
     typescript: ^5.1.6
@@ -788,14 +788,14 @@ __metadata:
   resolution: "@riskybot/website@workspace:apps/website"
   dependencies:
     "@emotion/react": ^11.11.1
-    "@next/eslint-plugin-next": ^13.4.16
-    "@skyra/discord-components-react": ^3.6.0
-    "@types/node": ^20.5.0
+    "@next/eslint-plugin-next": ^13.4.19
+    "@skyra/discord-components-react": ^3.6.1
+    "@types/node": ^20.5.1
     "@types/react": ^18.2.20
     "@types/react-dom": ^18.2.7
     autoprefixer: ^10.4.15
-    discord-api-types: ^0.37.53
-    next: ^13.4.16
+    discord-api-types: ^0.37.54
+    next: ^13.4.19
     postcss: ^8.4.28
     react: ^18.2.0
     react-awesome-reveal: ^4.2.5
@@ -839,36 +839,36 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@skyra/discord-components-core@npm:^3.6.0":
-  version: 3.6.0
-  resolution: "@skyra/discord-components-core@npm:3.6.0"
+"@skyra/discord-components-core@npm:^3.6.1":
+  version: 3.6.1
+  resolution: "@skyra/discord-components-core@npm:3.6.1"
   dependencies:
-    "@stencil/core": ^2.22.1
+    "@stencil/core": ^3.4.1
     clsx: ^1.2.1
     hex-to-rgba: ^2.0.1
-  checksum: 006fdd3da0675e989407a799672e7ba504e89ed0d3cc53c01f9fad5ea1204e36d1d94223c7768a3c1ecd1a9bc0f4514d7b2bbd602be57d9b407baa2310a17c4f
+  checksum: 92a39767f3c651cc02cebeacb9a99ffeb2841de2d57ae78d17da3763a0079d867e04dce55fbaa0936363feb5607bde0b50034b9d88882913d9ac561f489eb665
   languageName: node
   linkType: hard
 
-"@skyra/discord-components-react@npm:^3.6.0":
-  version: 3.6.0
-  resolution: "@skyra/discord-components-react@npm:3.6.0"
+"@skyra/discord-components-react@npm:^3.6.1":
+  version: 3.6.1
+  resolution: "@skyra/discord-components-react@npm:3.6.1"
   dependencies:
-    "@skyra/discord-components-core": ^3.6.0
-    tslib: ^2.4.1
+    "@skyra/discord-components-core": ^3.6.1
+    tslib: ^2.6.0
   peerDependencies:
     react: 16.8.x || 17.x || 18.x
     react-dom: 16.8.x || 17.x || 18.x
-  checksum: e42005c793aac07d42d0ddf8cb9565c88b8346803cfdbe41ef6057405c602acf9596604b461ee451b4b2594c051d1ef1a8c3e95c78d7ed28dcc861a5f0bed441
+  checksum: aeaa1fcb6145862398ff555e51bec4a3880d2b3ec145fa42fd0c2fa394cf2408d302e809623dd7197e1815ae0493d3c7c86edeb4ad03ee4ee4bb0625b2a32cf5
   languageName: node
   linkType: hard
 
-"@stencil/core@npm:^2.22.1":
-  version: 2.22.3
-  resolution: "@stencil/core@npm:2.22.3"
+"@stencil/core@npm:^3.4.1":
+  version: 3.4.2
+  resolution: "@stencil/core@npm:3.4.2"
   bin:
     stencil: bin/stencil
-  checksum: b43fd0c0e10c8f6831821635de650f49c8d94eab75aa8e9214b723511cfd1f90fbf1ad33a79b4d2f165ef9ca6bee02839aac7b0a234ec6082b5959f98069f397
+  checksum: b875ae9fd3f794323c8f55f2640ff134632d034db6c00b103d6f6604668aa0e218880a198e531842a81c7b4afaed7bf407e71b541c7425634ecdc17e8577b7b5
   languageName: node
   linkType: hard
 
@@ -1009,7 +1009,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^20.5.0":
+"@types/node@npm:*":
   version: 20.5.0
   resolution: "@types/node@npm:20.5.0"
   checksum: 659bc5fc93b5c02bd88ca4bfae4f6b9dc307d45884d1dd9d69df85819a9943cdc00cd3c87eec3048866df6a67f52297f74d170e47a44f61edb3e8f770d94e85e
@@ -1020,6 +1020,13 @@ __metadata:
   version: 14.18.33
   resolution: "@types/node@npm:14.18.33"
   checksum: 4e23f95186d8ae1d38c999bc6b46fe94e790da88744b0a3bfeedcbd0d9ffe2cb0ff39e85f43014f6739e5270292c1a1f6f97a1fc606fd573a0c17fda9a1d42de
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^20.5.1":
+  version: 20.5.1
+  resolution: "@types/node@npm:20.5.1"
+  checksum: 3dbe611cd67afa987102c8558ee70f848949c5dcfee5f60abc073e55c0d7b048e391bf06bb1e0dc052cb7210ca97136ac496cbaf6e89123c989de6bd125fde82
   languageName: node
   linkType: hard
 
@@ -2179,9 +2186,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "discord-api-parser@workspace:packages/discord-api-parser"
   dependencies:
-    "@discordjs/builders": ^1.6.4
+    "@discordjs/builders": ^1.6.5
     "@sapphire/snowflake": ^3.5.1
-    discord-api-types: 0.37.53
+    discord-api-types: 0.37.54
     discord-interactions: ^3.4.0
     discord-verify: ^1.2.0
     eslint: ^8.47.0
@@ -2194,10 +2201,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"discord-api-types@npm:0.37.53, discord-api-types@npm:^0.37.41, discord-api-types@npm:^0.37.50, discord-api-types@npm:^0.37.53":
-  version: 0.37.53
-  resolution: "discord-api-types@npm:0.37.53"
-  checksum: cff6bc976f01d6c9550e48ab758cb2a2ac9042272174d4384915b830aecc4a5551f9dafe3ec21382214700b4188c766ab318179458e4e09e9df9f45a3f4902ed
+"discord-api-types@npm:0.37.50":
+  version: 0.37.50
+  resolution: "discord-api-types@npm:0.37.50"
+  checksum: 08dc5145dbefda5f52b479cd42d96ac2b8110300861855e1f92cc8a0a6525a4059e32724cd5237490c286f5afd86797a86823238cd5eee016198560bb36f6d43
+  languageName: node
+  linkType: hard
+
+"discord-api-types@npm:0.37.54, discord-api-types@npm:^0.37.54":
+  version: 0.37.54
+  resolution: "discord-api-types@npm:0.37.54"
+  checksum: f149961be9129673a0e3764285c8f47da22a30ea3e2466db06ffad44d1823094f7011ffe2d3d89b1b5ddd9940651afc72b3a05f84ce443a59f8480e2578dd1e1
   languageName: node
   linkType: hard
 
@@ -3942,20 +3956,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next@npm:^13.4.16":
-  version: 13.4.16
-  resolution: "next@npm:13.4.16"
+"next@npm:^13.4.19":
+  version: 13.4.19
+  resolution: "next@npm:13.4.19"
   dependencies:
-    "@next/env": 13.4.16
-    "@next/swc-darwin-arm64": 13.4.16
-    "@next/swc-darwin-x64": 13.4.16
-    "@next/swc-linux-arm64-gnu": 13.4.16
-    "@next/swc-linux-arm64-musl": 13.4.16
-    "@next/swc-linux-x64-gnu": 13.4.16
-    "@next/swc-linux-x64-musl": 13.4.16
-    "@next/swc-win32-arm64-msvc": 13.4.16
-    "@next/swc-win32-ia32-msvc": 13.4.16
-    "@next/swc-win32-x64-msvc": 13.4.16
+    "@next/env": 13.4.19
+    "@next/swc-darwin-arm64": 13.4.19
+    "@next/swc-darwin-x64": 13.4.19
+    "@next/swc-linux-arm64-gnu": 13.4.19
+    "@next/swc-linux-arm64-musl": 13.4.19
+    "@next/swc-linux-x64-gnu": 13.4.19
+    "@next/swc-linux-x64-musl": 13.4.19
+    "@next/swc-win32-arm64-msvc": 13.4.19
+    "@next/swc-win32-ia32-msvc": 13.4.19
+    "@next/swc-win32-x64-msvc": 13.4.19
     "@swc/helpers": 0.5.1
     busboy: 1.6.0
     caniuse-lite: ^1.0.30001406
@@ -3994,7 +4008,7 @@ __metadata:
       optional: true
   bin:
     next: dist/bin/next
-  checksum: b9e346061969531401a1b3a81819adad0018fd33e52954032cc96a3d703821ee1c39a5807dcd73fab8df197424b409d51f837910df225341c1f83735614a811f
+  checksum: f4873dab8888ed4dae14d36d7cf8dc54cd042695cf7ee41d05e8757f463d11952a594eb066143cc2f7253ea1d41c6efe681cdc3ab8c2fa6eb0815fa5a94de3dc
   languageName: node
   linkType: hard
 
@@ -4781,7 +4795,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "riskybot@workspace:."
   dependencies:
-    "@types/node": ^20.5.0
+    "@types/node": ^20.5.1
     "@typescript-eslint/eslint-plugin": ^6.4.0
     "@typescript-eslint/parser": ^6.4.0
     "@vercel/node": ^2.15.10
@@ -5396,10 +5410,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.4.0, tslib@npm:^2.4.1, tslib@npm:^2.6.1":
+"tslib@npm:^2.4.0, tslib@npm:^2.6.1":
   version: 2.6.1
   resolution: "tslib@npm:2.6.1"
   checksum: b0d176d176487905b66ae4d5856647df50e37beea7571c53b8d10ba9222c074b81f1410fb91da13debaf2cbc970663609068bdebafa844ea9d69b146527c38fe
+  languageName: node
+  linkType: hard
+
+"tslib@npm:^2.6.0":
+  version: 2.6.2
+  resolution: "tslib@npm:2.6.2"
+  checksum: 329ea56123005922f39642318e3d1f0f8265d1e7fcb92c633e0809521da75eeaca28d2cf96d7248229deb40e5c19adf408259f4b9640afd20d13aecc1430f3ad
   languageName: node
   linkType: hard
 

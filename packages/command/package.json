@@ -18,11 +18,11 @@
         "command-imports": "./dist/compile-imports.mjs"
     },
     "dependencies": {
-        "@discordjs/builders": "^1.6.4",
+        "@discordjs/builders": "^1.6.5",
         "@riskybot/error": "workspace:^",
         "@riskybot/tools": "workspace:^",
         "discord-api-parser": "workspace:^",
-        "discord-api-types": "^0.37.53",
+        "discord-api-types": "^0.37.54",
         "glob": "^10.3.3",
         "undici": "^5.23.0"
     },

@@ -26,7 +26,7 @@
         "dev:bot": "yarn vercel dev"
     },
     "devDependencies": {
-        "@types/node": "^20.5.0",
+        "@types/node": "^20.5.1",
         "@typescript-eslint/eslint-plugin": "^6.4.0",
         "@typescript-eslint/parser": "^6.4.0",
         "@vercel/node": "^2.15.10",
