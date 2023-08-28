@@ -5,25 +5,22 @@
 
 version: 2
 updates:
+ # Maintain dependencies for npm
+ - package-ecosystem: "npm" # See documentation for possible values
+   directory: "/" # Location of package manifests
+   schedule:
+    interval: "monthly"
+   groups:
+    dependencies:
+    patterns:
+     - "*" # everything
 
-  # Maintain dependencies for npm
-  - package-ecosystem: "npm" # See documentation for possible values
-    directory: "/" # Location of package manifests
-    schedule:
-      interval: "weekly"
-    groups:
-      dependencies:
-        patterns: 
-          - "*" # everything
-
-
-  # Maintain dependencies for GitHub Actions
-  - package-ecosystem: "github-actions"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    groups:
-      dependencies:
-        patterns: 
-          - "*" # everything
-          
+ # Maintain dependencies for GitHub Actions
+ - package-ecosystem: "github-actions"
+   directory: "/"
+   schedule:
+    interval: "monthly"
+   groups:
+    dependencies:
+    patterns:
+     - "*" # everything

@@ -396,6 +396,7 @@ const channelEmoji = {
     [ChannelType.GuildStageVoice]: "<:StagePublic:829073837538410556> Stage channel",
     [ChannelType.GuildForum]: "Forum Channel",
     [ChannelType.GuildDirectory]: "Directory channel",
+    [ChannelType.GuildMedia]: "Media channel",
 };
 
 const userFlagsEmoji = {
