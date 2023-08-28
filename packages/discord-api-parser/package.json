@@ -18,18 +18,18 @@
     },
     "dependencies": {
         "@sapphire/snowflake": "^3.5.1",
-        "discord-api-types": "0.37.53",
+        "discord-api-types": "0.37.55",
         "discord-interactions": "^3.4.0",
         "discord-verify": "^1.2.0",
         "form-data": "^4.0.0",
         "undici": "^5.23.0"
     },
     "devDependencies": {
-        "eslint": "^8.47.0",
-        "typescript": "^5.1.6"
+        "eslint": "^8.48.0",
+        "typescript": "^5.2.2"
     },
     "optionalDependencies": {
-        "@discordjs/builders": "^1.6.4"
+        "@discordjs/builders": "^1.6.5"
     },
     "type": "module",
     "main": "./dist/index.js",
