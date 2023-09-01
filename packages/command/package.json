@@ -22,8 +22,8 @@
         "@riskybot/error": "workspace:^",
         "@riskybot/tools": "workspace:^",
         "discord-api-parser": "workspace:^",
-        "discord-api-types": "^0.37.55",
-        "glob": "^10.3.3",
+        "discord-api-types": "^0.37.56",
+        "glob": "^10.3.4",
         "undici": "^5.23.0"
     },
     "devDependencies": {
