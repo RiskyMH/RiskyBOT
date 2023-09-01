@@ -21,7 +21,7 @@
         "@riskybot/image-generate": "workspace:^",
         "@sapphire/shapeshift": "^3.9.2",
         "discord-api-parser": "workspace:^",
-        "discord-api-types": "^0.37.55",
+        "discord-api-types": "^0.37.56",
         "express": "^4.18.2"
     },
     "devDependencies": {
