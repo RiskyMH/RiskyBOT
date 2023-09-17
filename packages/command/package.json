@@ -24,10 +24,10 @@
         "discord-api-parser": "workspace:^",
         "discord-api-types": "^0.37.56",
         "glob": "^10.3.4",
-        "undici": "^5.23.0"
+        "undici": "^5.24.0"
     },
     "devDependencies": {
-        "eslint": "^8.48.0",
+        "eslint": "^8.49.0",
         "typescript": "^5.2.2"
     },
     "type": "module",
