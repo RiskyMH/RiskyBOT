@@ -18,10 +18,10 @@
     },
     "dependencies": {
         "@napi-rs/canvas": "0.1.44",
-        "undici": "^5.24.0"
+        "undici": "^5.25.2"
     },
     "devDependencies": {
-        "eslint": "^8.49.0",
+        "eslint": "^8.50.0",
         "typescript": "^5.2.2"
     },
     "type": "module",
