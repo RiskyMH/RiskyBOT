@@ -12,7 +12,7 @@
         "@riskybot/riskybot": "workspace:^"
     },
     "devDependencies": {
-        "@vercel/node": "^3.0.5"
+        "@vercel/node": "^3.0.7"
     },
     "type": "module"
 }

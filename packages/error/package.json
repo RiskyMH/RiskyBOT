@@ -16,7 +16,7 @@
         "prepack": "yarn build"
     },
     "devDependencies": {
-        "eslint": "^8.49.0",
+        "eslint": "^8.50.0",
         "typescript": "^5.2.2"
     },
     "type": "module",
