@@ -18,7 +18,7 @@
     },
     "dependencies": {
         "@napi-rs/canvas": "0.1.44",
-        "undici": "^5.24.0"
+        "undici": "^5.26.2"
     },
     "devDependencies": {
         "eslint": "^8.49.0",
