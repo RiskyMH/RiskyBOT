@@ -17,12 +17,12 @@
     },
     "dependencies": {
         "@riskybot/error": "workspace:^",
-        "@sapphire/shapeshift": "^3.9.2",
+        "@sapphire/shapeshift": "^3.9.3",
         "lru-cache": "^10.0.1",
-        "undici": "^5.24.0"
+        "undici": "^5.27.0"
     },
     "devDependencies": {
-        "eslint": "^8.49.0",
+        "eslint": "^8.52.0",
         "typescript": "^5.2.2"
     },
     "type": "module",
