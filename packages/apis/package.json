@@ -18,7 +18,7 @@
     "dependencies": {
         "@riskybot/error": "workspace:^",
         "@sapphire/shapeshift": "^3.9.2",
-        "lru-cache": "^10.0.1",
+        "lru-cache": "^10.0.2",
         "undici": "^5.24.0"
     },
     "devDependencies": {
