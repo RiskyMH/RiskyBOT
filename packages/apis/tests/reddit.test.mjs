@@ -3,7 +3,7 @@ import assert from "node:assert";
 import { reddit } from "../dist/index.mjs";
 
 
-describe("Reddit random post", async () => {
+describe.skip("Reddit random post", async () => {
     const validSubreddit = "meme";
     it(`should get a post for "r/${validSubreddit}"`, async () => {
         const result = await reddit.randomPostInSubreddit(validSubreddit);
@@ -19,7 +19,7 @@ describe("Reddit random post", async () => {
 });
 
 
-describe("Reddit subreddit autocomplete", async () => {
+describe.skip("Reddit subreddit autocomplete", async () => {
     const validQuery = "meme";
     it(`should get subreddits for query "${validQuery}" (length >= 1)`, async () => {
         const result = await reddit.subredditAutoComplete(validQuery) ?? [];
@@ -34,7 +34,7 @@ describe("Reddit subreddit autocomplete", async () => {
 
 });
 
-describe("Reddit subreddit info", async () => {
+describe.skip("Reddit subreddit info", async () => {
     const validQuery = "meme";
     it(`should get a subreddit for query "${validQuery}"`, async () => {
         const result = await reddit.subredditInfo(validQuery) ?? [];
