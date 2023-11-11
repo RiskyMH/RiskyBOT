@@ -1,4 +1,4 @@
-import type { APIChannel, APIInteractionDataResolvedChannel, APIPartialChannel, APIThreadMetadata, ChannelType } from "discord-api-types/v10";
+import { type APIChannel, type APIInteractionDataResolvedChannel, type APIPartialChannel, type APIThreadMetadata, ChannelType } from "discord-api-types/v10"; 
 import Permissions from "../basic/Permissions.mjs";
 
 /** A channel but basic */
@@ -29,10 +29,12 @@ export class InteractionDataResolvedChannel extends PartialChannel {
     constructor(channel: APIInteractionDataResolvedChannel) {
         super(channel);
 
-        this.threadMetadata = channel.thread_metadata;
         this.permissions = new Permissions(channel.permissions);
-        this.parentId = channel.parent_id;
 
+        if (channel.type === ChannelType.PublicThread || channel.type === ChannelType.PrivateThread || channel.type === ChannelType.AnnouncementThread) {
+            this.threadMetadata = channel.thread_metadata;
+            this.parentId = channel.parent_id;
+        }
     }
 }
 
