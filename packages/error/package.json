@@ -16,8 +16,8 @@
         "prepack": "yarn build"
     },
     "devDependencies": {
-        "eslint": "^8.53.0",
-        "typescript": "^5.2.2"
+        "eslint": "^8.54.0",
+        "typescript": "^5.3.2"
     },
     "type": "module",
     "main": "./dist/Error.mjs",
