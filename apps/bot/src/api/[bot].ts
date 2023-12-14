@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import { handle as handleRiskyBot } from "@riskybot/riskybot";
-// import { handle as handleImgen } from "@riskybot/imgen";
+import { handle as handleImgen } from "@riskybot/imgen";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 
 console.log("INTERACTION RECEIVED");
@@ -19,8 +19,8 @@ export default async function handler(request: VercelRequest, response: VercelRe
         const resp = await handleRiskyBot(req);
         responseFn(response, resp);
     } else if (bot === 'imgen') {
-        // // @ts-expect-error
-        // await handleImgen(request, response);
+        const resp = await handleImgen(req);
+        responseFn(response, resp);
     } else {
         return response.status(404).json({ error: "API not found" });
     }
