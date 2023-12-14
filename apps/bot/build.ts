@@ -16,6 +16,8 @@ if (!nodeBuild.success) {
     throw nodeBuild;
 }
 
+console.log(Bun.version, Bun.revision);
+
 const NODE_FIX = "import { createRequire as createImportMetaRequire } from \"module\"; import.meta.require ||= (id) => createImportMetaRequire(import.meta.url)(id);\n";
 // Write output files
 for (const result of nodeBuild.outputs) {
