@@ -41,9 +41,7 @@ for (const bot of bots) {
 
         commandList.push({
             name: name!,
-            file: file
-                .replace("./src/", "./")
-                .replace(".ts", ".ts"),
+            file: file.replace("./src/", "./"),
             folder: folder.replace("src/", "")
         });
     }
