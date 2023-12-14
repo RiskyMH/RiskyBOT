@@ -747,6 +747,7 @@ __metadata:
     "@riskybot/image-generate": "workspace:^"
     "@sapphire/shapeshift": "npm:^3.9.4"
     "@types/express": "npm:^4.17.21"
+    "@types/node": "npm:^20.10.4"
     discord-api-parser: "workspace:^"
     discord-api-types: "npm:^0.37.66"
     eslint: "npm:^8.55.0"

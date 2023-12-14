@@ -16,8 +16,8 @@ describe("Cry", async () => {
 
     it("should make an image with", async () => {
         const text = "HELLO WORLD";
-        const img = await cry({ text })
-        expect(img).not.toBeTruthy()
+        const img = await cry({ text });
+        expect(img).toBeTruthy();
     });
 
 });
