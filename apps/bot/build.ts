@@ -38,7 +38,7 @@ cpSync("../../node_modules/@napi-rs", "./.vercel/output/functions/api/[bot].func
 // make other files for vercel build
 const files = {
     "./.vercel/output/functions/api/[bot].func/.vc-config.json": JSON.stringify({
-        "runtime": "nodejs18.x",
+        "runtime": "nodejs20.x",
         "handler": "[bot].mjs",
         "launcherType": "Nodejs",
         "shouldAddHelpers": true
