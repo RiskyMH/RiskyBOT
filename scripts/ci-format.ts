@@ -6,7 +6,8 @@ import pc from "picocolors";
 import { clearLine, cursorTo } from "node:readline";
 import { supportsHyperlinks } from "@riskybot/tools";
 
-
+// test and maybe fix
+pc.isColorSupported = pc.isColorSupported && !process.env.CI;
 // ([^\\s].*)[\\(:](\d+):(\d+)(?::\s+|\s+-\s+)(error|warning|info)\s*:\s*(.*)\s*\((TS\d+)\)$
 
 
