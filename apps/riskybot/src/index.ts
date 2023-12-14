@@ -1,3 +1,2 @@
-export * from "./main.mjs";
-export { default } from "./main.mjs";
-
+export * from "./main.ts";
+export { default } from "./main.ts";

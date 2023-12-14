@@ -1,7 +1,7 @@
 {
     "name": "@riskybot/error",
     "description": "The custom error class for RiskyBOT",
-    "version": "4.0.3",
+    "version": "5.0.0",
     "author": "RiskyMH",
     "homepage": "https://github.com/RiskyMH/RiskyBOT/tree/main/packages/error",
     "repository": {
@@ -10,28 +10,30 @@
         "directory": "packages/error"
     },
     "scripts": {
-        "build": "tsc --build",
-        "build:ci": "( cd ../../ && tsc -p ./packages/error/tsconfig.json )",
-        "lint": "eslint src/**/*.mts",
+        "build": "bun ../../scripts/build.ts",
+        "lint": "eslint src/**/*.ts",
         "prepack": "yarn build"
     },
     "devDependencies": {
-        "eslint": "^8.54.0",
-        "typescript": "^5.3.2"
+        "eslint": "^8.55.0",
+        "typescript": "^5.3.3"
     },
     "type": "module",
-    "main": "./dist/Error.mjs",
-    "module": "./dist/Error.mjs",
-    "types": "./dist/index.d.ts",
+    "main": "./dist/index.js",
+    "module": "./dist/index.js",
+    "types": "./src/index.ts",
     "exports": {
-        "types": "./dist/index.d.ts",
-        "import": "./dist/Error.mjs"
+        "bun": "./src/index.ts",
+        "types": "./src/index.ts",
+        "import": "./dist/index.js"
     },
+    "sideEffects": false,
     "directories": {
         "lib": "src"
     },
     "files": [
-        "dist"
+        "dist",
+        "src"
     ],
     "publishConfig": {
         "access": "public"

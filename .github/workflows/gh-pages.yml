@@ -1,10 +1,13 @@
 name: Github Pages
-# The website is actually powed by Cloudflare Pages (but this is backup) 
+# The website is actually powed by Cloudflare Pages (but this is backup)
 
 on:
  push:
   branches:
    - main # Set a branch to deploy
+ pull_request:
+  branches:
+   - main
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:

@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function FooterLink({ children, href, external = false }) {
+export default function FooterLink({ children, href, external = false }: { children: React.ReactNode; href: string; external?: boolean }) {
 	const classes = "my-1 text-sm opacity-80 hover:opacity-100 transition";
 
 	return external ? (

@@ -1,7 +1,7 @@
 {
     "name": "riskybot",
     "description": "A random discord bot with many fun features",
-    "version": "4.0.3",
+    "version": "5.0.0",
     "private": true,
     "author": "RiskyMH",
     "engines": {
@@ -14,31 +14,36 @@
     },
     "scripts": {
         "build": "turbo run build",
-        "test": "turbo run test",
-        "lint": "turbo run lint --parallel",
+        "test": "bun test",
+        "lint": "bun scripts/eslint.ts",
+        "tsc": "bun scripts/tsc.ts",
         "update": "yarn upgrade-interactive",
-        "deploy-commands": "yarn deploy-commands:riskybot && yarn deploy-commands:imgen",
-        "deploy-commands:riskybot": "node -r dotenv/config apps/riskybot/dist/deploy-commands.mjs",
-        "deploy-commands:imgen": "node -r dotenv/config apps/imgen/dist/deploy-commands.mjs",
-        "start:riskybot": "node -r dotenv/config --enable-source-maps apps/riskybot/dist/express.mjs",
-        "start:imgen": "node -r dotenv/config --enable-source-maps apps/imgen/dist/express.mjs",
+        "deploy-commands": "bun run deploy-commands:riskybot && bun run deploy-commands:imgen",
+        "deploy-commands:riskybot": "bun apps/riskybot/src/deploy-commands.ts",
+        "deploy-commands:imgen": "bun apps/imgen/src/deploy-commands.ts",
+        "start": "bun scripts/start.ts",
+        "start:riskybot": "bun apps/riskybot/src/server.ts",
+        "start:imgen": "bun apps/imgen/src/server.ts",
         "dev:website": "yarn workspace @riskybot/website dev",
         "dev:bot": "yarn vercel dev"
     },
     "devDependencies": {
-        "@types/node": "^20.10.1",
-        "@typescript-eslint/eslint-plugin": "^6.13.1",
-        "@typescript-eslint/parser": "^6.13.1",
-        "@vercel/node": "^3.0.11",
-        "dotenv": "^16.3.1",
-        "eslint": "^8.54.0",
+        "@types/node": "^20.10.4",
+        "@typescript-eslint/eslint-plugin": "^6.14.0",
+        "@typescript-eslint/parser": "^6.14.0",
+        "bun-types": "^1.0.16",
+        "eslint": "^8.55.0",
         "eslint-plugin-unicorn": "^49.0.0",
-        "turbo": "^1.10.16",
-        "typescript": "^5.3.2"
+        "turbo": "^1.11.1",
+        "typescript": "^5.3.3"
     },
     "packageManager": "yarn@4.0.2",
     "workspaces": [
         "packages/*",
-        "apps/*"
-    ]
+        "apps/*",
+        "scripts"
+    ],
+    "resolutions": {
+        "discord-api-types": "^0.37.66"
+    }
 }

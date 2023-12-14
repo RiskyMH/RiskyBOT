@@ -16,6 +16,8 @@ This repo contains the code for RiskyBOT and some more specific bots (image gene
 yarn install
 ```
 
+> **Note:** You will need to install [Bun](https://bun.sh) to do many things in this project.
+
 ### Configuring the env vars
 
 If you are developing locally, you need to create `.env` files in both the `apps/web` and `apps/bot` folder. Refer to the table below for all the env vars in the project
@@ -32,7 +34,7 @@ If you are developing locally, you need to create `.env` files in both the `apps
 | `TOPGG_TOKEN`                        | The Top.gg token (requires a bot on their website)                       | ❔        | ❔               |
 | `ERROR_WEBHOOK`                      | The webhook URL to send errors if they occur (not recommended in dev)    | ❔        |                  |
 
-> **Note**: ✔️ (tick) means that it is required and ❔ (question mark) means that it is optional but used. 
+> **Note**: ✔️ (tick) means that it is required and ❔ (question mark) means that it is optional but used.
 
 #### Project: `apps/imgen`
 
@@ -53,13 +55,14 @@ To run both the `RiskyBOT` and `Image Generate` projects at the same time, use t
 yarn vercel dev
 ```
 
-> **Note**: You you will have to create a vercel account for this project and make suer to set the root directory as `apps/bot`
+> **Note**: You you will have to create a vercel account for this project and make sure to set the root directory as `apps/bot`
 
-#### Running the bots individually
+#### Running the bots locally
 
-You can choose to run one of these following commands to run a singular bot (note that it if the bot crashes so does the program):
+You can either a singular bot or run both at the same time:
 
 ```sh
+yarn run start
 yarn run start:riskybot
 yarn run start:imgen
 ```
@@ -73,7 +76,7 @@ yarn run deploy-commands:riskybot
 yarn run deploy-commands:imgen
 ```
 
-Notice how there are multiple commands, this is because you only need to do the one that has had commands changed.
+This command should be only ran when you change a command's metadata.
 
 ## My hosted bot
 

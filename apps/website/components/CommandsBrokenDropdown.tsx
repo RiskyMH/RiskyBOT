@@ -2,11 +2,11 @@ import { useRef } from "react";
 import { BOT_INVITE_URL } from "../constants";
 
 export default function CommandsBrokenDropdown() {
-    const collapseElement = useRef(null);
+    const collapseElement = useRef<HTMLDivElement>(null);
 
     function collapseCommand() {
         const elem = collapseElement.current;
-        elem.style.height = elem.clientHeight ? 0 : elem.scrollHeight + "px";
+        if (elem) elem.style.height = elem.clientHeight ? "0" : elem.scrollHeight + "px";
     }
 
     return (

@@ -1,7 +1,7 @@
 {
     "name": "@riskybot/tools",
     "description": "A collection of tools for building and maintaining the RiskyBOT project",
-    "version": "4.0.3",
+    "version": "5.0.0",
     "author": "RiskyMH",
     "homepage": "https://github.com/RiskyMH/RiskyBOT/tree/main/packages/tools",
     "repository": {
@@ -10,31 +10,36 @@
         "directory": "packages/tools"
     },
     "scripts": {
-        "build": "tsc --build",
-        "build:ci": "( cd ../../ && tsc -p ./packages/tools/tsconfig.json )",
-        "lint": "eslint src/**/*.mts tests/*.mjs",
+        "build": "bun ../../scripts/build.ts",
+        "lint": "eslint src/**/*.ts tests/*.ts",
         "prepack": "yarn build",
         "test": "node --test"
     },
     "devDependencies": {
-        "eslint": "^8.54.0",
-        "typescript": "^5.3.2"
+        "eslint": "^8.55.0",
+        "typescript": "^5.3.3"
     },
     "type": "module",
-    "main": "./dist/tools.mjs",
-    "module": "./dist/tools.mjs",
-    "types": "./dist/index.d.ts",
+    "main": "./dist/index.js",
+    "module": "./dist/index.js",
+    "types": "./src/index.ts",
     "exports": {
-        "types": "./dist/index.d.ts",
-        "import": "./dist/tools.mjs"
+        "bun": "./src/index.ts",
+        "types": "./src/index.ts",
+        "import": "./dist/index.js"
     },
+    "sideEffects": false,
     "directories": {
         "lib": "src"
     },
     "files": [
-        "dist"
+        "dist",
+        "src"
     ],
     "publishConfig": {
         "access": "public"
+    },
+    "dependencies": {
+        "picocolors": "^1.0.0"
     }
 }

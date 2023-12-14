@@ -28,7 +28,7 @@ export default function DiscordRedditExample() {
         downs: 0,
         num_comments: 0,
         permalink: "",
-        url: null,
+        url: null as string | null,
         subreddit_name_prefixed: "r/dankmemes",
         selftext: "",
         created_utc: 0,
@@ -101,8 +101,8 @@ export default function DiscordRedditExample() {
                     authorImage="https://www.redditinc.com/assets/images/site/reddit-logo.png"
                     authorUrl={"https://www.reddit.com/" + data?.subreddit_name_prefixed}
                     embedTitle={data?.title}
-                    url={hasLoadedLegitPost ? "https://www.reddit.com" + data?.permalink : null}
-                    image={imgUrlIsTrulyAnImage(data?.url) ? data?.url : ""}
+                    url={hasLoadedLegitPost ? "https://www.reddit.com" + data?.permalink : undefined}
+                    image={imgUrlIsTrulyAnImage(data?.url) ? data?.url ?? undefined : ""}
                 >
 
                     <DiscordEmbedDescription slot="description" className={hasLoadedLegitPost ? "block" : "hidden"}> {
@@ -190,6 +190,6 @@ const css = `
 `;
 
 
-function imgUrlIsTrulyAnImage(url: string) {
+function imgUrlIsTrulyAnImage(url?: string | null) {
     return url && url.match(/\.(jpeg|jpg|gif|png)$/) != null;
 }

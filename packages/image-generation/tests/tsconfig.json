@@ -1,0 +1,12 @@
+{
+    // Mapped from https://www.typescriptlang.org/tsconfig
+    "extends": "../tsconfig.json",
+    "include": [
+        "**/*"
+    ],
+    "compilerOptions": {
+        "types": [
+            "bun-types"
+        ]
+    }
+}
