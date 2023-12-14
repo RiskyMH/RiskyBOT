@@ -23,6 +23,9 @@ export function wrapText(context: SKRSContext2D, text: string, x: number, y: num
 }
 
 export const rel = (relativePath: string) => {
-    if (relativePath.startsWith("./")) return path.join(fileURLToPath(import.meta.url), "../", relativePath);
+    if (relativePath.startsWith("./") || relativePath.startsWith("../")) {
+        return path.join(fileURLToPath(import.meta.url), "../", relativePath);
+    }
+    
     return relativePath;
 };

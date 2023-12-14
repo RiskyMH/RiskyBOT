@@ -1,2 +1,4 @@
-# api/
+api/
 !src/api/
+!.vercel/output/
+.vercel
