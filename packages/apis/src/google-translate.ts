@@ -20,7 +20,6 @@ export async function translate(content: string, to: string, from: string = "aut
     if (cache) {
         const cached = translateCache.get(`${from}-${to}-${encodeURIComponent(content)}`);
         if (cached) {
-            console.log("Using cache");
             return cached;
         }
     }
