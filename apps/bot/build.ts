@@ -31,7 +31,8 @@ for (const result of nodeBuild.outputs) {
 renameSync("./.vercel/output/functions/api/[bot].func/[bot].js", "./.vercel/output/functions/api/[bot].func/[bot].mjs");
 
 // copy @napi-rs node_modules folder into "./.vercel/output/functions/api/[bot].func/"
-for await (const entry of new Bun.Glob("@napi-rs/**/*{.node,package.json}").scan("../../node_modules")) {
+const glob = new Bun.Glob("@napi-rs/**/*{.node,package.json}");
+for await (const entry of glob.scan("../../node_modules")) {
     if (!entry.startsWith("@napi-rs/canvas-")) continue;
     cpSync("../../node_modules/"+entry, "./.vercel/output/functions/api/[bot].func/node_modules/"+ entry, { recursive: true });
 }
@@ -39,10 +40,10 @@ for await (const entry of new Bun.Glob("@napi-rs/**/*{.node,package.json}").scan
 // make other files for vercel build
 const files = {
     "./.vercel/output/functions/api/[bot].func/.vc-config.json": JSON.stringify({
-        "runtime": "nodejs20.x",
-        "handler": "[bot].mjs",
-        "launcherType": "Nodejs",
-        "shouldAddHelpers": true
+        runtime: "nodejs20.x",
+        handler: "[bot].mjs",
+        launcherType: "Nodejs",
+        shouldAddHelpers: true
     }),
     "./.vercel/output/config.json": JSON.stringify({
         version: 3,
