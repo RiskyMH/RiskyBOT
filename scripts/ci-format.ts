@@ -69,8 +69,8 @@ export default class CIFormat {
         this.statsPrint(fullMessage);
 
         if (process.env.GITHUB_ACTIONS) {
-            const message = `::${type} file=${path},line=${line},col=${column}::${fullMessage}`
-            console.log(message);
+            const formatted = `::${type} file=${path},line=${line},col=${column},title=yes::${message} (${code})`
+            console.log(formatted);
         }
 
         switch (type) {
