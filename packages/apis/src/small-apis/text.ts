@@ -10,6 +10,7 @@ export async function getRhymes(word: string, cache = true): Promise<RhymeResult
     if (cache) {
         const cached = rhymeCache.get(word);
         if (cached) {
+            console.log("Using cache");
             return cached;
         }
     }

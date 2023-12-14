@@ -54,6 +54,7 @@ export async function subredditAutoComplete(query: string, cache = true): Promis
     if (cache) {
         const cached = autoCompleteCache.get(query);
         if (cached) {
+            console.log("Using cache");
             return cached;
         }
     }
@@ -89,6 +90,7 @@ export async function popularSubreddits(cache = true): Promise<SubredditInfo[]> 
     if (cache) {
         const cached = popularSubredditsCache.get("popular");
         if (cached) {
+            console.log("Using cache");
             return cached;
         }
     }
@@ -118,6 +120,7 @@ export async function subredditInfo(subreddit: string, cache = true): Promise<Su
     if (cache) {
         const cached = subredditInfoCache.get(subreddit);
         if (cached) {
+            console.log("Using cache");
             return cached;
         }
     }

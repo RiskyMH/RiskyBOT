@@ -23,6 +23,7 @@ export async function define(term: string, cache = true): Promise<Definition | n
     if (cache) {
         const cached = defineCache.get(searchParams.toString());
         if (cached) {
+            console.log("Using cache");
             return cached;
         }
     }
@@ -57,6 +58,7 @@ export async function autoComplete(term: string, cache = true): Promise<AutoComp
     if (cache) {
         const cached = autoCompleteCache.get(term);
         if (cached) {
+            console.log("Using cache");
             return cached;
         }
     }
