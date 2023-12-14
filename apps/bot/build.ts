@@ -9,7 +9,7 @@ const nodeBuild = await Bun.build({
     // sourcemap: "inline",
     splitting: true,
     // minify: true,
-    external: ["@napi-rs*"],
+    external: ["@napi-rs/canvas-*"],
 });
 
 if (!nodeBuild.success) {
@@ -20,12 +20,10 @@ const NODE_FIX = "import { createRequire as createImportMetaRequire } from \"mod
 // Write output files
 for (const result of nodeBuild.outputs) {
     if (result.path.endsWith(".js")) {
-        const fileContent = (NODE_FIX + await result.text())
-            .replaceAll("(0, eval)", "eval")
+        const fileContent = ("console.time('init');\n"+NODE_FIX + await result.text()+"\nconsole.timeEnd('init');\n")
+            .replaceAll("(0, eval)", "eval");
 
         await Bun.write(result.path, fileContent);
-        console.log(fileContent.length);
-
     }
 }
 
@@ -33,7 +31,10 @@ for (const result of nodeBuild.outputs) {
 renameSync("./.vercel/output/functions/api/[bot].func/[bot].js", "./.vercel/output/functions/api/[bot].func/[bot].mjs");
 
 // copy @napi-rs node_modules folder into "./.vercel/output/functions/api/[bot].func/"
-cpSync("../../node_modules/@napi-rs", "./.vercel/output/functions/api/[bot].func/node_modules/@napi-rs", { recursive: true });
+for await (const entry of new Bun.Glob("@napi-rs/**/*{.node,package.json}").scan("../../node_modules")) {
+    if (!entry.startsWith("@napi-rs/canvas-")) continue;
+    cpSync("../../node_modules/"+entry, "./.vercel/output/functions/api/[bot].func/node_modules/"+ entry, { recursive: true });
+}
 
 // make other files for vercel build
 const files = {
@@ -45,34 +46,34 @@ const files = {
     }),
     "./.vercel/output/config.json": JSON.stringify({
         version: 3,
-        "routes": [
+        routes: [
             {
-                "handle": "filesystem"
+                handle: "filesystem"
             },
             {
-                "src": "^/api/([^/]+)$",
-                "dest": "/api/[bot]?bot=$1",
-                "check": true
+                src: "^/api/([^/]+)$",
+                dest: "/api/[bot]?bot=$1",
+                check: true
             },
             {
-                "src": "^/api(/.*)?$",
-                "status": 404
+                src: "^/api(/.*)?$",
+                status: 404
             },
             {
-                "handle": "error"
+                handle: "error"
             },
             {
-                "status": 404,
-                "src": "^(?!/api).*$",
-                "dest": "/404.html"
+                status: 404,
+                src: "^(?!/api).*$",
+                dest: "/404.html"
             },
             {
-                "handle": "miss"
+                handle: "miss"
             },
             {
-                "src": "^/api/(.+)(?:\\.(?:js))$",
-                "dest": "/api/$1",
-                "check": true
+                src: "^/api/(.+)(?:\\.(?:js))$",
+                dest: "/api/$1",
+                check: true
             }
         ],
 
@@ -84,3 +85,5 @@ for (const [path, content] of Object.entries(files)) {
 }
 
 export { };
+
+console.info("Built!");
