@@ -6,8 +6,6 @@ import pc from "picocolors";
 import { clearLine, cursorTo } from "node:readline";
 import { supportsHyperlinks } from "@riskybot/tools";
 
-// test and maybe fix
-pc.isColorSupported = pc.isColorSupported && !process.env.CI;
 // ([^\\s].*)[\\(:](\d+):(\d+)(?::\s+|\s+-\s+)(error|warning|info)\s*:\s*(.*)\s*\((TS\d+)\)$
 
 
@@ -69,6 +67,11 @@ export default class CIFormat {
         ];
         const fullMessage = elements.join(" ");
         this.statsPrint(fullMessage);
+
+        if (process.env.GITHUB_ACTIONS) {
+            const message = `::${type} file=${path},line=${line},col=${column}::${fullMessage}`
+            console.log(message);
+        }
 
         switch (type) {
             case "error": {

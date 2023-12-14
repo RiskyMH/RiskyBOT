@@ -40,10 +40,6 @@ jobs:
       - name: Setup Bun
         uses: oven-sh/setup-bun@v1
 
-      - name: Add custom Problem Matcher
-        run: |
-          echo ::add-matcher::.github/problem-matchers/custom-format.json  
-
       - name: Install dependencies 
         run: yarn install --immutable
 
