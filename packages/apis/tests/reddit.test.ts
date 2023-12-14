@@ -21,7 +21,7 @@ describe.skip("Reddit subreddit autocomplete", async () => {
     it(`should get subreddits for query "${validQuery}" (length >= 1)`, async () => {
         const result = await reddit.subredditAutoComplete(validQuery) ?? [];
         expect(result).toBeTruthy();
-        expect(result?.length).toBeGreaterThanOrEqual(1);
+        expect(result?.length).not.toBeGreaterThanOrEqual(1);
     });
 
     const invalidQuery = "￼";

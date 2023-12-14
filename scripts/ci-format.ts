@@ -69,7 +69,7 @@ export default class CIFormat {
         this.statsPrint(fullMessage);
 
         if (process.env.GITHUB_ACTIONS) {
-            const formatted = `::${type} file=${path},line=${line},col=${column},title=yes::${message} (${code})`
+            const formatted = `::${type} file=${path},line=${line},col=${column}::${message} (${code})`
             console.log(formatted);
         }
 
@@ -100,4 +100,3 @@ function timeDiff(time: number) {
     // return the time difference in seconds (2dp)
     return ((Date.now() - time) / 1000).toFixed(2);
 }
-
