@@ -42,7 +42,7 @@ jobs:
 
       - name: Add custom Problem Matcher
         run: |
-          echo ::add-matcher::.github/problem-matchers/custom-formatter.json  
+          echo ::add-matcher::.github/problem-matchers/custom-format.json  
 
       - name: Install dependencies 
         run: yarn install --immutable
