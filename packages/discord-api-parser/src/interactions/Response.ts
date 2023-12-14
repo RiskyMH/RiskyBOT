@@ -19,7 +19,7 @@ function addAttachmentsToForm(data: object, attachments: AttachmentBuilder[]): F
     // @ts-expect-error Not needed
     data["attachments"] = undefined;
     const form = new FormData();
-    form.append("payload_json", new Blob([JSON.stringify(data)], { type: "application/json", }));
+    form.append("payload_json", JSON.stringify(data));
 
     // loop through data.attachments (with index)
     for (const [index, attachment] of attachments?.entries() ?? []) {
