@@ -77,4 +77,4 @@ export default commands;
     addCommandsToWebsite(path.basename(bot));
 }
 
-console.log("Done!")
+console.log("Done!");
