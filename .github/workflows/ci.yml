@@ -109,10 +109,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install yarn
+      - name: Install Yarn
         run: corepack enable yarn
-
-      - name: Install node.js v16
+        
+      - name: Install Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 'current'
@@ -120,24 +120,14 @@ jobs:
           cache: 'yarn'
           cache-dependency-path: yarn.lock
 
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+
       - name: Install dependencies
         run: yarn --immutable
 
-      - name: Turbo cache
-        id: turbo-cache
-        uses: actions/cache@v3
-        with:
-          path: .turbo
-          key: turbo-${{ github.ref_name }}-${{ github.sha }}
-          restore-keys: turbo${{ github.ref_name }}-
-
-
-      # Should be fast as this is requiring the ts build to succeed (and thus having cache)
-      - name: Run Build
-        run: yarn turbo run tsc --cache-dir=".turbo"
-
       - name: Deploy
-        run: yarn deploy-commands
+        run: bun run deploy-commands
         env:
           RISKYBOT_APPLICATION_CLIENT_SECRET: ${{ secrets.RISKYBOT_APPLICATION_CLIENT_SECRET }}
           RISKYBOT_APPLICATION_ID: ${{ secrets.RISKYBOT_APPLICATION_ID }}
