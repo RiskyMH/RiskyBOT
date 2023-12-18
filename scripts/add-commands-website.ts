@@ -1,5 +1,5 @@
-import { ApplicationCommandOptionType, ApplicationCommandType } from "discord-api-types/v10";
-import { Client } from "@riskybot/command";
+import type { Client } from "@riskybot/command";
+import { ApplicationCommandType, ApplicationCommandOptionType, type SubCommandApplicationCommandOptionStructure } from "lilybird";
 
 export interface WebsiteCommand {
     name: string,
@@ -12,10 +12,10 @@ export interface WebsiteCommand {
     }[]
 }
 
-const jsonPath = "./apps/website/assets/commands.json"
+const jsonPath = "./apps/website/assets/commands.json";
 
 export default async function addCommandsToWebsite(bot: string) {
-    const client = (await import(`../apps/${bot}/src/main.ts`)).client as Client
+    const client = (await import(`../apps/${bot}/src/main.ts`)).client as Client;
     const commands = client.getAPICommands();
 
     // remove all commands that are from riskybot
@@ -26,40 +26,40 @@ export default async function addCommandsToWebsite(bot: string) {
     const botCommands = [];
 
     for (const command of commands) {
-        if (command.type === ApplicationCommandType.ChatInput || !command.type) {
-            if (command.options?.[0]?.type === ApplicationCommandOptionType.Subcommand) {
+        if (command.type === ApplicationCommandType.CHAT_INPUT || !command.type) {
+            if (command.options?.[0]?.type === ApplicationCommandOptionType.SUB_COMMAND) {
                 for (const c of command.options) {
-                    if (c.type === ApplicationCommandOptionType.SubcommandGroup) {
-                        for (const sc of c.options || []) {
+                    if (c.type === ApplicationCommandOptionType.SUB_COMMAND_GROUP) {
+                        for (const sc of (c as SubCommandApplicationCommandOptionStructure).options || []) {
                             botCommands.push({
                                 name: command.name + " " + c.name + " " + sc.name,
                                 description: sc.description,
                                 bot,
-                                options: (sc.options || []).map(o => ({
+                                options: ((sc as SubCommandApplicationCommandOptionStructure).options || []).map(o => ({
                                     name: o.name,
                                     description: o.description,
-                                    required: o.required,
+                                    required: o.required || false,
                                 }))
                             });
                         }
                     }
 
-                    else if (c.type === ApplicationCommandOptionType.Subcommand) {
+                    if (c.type === ApplicationCommandOptionType.SUB_COMMAND) {
                         botCommands.push({
                             name: command.name + " " + c.name,
                             description: c.description,
                             bot,
-                            options: (c.options || []).map(o => ({
+                            options: ((c as SubCommandApplicationCommandOptionStructure).options || []).map(o => ({
                                 name: o.name,
                                 description: o.description,
-                                required: o.required,
+                                required: o.required || false,
                             }))
                         });
                     }
                 }
             }
 
-            if (command.options?.[0]?.type !== ApplicationCommandOptionType.SubcommandGroup && command.options?.[0]?.type !== ApplicationCommandOptionType.Subcommand) {
+            if (command.options?.[0]?.type !== ApplicationCommandOptionType.SUB_COMMAND_GROUP && command.options?.[0]?.type !== ApplicationCommandOptionType.SUB_COMMAND) {
                 botCommands.push({
                     name: command.name,
                     description: command.description,
@@ -67,7 +67,7 @@ export default async function addCommandsToWebsite(bot: string) {
                     options: (command.options || []).map(o => ({
                         name: o.name,
                         description: o.description,
-                        required: o.required,
+                        required: o.required || false,
                     }))
                 });
             }

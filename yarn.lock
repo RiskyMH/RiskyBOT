@@ -64,22 +64,22 @@ __metadata:
   linkType: hard
 
 "@babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.18.3":
-  version: 7.23.5
-  resolution: "@babel/runtime@npm:7.23.5"
+  version: 7.23.6
+  resolution: "@babel/runtime@npm:7.23.6"
   dependencies:
     regenerator-runtime: "npm:^0.14.0"
-  checksum: ca679cc91bb7e424bc2db87bb58cc3b06ade916b9adb21fbbdc43e54cdaacb3eea201ceba2a0464b11d2eb65b9fe6a6ffcf4d7521fa52994f19be96f1af14788
+  checksum: d886954e985ef8e421222f7a2848884d96a752e0020d3078b920dd104e672fdf23bcc6f51a44313a048796319f1ac9d09c2c88ec8cbb4e1f09174bcd3335b9ff
   languageName: node
   linkType: hard
 
 "@babel/types@npm:^7.22.15":
-  version: 7.23.5
-  resolution: "@babel/types@npm:7.23.5"
+  version: 7.23.6
+  resolution: "@babel/types@npm:7.23.6"
   dependencies:
     "@babel/helper-string-parser": "npm:^7.23.4"
     "@babel/helper-validator-identifier": "npm:^7.22.20"
     to-fast-properties: "npm:^2.0.0"
-  checksum: 7dd5e2f59828ed046ad0b06b039df2524a8b728d204affb4fc08da2502b9dd3140b1356b5166515d229dc811539a8b70dcd4bc507e06d62a89f4091a38d0b0fb
+  checksum: 42cefce8a68bd09bb5828b4764aa5586c53c60128ac2ac012e23858e1c179347a4aac9c66fc577994fbf57595227611c5ec8270bf0cfc94ff033bbfac0550b70
   languageName: node
   linkType: hard
 
@@ -89,37 +89,6 @@ __metadata:
   dependencies:
     "@jridgewell/trace-mapping": "npm:0.3.9"
   checksum: 05c5368c13b662ee4c122c7bfbe5dc0b613416672a829f3e78bc49a357a197e0218d6e74e7c66cfcd04e15a179acab080bd3c69658c9fbefd0e1ccd950a07fc6
-  languageName: node
-  linkType: hard
-
-"@discordjs/builders@npm:^1.7.0":
-  version: 1.7.0
-  resolution: "@discordjs/builders@npm:1.7.0"
-  dependencies:
-    "@discordjs/formatters": "npm:^0.3.3"
-    "@discordjs/util": "npm:^1.0.2"
-    "@sapphire/shapeshift": "npm:^3.9.3"
-    discord-api-types: "npm:0.37.61"
-    fast-deep-equal: "npm:^3.1.3"
-    ts-mixer: "npm:^6.0.3"
-    tslib: "npm:^2.6.2"
-  checksum: 6d2264e68fb4396daded4d33a555d0a1fb71b2e7ad8dd28e8d668391204abd889abfe90e8118b940825ebc9765164616248a551e110953a46dc4696054946f8c
-  languageName: node
-  linkType: hard
-
-"@discordjs/formatters@npm:^0.3.3":
-  version: 0.3.3
-  resolution: "@discordjs/formatters@npm:0.3.3"
-  dependencies:
-    discord-api-types: "npm:0.37.61"
-  checksum: 1833c2e20b87aa6ae03202502a64d5ae235ee6a25feb41786bb86b7414fac7c59e518f99f2a60b15ad713165c91e16f17b3e8024898d6a3cd3df9f3e94488cd1
-  languageName: node
-  linkType: hard
-
-"@discordjs/util@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "@discordjs/util@npm:1.0.2"
-  checksum: 2fbf790dc2ac9e65f53dafe814714630c094a6fad2ee7e12ebd6160aa2a3c17e0d5600454e857801adfd04db7aee3133f85aadc6eb7daa8d9bf783d5d8b551aa
   languageName: node
   linkType: hard
 
@@ -321,10 +290,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/js@npm:8.55.0":
-  version: 8.55.0
-  resolution: "@eslint/js@npm:8.55.0"
-  checksum: 88ab9fc57a651becd2b32ec40a3958db27fae133b1ae77bebd733aa5bbd00a92f325bb02f20ad680d31c731fa49b22f060a4777dd52eb3e27da013d940bd978d
+"@eslint/js@npm:8.56.0":
+  version: 8.56.0
+  resolution: "@eslint/js@npm:8.56.0"
+  checksum: 60b3a1cf240e2479cec9742424224465dc50e46d781da1b7f5ef240501b2d1202c225bd456207faac4b34a64f4765833345bc4ddffd00395e1db40fa8c426f5a
   languageName: node
   linkType: hard
 
@@ -423,6 +392,15 @@ __metadata:
     "@jridgewell/resolve-uri": "npm:^3.1.0"
     "@jridgewell/sourcemap-codec": "npm:^1.4.14"
   checksum: 0ea0b2675cf513ec44dc25605616a3c9b808b9832e74b5b63c44260d66b58558bba65764f81928fc1033ead911f8718dca1134049c3e7a93937faf436671df31
+  languageName: node
+  linkType: hard
+
+"@lilybird/jsx@npm:^0.1.1":
+  version: 0.1.1
+  resolution: "@lilybird/jsx@npm:0.1.1"
+  peerDependencies:
+    lilybird: ^0.3.0
+  checksum: e30b65be2d2ef3e25213783087cf15a2edc0b5d424bb20f8b1e89faadf18ac10d3cba86bacdb9382e3eb9dc794b5c45c8427451a867c147ba73d2163f76638a9
   languageName: node
   linkType: hard
 
@@ -684,10 +662,10 @@ __metadata:
   resolution: "@riskybot/apis@workspace:packages/apis"
   dependencies:
     "@riskybot/error": "workspace:^"
-    "@sapphire/shapeshift": "npm:^3.9.4"
-    eslint: "npm:^8.55.0"
+    eslint: "npm:^8.56.0"
     lru-cache: "npm:^10.1.0"
     typescript: "npm:^5.3.3"
+    valibot: "npm:^0.24.1"
   languageName: unknown
   linkType: soft
 
@@ -701,16 +679,25 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@riskybot/builders@workspace:^, @riskybot/builders@workspace:packages/builders":
+  version: 0.0.0-use.local
+  resolution: "@riskybot/builders@workspace:packages/builders"
+  dependencies:
+    "@lilybird/jsx": "npm:^0.1.1"
+    eslint: "npm:^8.56.0"
+    lilybird: "npm:^0.3.1"
+    typescript: "npm:^5.3.3"
+  languageName: unknown
+  linkType: soft
+
 "@riskybot/command@workspace:^, @riskybot/command@workspace:packages/command":
   version: 0.0.0-use.local
   resolution: "@riskybot/command@workspace:packages/command"
   dependencies:
-    "@discordjs/builders": "npm:^1.7.0"
     "@riskybot/error": "workspace:^"
     "@riskybot/tools": "workspace:^"
-    discord-api-parser: "workspace:^"
-    discord-api-types: "npm:^0.37.66"
-    eslint: "npm:^8.55.0"
+    eslint: "npm:^8.56.0"
+    lilybird: "npm:^0.3.1"
     typescript: "npm:^5.3.3"
   bin:
     command-imports: ./dist/compile-imports.mjs
@@ -721,7 +708,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@riskybot/error@workspace:packages/error"
   dependencies:
-    eslint: "npm:^8.55.0"
+    eslint: "npm:^8.56.0"
     typescript: "npm:^5.3.3"
   languageName: unknown
   linkType: soft
@@ -731,8 +718,8 @@ __metadata:
   resolution: "@riskybot/image-generate@workspace:packages/image-generation"
   dependencies:
     "@napi-rs/canvas": "npm:0.1.44"
-    "@types/node": "npm:^20.10.4"
-    eslint: "npm:^8.55.0"
+    "@types/node": "npm:^20.10.5"
+    eslint: "npm:^8.56.0"
     typescript: "npm:^5.3.3"
   languageName: unknown
   linkType: soft
@@ -741,18 +728,17 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@riskybot/imgen@workspace:apps/imgen"
   dependencies:
-    "@discordjs/builders": "npm:^1.7.0"
-    "@discordjs/formatters": "npm:^0.3.3"
+    "@lilybird/jsx": "npm:^0.1.1"
     "@riskybot/command": "workspace:^"
     "@riskybot/image-generate": "workspace:^"
-    "@sapphire/shapeshift": "npm:^3.9.4"
     "@types/express": "npm:^4.17.21"
-    "@types/node": "npm:^20.10.4"
+    "@types/node": "npm:^20.10.5"
     discord-api-parser: "workspace:^"
-    discord-api-types: "npm:^0.37.66"
-    eslint: "npm:^8.55.0"
+    eslint: "npm:^8.56.0"
     express: "npm:^4.18.2"
+    lilybird: "npm:^0.3.1"
     typescript: "npm:^5.3.3"
+    valibot: "npm:^0.24.1"
   languageName: unknown
   linkType: soft
 
@@ -760,19 +746,19 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@riskybot/riskybot@workspace:apps/riskybot"
   dependencies:
-    "@discordjs/builders": "npm:^1.7.0"
-    "@discordjs/formatters": "npm:^0.3.3"
+    "@lilybird/jsx": "npm:^0.1.1"
     "@riskybot/apis": "workspace:^"
+    "@riskybot/builders": "workspace:^"
     "@riskybot/command": "workspace:^"
     "@riskybot/image-generate": "workspace:^"
-    "@sapphire/shapeshift": "npm:^3.9.4"
     "@sapphire/snowflake": "npm:^3.5.2"
-    "@types/node": "npm:^20.10.4"
+    "@types/node": "npm:^20.10.5"
     discord-api-parser: "workspace:^"
-    discord-api-types: "npm:^0.37.66"
     discord-verify: "npm:^1.2.0"
-    eslint: "npm:^8.55.0"
+    eslint: "npm:^8.56.0"
+    lilybird: "npm:^0.3.1"
     typescript: "npm:^5.3.3"
+    valibot: "npm:^0.24.1"
   languageName: unknown
   linkType: soft
 
@@ -782,8 +768,9 @@ __metadata:
   dependencies:
     "@riskybot/imgen": "workspace:^"
     "@riskybot/riskybot": "workspace:^"
-    "@types/eslint": "npm:^8.44.8"
-    bun-types: "npm:^1.0.16"
+    "@types/eslint": "npm:^8.44.9"
+    bun-types: "npm:^1.0.18"
+    lilybird: "npm:^0.3.1"
     picocolors: "npm:^1.0.0"
   languageName: unknown
   linkType: soft
@@ -792,7 +779,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@riskybot/tools@workspace:packages/tools"
   dependencies:
-    eslint: "npm:^8.55.0"
+    eslint: "npm:^8.56.0"
     picocolors: "npm:^1.0.0"
     typescript: "npm:^5.3.3"
   languageName: unknown
@@ -805,11 +792,10 @@ __metadata:
     "@emotion/react": "npm:^11.11.1"
     "@next/eslint-plugin-next": "npm:^14.0.4"
     "@skyra/discord-components-react": "npm:^3.6.1"
-    "@types/node": "npm:^20.10.4"
-    "@types/react": "npm:^18.2.43"
-    "@types/react-dom": "npm:^18.2.17"
+    "@types/node": "npm:^20.10.5"
+    "@types/react": "npm:^18.2.45"
+    "@types/react-dom": "npm:^18.2.18"
     autoprefixer: "npm:^10.4.16"
-    discord-api-types: "npm:^0.37.66"
     next: "npm:^14.0.4"
     postcss: "npm:^8.4.32"
     react: "npm:^18.2.0"
@@ -827,16 +813,6 @@ __metadata:
     estree-walker: "npm:^2.0.1"
     picomatch: "npm:^2.2.2"
   checksum: 3ee56b2c8f1ed8dfd0a92631da1af3a2dfdd0321948f089b3752b4de1b54dc5076701eadd0e5fc18bd191b77af594ac1db6279e83951238ba16bf8a414c64c48
-  languageName: node
-  linkType: hard
-
-"@sapphire/shapeshift@npm:^3.9.3, @sapphire/shapeshift@npm:^3.9.4":
-  version: 3.9.4
-  resolution: "@sapphire/shapeshift@npm:3.9.4"
-  dependencies:
-    fast-deep-equal: "npm:^3.1.3"
-    lodash: "npm:^4.17.21"
-  checksum: 7743983dde17585442bec7e1f1a2b7b9b3b92ddfd35cb6806875e3ff70a23fbbe83a564ee59a83966cc3c083856fde5db206efed61086120f7e010b330c3d1a9
   languageName: node
   linkType: hard
 
@@ -948,13 +924,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/eslint@npm:^8.44.8":
-  version: 8.44.8
-  resolution: "@types/eslint@npm:8.44.8"
+"@types/eslint@npm:^8.44.9":
+  version: 8.44.9
+  resolution: "@types/eslint@npm:8.44.9"
   dependencies:
     "@types/estree": "npm:*"
     "@types/json-schema": "npm:*"
-  checksum: 610966753add984f6ac9f00eeb766691e141e66a7e20b724a45ad077f60e8cd8fd7874b7e655e93537e54873cc5711cd6f57728474e08b478407cd942f098263
+  checksum: e9da4e4c7b7c9014b17d40007e36f02f3b5dd55c43bb05928b52dd9c19f2a8fb7971a851a4e7a11625c3c69da286c5baf55de2f8bb900b1a4cfb5145a4491b37
   languageName: node
   linkType: hard
 
@@ -1017,12 +993,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^20.10.4":
-  version: 20.10.4
-  resolution: "@types/node@npm:20.10.4"
+"@types/node@npm:*, @types/node@npm:^20.10.5":
+  version: 20.10.5
+  resolution: "@types/node@npm:20.10.5"
   dependencies:
     undici-types: "npm:~5.26.4"
-  checksum: 2c8b70cba731eb2ae3ae046daa74903bfcbb0e7b9196da767e5895054f6d252296ae7a04fb1dbbcb53bb004c4c658c05eaea2731bc9e2dd9e08f7e88d672f563
+  checksum: be30609aae0bfe492097815f166ccc07f465220cb604647fa4e5ec05a1d16c012a41b82b5f11ecfe2485cbb479d4d20384b95b809ca0bcff6d94d5bbafa645bb
   languageName: node
   linkType: hard
 
@@ -1068,23 +1044,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:^18.2.17":
-  version: 18.2.17
-  resolution: "@types/react-dom@npm:18.2.17"
+"@types/react-dom@npm:^18.2.18":
+  version: 18.2.18
+  resolution: "@types/react-dom@npm:18.2.18"
   dependencies:
     "@types/react": "npm:*"
-  checksum: 33b53078ed7e9e0cfc4dc691e938f7db1cc06353bc345947b41b581c3efe2b980c9e4eb6460dbf5ddc521dd91959194c970221a2bd4bfad9d23ebce338e12938
+  checksum: 74dba11a1b8156f3a763f3fca1fb4ec1dcd349153279b8bf79210024a69f994bf2cf0728198c047f8130c5318420ea56281b0a4ef84c8ae943cd9a0cac705220
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^18.2.43":
-  version: 18.2.43
-  resolution: "@types/react@npm:18.2.43"
+"@types/react@npm:*, @types/react@npm:^18.2.45":
+  version: 18.2.45
+  resolution: "@types/react@npm:18.2.45"
   dependencies:
     "@types/prop-types": "npm:*"
     "@types/scheduler": "npm:*"
     csstype: "npm:^3.0.2"
-  checksum: 10477a50fbd3c0cc5b8a2ade679f442717f68fb27c8460b2aa1d3256cd18c48f742bbe5b9ee37a8c4c5f832ffa37b3a23c09fd96dd880a8e3182d8929c05e803
+  checksum: 4cc650c47ffb88baac29fb7a74e842e4af4a55f437086ef70250fdc75f0a5f2fcf8adc272d05ab2e00b1de6e14613296881271caee037dadf9130fdeb498c59e
   languageName: node
   linkType: hard
 
@@ -1676,10 +1652,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bun-types@npm:^1.0.16":
-  version: 1.0.16
-  resolution: "bun-types@npm:1.0.16"
-  checksum: 2222369ee9cbe58794b7c95165b2ad97e655a80640a8cafbbfef87774799e82e22f35adb89acd3d2ba5acddb27902d645996bfc4b965653aa3262650fb6276aa
+"bun-types@npm:^1.0.18":
+  version: 1.0.18
+  resolution: "bun-types@npm:1.0.18"
+  checksum: 62fca2f8ee86b32def4065bf0490720c0e3bd3afe8b4fd70177dccda08e799dfe6317279c791ade502376ead3197ed7627ec6b8fa103466d398e968f70f05178
   languageName: node
   linkType: hard
 
@@ -1745,9 +1721,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30001406, caniuse-lite@npm:^1.0.30001538, caniuse-lite@npm:^1.0.30001565":
-  version: 1.0.30001568
-  resolution: "caniuse-lite@npm:1.0.30001568"
-  checksum: 13f01e5a2481134bd61cf565ce9fecbd8e107902927a0dcf534230a92191a81f1715792170f5f39719c767c3a96aa6df9917a8d5601f15bbd5e4041a8cfecc99
+  version: 1.0.30001570
+  resolution: "caniuse-lite@npm:1.0.30001570"
+  checksum: e47230d2016edea56e002fa462a5289f697b48dcfbf703fb01aecc6c98ad4ecaf945ab23c253cb7af056c2d05f266e4e4cbebf45132100e2c9367439cb95b95b
   languageName: node
   linkType: hard
 
@@ -2089,25 +2065,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "discord-api-parser@workspace:packages/discord-api-parser"
   dependencies:
-    "@discordjs/builders": "npm:^1.7.0"
     "@sapphire/snowflake": "npm:^3.5.2"
-    discord-api-types: "npm:0.37.66"
     discord-interactions: "npm:^3.4.0"
     discord-verify: "npm:^1.2.0"
-    eslint: "npm:^8.55.0"
+    eslint: "npm:^8.56.0"
+    lilybird: "npm:0.3.1"
     typescript: "npm:^5.3.3"
-  dependenciesMeta:
-    "@discordjs/builders":
-      optional: true
   languageName: unknown
   linkType: soft
-
-"discord-api-types@npm:^0.37.66":
-  version: 0.37.66
-  resolution: "discord-api-types@npm:0.37.66"
-  checksum: 4f03cf302a986106a17f3a3755c47121cd504cf494e7dcad201f84568604e3b3f17575e71349252eec546c579a0e8fcaabd7ef2b9c2d007152d8469a65db8060
-  languageName: node
-  linkType: hard
 
 "discord-interactions@npm:^3.4.0":
   version: 3.4.0
@@ -2177,9 +2142,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.601":
-  version: 1.4.609
-  resolution: "electron-to-chromium@npm:1.4.609"
-  checksum: 9675a79388acbaff5953a4c61589af7da93e0d1f9d6a3b284c7630f10126eb0998557b07448514214d5a3d19025310039b55f405ab701b1253130fc94907f743
+  version: 1.4.614
+  resolution: "electron-to-chromium@npm:1.4.614"
+  checksum: 2cc4209c5f5794be069d74a4aa9b0849fba3570d06f981dbe41d626b0cc88cfbf8b9aae47b033e67370f477ce49168b4d4324c7c518ee28012e8430b65c5fe84
   languageName: node
   linkType: hard
 
@@ -2516,14 +2481,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^8.55.0":
-  version: 8.55.0
-  resolution: "eslint@npm:8.55.0"
+"eslint@npm:^8.56.0":
+  version: 8.56.0
+  resolution: "eslint@npm:8.56.0"
   dependencies:
     "@eslint-community/eslint-utils": "npm:^4.2.0"
     "@eslint-community/regexpp": "npm:^4.6.1"
     "@eslint/eslintrc": "npm:^2.1.4"
-    "@eslint/js": "npm:8.55.0"
+    "@eslint/js": "npm:8.56.0"
     "@humanwhocodes/config-array": "npm:^0.11.13"
     "@humanwhocodes/module-importer": "npm:^1.0.1"
     "@nodelib/fs.walk": "npm:^1.2.8"
@@ -2560,7 +2525,7 @@ __metadata:
     text-table: "npm:^0.2.0"
   bin:
     eslint: bin/eslint.js
-  checksum: d28c0b60f19bb7d355cb8393e77b018c8f548dba3f820b799c89bb2e0c436ee26084e700c5e57e1e97e7972ec93065277849141b82e7b0c0d02c2dc1e553a2a1
+  checksum: 2be598f7da1339d045ad933ffd3d4742bee610515cd2b0d9a2b8b729395a01d4e913552fff555b559fccaefd89d7b37632825789d1b06470608737ae69ab43fb
   languageName: node
   linkType: hard
 
@@ -3475,6 +3440,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lilybird@npm:0.3.1, lilybird@npm:^0.3.1":
+  version: 0.3.1
+  resolution: "lilybird@npm:0.3.1"
+  checksum: 58bf9d1c18108d38e8dd916307f9d9e06831daee3378e7969b816bf7dd9095ff42c1aa914200d7cd89ca0656dea71695c3c9361a912397d7367a9b211b409abf
+  languageName: node
+  linkType: hard
+
 "lines-and-columns@npm:^1.1.6":
   version: 1.2.4
   resolution: "lines-and-columns@npm:1.2.4"
@@ -3504,13 +3476,6 @@ __metadata:
   version: 4.6.2
   resolution: "lodash.merge@npm:4.6.2"
   checksum: 402fa16a1edd7538de5b5903a90228aa48eb5533986ba7fa26606a49db2572bf414ff73a2c9f5d5fd36b31c46a5d5c7e1527749c07cbcf965ccff5fbdf32c506
-  languageName: node
-  linkType: hard
-
-"lodash@npm:^4.17.21":
-  version: 4.17.21
-  resolution: "lodash@npm:4.17.21"
-  checksum: d8cbea072bb08655bb4c989da418994b073a608dffa608b09ac04b43a791b12aeae7cd7ad919aa4c925f33b48490b5cfe6c1f71d827956071dae2e7bb3a6b74c
   languageName: node
   linkType: hard
 
@@ -4529,9 +4494,9 @@ __metadata:
   linkType: hard
 
 "regenerator-runtime@npm:^0.14.0":
-  version: 0.14.0
-  resolution: "regenerator-runtime@npm:0.14.0"
-  checksum: e25f062c1a183f81c99681691a342760e65c55e8d3a4d4fe347ebe72433b123754b942b70b622959894e11f8a9131dc549bd3c9a5234677db06a4af42add8d12
+  version: 0.14.1
+  resolution: "regenerator-runtime@npm:0.14.1"
+  checksum: 1b16eb2c4bceb1665c89de70dcb64126a22bc8eb958feef3cd68fe11ac6d2a4899b5cd1b80b0774c7c03591dc57d16631a7f69d2daa2ec98100e2f29f7ec4cc4
   languageName: node
   linkType: hard
 
@@ -4631,13 +4596,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "riskybot@workspace:."
   dependencies:
-    "@types/node": "npm:^20.10.4"
     "@typescript-eslint/eslint-plugin": "npm:^6.14.0"
     "@typescript-eslint/parser": "npm:^6.14.0"
-    bun-types: "npm:^1.0.16"
-    eslint: "npm:^8.55.0"
+    eslint: "npm:^8.56.0"
     eslint-plugin-unicorn: "npm:^49.0.0"
-    turbo: "npm:^1.11.1"
+    turbo: "npm:^1.11.2"
     typescript: "npm:^5.3.3"
   languageName: unknown
   linkType: soft
@@ -5174,13 +5137,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-mixer@npm:^6.0.3":
-  version: 6.0.3
-  resolution: "ts-mixer@npm:6.0.3"
-  checksum: 9e459c5d91f42039e9bafd4056e61d63ba82306381074c6b42f07bdac3014e5f2fdebb02cd9bd171547f2952210a9e3d3f05b5e6e121a8e185438a3a1a46f234
-  languageName: node
-  linkType: hard
-
 "ts-morph@npm:12.0.0":
   version: 12.0.0
   resolution: "ts-morph@npm:12.0.0"
@@ -5236,65 +5192,65 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.4.0, tslib@npm:^2.6.0, tslib@npm:^2.6.2":
+"tslib@npm:^2.4.0, tslib@npm:^2.6.0":
   version: 2.6.2
   resolution: "tslib@npm:2.6.2"
   checksum: e03a8a4271152c8b26604ed45535954c0a45296e32445b4b87f8a5abdb2421f40b59b4ca437c4346af0f28179780d604094eb64546bee2019d903d01c6c19bdb
   languageName: node
   linkType: hard
 
-"turbo-darwin-64@npm:1.11.1":
-  version: 1.11.1
-  resolution: "turbo-darwin-64@npm:1.11.1"
+"turbo-darwin-64@npm:1.11.2":
+  version: 1.11.2
+  resolution: "turbo-darwin-64@npm:1.11.2"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"turbo-darwin-arm64@npm:1.11.1":
-  version: 1.11.1
-  resolution: "turbo-darwin-arm64@npm:1.11.1"
+"turbo-darwin-arm64@npm:1.11.2":
+  version: 1.11.2
+  resolution: "turbo-darwin-arm64@npm:1.11.2"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"turbo-linux-64@npm:1.11.1":
-  version: 1.11.1
-  resolution: "turbo-linux-64@npm:1.11.1"
+"turbo-linux-64@npm:1.11.2":
+  version: 1.11.2
+  resolution: "turbo-linux-64@npm:1.11.2"
   conditions: os=linux & cpu=x64
   languageName: node
   linkType: hard
 
-"turbo-linux-arm64@npm:1.11.1":
-  version: 1.11.1
-  resolution: "turbo-linux-arm64@npm:1.11.1"
+"turbo-linux-arm64@npm:1.11.2":
+  version: 1.11.2
+  resolution: "turbo-linux-arm64@npm:1.11.2"
   conditions: os=linux & cpu=arm64
   languageName: node
   linkType: hard
 
-"turbo-windows-64@npm:1.11.1":
-  version: 1.11.1
-  resolution: "turbo-windows-64@npm:1.11.1"
+"turbo-windows-64@npm:1.11.2":
+  version: 1.11.2
+  resolution: "turbo-windows-64@npm:1.11.2"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
 
-"turbo-windows-arm64@npm:1.11.1":
-  version: 1.11.1
-  resolution: "turbo-windows-arm64@npm:1.11.1"
+"turbo-windows-arm64@npm:1.11.2":
+  version: 1.11.2
+  resolution: "turbo-windows-arm64@npm:1.11.2"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"turbo@npm:^1.11.1":
-  version: 1.11.1
-  resolution: "turbo@npm:1.11.1"
+"turbo@npm:^1.11.2":
+  version: 1.11.2
+  resolution: "turbo@npm:1.11.2"
   dependencies:
-    turbo-darwin-64: "npm:1.11.1"
-    turbo-darwin-arm64: "npm:1.11.1"
-    turbo-linux-64: "npm:1.11.1"
-    turbo-linux-arm64: "npm:1.11.1"
-    turbo-windows-64: "npm:1.11.1"
-    turbo-windows-arm64: "npm:1.11.1"
+    turbo-darwin-64: "npm:1.11.2"
+    turbo-darwin-arm64: "npm:1.11.2"
+    turbo-linux-64: "npm:1.11.2"
+    turbo-linux-arm64: "npm:1.11.2"
+    turbo-windows-64: "npm:1.11.2"
+    turbo-windows-arm64: "npm:1.11.2"
   dependenciesMeta:
     turbo-darwin-64:
       optional: true
@@ -5310,7 +5266,7 @@ __metadata:
       optional: true
   bin:
     turbo: bin/turbo
-  checksum: bf73bbfbfccc6a86a7cb1f702ae81bbec8ec6ce7c378c3b3f81cb55ba805c19cb6eefc089148e66cd909296f202378a3aa6260265a536c7b422499cc941111b2
+  checksum: 88c6e806675734d009421a8adc126d98d66f199d9f0eed458c73596fdffd57be41bdd19f479683ae76ddc0da15068b1d3820c2d5df7bed3d4d336974ae2b34eb
   languageName: node
   linkType: hard
 
@@ -5483,6 +5439,13 @@ __metadata:
   version: 3.0.1
   resolution: "v8-compile-cache-lib@npm:3.0.1"
   checksum: bdc36fb8095d3b41df197f5fb6f11e3a26adf4059df3213e3baa93810d8f0cc76f9a74aaefc18b73e91fe7e19154ed6f134eda6fded2e0f1c8d2272ed2d2d391
+  languageName: node
+  linkType: hard
+
+"valibot@npm:^0.24.1":
+  version: 0.24.1
+  resolution: "valibot@npm:0.24.1"
+  checksum: 637c3641bc800506982ea507c55b65154653ea1f38bf3c7ad6c0fc3dd3bead4644e2172ddd8cade2821c280886dd9d99b36e7a778607cae7dfab107de74c5547
   languageName: node
   linkType: hard
 

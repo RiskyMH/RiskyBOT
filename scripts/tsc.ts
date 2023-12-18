@@ -14,6 +14,10 @@ const basicErrorRegex = /^error\s+(TS\d+)\s*:\s*(.*)/;
 
 
 const main = async () => {
+    const ciPrint = new CIFormat({
+        initialMessage: `Running tsc in ${workspaces.size} projects.`,
+    });
+
     const workspacesWithTests = new Set(workspaces);
     for (const workspace of workspacesWithTests) {
         // if it has tests folder, add it to the list
@@ -22,12 +26,9 @@ const main = async () => {
         }
     }
 
-    const ciPrint = new CIFormat({
-        initialMessage: `Running tsc in ${workspaces.size} projects.`,
-    });
-
     ciPrint.stats.completed.max = workspacesWithTests.size;
     ciPrint.stats.completed.name = "workspaces";
+    ciPrint.statsPrint();
 
     await Promise.all([...workspacesWithTests].map(async (path) => {
         const proc = Bun.spawn({ cmd: ["tsc", "--noEmit"], cwd: path });

@@ -1,4 +1,4 @@
-import { ChannelFlags as APIChannelFlags, ChannelType } from "discord-api-types/v10";
+import { type ChannelFlags as ChannelFlagsEnum, ChannelType } from "lilybird";
 import BitField from "../basic/BitField.ts";
 
 
@@ -10,7 +10,7 @@ export class ChannelFlags extends BitField {
     }
 
     /** Whether the user has a flag */
-    override has(flag: bigint | APIChannelFlags): boolean {
+    override has(flag: bigint | ChannelFlagsEnum): boolean {
         return super.has(BigInt(flag));
     }
 
@@ -22,13 +22,13 @@ export class ChannelFlags extends BitField {
 }
 
 export const GuildTextBasedChannelTypes = [
-    ChannelType.GuildText,
-    ChannelType.GuildAnnouncement,
-    ChannelType.AnnouncementThread,
-    ChannelType.PublicThread,
-    ChannelType.PrivateThread,
-    ChannelType.GuildVoice,
-    ChannelType.GuildStageVoice,
+    ChannelType.GUILD_TEXT,
+    ChannelType.GUILD_ANNOUNCEMENT,
+    ChannelType.ANNOUNCEMENT_THREAD,
+    ChannelType.PUBLIC_THREAD,
+    ChannelType.PRIVATE_THREAD,
+    ChannelType.GUILD_VOICE,
+    ChannelType.GUILD_STAGE_VOICE,
 ];
 
 export const TextBasedChannelTypes = [
@@ -37,17 +37,17 @@ export const TextBasedChannelTypes = [
 ];
 
 export const ThreadChannelTypes = [
-    ChannelType.AnnouncementThread,
-    ChannelType.PublicThread,
-    ChannelType.PrivateThread
+    ChannelType.ANNOUNCEMENT_THREAD,
+    ChannelType.PUBLIC_THREAD,
+    ChannelType.PRIVATE_THREAD
 ];
 
 export const VoiceBasedChannelTypes = [
-    ChannelType.GuildVoice,
-    ChannelType.GuildStageVoice
+    ChannelType.GUILD_VOICE,
+    ChannelType.GUILD_STAGE_VOICE
 ];
 
 export const DMChannelTypes = [
     ChannelType.DM,
-    ChannelType.GroupDM
+    ChannelType.GUILD_FORUM
 ];

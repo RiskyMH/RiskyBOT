@@ -1,4 +1,4 @@
-import { PermissionFlagsBits } from "discord-api-types/v10";
+import { PermissionFlags } from "lilybird";
 import BitField from "./BitField.ts";
 
 
@@ -14,7 +14,7 @@ export class Permissions extends BitField {
      * @param checkAdmin Whether to allow the administrator permission to override
      */
     override has(permission: bigint, checkAdmin = true): boolean {
-        return (checkAdmin && super.has(PermissionFlagsBits.Administrator)) || super.has(permission);
+        return (checkAdmin && super.has(PermissionFlags.ADMINISTRATOR)) || super.has(permission);
     }
 }
 

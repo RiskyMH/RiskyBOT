@@ -1,6 +1,6 @@
-import { APIChatInputApplicationCommandInteraction, APIInteraction, ApplicationCommandType, ChannelType, InteractionType } from "discord-api-types/v10";
 import { BaseInteraction, ButtonInteraction, ChatInputInteraction, parseRawInteraction } from "discord-api-parser";
 import { describe, expect, it } from "bun:test";
+import { ApplicationCommandType, ChannelType, InteractionType, Locale, type ApplicationCommandInteractionStructure, type InteractionStructure } from "lilybird";
 
 
 describe("Chat input interaction", async () => {
@@ -9,8 +9,8 @@ describe("Chat input interaction", async () => {
         id: "id",
         channel_id: "channel_id",
         application_id: "app_id",
-        type: InteractionType.ApplicationCommand,
-        locale: "en-US",
+        type: InteractionType.APPLICATION_COMMAND,
+        locale: Locale.EnglishUS,
         token: "token",
         app_permissions: "0",
         user: {
@@ -23,20 +23,20 @@ describe("Chat input interaction", async () => {
         channel: {
             id: "channel_id",
             name: "channel_name",
-            type: ChannelType.GuildText
+            type: ChannelType.GUILD_TEXT
         },
         version: 1,
         data: {
             id: "id",
             name: "name",
-            type: ApplicationCommandType.ChatInput,
+            type: ApplicationCommandType.CHAT_INPUT,
         },
         entitlements: []
-    } satisfies APIChatInputApplicationCommandInteraction;
+    } satisfies ApplicationCommandInteractionStructure;
 
 
     it("should work with basic interaction", async () => {
-        const interaction = new BaseInteraction(fakeInteraction as APIInteraction);
+        const interaction = new BaseInteraction(fakeInteraction as InteractionStructure);
         expect(interaction).toBeTruthy();
     });
 

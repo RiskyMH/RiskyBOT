@@ -1,6 +1,7 @@
-import { APIEmoji, CDNRoutes, EmojiFormat, ImageFormat } from "discord-api-types/v10";
+import type { EmojiStructure } from "lilybird";
 import { DISCORD_CDN_BASE_URL } from "../constants.ts";
 import User from "./User.ts";
+import { DiscordCDNRoutes } from "@riskybot/tools";
 
 
 export class Emoji {
@@ -22,7 +23,7 @@ export class Emoji {
     available?: boolean;
 
 
-    constructor(emoji: APIEmoji) {
+    constructor(emoji: EmojiStructure) {
         this.id = emoji.id;
         this.name = emoji.name;
         this.roles = emoji.roles;
@@ -34,9 +35,9 @@ export class Emoji {
     }
 
     /** The emoji url for the emoji  */
-    avatarURL(config: {extension: EmojiFormat, size: number } = {extension: ImageFormat.PNG, size: 64}): string | null {
+    avatarURL(config: { extension: string, size: number } = { extension: "png", size: 64 }): string | null {
         if (!this.id) return null;
-        return DISCORD_CDN_BASE_URL + CDNRoutes.emoji(this.id, config.extension) + `?size=${config.size}`;
+        return DISCORD_CDN_BASE_URL + DiscordCDNRoutes.emoji(this.id, config.extension) + `?size=${config.size}`;
     }
 
 }

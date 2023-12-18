@@ -1,13 +1,13 @@
 import { client } from "./main.ts";
-import { s } from "@sapphire/shapeshift";
+import { object, string, parse, optional } from "valibot";
 
-const envRequirements = s.object({
-    IMGEN_APPLICATION_CLIENT_SECRET: s.string,
-    IMGEN_APPLICATION_ID: s.string,
-    OWNER_GUILD_ID: s.string.optional,
+const EnvRequirementsSchema = object({
+    IMGEN_APPLICATION_CLIENT_SECRET: string(),
+    IMGEN_APPLICATION_ID: string(),
+    OWNER_GUILD_ID: optional(string()),
 });
 
-const env = envRequirements.parse(process.env);
+export const env = parse(EnvRequirementsSchema, process.env);
 
 client.deployCommands({
     applicationId: env.IMGEN_APPLICATION_ID,

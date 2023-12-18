@@ -1,7 +1,9 @@
 import { DiscordSnowflake } from "@sapphire/snowflake";
-import { APIUser, UserFlags as APIUserFlags, CDNRoutes, DefaultUserAvatarAssets, ImageFormat, LocaleString, UserAvatarFormat, UserBannerFormat, UserPremiumType } from "discord-api-types/v10";
+import type { UserStructure, Locale, PremiumType, UserFlags as UserFlagsEnum } from "lilybird";
 import BitField from "../basic/BitField.ts";
 import { DISCORD_CDN_BASE_URL } from "../constants.ts";
+import { DiscordCDNRoutes } from "@riskybot/tools";
+
 
 /** A user */
 export class User {
@@ -24,11 +26,11 @@ export class User {
     /** The flags on a user's account */
     flags?: UserFlags;
     /** The user's chosen language option */
-    locale?: LocaleString;
+    locale?: Locale;
     /** Whether the user has two factor enabled on their account (not available on all user objects)  */
     mfaEnabled?: boolean;
     /** The type of Nitro subscription on a user's account */
-    premiumType?: UserPremiumType;
+    premiumType?: PremiumType;
     /** The public flags on a user's account */
     publicFlags?: UserFlags;
     /** Whether the user is an Official Discord System user (part of the urgent message system) */
@@ -37,7 +39,7 @@ export class User {
     verified?: boolean;
 
 
-    constructor(user: APIUser) {
+    constructor(user: UserStructure) {
         this.id = user.id;
         this.username = user.username;
         this.discriminator = user.discriminator;
@@ -47,7 +49,7 @@ export class User {
         this.bot = user.bot;
         this.email = user.email;
         this.flags = new UserFlags(user.flags || 0);
-        this.locale = user.locale as LocaleString;
+        this.locale = user.locale;
         this.mfaEnabled = user.mfa_enabled;
         this.premiumType = user.premium_type;
         this.publicFlags = new UserFlags(user.public_flags || 0);
@@ -61,25 +63,27 @@ export class User {
     }
 
     /** The avatar url for the user */
-    avatarURL(config: { extension: UserAvatarFormat, size: number } = { extension: ImageFormat.PNG, size: 512 }): string | null {
+    avatarURL(config: { extension: string, size: number, animatedGif?: boolean } = { extension: "png", size: 512, animatedGif: true }): string | null {
         if (!this.avatar) return null;
-        return DISCORD_CDN_BASE_URL + CDNRoutes.userAvatar(this.id, this.avatar, config.extension) + `?size=${config.size}`;
+        if (this.avatar.startsWith("a_") && config.animatedGif) config.extension = "gif";
+        return DISCORD_CDN_BASE_URL + DiscordCDNRoutes.userAvatar(this.id, this.avatar, config.extension) + `?size=${config.size}`;
     }
 
     /** The url for the user's banner */
-    bannerURL(config: { extension: UserBannerFormat, size: number } = { extension: ImageFormat.PNG, size: 512 }): string | null {
+    bannerURL(config: { extension: string, size: number, animatedGif?: boolean } = { extension: "png", size: 512, animatedGif: true }): string | null {
         if (!this.banner) return null;
-        return DISCORD_CDN_BASE_URL + CDNRoutes.userBanner(this.id, this.banner, config.extension) + `?size=${config.size}`;
+        if (this.banner.startsWith("a_") && config.animatedGif) config.extension = "gif";
+        return DISCORD_CDN_BASE_URL + DiscordCDNRoutes.userBanner(this.id, this.banner, config.extension) + `?size=${config.size}`;
     }
 
     /** The url for the user's default avatar */
     get defaultAvatarURL(): string {
-        const modulo = Number(this.id) % 6 as DefaultUserAvatarAssets;
-        return DISCORD_CDN_BASE_URL + CDNRoutes.defaultUserAvatar(modulo);
+        const modulo = Number(this.id) % 6 as 1 | 2 | 3 | 4 | 5;
+        return DISCORD_CDN_BASE_URL + DiscordCDNRoutes.defaultUserAvatar(modulo);
     }
 
     /** The url for the user's current display avatar */
-    displayAvatarURL(config: { extension: UserAvatarFormat, size: number } = { extension: ImageFormat.PNG, size: 512 }): string {
+    displayAvatarURL(config: { extension: string, size: number } = { extension: "png", size: 512 }): string {
         return this.avatarURL(config) || this.defaultAvatarURL;
     }
 
@@ -92,7 +96,7 @@ export class UserFlags extends BitField {
     }
 
     /** Whether the user has a flag */
-    override has(flag: bigint | APIUserFlags): boolean {
+    override has(flag: bigint | UserFlagsEnum): boolean {
         return super.has(BigInt(flag));
     }
 

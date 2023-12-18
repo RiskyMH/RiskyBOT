@@ -9,7 +9,7 @@ const bots = [
 ];
 
 
-const files = new Glob("./src/commands/**/*.{js,ts}");
+const files = new Glob("./src/commands/**/*.{js,ts,tsx}");
 
 type CommandList = {
     name: string;

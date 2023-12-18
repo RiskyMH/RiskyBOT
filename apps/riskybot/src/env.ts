@@ -1,12 +1,11 @@
-import { s } from "@sapphire/shapeshift";
+import { object, string, optional, transform, parse } from "valibot";
 
-
-const envRequirements = s.object({
-    RISKYBOT_APPLICATION_PUBLIC_KEY: s.string,
-    TOPGG_TOKEN: s.string.optional,
-    OWNER_GUILD_ID: s.string.optional,
-    OWNER_USER_ID: s.string.transform((v) => v.split(",")).default([]),
+const EnvRequirementsSchema = object({
+    RISKYBOT_APPLICATION_PUBLIC_KEY: string(),
+    TOPGG_TOKEN: optional(string()),
+    OWNER_GUILD_ID: optional(string()),
+    OWNER_USER_ID: transform(optional(string()), v => v ? v.split(",") : []),
 });
 
 
-export const env = envRequirements.parse(process.env);
+export const env = parse(EnvRequirementsSchema, process.env);

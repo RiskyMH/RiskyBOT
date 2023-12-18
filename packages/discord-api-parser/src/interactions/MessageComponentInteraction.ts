@@ -1,23 +1,23 @@
 /* eslint-disable @typescript-eslint/no-unsafe-declaration-merging */
-import type { APIMessage, APIMessageComponentInteraction, ComponentType, InteractionType, LocaleString } from "discord-api-types/v10";
+import type { ComponentType, InteractionType, Locale, MessageComponentInteractionStructure, MessageStructure } from "lilybird";
 import BaseInteraction from "./BaseInteraction.ts";
-import { InteractionResponseMixin, applyInteractionResponseMixins, createInteractionMixinList } from "./Response.ts";
+import { type InteractionResponseMixin, applyInteractionResponseMixins, createInteractionMixinList } from "./Response.ts";
 
 
 export default class MessageComponentInteraction extends BaseInteraction {
-    declare type: InteractionType.MessageComponent;
+    declare type: InteractionType.MESSAGE_COMPONENT;
 
     /** The custom id of the component */
     customId: string;
     /** For components, the message they were attached to */
-    message: APIMessage;
+    message: MessageStructure;
     /** The type of the component */
     componentType: ComponentType;
     /** The selected language of the invoking user */
-    locale: LocaleString;
+    locale: Locale;
 
 
-    constructor(interaction: APIMessageComponentInteraction) {
+    constructor(interaction: MessageComponentInteractionStructure) {
         super(interaction);
 
         this.customId = interaction.data.custom_id;

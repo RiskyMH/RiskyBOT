@@ -1,10 +1,9 @@
-import Command from "./Command.ts";
+import type Command from "./Command.ts";
 import handleInteraction from "./handle.ts";
-import { Interaction } from "discord-api-parser";
-import { RESTPostAPIWebhookWithTokenJSONBody, RESTPostAPIApplicationCommandsJSONBody } from "discord-api-types/v10";
+import type { Interaction } from "discord-api-parser";
 import { deployCommands, trim } from "@riskybot/tools";
 import RiskyBotError from "@riskybot/error";
-import { EmbedBuilder } from "@discordjs/builders";
+import type { POSTApplicationCommandStructure, ExecuteWebhookStructure, EmbedStructure } from "lilybird";
 
 
 export default class Client {
@@ -31,23 +30,22 @@ export default class Client {
 
             const errorColor = 0xED_42_45;
 
-            const embed = new EmbedBuilder()
-                .setColor(errorColor);
+            const embed = {
+                color: errorColor,
+            } as EmbedStructure;
 
-            let webhookError = {} as RESTPostAPIWebhookWithTokenJSONBody;
+            let webhookError = {} as ExecuteWebhookStructure;
 
             if (error instanceof RiskyBotError) {
-                embed
-                    .setTitle(error.error.title)
-                    .setDescription(error.error.message);
+                embed.title = error.error.title;
+                embed.description = error.error.message;
 
                 if (error.error.author) {
-                    embed
-                        .setAuthor({
-                            name: error.error.author.name,
-                            iconURL: error.error.author.image,
-                            url: error.error.author.url,
-                        });
+                    embed.author = {
+                        name: error.error.author.name,
+                        icon_url: error.error.author.image,
+                        url: error.error.author.url,
+                    };
                 }
 
                 const wbDesc = error.logError.more
@@ -67,9 +65,8 @@ export default class Client {
 
 
             } else {
-                embed
-                    .setTitle("Unknown error")
-                    .setDescription("An unknown error occurred (you somehow broke the bot)");
+                embed.title = "Unknown error";
+                embed.description = "An unknown error occurred (you somehow broke the bot)";
             }
 
             // https://discord.com/api/webhooks/id/token
@@ -97,7 +94,8 @@ export default class Client {
     }
 
     getAPICommands(ownerOnly = false) {
-        const APICommands: RESTPostAPIApplicationCommandsJSONBody[] = [];
+
+        const APICommands: POSTApplicationCommandStructure[] = [];
 
         for (const command of this.commands) {
 
@@ -105,15 +103,15 @@ export default class Client {
             if (!command.ownerOnly && ownerOnly) continue;
 
             if (command.command) {
-                APICommands.push(command.command.toJSON());
+                APICommands.push(command.command);
             }
 
             if (command.userCommand) {
-                APICommands.push(command.userCommand.toJSON());
+                APICommands.push(command.userCommand);
             }
 
             if (command.messageCommand) {
-                APICommands.push(command.messageCommand.toJSON());
+                APICommands.push(command.messageCommand);
             }
         }
         return APICommands;

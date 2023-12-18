@@ -2,7 +2,7 @@ import { Client } from "@riskybot/command";
 import { parseRawInteraction } from "discord-api-parser";
 import { env } from "#env.ts";
 import commands from "#commands.ts";
-import { APIInteraction, InteractionResponseType, InteractionType } from "discord-api-types/v10";
+import { InteractionType, InteractionCallbackType, type InteractionStructure } from "lilybird";
 import { verify } from "discord-verify";
 import crypto from "node:crypto";
 
@@ -22,17 +22,18 @@ export default async function handle(request: Request): Promise<Response> {
         return Response.json({ error: "Invalid headers and/or body" }, { status: 405 });
     }
 
+    // @ts-expect-error somethings wrong with types here
     if (!await verify(body, signature, timestamp, env.IMGEN_APPLICATION_PUBLIC_KEY, crypto.webcrypto.subtle)) {
         return Response.json({ error: "Bad request signature" }, { status: 401 });
     }
 
     // VALID NOW
-    const json = JSON.parse(body) as APIInteraction;
+    const json = JSON.parse(body) as InteractionStructure;
     
     // Handle PINGs from Discord
-    if (json.type === InteractionType.Ping) {
+    if (json.type === InteractionType.PING) {
         console.info("Handling Ping request");
-        return Response.json({ type: InteractionResponseType.Pong });
+        return Response.json({ type: InteractionCallbackType.PONG });
     }
 
     const interaction = parseRawInteraction(json);

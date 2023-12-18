@@ -1,12 +1,8 @@
-import { s } from "@sapphire/shapeshift";
+import { object, string, parse } from "valibot";
 
-
-const envRequirements = s.object({
-    IMGEN_APPLICATION_PUBLIC_KEY: s.string,
-    TOPGG_TOKEN: s.string.optional,
-    OWNER_GUILD_ID: s.string.optional,
-    OWNER_USER_ID: s.string.transform((v) => v.split(",")).default([]),
+const EnvRequirementsSchema = object({
+    IMGEN_APPLICATION_PUBLIC_KEY: string(),
 });
 
 
-export const env = envRequirements.parse(process.env);
+export const env = parse(EnvRequirementsSchema, process.env);

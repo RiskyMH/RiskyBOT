@@ -1,5 +1,5 @@
-import { InferType, s } from "@sapphire/shapeshift";
 import { APIError } from "./global.ts";
+import { type Output, string, optional, array, nullable, transform, object, boolean, number, safeParse } from "valibot";
 
 const topggBaseUrl = "https://top.gg/api";
 
@@ -38,12 +38,13 @@ export async function userInfo(id: string, topggKey: string): Promise<UserInfo |
         return null;
     }
 
-    const verify = rawUserInfoResult.run(user);
-    if (verify.isErr() || !verify.value) {
-        throw new APIError(genericTopggError, result, JSON.stringify(verify.error, null, 2));
+    const parsed = safeParse(UserInfoResultSchema, user);
+
+    if (!parsed.success || parsed.issues) {
+        throw new APIError(genericTopggError, result, JSON.stringify(parsed.issues, null, 2));
     }
 
-    return verify.value;
+    return parsed.output;
 }
 
 
@@ -71,111 +72,112 @@ export async function botInfo(id: string, topggKey: string): Promise<BotInfo | n
         return null;
     }
 
-    const verify = rawBotInfoResult.run(bot);
-    if (verify.isErr() || !verify.value) {
-        throw new APIError(genericTopggError, result, JSON.stringify(verify.error, null, 2));
+    const parsed = safeParse(BotInfoResultSchema, bot);
+
+    if (!parsed.success || parsed.issues) {
+        throw new APIError(genericTopggError, result, JSON.stringify(parsed.issues, null, 2));
     }
 
-    return bot;
+    return parsed.output;
 }
 
 
 /** Description from https://docs.top.gg/api/bot/ */
-const rawBotInfoResult = s.object({
+const BotInfoResultSchema = object({
     /** The id of the bot */
-    id: s.string,
+    id: string(),
     /** The username of the bot */
-    username: s.string,
+    username: string(),
     /** The discriminator of the bot */
-    discriminator: s.string,
+    discriminator: string(),
     /** The avatar hash of the bot's avatar */
-    avatar: s.string.optional,
+    avatar: optional(string()),
     /** The cdn hash of the bot's avatar if the bot has none */
-    defAvatar: s.string,
+    defAvatar: string(),
     /** The URL for the banner image */
-    bannerUrl: s.string.nullable,
+    bannerUrl: nullable(string()),
     /** The prefix of the bot */
-    prefix: s.string,
+    prefix: string(),
     /** The short description of the bot */
-    shortdesc: s.string,
+    shortdesc: string(),
     /** The long description of the bot. Can contain HTML and/or Markdown */
-    longdesc: s.string,
+    longdesc: string(),
     /** The tags of the bot */
-    tags: s.string.array,
+    tags: array(string()),
     /** The website url of the bot */
-    website: s.string.optional,
+    website: optional(string()),
     /** The support server invite code of the bot */
-    support: s.string.optional,
+    support: optional(string()),
     /** The link to the github repo of the bot */
-    github: s.string.optional,
+    github: optional(string()),
     /** The owners of the bot. First one in the array is the main owner */
-    owners: s.string.array,
+    owners: array(string()),
     /** The guilds featured on the bot page */
-    guilds: s.string.array,
+    guilds: array(string()),
     /** The custom bot invite url of the bot */
-    invite: s.string.optional,
+    invite: optional(string()),
     /** The date when the bot was approved (in ISO 8601) */
-    date: s.string,
+    date: string(),
     /** The amount of servers the bot has according to posted stats. */
-    server_count: s.number.default(0),
+    server_count: transform(optional(number()), s => s ?? 0),
     /** The certified status of the bot */
-    certifiedBot: s.boolean,
+    certifiedBot: boolean(),
     /** The vanity url of the bot */
-    vanity: s.string.optional,
+    vanity: optional(string()),
     /** The amount of upvotes the bot has */
-    points: s.number,
+    points: number(),
     /** The amount of upvotes the bot has this month */
-    monthlyPoints: s.number,
+    monthlyPoints: number(),
     /** The guild id for the donatebot setup */
-    donatebotguildid: s.string.nullable,
+    donatebotguildid: nullable(string()),
 });
 
-type BotInfoResult = InferType<typeof rawBotInfoResult>;
-export type BotInfo = InferType<typeof rawBotInfoResult>;
+type BotInfoResult = Output<typeof BotInfoResultSchema>;
+export type BotInfo = Output<typeof BotInfoResultSchema>;
 
 
 /** Description from https://docs.top.gg/api/bot/ */
-const rawUserInfoResult = s.object({
+const UserInfoResultSchema = object({
     /** The id of the user */
-    id: s.string,
+    id: string(),
     /** The username of the user*/
-    username: s.string,
+    username: string(),
     /** The discriminator of the user*/
-    discriminator: s.string,
+    discriminator: string(),
     /** The avatar hash of the user's avatar */
-    avatar: s.string.optional,
+    avatar: optional(string()),
     /** The cdn hash of the user's avatar if the user has none */
-    defAvatar: s.string,
+    defAvatar: string(),
     /** The bio of the user */
-    bio: s.string.optional,
+    bio: optional(string()),
     /** The banner image url of the user */
-    banner: s.string.optional,
+    banner: optional(string()),
     /** The social usernames of the user */
-    social: s.object({
+    social: optional(object({
         /** The youtube channel id of the user */
-        youtube: s.string.optional,
+        youtube: optional(string()),
         /** The reddit username of the user */
-        reddit: s.string.optional,
+        reddit: optional(string()),
         /** The twitter username of the user */
-        twitter: s.string.optional,
+        twitter: optional(string()),
         /** The instagram username of the user */
-        instagram: s.string.optional,
+        instagram: optional(string()),
         /** The github username of the user */
-        github: s.string.optional,
-    }).optional,
+        github: optional(string()),
+    })),
     /** The custom hex color of the user */
-    color: s.string.optional,
+    color: optional(string()),
     /** The supporter status of the user */
-    supporter: s.boolean,
+    supporter: boolean(),
     /** The certified status of the user */
-    certifiedDev: s.boolean,
+    certifiedDev: boolean(),
     /** The mod status of the use r*/
-    mod: s.boolean,
+    mod: boolean(),
     /** The website moderator status of the user */
-    webMod: s.boolean,
+    webMod: boolean(),
     /** The admin status of the user */
-    admin: s.boolean,
+    admin: boolean(),
 });
 
-type UserInfoResult = InferType<typeof rawUserInfoResult>;
-export type UserInfo = InferType<typeof rawUserInfoResult>;
+type UserInfoResult = Output<typeof UserInfoResultSchema>;
+export type UserInfo = Output<typeof UserInfoResultSchema>;

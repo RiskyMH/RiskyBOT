@@ -1,12 +1,12 @@
-import About from "./commands/about.ts";
-import Fun from "./commands/fun.ts";
-import AboutMe_Credits from "./commands/me+credits.ts";
-import Hello from "./commands/ping.ts";
-import Random from "./commands/random.ts";
-import Search from "./commands/search.ts";
-import Tools from "./commands/tools.ts";
-import Translate from "./commands/translate.ts";
-import Eval from "./commands/owner/eval.ts";
+import About from "./commands/about.tsx";
+import Fun from "./commands/fun.tsx";
+import AboutMe_Credits from "./commands/me+credits.tsx";
+import Hello from "./commands/ping.tsx";
+import Random from "./commands/random.tsx";
+import Search from "./commands/search.tsx";
+import Tools from "./commands/tools.tsx";
+import Translate from "./commands/translate.tsx";
+import Eval from "./commands/owner/eval.tsx";
 import type { Command } from "@riskybot/command";
 
 export const commands: typeof Command[] = [

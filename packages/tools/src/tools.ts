@@ -1,4 +1,5 @@
-import { type RESTPostAPIApplicationCommandsJSONBody, Routes } from "discord-api-types/v10";
+import type { POSTApplicationCommandStructure } from "lilybird";
+import { DiscordRoutes } from "@riskybot/tools";
 
 export function resolveColor(color: string | number): number {
     if (typeof color === "string") {
@@ -22,7 +23,7 @@ export const trim = (str: string, max: number): string => (str.length) > max ? `
 const DISCORD_API_URL = "https://discord.com/api/v10";
 
 export async function getBearerTokenFromKey(applicationId: string, privateKey: string, scopes: string[]) {
-    const res = await fetch(DISCORD_API_URL + Routes.oauth2TokenExchange(), {
+    const res = await fetch(DISCORD_API_URL + DiscordRoutes.oauth2TokenExchange(), {
         method: "POST",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded",
@@ -46,11 +47,11 @@ export async function deployCommands({ applicationId, clientSecret, guildId, com
     applicationId: string;
     clientSecret: string;
     guildId?: string;
-    commands: RESTPostAPIApplicationCommandsJSONBody[];
+    commands: POSTApplicationCommandStructure[];
 }) {
     const bearerToken = await getBearerTokenFromKey(applicationId, clientSecret, ["applications.commands.update"]);
 
-    const url = guildId ? Routes.applicationGuildCommands(applicationId, guildId) : Routes.applicationCommands(applicationId);
+    const url = guildId ? DiscordRoutes.applicationGuildCommands(applicationId, guildId) : DiscordRoutes.applicationCommands(applicationId);
 
     const res = await fetch(DISCORD_API_URL + url, {
         method: "PUT",

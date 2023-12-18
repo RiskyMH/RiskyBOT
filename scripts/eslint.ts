@@ -14,19 +14,19 @@ const main = async () => {
     const globFiles = new Set<string>();
 
     // add all files to globFiles
-    for (const path of workspaces) {
-        const files = new Glob("./{src,tests}/**/*.{ts}").scan({ cwd: path });
-        for await (const file of files) {
-            if (file.endsWith(".d.ts")) continue;
-            // add cwd to file 
-            globFiles.add(path + "/" + file.slice(2));
-        }
+    const files = new Glob("./{apps,packages}/*/{src,tests}/**/*.{ts,tsx}").scan();
+    for await (const file of files) {
+        if (file.endsWith(".d.ts")) continue;
+        globFiles.add(file);
     }
 
     ciPrint.stats.completed.max = globFiles.size;
     ciPrint.stats.completed.name = "files";
 
-    const eslint = new ESLint({ cwd: path.join(import.meta.dir, "../"), cache: true });
+    const eslint = new ESLint({ 
+        cwd: path.join(import.meta.dir, "../"), 
+        cache: true,
+    });
     ciPrint.statsPrint();
 
     // go through each file and use Bun.file to get and use eslintfile on it

@@ -1,4 +1,4 @@
-import type { APIMessageComponentSelectMenuInteraction, ComponentType } from "discord-api-types/v10";
+import type { ComponentType, MessageComponentInteractionStructure } from "lilybird";
 import MessageComponentInteraction from "./MessageComponentInteraction.ts";
 
 export default class SelectMenuInteraction extends MessageComponentInteraction {
@@ -6,9 +6,9 @@ export default class SelectMenuInteraction extends MessageComponentInteraction {
     /** The values of the select menu */
     values: string[];
 
-    constructor(interaction: APIMessageComponentSelectMenuInteraction) {
+    constructor(interaction: MessageComponentInteractionStructure) {
         super(interaction);
-        this.values = interaction.data.values;
+        this.values = interaction.data.values as unknown as string[];
     }
 
 }

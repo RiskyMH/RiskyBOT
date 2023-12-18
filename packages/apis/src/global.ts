@@ -1,7 +1,7 @@
 // If something is so good that it can be used for all files
 
-import Error, { BasicError } from "@riskybot/error";
-import { ArrayValidator } from "@sapphire/shapeshift";
+import Error, { type BasicError } from "@riskybot/error";
+import { type BaseSchema, type Output, safeParse } from "valibot";
 
 
 export const jsonHeaders = {
@@ -9,9 +9,6 @@ export const jsonHeaders = {
         Accept: "application/json",
     },
 };
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export declare type InferArrayType<T extends ArrayValidator<any>> = T extends ArrayValidator<any, infer U> ? U[] : never;
 
 
 interface APIErrorAdvanced {
@@ -42,4 +39,20 @@ export class APIError extends Error {
         super(error, advanced, LogError);
 
     }
+}
+
+export async function parseAPI<TSchema extends BaseSchema>(fetchUrl: string | URL, schema: TSchema, customError: BasicError): Promise<Output<TSchema>> {
+    const result = await fetch(fetchUrl, jsonHeaders);
+
+    if (!result.ok) {
+        throw new APIError(customError, result, await result.text());
+    }
+
+    const parsed = safeParse(schema, await result.json());
+
+    if (!parsed.success || parsed.issues) {
+        throw new APIError(customError, result, JSON.stringify(parsed.issues, null, 2));
+    }
+
+    return parsed.output;
 }

@@ -1,24 +1,22 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import type { ContextMenuCommandBuilder, SlashCommandBuilder, SlashCommandSubcommandsOnlyBuilder } from "@discordjs/builders";
-import type { ApplicationCommandInteraction, AutocompleteInteraction, MessageComponentInteraction, ModalSubmitInteraction } from "discord-api-parser";
-
+import type { AutocompleteInteraction, ModalSubmitInteraction, ApplicationCommandInteraction, MessageComponentInteraction } from "discord-api-parser";
+import type { POSTApplicationCommandStructure } from "lilybird";
 
 export default abstract class Command {
     name!: string;
+    aliases?: string[];
     description!: string;
 
-    command!: SlashCommandBuilder | Omit<SlashCommandBuilder, "addSubcommand" | "addSubcommandGroup"> | SlashCommandSubcommandsOnlyBuilder;
-    userCommand?: ContextMenuCommandBuilder;
-    messageCommand?: ContextMenuCommandBuilder;
+    command!: POSTApplicationCommandStructure;
+    userCommand?: POSTApplicationCommandStructure;
+    messageCommand?: POSTApplicationCommandStructure;
 
-    userCommandName?: string;
-    messageCommandName?: string;
     namePrefix?: string;
 
     ownerOnly = false;
 
     // @ts-expect-error - unused because it's abstract
-    override async handleApplicationCommand(interaction: ApplicationCommandInteraction) {
+    async handleApplicationCommand(interaction: ApplicationCommandInteraction) {
         throw new Error("not implemented");
     }
 

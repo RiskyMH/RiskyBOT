@@ -1,5 +1,5 @@
-import {handle as handleRiskybot } from "@riskybot/riskybot";
-import {handle as handleImgen } from "@riskybot/imgen";
+import { handle as handleRiskybot } from "@riskybot/riskybot";
+import { handle as handleImgen } from "@riskybot/imgen";
 
 Bun.serve({
     fetch: async (request) => {

@@ -1,6 +1,6 @@
-import { InferType, s } from "@sapphire/shapeshift";
 import { APIError } from "./global.ts";
 import { LRUCache } from "lru-cache";
+import { type Output, object, string, number, transform, array, url, optional, safeParse } from "valibot";
 
 const urbanBaseURL = "https://api.urbandictionary.com/v0";
 
@@ -41,13 +41,14 @@ export async function define(term: string, cache = true): Promise<Definition | n
         return null;
     }
 
-    const verify = rawDefineResult.run(definition);
-    if (verify.isErr() || !verify.value) {
-        throw new APIError(genericUrbanError, result, JSON.stringify(verify.error, null, 2));
+    const parsed = safeParse(DefinitionResultSchema, definition);
+
+    if (!parsed.success || parsed.issues) {
+        throw new APIError(genericUrbanError, result, JSON.stringify(parsed.issues, null, 2));
     }
 
-    defineCache.set(searchParams.toString(), verify.value.list);
-    return verify.value.list;
+    defineCache.set(searchParams.toString(), parsed.output.list);
+    return parsed.output.list;
 }
 
 // Queries stay queried for 1 hour
@@ -76,39 +77,40 @@ export async function autoComplete(term: string, cache = true): Promise<AutoComp
         return null;
     }
 
-    const verify = rawAutoCompleteResult.run(definition);
-    if (verify.isErr() || !verify.value) {
-        throw new APIError(genericUrbanError, result, JSON.stringify(verify.error, null, 2));
+    const parsed = safeParse(AutoCompleteResultSchema, definition);
+
+    if (!parsed.success || parsed.issues) {
+        throw new APIError(genericUrbanError, result, JSON.stringify(parsed.issues, null, 2));
     }
 
-    autoCompleteCache.set(term, verify.value);
-    return verify.value;
+    autoCompleteCache.set(term, parsed.output);
+    return parsed.output;
 }
 
-const definition = s.object({
-    definition: s.string,
-    permalink: s.string.url(),
-    thumbs_up: s.number,
-    sound_url: s.string.array.optional,
-    author: s.string,
-    word: s.string,
-    defid: s.number,
-    current_vote: s.string,
-    written_on: s.string.transform((s) => new Date(s)),
-    example: s.string,
-    thumbs_down: s.number
+const DefinitionSchema = object({
+    definition: string(),
+    permalink: string(undefined, [url()]),
+    thumbs_up: number(),
+    sound_url: optional(array(string())),
+    author: string(),
+    word: string(),
+    defid: number(),
+    current_vote: string(),
+    written_on: transform(string(), s => new Date(s)),
+    example: string(),
+    thumbs_down: number()
 });
 
 /** These are from the api docs - they might not all exist */
-const rawDefineResult = s.object({
-    list: definition.array
+const DefinitionResultSchema = object({
+    list: array(DefinitionSchema)
 });
 
-type RawDefineResult = InferType<typeof rawDefineResult>;
-export type Definition = InferType<typeof definition>[];
+type RawDefineResult = Output<typeof DefinitionResultSchema>;
+export type Definition = Output<typeof DefinitionSchema>[];
 
 /** These are from the api docs - they might not all exist */
-const rawAutoCompleteResult = s.string.array;
+const AutoCompleteResultSchema = array(string());
 
 type RawAutoCompleteResult = string[];
 export type AutoComplete = string[];

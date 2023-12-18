@@ -1,26 +1,27 @@
-import { APIApplicationCommandAutocompleteInteraction, APIApplicationCommandInteractionDataOption, APIInteractionDataResolved, ApplicationCommandOptionType, ApplicationCommandType, InteractionType, LocaleString, Snowflake } from "discord-api-types/v10";
+import { type ApplicationCommandType, type InteractionType, type Locale, type ApplicationCommandInteractionStructure, type ApplicationCommandInteractionDataOptionStructure, type ResolvedDataStructure, ApplicationCommandOptionType } from "lilybird";
 import BaseInteraction from "./BaseInteraction.ts";
-import { AttachmentOption, BooleanOption, ChannelOption, ChatInputInteractionOption, IntegerOption, MentionableOption, NumberOption, RoleOption, StringOption, UserOption } from "./ChatInputInteraction.ts";
-import { InteractionResponseMixin, applyInteractionResponseMixins, createInteractionMixinList } from "./Response.ts";
+import type { AttachmentOption, BooleanOption, ChannelOption, IntegerOption, MentionableOption, NumberOption, RoleOption, StringOption, UserOption } from "./ChatInputInteraction.ts";
+import { ChatInputInteractionOption } from "./ChatInputInteraction.ts";
+import { applyInteractionResponseMixins, createInteractionMixinList, type InteractionResponseMixin } from "./Response.ts";
 
 
 export default class AutocompleteInteraction extends BaseInteraction {
-    declare type: InteractionType.ApplicationCommandAutocomplete;
+    declare type: InteractionType.APPLICATION_COMMAND_AUTOCOMPLETE;
 
     /** The command's Id */
-    commandId: Snowflake;
+    commandId: string;
     /** The command's name */
     commandName: string;
     /** The type of command */
     commandType: ApplicationCommandType;
     /** If the command was a guild specific, that guild's id */
-    commandGuildId?: Snowflake;
+    commandGuildId?: string;
     /** The selected language of the invoking user */
-    locale: LocaleString;
+    locale: Locale;
     /** The options that the invoking user has provided for the command */
     options: AutocompleteOptions;
 
-    constructor(interaction: APIApplicationCommandAutocompleteInteraction) {
+    constructor(interaction: ApplicationCommandInteractionStructure) {
         super(interaction);
 
         this.commandId = interaction.data.id;
@@ -46,21 +47,20 @@ export type AutocompleteOptionsType = (StringOption | NumberOption | UserOption 
 export class AutocompleteOptions extends ChatInputInteractionOption {
     declare readonly options: Record<string, AutocompleteOptionsType>;
     
-    constructor(options: APIApplicationCommandInteractionDataOption[] | undefined, resolved: APIInteractionDataResolved | undefined, guildId?: string) {
+    constructor(options?: ApplicationCommandInteractionDataOptionStructure[], resolved?: ResolvedDataStructure, guildId?: string) {
         super(options, resolved, guildId);
         
         // Add focused option to all options
         for (const option in this.options) {
             let foundOption = options?.find(o => o.name === option);
             
-            if (ApplicationCommandOptionType.Subcommand === options?.[0]?.type) {
+            if (ApplicationCommandOptionType.SUB_COMMAND === options?.[0]?.type) {
                 foundOption = options[0].options?.find(o => o.name === option);
             }
-            else if (ApplicationCommandOptionType.SubcommandGroup === options?.[0]?.type) {
+            else if (ApplicationCommandOptionType.SUB_COMMAND_GROUP === options?.[0]?.type) {
                 foundOption = options?.[0]?.options?.[0]?.options?.find(o => o.name === option); 
             }
 
-            // @ts-expect-error - this is a valid option type
             this.options[option].focused = foundOption?.focused;
         }
     }

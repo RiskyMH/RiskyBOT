@@ -1,4 +1,4 @@
-import type { APIRole, APIRoleTags } from "discord-api-types/v10";
+import type { RoleStructure, RoleTagsStructure } from "lilybird";
 import Permissions from "../basic/Permissions.ts";
 
 /** A role */
@@ -23,12 +23,12 @@ export class Role {
     /** Position of this role */
     position: number;
     /** The tags this role has */
-    tags?: APIRoleTags;
+    tags?: RoleTagsStructure;
     /** The role unicode emoji as a standard emoji */
     unicodeEmoji?: string | null;
 
 
-    constructor(role: APIRole) {
+    constructor(role: RoleStructure) {
         this.id = role.id;
         this.name = role.name;
         this.color = role.color;

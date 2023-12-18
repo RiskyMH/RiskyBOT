@@ -1,19 +1,13 @@
-import type { APIPingInteraction, InteractionType } from "discord-api-types/v10";
 import BaseInteraction from "./BaseInteraction.ts";
+import type { InteractionType, PingInteractionStructure } from "lilybird";
 
 /**
  * **Note:** This type of interaction is automatically handled when using `@riskybot/command` so you don't need to do anything with it.
  */
 export default class PingInteraction extends BaseInteraction {
-    declare type: InteractionType.Ping;
+    declare type: InteractionType.PING;
 
-    constructor(interaction: APIPingInteraction) {
+    constructor(interaction: PingInteractionStructure) {
         super(interaction);
     }
-
-    // handle(response) {
-    //     response.send({ type: InteractionResponseType.Pong });
-
-    // }
-
 }

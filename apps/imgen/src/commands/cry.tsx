@@ -1,22 +1,23 @@
-import { SlashCommandBuilder, SlashCommandStringOption } from "@discordjs/builders";
+// @jsxImportSource @riskybot/builders
 import Command from "@riskybot/command";
 import { cry } from "@riskybot/image-generate";
-import { ApplicationCommandInteraction, AttachmentBuilder } from "discord-api-parser";
+import { type ApplicationCommandInteraction, AttachmentBuilder } from "discord-api-parser";
+import { ApplicationCommand, StringOption } from "@lilybird/jsx";
 
 
 export default class Cry extends Command {
     override name = "cry";
     override description = "Show everyone why you are crying";
 
-    override command = new SlashCommandBuilder()
-        .setName(this.name)
-        .setDescription(this.description)
-        .addStringOption(
-            new SlashCommandStringOption()
-                .setName("reason")
-                .setDescription("The reason that you are crying")
-                .setRequired(true)
-        );
+    override command = (
+        <ApplicationCommand name={this.name} description={this.description}>
+            <StringOption
+                name="reason"
+                description="The reason that you are crying"
+                required
+            />
+        </ApplicationCommand>
+    );
 
     override async handleApplicationCommand(interaction: ApplicationCommandInteraction) {
         // Must be from a slash command (should always be anyway)

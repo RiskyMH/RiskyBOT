@@ -1,22 +1,22 @@
 /* eslint-disable @typescript-eslint/no-unsafe-declaration-merging */
-import { APIMessage, APIModalSubmitInteraction, ComponentType, InteractionType, LocaleString, ModalSubmitActionRowComponent, ModalSubmitComponent } from "discord-api-types/v10";
+import { ComponentType, type InteractionType, type MessageStructure, type Locale, type ModalSubmitInteractionStructure, type MessageComponentStructure } from "lilybird";
 import BaseInteraction from "./BaseInteraction.ts";
-import { InteractionResponseMixin, applyInteractionResponseMixins, createInteractionMixinList } from "./Response.ts";
+import { type InteractionResponseMixin, applyInteractionResponseMixins, createInteractionMixinList } from "./Response.ts";
 
 
 export default class ModalSubmitInteraction extends BaseInteraction {
-    declare type: InteractionType.ModalSubmit;
+    declare type: InteractionType.MODAL_SUBMIT;
 
     /** The custom id for the modal */
     customId: string;
     /** The fields that the invoking user has provided for the modal */
     fields: ModalSubmitFields;
     /** The selected language of the invoking user */
-    locale: LocaleString;
+    locale: Locale;
     /** For components, the message they were attached to */
-    message?: APIMessage;
+    message?: MessageStructure;
 
-    constructor(interaction: APIModalSubmitInteraction) {
+    constructor(interaction: ModalSubmitInteractionStructure & { message: MessageStructure }) {
         super(interaction);
 
         this.customId = interaction.data.custom_id;
@@ -45,7 +45,7 @@ applyInteractionResponseMixins(ModalSubmitInteraction, [...allowedResponses, "up
 
 export default interface ModalSubmitInteraction extends InteractionResponseMixin<typeof allowedResponses> { }
 
-export interface ModalMessageModalSubmitInteraction extends ModalSubmitInteraction { message: APIMessage }
+export interface ModalMessageModalSubmitInteraction extends ModalSubmitInteraction { message: MessageStructure }
 export interface ModalMessageModalSubmitInteraction extends InteractionResponseMixin<["update", "deferUpdate"]> { }
 
 
@@ -72,10 +72,10 @@ export class TextInputOption extends BaseField {
     }
 }
 
-function formatField(component: ModalSubmitComponent): fields {
+function formatField(component: MessageComponentStructure): fields {
     switch (component.type) {
         case ComponentType.TextInput: {
-            return new TextInputOption(component.custom_id, component.value);
+            return new TextInputOption(component.custom_id, component.value!);
         }
 
         default: {
@@ -87,12 +87,18 @@ function formatField(component: ModalSubmitComponent): fields {
 export class ModalSubmitFields {
     values: Record<string, fields> = {};
 
-    constructor(components: ModalSubmitActionRowComponent[]) {
-        // this.components = components;
+    constructor(components: MessageComponentStructure[]) {
 
         for (const row of components) {
+            if (row.type !== ComponentType.ActionRow) {
+                throw new Error(`Expected action row, got ${row.type}`);
+            }
             for (const component of row.components) {
-                this.values[component.custom_id] = formatField(component);
+                if (component.type === ComponentType.TextInput) {
+                    this.values[component.custom_id] = formatField(component);
+                } else {
+                    throw new Error(`Unknown component type: ${component.type}`);
+                }
             }
         }
     }
@@ -102,7 +108,7 @@ export class ModalSubmitFields {
     getField(customId: string, required?: boolean): fields | undefined {
         const field = this.values[customId];
         if (!field && required) {
-            throw new Error(`Field ${customId} is required`);
+            throw new Error(`Field "${customId}" is required`);
         }
         return field;
     }

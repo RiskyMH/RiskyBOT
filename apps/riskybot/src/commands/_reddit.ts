@@ -1,7 +1,7 @@
 import { reddit } from "@riskybot/apis";
-import { APIApplicationCommandOptionChoice } from "discord-api-types/v10";
+import type { ApplicationCommandOptionChoiceStructure } from "lilybird";
 
-export async function autoComplete(input: string): Promise<APIApplicationCommandOptionChoice[]> {
+export async function autoComplete(input: string): Promise<ApplicationCommandOptionChoiceStructure[]> {
 
     if (input.length === 0) {
         const urbanOpt = await reddit.popularSubreddits();

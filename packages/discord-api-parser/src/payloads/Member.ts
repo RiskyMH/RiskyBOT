@@ -1,7 +1,8 @@
-import { APIGuildMember, APIInteractionDataResolvedGuildMember, APIInteractionGuildMember, CDNRoutes, ImageFormat, UserAvatarFormat } from "discord-api-types/v10";
 import Permissions from "../basic/Permissions.ts";
+import { type GuildMemberStructure } from "lilybird";
 import { DISCORD_CDN_BASE_URL } from "../constants.ts";
 import User from "./User.ts";
+import { DiscordCDNRoutes } from "@riskybot/tools";
 
 /** A guild member */
 export class GuildMember {
@@ -32,7 +33,7 @@ export class GuildMember {
     /** The member's user object */
     user?: User;
 
-    constructor(member: APIGuildMember, guildId: string, userId?: string) {
+    constructor(member: GuildMemberStructure, guildId: string, userId?: string) {
         this.guildId = guildId;
         this.userId = userId || member.user!.id;
         this.user = member.user ? new User(member.user) : undefined;
@@ -50,10 +51,10 @@ export class GuildMember {
     }
 
     /** The member's custom avatar in the guild (not to be confused with {@link User.avatarURL}) */
-    memberAvatarURL(config: { extension: UserAvatarFormat, size: number, animatedExtension?: UserAvatarFormat } = { extension: ImageFormat.GIF, size: 512, animatedExtension: ImageFormat.GIF }): string | null {
+    memberAvatarURL(config: { extension: string, size: number, animatedGif?: boolean } = { extension: "gif", size: 512, animatedGif: true }): string | null {
         if (!this.avatar) return null;
-        if (!this.avatar.startsWith("a_") && config.extension === ImageFormat.GIF) config.extension = ImageFormat.PNG;
-        return DISCORD_CDN_BASE_URL + CDNRoutes.guildMemberAvatar(this.guildId, this.userId, this.avatar, config.extension) + `?size=${config.size}`;
+        if (this.avatar.startsWith("a_") && config.animatedGif) config.extension = "gif";
+        return DISCORD_CDN_BASE_URL + DiscordCDNRoutes.guildMemberAvatar(this.guildId, this.userId, this.avatar, config.extension) + `?size=${config.size}`;
     }
 
 }
@@ -64,18 +65,20 @@ export class InteractionGuildMember extends GuildMember {
     /** The permissions the member has */
     permissions: Permissions;
 
-    constructor(member: APIInteractionGuildMember, guildId: string, userId?: string) {
+    constructor(member: GuildMemberStructure, guildId: string, userId?: string) {
         super(member, guildId, userId);
 
-        this.permissions = new Permissions(member.permissions);
+        this.permissions = new Permissions(member.permissions!);
     }
 
 }
 
+type InteractionDataResolvedGuildMemberStructure = Omit<GuildMemberStructure, "user" | "deaf" | "mute">;
+
 /** A guild member but from the resolved part of an interaction */
 export class InteractionDataResolvedGuildMember extends InteractionGuildMember {
 
-    constructor(member: APIInteractionDataResolvedGuildMember, guildId: string, userId: string) {
+    constructor(member: InteractionDataResolvedGuildMemberStructure, guildId: string, userId: string) {
         // @ts-expect-error: The types for this member is removing properties
         super(member, guildId, userId);
     }

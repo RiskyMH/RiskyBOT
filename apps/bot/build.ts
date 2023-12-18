@@ -1,5 +1,19 @@
 import { cpSync, renameSync } from "fs";
 
+
+// some packages should get `sideEffects: false` in their package.json forcefully
+const sideEffectsFalse = [
+    "lilybird"
+];
+
+for (const pkg of sideEffectsFalse) {
+    const pkgPath = "../../node_modules/" + pkg + "/package.json";
+    const pkgJson = await Bun.file(pkgPath).json();
+    pkgJson.sideEffects = false;
+    await Bun.write(pkgPath, JSON.stringify(pkgJson, null, 2));
+}
+
+// Actually build the files
 const nodeBuild = await Bun.build({
     entrypoints: [
         "./src/api/[bot].ts",
@@ -8,12 +22,13 @@ const nodeBuild = await Bun.build({
     outdir: "./.vercel/output/functions/api/[bot].func",
     // sourcemap: "inline",
     splitting: true,
-    // minify: true,
     external: ["@napi-rs/canvas-*"],
+    format: "esm",
 });
 
 if (!nodeBuild.success) {
-    throw nodeBuild;
+    console.log(nodeBuild);
+    throw nodeBuild.logs;
 }
 
 console.log(Bun.version, Bun.revision);
@@ -22,7 +37,7 @@ const NODE_FIX = "import { createRequire as createImportMetaRequire } from \"mod
 // Write output files
 for (const result of nodeBuild.outputs) {
     if (result.path.endsWith(".js")) {
-        const fileContent = ("console.time('init');\n"+NODE_FIX + await result.text()+"\nconsole.timeEnd('init');\n")
+        const fileContent = ("console.time('init');\n" + NODE_FIX + await result.text() + "\nconsole.timeEnd('init');\n")
             .replaceAll("(0, eval)", "eval");
 
         await Bun.write(result.path, fileContent);
@@ -36,7 +51,7 @@ renameSync("./.vercel/output/functions/api/[bot].func/[bot].js", "./.vercel/outp
 const glob = new Bun.Glob("@napi-rs/**/*{.node,package.json}");
 for await (const entry of glob.scan("../../node_modules")) {
     if (!entry.startsWith("@napi-rs/canvas-")) continue;
-    cpSync("../../node_modules/"+entry, "./.vercel/output/functions/api/[bot].func/node_modules/"+ entry, { recursive: true });
+    cpSync("../../node_modules/" + entry, "./.vercel/output/functions/api/[bot].func/node_modules/" + entry, { recursive: true });
 }
 
 // make other files for vercel build

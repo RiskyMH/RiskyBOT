@@ -16,11 +16,11 @@
     },
     "dependencies": {
         "@riskybot/error": "workspace:^",
-        "@sapphire/shapeshift": "^3.9.4",
-        "lru-cache": "^10.1.0"
+        "lru-cache": "^10.1.0",
+        "valibot": "^0.24.1"
     },
     "devDependencies": {
-        "eslint": "^8.55.0",
+        "eslint": "^8.56.0",
         "typescript": "^5.3.3"
     },
     "type": "module",

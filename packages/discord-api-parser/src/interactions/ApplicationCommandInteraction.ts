@@ -1,26 +1,26 @@
 /* eslint-disable @typescript-eslint/no-unsafe-declaration-merging */
-import type { APIApplicationCommandInteraction, ApplicationCommandType, InteractionType, LocaleString, Snowflake } from "discord-api-types/v10";
 import BaseInteraction from "./BaseInteraction.ts";
-import { InteractionResponseMixin, applyInteractionResponseMixins, createInteractionMixinList } from "./Response.ts";
+import { type InteractionResponseMixin, applyInteractionResponseMixins, createInteractionMixinList } from "./Response.ts";
+import type { InteractionType, ApplicationCommandType, Locale, ApplicationCommandInteractionStructure } from "lilybird";
 
 
 export default class ApplicationCommandInteraction extends BaseInteraction {
-    declare type: InteractionType.ApplicationCommand;
+    declare type: InteractionType.APPLICATION_COMMAND;
     /** The command's Id */
-    commandId: Snowflake;
+    commandId: string;
     /** The command's name */
     commandName: string;
     /** The type of command */
     commandType: ApplicationCommandType;
     /** If the command was a guild specific, that guild's id */
-    commandGuildId?: Snowflake;
+    commandGuildId?: string;
     /** The selected language of the invoking user */
-    locale: LocaleString;
+    locale: Locale;
 
-    constructor(interaction: APIApplicationCommandInteraction) {
+    constructor(interaction: ApplicationCommandInteractionStructure) {
         super(interaction);
 
-        this.commandId = interaction.data.id;
+        this.commandId = interaction.data!.id;
         this.commandName = interaction.data.name;
         this.commandType = interaction.data.type;
         this.commandGuildId = interaction.data.guild_id;

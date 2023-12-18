@@ -34,7 +34,7 @@ export default class CIFormat {
         },
     };
 
-    constructor({ initialMessage }: { initialMessage: string}) {
+    constructor({ initialMessage }: { initialMessage: string }) {
         console.log(initialMessage);
     }
 
@@ -45,7 +45,7 @@ export default class CIFormat {
         }
 
         // show the done stats 
-        const line = `Checked ${pc.bold(this.stats.completed.value)}/${this.stats.completed.max} ${this.stats.completed.name}. Found ${pc.bold(this.stats.errors)} errors and ${(this.stats.warnings)} warnings.`;
+        const line = `Checked ${pc.bold(this.stats.completed.value)}/${this.stats.completed.max} ${this.stats.completed.name}. Found ${pc.bold(this.stats.errors)} errors${this.stats.warnings > 0 ? ` and ${(this.stats.warnings)} warnings.` : "."}`;
         fancyPrint(pc.gray(line), aboveLine);
     }
 
@@ -57,7 +57,7 @@ export default class CIFormat {
             pc.gray(":") + pc.yellow(line) + pc.gray(":") + pc.yellow(column) + pc.gray(":"),
 
             // error
-            (type === "error" ? pc.red("error") :type === "warning" ? pc.yellow("warning") :  type) + pc.gray(":"),
+            (type === "error" ? pc.red("error") : type === "warning" ? pc.yellow("warning") : type) + pc.gray(":"),
 
             // Expected 0 arguments, but got 1.
             pc.bold(message),
@@ -69,7 +69,7 @@ export default class CIFormat {
         this.statsPrint(fullMessage);
 
         if (process.env.GITHUB_ACTIONS) {
-            const formatted = `::${type} file=${path},line=${line},col=${column}::${message} (${code})`
+            const formatted = `::${type} file=${path},line=${line},col=${column}::${message} (${code})`;
             console.log(formatted);
         }
 
@@ -86,7 +86,7 @@ export default class CIFormat {
     }
 
     public end() {
-        fancyPrint(`\n${pc.gray(`[${pc.bold(timeDiff(this.startTime) + "s")}]`)} Found ${pc.bold(this.stats.errors)} errors in ${pc.bold(this.stats.completed.max)} ${this.stats.completed.name}.\n`);
+        fancyPrint(`\n${pc.gray(`[${pc.bold(timeDiff(this.startTime) + "s")}]`)} Found ${pc.bold(this.stats.errors)} errors ${this.stats.warnings > 0 ? `and ${pc.bold(this.stats.warnings)} warnings ` : ""}in ${pc.bold(this.stats.completed.max)} ${this.stats.completed.name}.\n`);
         if (this.stats.errors > 0) {
             process.exit(2);
         }

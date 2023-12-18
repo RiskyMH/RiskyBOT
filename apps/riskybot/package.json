@@ -13,20 +13,20 @@
         "deploy-commands": "bun src/deploy-commands.ts"
     },
     "dependencies": {
-        "@discordjs/builders": "^1.7.0",
-        "@discordjs/formatters": "^0.3.3",
+        "@lilybird/jsx": "^0.1.1",
         "@riskybot/apis": "workspace:^",
+        "@riskybot/builders": "workspace:^",
         "@riskybot/command": "workspace:^",
         "@riskybot/image-generate": "workspace:^",
-        "@sapphire/shapeshift": "^3.9.4",
         "@sapphire/snowflake": "^3.5.2",
         "discord-api-parser": "workspace:^",
-        "discord-api-types": "^0.37.66",
-        "discord-verify": "^1.2.0"
+        "discord-verify": "^1.2.0",
+        "lilybird": "^0.3.1",
+        "valibot": "^0.24.1"
     },
     "devDependencies": {
-        "@types/node": "^20.10.4",
-        "eslint": "^8.55.0",
+        "@types/node": "^20.10.5",
+        "eslint": "^8.56.0",
         "typescript": "^5.3.3"
     },
     "type": "module",

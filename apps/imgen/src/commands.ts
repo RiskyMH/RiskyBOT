@@ -1,7 +1,7 @@
-import Affect from "./commands/affect.ts";
-import Cry from "./commands/cry.ts";
-import ImageFrom from "./commands/image-from.ts";
-import Ping from "./commands/ping.ts";
+import Affect from "./commands/affect.tsx";
+import Cry from "./commands/cry.tsx";
+import ImageFrom from "./commands/image-from.tsx";
+import Ping from "./commands/ping.tsx";
 import type { Command } from "@riskybot/command";
 
 export const commands: typeof Command[] = [

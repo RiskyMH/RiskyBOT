@@ -1,6 +1,5 @@
-import type { ComponentBuilder, EmbedBuilder, ModalBuilder } from "@discordjs/builders";
 import { DiscordSnowflake } from "@sapphire/snowflake";
-import { APIAllowedMentions, APIButtonComponent, APIEmbed, APIInteraction, APIModalInteractionResponseCallbackData, APISelectMenuComponent, ApplicationCommandType, ComponentType, InteractionType, LocaleString } from "discord-api-types/v10";
+import { InteractionType, ApplicationCommandType, ComponentType, type InteractionStructure, type GuildInteractionStructure, type DMApplicationCommandInteractionStructure, type EmbedStructure, type MessageComponentStructure, type AllowedMentionType, type Locale, type ModalCallbackDataStructure } from "lilybird";
 import { PartialChannel, Permissions } from "../index.ts";
 import { InteractionGuildMember } from "../payloads/Member.ts";
 import User from "../payloads/User.ts";
@@ -14,7 +13,7 @@ import type ModalSubmitInteraction from "./ModalSubmitInteraction.ts";
 import type SelectMenuInteraction from "./SelectMenuComponentInteraction.ts";
 import type UserCommandInteraction from "./UserCommandInteraction.ts";
 import type PingInteraction from "./PingInteraction.ts";
-import AttachmentBuilder from "../basic/AttachmentBuilder.ts";
+import type AttachmentBuilder from "../basic/AttachmentBuilder.ts";
 
 
 export default class BaseInteraction {
@@ -39,24 +38,26 @@ export default class BaseInteraction {
     /** Set of permissions the app or bot has within the channel the interaction was sent from */
     applicationPermissions?: Permissions;
     /** The guild's preferred locale */
-    guildLocale?: LocaleString;
+    guildLocale?: Locale;
 
-    constructor(interaction: APIInteraction) {
+    constructor(interaction: InteractionStructure) {
+        const interactionn = interaction as InteractionStructure & Partial<GuildInteractionStructure> & Partial<DMApplicationCommandInteractionStructure>;
 
         this.id = interaction.id;
         this.token = interaction.token;
 
         this.applicationId = interaction.application_id;
-        this.applicationPermissions = new Permissions(interaction.app_permissions ?? "0");
+        this.applicationPermissions = new Permissions(interactionn.app_permissions ?? "0");
 
-        this.channel = interaction.channel;
-        this.guildId = interaction.guild_id;
-        this.user = new User(interaction.user || interaction.member!.user);
+        // @ts-expect-error - some type issues
+        this.channel = new PartialChannel(interactionn.channel!);
+        this.guildId = interactionn.guild_id;
+        this.user = new User((interactionn.user || interactionn.member!.user)!);
         this.userId = this.user.id;
-        if (interaction.member && this.guildId) this.member = new InteractionGuildMember(interaction.member, this.guildId);
+        if (interactionn.member && this.guildId) this.member = new InteractionGuildMember(interactionn.member, this.guildId);
         this.type = interaction.type;
 
-        this.guildLocale = interaction.guild_locale;
+        this.guildLocale = interactionn.guild_locale;
 
     }
 
@@ -74,35 +75,35 @@ export default class BaseInteraction {
      * Indicates whether this interaction is a {@link ApplicationCommandInteraction}.
      */
     isApplicationCommand(): this is ApplicationCommandInteraction {
-        return this.type === InteractionType.ApplicationCommand;
+        return this.type === InteractionType.APPLICATION_COMMAND;
     }
 
     /**
      * Indicates whether this interaction is a {@link ChatInputInteraction}.
      */
     isChatInputCommand(): this is ChatInputInteraction {
-        return this.isApplicationCommand() && this.commandType === ApplicationCommandType.ChatInput;
+        return this.isApplicationCommand() && this.commandType === ApplicationCommandType.CHAT_INPUT;
     }
 
     /**
      * Indicates whether this interaction is a {@link UserCommandInteraction}.
      */
     isUserCommand(): this is UserCommandInteraction {
-        return this.isApplicationCommand() && this.commandType === ApplicationCommandType.User;
+        return this.isApplicationCommand() && this.commandType === ApplicationCommandType.USER;
     }
 
     /**
      * Indicates whether this interaction is a {@link MessageCommandInteraction}.
      */
     isMessageCommand(): this is MessageCommandInteraction {
-        return this.isApplicationCommand() && this.commandType === ApplicationCommandType.Message;
+        return this.isApplicationCommand() && this.commandType === ApplicationCommandType.MESSAGE;
     }
 
     /**
      * Indicates whether this interaction is a {@link MessageComponentInteraction}.
      */
     isMessageComponent(): this is MessageComponentInteraction {
-        return this.type === InteractionType.MessageComponent;
+        return this.type === InteractionType.MESSAGE_COMPONENT;
     }
 
     /**
@@ -129,21 +130,21 @@ export default class BaseInteraction {
      * Indicates whether this interaction is a {@link AutocompleteInteraction}.
      */
     isAutocomplete(): this is AutocompleteInteraction {
-        return this.type === InteractionType.ApplicationCommandAutocomplete;
+        return this.type === InteractionType.APPLICATION_COMMAND_AUTOCOMPLETE;
     }
 
     /**
      * Indicates whether this interaction is a {@link ModalSubmitInteraction}.
      */
     isModalSubmit(): this is ModalSubmitInteraction {
-        return this.type === InteractionType.ModalSubmit;
+        return this.type === InteractionType.MODAL_SUBMIT;
     }
 
     /**
      * Indicates whether this interaction is a {@link PingInteraction}.
      */
     isPingInteraction(): this is PingInteraction {
-        return this.type === InteractionType.Ping;
+        return this.type === InteractionType.PING;
     }
 
 }
@@ -152,15 +153,15 @@ export type InteractionResponseData = {
     /** The content of a message */
     content?: string,
     /** The embeds of a message */
-    embeds?: (APIEmbed | EmbedBuilder)[],
+    embeds?: (EmbedStructure)[],
     /** The components of a message */
-    components?: (APIButtonComponent | APISelectMenuComponent | ComponentBuilder)[]
+    components?: MessageComponentStructure[]
     /** Is the message ephemeral? */
     ephemeral?: boolean,
     /** Who can be mentioned? */
-    allowed_mentions?: APIAllowedMentions,
+    allowed_mentions?: AllowedMentionType,
     /** The attachments to send */
     attachments?: AttachmentBuilder[]
 };
 
-export type InteractionModalResponseData = APIModalInteractionResponseCallbackData | ModalBuilder;
+export type InteractionModalResponseData = ModalCallbackDataStructure;

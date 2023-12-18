@@ -1,6 +1,6 @@
-import { Interaction } from "discord-api-parser";
-import Command from "./Command.ts";
-import { InteractionType } from "discord-api-types/v10";
+import type { Interaction } from "discord-api-parser";
+import type Command from "./Command.ts";
+import { InteractionType } from "lilybird";
 
 
 export default function handleInteraction(interaction: Interaction, commands: Command[]) {
@@ -28,7 +28,7 @@ export default function handleInteraction(interaction: Interaction, commands: Co
     else if (interaction.isAutocomplete() && interaction.commandName) {
         console.info(`AUTOCOMPLETE: ${interaction.commandName}`);
     }
-    else if (interaction.type === InteractionType.Ping) {
+    else if (interaction.type === InteractionType.PING) {
         console.info("PING");
     }
     else {
@@ -45,14 +45,14 @@ export default function handleInteraction(interaction: Interaction, commands: Co
     }
 
     else if (interaction.isUserCommand()) {
-        const command = commands.find(command => command.userCommandName === interaction.commandName);
+        const command = commands.find(command => command.aliases?.includes(interaction.commandName));
         if (command) {
             return command.handleApplicationCommand(interaction);
         }
     }
 
     else if (interaction.isMessageCommand()) {
-        const command = commands.find(command => command.messageCommandName === interaction.commandName);
+        const command = commands.find(command => command.aliases?.includes(interaction.commandName));
         if (command) {
             return command.handleApplicationCommand(interaction);
         }
@@ -79,7 +79,7 @@ export default function handleInteraction(interaction: Interaction, commands: Co
         }
     }
 
-    else if (interaction.type === InteractionType.Ping) {
+    else if (interaction.type === InteractionType.PING) {
         // Nothing to do here
         return;
     }

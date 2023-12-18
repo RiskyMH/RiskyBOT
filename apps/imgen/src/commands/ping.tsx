@@ -1,15 +1,16 @@
-import { SlashCommandBuilder } from "@discordjs/builders";
+// @jsxImportSource @riskybot/builders
 import Command from "@riskybot/command";
-import { ApplicationCommandInteraction } from "discord-api-parser";
+import type { ApplicationCommandInteraction } from "discord-api-parser";
+import { ApplicationCommand } from "@lilybird/jsx";
 
 
 export default class Ping extends Command {
     override name = "ping";
     override description = "Why are you trying to ping me?";
 
-    override command = new SlashCommandBuilder()
-        .setName(this.name)
-        .setDescription(this.description);
+    override command = (
+        <ApplicationCommand name={this.name} description={this.description} />
+    );
 
     override async handleApplicationCommand(interaction: ApplicationCommandInteraction) {
         return interaction.reply({

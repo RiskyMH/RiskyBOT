@@ -1,6 +1,7 @@
-import { APIError } from "./global.ts";
-import { s } from "@sapphire/shapeshift";
+import { parseAPI } from "./global.ts";
 import { LRUCache } from "lru-cache";
+import { string, array } from "valibot";
+
 
 const googleTranslateAuthor = {
     name: "Google Translate",
@@ -25,27 +26,15 @@ export async function translate(content: string, to: string, from: string = "aut
     }
 
     const queryParams = new URLSearchParams({ sl: from, tl: to, q: content });
-    const result = await fetch(`https://translate.google.com/translate_a/t?client=dict-chrome-ex&${queryParams}`);
+    const translation = await parseAPI(`https://translate.google.com/translate_a/t?client=dict-chrome-ex&${queryParams}`, GoogleTranslateResultSchema, genericGoogleTranslateError);
 
-    if (!result.ok) {
-        throw new APIError(genericGoogleTranslateError, result, await result.text());
-    }
-
-    const data = await result.json() as [[string, string]];
-
-    const verify = rawGoogleTranslateResult.run(data);
-    if (verify.isErr() || !verify.value) {
-        throw new APIError(genericGoogleTranslateError, result, JSON.stringify(verify.error, null, 2));
-    }
-
-    // return verify.value;
-    const [[translatedText, language]] = verify.value;
+    const [[translatedText, language]] = translation;
 
     translateCache.set(`${from}-${to}-${encodeURIComponent(content)}`, { translatedText, language });
     return { translatedText, language };
 }
 
-const rawGoogleTranslateResult = s.array(s.array(s.string));
+const GoogleTranslateResultSchema = array(array(string()));
 
 export type Translation = {
     translatedText: string;

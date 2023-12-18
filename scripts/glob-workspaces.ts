@@ -1,10 +1,10 @@
-import rootPackageJSON from "../package.json"
+import rootPackageJSON from "../package.json";
 
 export function globWorkspaces() {
     // read root package.json to get paths
 
     const workspacesGlob = rootPackageJSON.workspaces;
-    const workspaces = new Set<string>()
+    const workspaces = new Set<string>();
     for (const glob of workspacesGlob) {
         // if it has a wildcard, glob it
         if (glob.includes("*")) {

@@ -1,13 +1,13 @@
 import { client } from "./main.ts";
-import { s } from "@sapphire/shapeshift";
+import { object, string, parse, optional } from "valibot";
 
-const envRequirements = s.object({
-    RISKYBOT_APPLICATION_CLIENT_SECRET: s.string,
-    RISKYBOT_APPLICATION_ID: s.string,
-    OWNER_GUILD_ID: s.string.optional,
+const EnvRequirementsSchema = object({
+    RISKYBOT_APPLICATION_CLIENT_SECRET: string(),
+    RISKYBOT_APPLICATION_ID: string(),
+    OWNER_GUILD_ID: optional(string()),
 });
 
-const env = envRequirements.parse(process.env);
+export const env = parse(EnvRequirementsSchema, process.env);
 
 client.deployCommands({
     applicationId: env.RISKYBOT_APPLICATION_ID,
