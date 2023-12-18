@@ -1,5 +1,5 @@
 import { addBasePath } from "next/dist/client/add-base-path";
-import { HTMLProps } from "react";
+import type { HTMLProps } from "react";
 
 export default function Logo(props: { variation?: "imgen" | "normal" } & HTMLProps<HTMLImageElement>) {
 	return (

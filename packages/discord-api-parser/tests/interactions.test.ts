@@ -46,6 +46,6 @@ describe("Chat input interaction", async () => {
         expect(interaction).toBeInstanceOf(ChatInputInteraction);
         expect(interaction).not.toBeInstanceOf(ButtonInteraction);
         // @ts-expect-error this is ensured above
-        expect(interaction.commandType).toBe(ApplicationCommandType.ChatInput);
+        expect(interaction.commandType).toBe(ApplicationCommandType.CHAT_INPUT);
     });
 });
