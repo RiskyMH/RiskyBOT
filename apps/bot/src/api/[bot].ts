@@ -1,17 +1,16 @@
 /* eslint-disable unicorn/no-abusive-eslint-disable */
 /* eslint-disable */
-
-import { handle as handleRiskyBot } from "@riskybot/riskybot";
-import { handle as handleImgen } from "@riskybot/imgen";
-import type { VercelRequest, VercelResponse } from "@vercel/node";
+// @ts-nocheck
 
 console.log("INTERACTION RECEIVED");
 
+import { handle as handleRiskyBot } from "@riskybot/riskybot";
+import { handle as handleImgen } from "@riskybot/imgen";
 
 
-export default async function handler(request: VercelRequest, response: VercelResponse) {
+export default async function handler(request, response) {
     console.time("Execute");
-    
+
     const { bot } = request.query;
     const req = await makeRequest(request);
 
@@ -31,7 +30,7 @@ export default async function handler(request: VercelRequest, response: VercelRe
 
 }
 
-async function makeRequest(req: VercelRequest): Promise<Request> {
+async function makeRequest(req): Promise<Request> {
     const { method, headers, body, url } = req;
     // TODO: implement query param
 
@@ -46,7 +45,7 @@ async function makeRequest(req: VercelRequest): Promise<Request> {
 }
 
 
-async function responseFn(res: VercelResponse, response: Response){
+async function responseFn(res, response: Response) {
     res.status(response.status);
     response.headers.forEach((value, key) => res.setHeader(key, value));
 

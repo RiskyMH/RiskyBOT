@@ -22,13 +22,13 @@ describe("Urban dictionary Autocomplete", async () => {
     it(`should get autocomplete results for "${validWord}" (length >= 1)`, async () => {
         const result = await urbanDictionary.autoComplete(validWord);
         expect(result).toBeTruthy();
-        expect(result?.length).toBeGreaterThanOrEqual(1);
+        expect(result.length).toBeGreaterThanOrEqual(1);
     });
 
     const invalidWord = "￼";
     it(`should NOT get autocomplete results for "${invalidWord}"`, async () => {
         const result = await urbanDictionary.autoComplete(invalidWord);
-        expect(result).toBeNull();
+        expect(result.length).toBe(0);
     });
 
 });

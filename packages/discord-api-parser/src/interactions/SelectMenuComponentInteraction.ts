@@ -8,7 +8,7 @@ export default class SelectMenuInteraction extends MessageComponentInteraction {
 
     constructor(interaction: MessageComponentInteractionStructure) {
         super(interaction);
-        this.values = interaction.data.values as unknown as string[];
+        this.values = interaction.data.values!;
     }
 
 }

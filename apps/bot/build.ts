@@ -1,4 +1,4 @@
-import { cpSync, renameSync } from "fs";
+import { renameSync } from "fs";
 
 
 // some packages should get `sideEffects: false` in their package.json forcefully
@@ -45,25 +45,37 @@ for (const result of nodeBuild.outputs) {
     }
 }
 
+
+//? ///////////////////////////// ?//
+//        Vercel build             //
+//---------------------------------//
+const baseOutput = "./.vercel/output";
+const baseApiFunc = baseOutput + "/functions/api/[bot].func";
+
 // rename the file to .mjs
-renameSync("./.vercel/output/functions/api/[bot].func/[bot].js", "./.vercel/output/functions/api/[bot].func/[bot].mjs");
+renameSync(`${baseApiFunc}/[bot].js`, `${baseApiFunc}/[bot].mjs`);
 
 // copy @napi-rs node_modules folder into "./.vercel/output/functions/api/[bot].func/"
 const glob = new Bun.Glob("@napi-rs/**/*{.node,package.json}");
 for await (const entry of glob.scan("../../node_modules")) {
     if (!entry.startsWith("@napi-rs/canvas-")) continue;
-    cpSync("../../node_modules/" + entry, "./.vercel/output/functions/api/[bot].func/node_modules/" + entry, { recursive: true });
+    await Bun.write(`${baseApiFunc}/node_modules/${entry}`, Bun.file("../../node_modules/" + entry));
+}
+
+// copy public into .vercel/output/static
+for await (const entry of new Bun.Glob("*").scan("./public")) {
+    await Bun.write(`${baseOutput}/static/${entry}`, Bun.file("./public/" + entry));
 }
 
 // make other files for vercel build
 const files = {
-    "./.vercel/output/functions/api/[bot].func/.vc-config.json": JSON.stringify({
+    [`${baseApiFunc}/.vc-config.json`]: JSON.stringify({
         runtime: "nodejs20.x",
         handler: "[bot].mjs",
         launcherType: "Nodejs",
         shouldAddHelpers: true
     }),
-    "./.vercel/output/config.json": JSON.stringify({
+    [`${baseOutput}/.config.json`]: JSON.stringify({
         version: 3,
         routes: [
             {

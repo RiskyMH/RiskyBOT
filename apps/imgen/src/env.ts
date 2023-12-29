@@ -1,7 +1,7 @@
 import { object, string, parse } from "valibot";
 
 const EnvRequirementsSchema = object({
-    IMGEN_APPLICATION_PUBLIC_KEY: string(),
+    IMGEN_APPLICATION_PUBLIC_KEY: string("Add the env var `IMGEN_APPLICATION_PUBLIC_KEY`"),
 });
 
 

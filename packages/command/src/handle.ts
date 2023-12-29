@@ -2,7 +2,6 @@ import type { Interaction } from "discord-api-parser";
 import type Command from "./Command.ts";
 import { InteractionType } from "lilybird";
 
-
 export default function handleInteraction(interaction: Interaction, commands: Command[]) {
     // Nothing really interesting, just to see what commands used
     if (interaction.isChatInputCommand() && interaction.commandName) {

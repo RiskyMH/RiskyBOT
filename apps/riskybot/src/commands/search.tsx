@@ -69,7 +69,7 @@ export default class Search extends Command {
                     >
                         <EmbedAuthor name="Urban Dictionary" url="https://www.urbandictionary.com/" icon_url="https://www.urbandictionary.com/apple-touch-icon.png" />
                         <EmbedFooter text={"Defined by: " + urbanChosen.author} />
-                        <EmbedField name="Stats" value={`👍${urbanChosen.thumbs_up} 👎${urbanChosen.thumbs_down}`} />
+                        <EmbedField name="Stats" value={`\`👍${urbanChosen.thumbs_up}\` \`👎${urbanChosen.thumbs_down}\``} />
                     </Embed>
                 );
 

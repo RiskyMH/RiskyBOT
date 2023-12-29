@@ -54,7 +54,7 @@ export async function define(term: string, cache = true): Promise<Definition | n
 // Queries stay queried for 1 hour
 const autoCompleteCache = new LRUCache<string, AutoComplete>({ max: 500, ttl: 1000 * 60 * 60 });
 
-export async function autoComplete(term: string, cache = true): Promise<AutoComplete | null | undefined> {
+export async function autoComplete(term: string, cache = true): Promise<AutoComplete> {
     if (cache) {
         const cached = autoCompleteCache.get(term);
         if (cached) {
@@ -65,19 +65,12 @@ export async function autoComplete(term: string, cache = true): Promise<AutoComp
     const searchParams = new URLSearchParams({ term });
     const result = await fetch(`${urbanBaseURL}/autocomplete?${searchParams}`);
 
-    if (result.status === 404) {
-        // No error because it's a 404
-        return null;
-    } else if (!result.ok) {
+    if (!result.ok) {
         throw new APIError(genericUrbanError, result, await result.text());
     }
-    const definition = await result.json() as RawAutoCompleteResult;
+    const words = await result.json() as RawAutoCompleteResult;
 
-    if (!definition || definition.length === 0) {
-        return null;
-    }
-
-    const parsed = safeParse(AutoCompleteResultSchema, definition);
+    const parsed = safeParse(AutoCompleteResultSchema, words);
 
     if (!parsed.success || parsed.issues) {
         throw new APIError(genericUrbanError, result, JSON.stringify(parsed.issues, null, 2));

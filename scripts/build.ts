@@ -1,6 +1,6 @@
 await Bun.build({
     entrypoints: ["./src/index.ts"],
-    target: "bun",
+    target: "node",
     outdir: "./dist",
     // sourcemap: "inline",
     splitting: true,
@@ -11,6 +11,7 @@ await Bun.build({
         "lilybird",
         "@lilybird/jsx",
         "@riskybot/tools",
+        "@riskybot/discord-types",
         "@riskybot/apis",
         "@riskybot/command", 
         "@riskybot/image-generate",
