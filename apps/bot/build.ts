@@ -75,7 +75,7 @@ const files = {
         launcherType: "Nodejs",
         shouldAddHelpers: true
     }),
-    [`${baseOutput}/.config.json`]: JSON.stringify({
+    [`${baseOutput}/config.json`]: JSON.stringify({
         version: 3,
         routes: [
             {
