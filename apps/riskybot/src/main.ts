@@ -22,7 +22,6 @@ export default async function handle(request: Request): Promise<Response> {
         return Response.json({ error: "Invalid headers and/or body" }, { status: 405 });
     }
 
-    // @ts-expect-error somethings wrong with types here
     if (!await verify(body, signature, timestamp, env.RISKYBOT_APPLICATION_PUBLIC_KEY, crypto.webcrypto.subtle)) {
         return Response.json({ error: "Bad request signature" }, { status: 401 });
     }

@@ -3,7 +3,7 @@
     "dependencies": {
         "@riskybot/imgen": "workspace:^",
         "@riskybot/riskybot": "workspace:^",
-        "lilybird": "^0.3.1",
+        "lilybird": "^0.4.0",
         "picocolors": "^1.0.0"
     },
     "scripts": {
@@ -11,7 +11,7 @@
     },
     "type": "module",
     "devDependencies": {
-        "@types/eslint": "^8.44.9",
-        "bun-types": "^1.0.18"
+        "@types/eslint": "^8.56.0",
+        "bun-types": "^1.0.20"
     }
 }

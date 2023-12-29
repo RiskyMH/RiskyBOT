@@ -17,9 +17,10 @@
     "dependencies": {
         "@riskybot/error": "workspace:^",
         "lru-cache": "^10.1.0",
-        "valibot": "^0.24.1"
+        "valibot": "^0.25.0"
     },
     "devDependencies": {
+        "bun-types": "^1.0.20",
         "eslint": "^8.56.0",
         "typescript": "^5.3.3"
     },

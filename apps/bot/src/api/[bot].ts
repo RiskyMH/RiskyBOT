@@ -35,9 +35,9 @@ async function makeRequest(req: VercelRequest): Promise<Request> {
     const { method, headers, body, url } = req;
     // TODO: implement query param
 
-    // @ts-expect-error scamming APIs to work... expected error
     const request = new Request("http://localhost" + url, {
         method,
+        // @ts-expect-error scamming APIs to work... expected error
         headers,
         body: body ? JSON.stringify(body) : undefined
     });

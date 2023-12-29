@@ -8,7 +8,7 @@
     "lint": "eslint **/*.ts  **/*.tsx"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.1",
+    "@emotion/react": "^11.11.3",
     "@skyra/discord-components-react": "^3.6.1",
     "next": "^14.0.4",
     "react": "^18.2.0",
@@ -18,11 +18,11 @@
   "devDependencies": {
     "@next/eslint-plugin-next": "^14.0.4",
     "@types/node": "^20.10.5",
-    "@types/react": "^18.2.45",
+    "@types/react": "^18.2.46",
     "@types/react-dom": "^18.2.18",
     "autoprefixer": "^10.4.16",
     "postcss": "^8.4.32",
-    "tailwindcss": "^3.3.6",
+    "tailwindcss": "^3.4.0",
     "typescript": "^5.3.3"
   }
 }

@@ -15,10 +15,13 @@ export interface WebsiteCommand {
 const jsonPath = "./apps/website/assets/commands.json";
 
 export default async function addCommandsToWebsite(bot: string) {
+    
+    // eslint-disable-next-line unicorn/no-await-expression-member
     const client = (await import(`../apps/${bot}/src/main.ts`)).client as Client;
     const commands = client.getAPICommands();
 
     // remove all commands that are from riskybot
+    // @ts-expect-error somehow types got removed
     const json = await Bun.file(jsonPath).json() as WebsiteCommand[];
 
     const JSONCommands = json.filter(c => c.bot !== bot);

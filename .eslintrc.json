@@ -63,6 +63,7 @@
         "unicorn/no-object-as-default-parameter": "off",
         // it doesn't like bun:test
         "unicorn/prefer-node-protocol": "off",
-        "@typescript-eslint/consistent-type-imports": "error"
+        "@typescript-eslint/consistent-type-imports": "error",
+        "no-await-expression-member": "off"
     }
 }

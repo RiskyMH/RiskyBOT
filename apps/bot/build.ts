@@ -8,6 +8,7 @@ const sideEffectsFalse = [
 
 for (const pkg of sideEffectsFalse) {
     const pkgPath = "../../node_modules/" + pkg + "/package.json";
+    // @ts-expect-error somehow types got removed
     const pkgJson = await Bun.file(pkgPath).json();
     pkgJson.sideEffects = false;
     await Bun.write(pkgPath, JSON.stringify(pkgJson, null, 2));

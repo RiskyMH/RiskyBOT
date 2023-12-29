@@ -19,7 +19,7 @@
     "dependencies": {
         "@riskybot/error": "workspace:^",
         "@riskybot/tools": "workspace:^",
-        "lilybird": "^0.3.1"
+        "lilybird": "^0.4.0"
     },
     "devDependencies": {
         "eslint": "^8.56.0",

@@ -16,8 +16,8 @@
         "test": "node --test"
     },
     "dependencies": {
-        "@lilybird/jsx": "^0.1.1",
-        "lilybird": "^0.3.1"
+        "@lilybird/jsx": "^0.2.0",
+        "lilybird": "^0.4.0"
     },
     "devDependencies": {
         "eslint": "^8.56.0",
