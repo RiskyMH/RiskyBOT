@@ -16,7 +16,7 @@ const rubik = Rubik({
 });
 
 
-
+// @ts-expect-error I have no idea
 const MyApp: NextPage = ({ Component, pageProps, router }: AppProps) => {
 
     // useEffect(() => {

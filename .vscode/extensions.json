@@ -8,6 +8,5 @@
         "aaron-bond.better-comments",
         "eg2.vscode-npm-script",
         "dbaeumer.vscode-eslint",
-        "redhat.vscode-yaml"
     ]
 }

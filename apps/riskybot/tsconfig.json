@@ -1,16 +1,24 @@
 {
     // Mapped from https://www.typescriptlang.org/tsconfig
     "extends": "../../tsconfig.json",
-    "include": [
-        "src/**/*"
-    ],
     "compilerOptions": {
         "outDir": "dist",
         "baseUrl": "src",
+        "types": [
+            "bun-types",
+            "@types/node"
+        ],
+        "allowImportingTsExtensions": true,
+        "noEmit": true,
         "paths": {
             "#*": [
                 "./*"
             ],
         },
-    }
+        "jsx": "react-jsx",
+        "jsxImportSource": "@riskybot/builders",
+    },
+    "include": [
+        "src/**/*"
+    ]
 }

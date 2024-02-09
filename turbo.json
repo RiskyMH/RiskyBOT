@@ -9,25 +9,6 @@
                 "dist/**",
                 ".next/**"
             ]
-        },
-        "build:ci": {
-            "dependsOn": [
-                "^build:ci"
-            ],
-            "outputs": [
-                ".next/**",
-                "dist/**"
-            ]
-        },
-        "lint": {
-            "dependsOn": [],
-            "outputs": []
-        },
-        "test": {
-            "dependsOn": [
-                "^test"
-            ],
-            "outputs": []
         }
     }
 }

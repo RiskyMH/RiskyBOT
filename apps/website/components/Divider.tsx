@@ -1,4 +1,4 @@
-export default function divider({ type, className = "" }) {
+export default function divider({ type, className = "" }: { type: "curveUp" | "curveDown"; className?: string }) {
 	if (type === "curveUp") {
 		return (
 			<svg

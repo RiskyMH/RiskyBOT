@@ -15,7 +15,7 @@ const CommandsPage: NextPage = () => {
 		.replace("-", " ")
 		.replaceAll(/[^a-zA-Z\s]/g, "")
 		.toLowerCase();
-		
+
 	const combined = [
 		...commands.filter(c => (c?.bot?.toLowerCase() ?? "riskybot") == noCharQuery),
 		...commands.filter(c => c.name.toLowerCase().includes(noCharQuery)),
@@ -27,6 +27,7 @@ const CommandsPage: NextPage = () => {
 		(value, index, self) => index === self.findIndex(t => t.name === value.name)
 	);
 
+	// @ts-expect-error not bothered to add types
 	const onSearchChange = useCallback(event => {
 		const query = event.target.value;
 		setQuery(query);

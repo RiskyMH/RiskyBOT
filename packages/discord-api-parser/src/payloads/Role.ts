@@ -1,0 +1,47 @@
+import type { RoleStructure, RoleTagsStructure } from "lilybird";
+import Permissions from "../basic/Permissions.ts";
+
+/** A role */
+export class Role {
+
+    /** Role id */
+    id: string;
+    /** Role name */
+    name: string;
+    /** Integer representation of hexadecimal color code */
+    color: number;
+    /** If this role is pinned in the user listing */
+    hoist: boolean;
+    /** The role icon hash */
+    icon?: string | null;
+    /** Whether this role is managed by an integration */
+    managed: boolean;
+    /** Whether this role is mentionable */
+    mentionable: boolean;
+    /** Permission bit set */
+    permissions: Permissions;
+    /** Position of this role */
+    position: number;
+    /** The tags this role has */
+    tags?: RoleTagsStructure;
+    /** The role unicode emoji as a standard emoji */
+    unicodeEmoji?: string | null;
+
+
+    constructor(role: RoleStructure) {
+        this.id = role.id;
+        this.name = role.name;
+        this.color = role.color;
+        this.hoist = role.hoist;
+        this.icon = role.icon;
+        this.managed = role.managed;
+        this.mentionable = role.mentionable;
+        this.permissions = new Permissions(role.permissions);
+        this.position = role.position;
+        this.tags = role.tags;
+        this.unicodeEmoji = role.unicode_emoji;
+
+    }
+}
+
+export default Role;

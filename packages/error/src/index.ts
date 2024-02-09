@@ -1,2 +1,2 @@
-export * from "./Error.mjs";
-export { default as default } from "./Error.mjs";
+export * from "./Error.ts";
+export { default as default } from "./Error.ts";
