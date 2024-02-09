@@ -18,15 +18,15 @@
         "@riskybot/builders": "workspace:^",
         "@riskybot/command": "workspace:^",
         "@riskybot/image-generate": "workspace:^",
-        "@sapphire/snowflake": "^3.5.2",
+        "@sapphire/snowflake": "^3.5.3",
         "discord-api-parser": "workspace:^",
         "discord-verify": "^1.2.0",
-        "lilybird": "^0.4.3",
-        "valibot": "^0.25.0"
+        "lilybird": "^0.4.4",
+        "valibot": "^0.28.1"
     },
     "devDependencies": {
-        "@types/node": "^20.10.6",
-        "bun-types": "^1.0.21",
+        "@types/node": "^20.11.17",
+        "bun-types": "^1.0.26",
         "eslint": "^8.56.0",
         "typescript": "^5.3.3"
     },
