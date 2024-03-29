@@ -22,7 +22,7 @@
         "discord-interactions": "^3.4.0",
         "discord-verify": "^1.2.0",
         "form-data": "^4.0.0",
-        "undici": "^6.6.2"
+        "undici": "^6.7.0"
     },
     "devDependencies": {
         "eslint": "^8.56.0",
