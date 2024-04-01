@@ -26,15 +26,15 @@
         "dev:bot": "yarn vercel dev"
     },
     "devDependencies": {
-        "@types/node": "^20.11.17",
-        "@typescript-eslint/eslint-plugin": "^6.21.0",
-        "@typescript-eslint/parser": "^6.21.0",
-        "@vercel/node": "^3.0.17",
-        "dotenv": "^16.4.1",
-        "eslint": "^8.56.0",
+        "@types/node": "^20.12.2",
+        "@typescript-eslint/eslint-plugin": "^7.4.0",
+        "@typescript-eslint/parser": "^7.4.0",
+        "@vercel/node": "^3.0.25",
+        "dotenv": "^16.4.5",
+        "eslint": "^8.57.0",
         "eslint-plugin-unicorn": "^51.0.1",
-        "turbo": "^1.12.3",
-        "typescript": "^5.3.3"
+        "turbo": "^1.13.0",
+        "typescript": "^5.4.3"
     },
     "packageManager": "yarn@4.0.2",
     "workspaces": [
