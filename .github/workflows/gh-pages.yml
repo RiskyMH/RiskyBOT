@@ -47,7 +47,7 @@ jobs:
 
    - name: Setup Pages
      id: pages
-     uses: actions/configure-pages@v4
+     uses: actions/configure-pages@v5
      with:
       static_site_generator: next
       generator_config_file: apps/website/next.config.js
