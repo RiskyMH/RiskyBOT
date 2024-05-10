@@ -24,7 +24,7 @@
         "discord-api-parser": "workspace:^",
         "discord-api-types": "^0.37.69",
         "glob": "^10.3.10",
-        "undici": "^6.6.2"
+        "undici": "^6.11.1"
     },
     "devDependencies": {
         "eslint": "^8.56.0",
