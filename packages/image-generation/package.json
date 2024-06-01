@@ -17,12 +17,12 @@
         "test": "node --test"
     },
     "dependencies": {
-        "@napi-rs/canvas": "0.1.45",
-        "undici": "^6.6.2"
+        "@napi-rs/canvas": "0.1.52",
+        "undici": "^6.18.2"
     },
     "devDependencies": {
-        "eslint": "^8.56.0",
-        "typescript": "^5.3.3"
+        "eslint": "^9.4.0",
+        "typescript": "^5.4.5"
     },
     "type": "module",
     "main": "./dist/index.mjs",
