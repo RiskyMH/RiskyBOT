@@ -17,8 +17,8 @@
         "test": "node --test"
     },
     "devDependencies": {
-        "eslint": "^8.56.0",
-        "typescript": "^5.3.3"
+        "eslint": "^9.6.0",
+        "typescript": "^5.5.2"
     },
     "type": "module",
     "main": "./dist/tools.mjs",
