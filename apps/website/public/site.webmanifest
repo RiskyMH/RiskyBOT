@@ -12,7 +12,7 @@
     "thumbnailUrl": "http://RiskyMH.github.io/RiskyBOT/robot.png",
     "theme_color": "#ED4245",
     "sameAs": [
-        "https://discord.com/api/oauth2/authorize?client_id=780657028695326720&scope=applications.commands",
+        "https://discord.com/oauth2/authorize?client_id=780657028695326720",
         "https://discord.gg/BanFeVWyFP",
         "https://github.com/RiskyMH/RiskyBOT"
 

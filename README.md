@@ -81,5 +81,5 @@ For more information see <https://bot.riskymh.dev/>
 
 Quick links:
 
-* Bot Invite: [https://discord.com/...](https://discord.com/api/oauth2/authorize?client_id=780657028695326720&scope=applications.commands)
+* Bot Invite: <https://discord.com/oauth2/authorize?client_id=780657028695326720>
 * Bot Server: <https://discord.gg/BanFeVWyFP>
