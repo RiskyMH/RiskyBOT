@@ -15,12 +15,12 @@ updates:
         patterns: 
           - "*" # everything
 
-  # Maintain dependencies for GitHub Actions
-  - package-ecosystem: "github-actions"
-    directory: "/"
-    schedule:
-      interval: "monthly"
-    groups:
-      dependencies:
-        patterns: 
-          - "*" # everything
+  # # Maintain dependencies for GitHub Actions
+  # - package-ecosystem: "github-actions"
+  #   directory: "/"
+  #   schedule:
+  #     interval: "monthly"
+  #   groups:
+  #     dependencies:
+  #       patterns: 
+  #         - "*" # everything
