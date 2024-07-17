@@ -15,6 +15,7 @@
         "sourceType": "module",
         "project": [
             "./tsconfig.json",
+            "./scripts/tsconfig.json",
             "./packages/*/tsconfig.json",
             "./apps/*/tsconfig.json"
         ]
@@ -59,6 +60,10 @@
         "unicorn/no-nested-ternary": "off",
         "unicorn/better-regex": "off",
         "unicorn/filename-case": "off",
-        "unicorn/no-object-as-default-parameter": "off"
+        "unicorn/no-object-as-default-parameter": "off",
+        // it doesn't like bun:test
+        "unicorn/prefer-node-protocol": "off",
+        "@typescript-eslint/consistent-type-imports": "error",
+        "no-await-expression-member": "off"
     }
 }

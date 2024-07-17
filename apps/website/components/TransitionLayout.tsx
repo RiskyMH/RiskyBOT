@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function TransitionLayout({ children, location }) {
+export default function TransitionLayout({ children, location }: { children: React.ReactNode; location: string }) {
 	const [currentRoute, setCurrentRoute] = useState(location);
 	const [displayChildren, setDisplayChildren] = useState(children);
 	const [transitionStage, setTransitionStage] = useState("fadeIn");

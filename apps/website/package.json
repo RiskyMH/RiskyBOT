@@ -4,14 +4,12 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "build:ci": "next build",
     "start": "next start",
     "lint": "eslint **/*.ts  **/*.tsx"
   },
   "dependencies": {
     "@emotion/react": "^11.11.3",
     "@skyra/discord-components-react": "^3.6.1",
-    "discord-api-types": "^0.37.69",
     "next": "^14.1.0",
     "react": "^18.2.0",
     "react-awesome-reveal": "^4.2.8",

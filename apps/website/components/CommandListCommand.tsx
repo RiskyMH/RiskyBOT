@@ -2,14 +2,24 @@ import { useCallback, useEffect, useRef } from "react";
 import Logo from "./Logo";
 import Link from "next/link";
 
+interface CommandListCommandProps {
+    name: string;
+    description: string;
+    options: {
+        name: string;
+        description: string;
+        required: boolean;
+    }[];
+    bot?: "riskybot" | "imgen" | string;
+}
 
-export default function CommandListCommand({ name, description, options, bot = "riskybot" }) {
-    const collapseElement = useRef(null);
+export default function CommandListCommand({ name, description, options, bot = "riskybot" }: CommandListCommandProps) {
+    const collapseElement = useRef<HTMLDivElement | null>(null);
 
     const collapseCommand = useCallback(() => {
         history.pushState({}, "", `#${name.replaceAll(" ", "-")}`);
         const elem = collapseElement.current;
-        elem.style.height = elem.clientHeight ? 0 : elem.scrollHeight + "px";
+        if (elem) elem.style.height = elem.clientHeight ? "0" : elem.scrollHeight + "px";
     }, [name]);
 
     useEffect(() => {

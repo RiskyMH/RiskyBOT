@@ -1,11 +1,15 @@
 {
     // Mapped from https://www.typescriptlang.org/tsconfig
     "extends": "../../tsconfig.json",
-    "include": ["api/**/*.mjs"],
     "compilerOptions": {
-        "declaration": true,
         "outDir": "dist",
-        "allowJs": true,
-        "checkJs": true
-    }
+        "baseUrl": ".",
+        "types": [
+            "bun-types"
+        ]
+    },
+    "include": [
+        "src/**/*",
+        "build.ts"
+    ]
 }

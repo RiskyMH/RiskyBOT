@@ -8,17 +8,17 @@ import Logo from "./Logo";
 import NavItem from "./NavItem";
 
 export default function Navbar() {
-	const collapseElement = useRef(null);
+	const collapseElement = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		window.addEventListener("click", e => collapseMenu(e, true));
 	}, []);
 
-	function collapseMenu(_, noOpen = false) {
+	function collapseMenu(_: unknown, noOpen = false) {
 		const elem = collapseElement.current;
 		if (!elem) return;
 		if (elem.clientHeight) {
-			elem.style.height = 0;
+			elem.style.height = "0";
 		} else if (!noOpen) {
 			elem.style.height = elem.scrollHeight + "px";
 		}
