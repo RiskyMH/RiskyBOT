@@ -17,13 +17,13 @@
     },
     "dependencies": {
         "@riskybot/error": "workspace:^",
-        "@sapphire/shapeshift": "^3.9.6",
-        "lru-cache": "^10.2.0",
-        "undici": "^6.6.2"
+        "@sapphire/shapeshift": "^4.0.0",
+        "lru-cache": "^11.0.0",
+        "undici": "^6.19.5"
     },
     "devDependencies": {
-        "eslint": "^8.56.0",
-        "typescript": "^5.3.3"
+        "eslint": "^9.8.0",
+        "typescript": "^5.5.4"
     },
     "type": "module",
     "main": "./dist/index.js",

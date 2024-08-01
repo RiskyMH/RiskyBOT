@@ -18,17 +18,17 @@
         "command-imports": "./dist/compile-imports.mjs"
     },
     "dependencies": {
-        "@discordjs/builders": "^1.7.0",
+        "@discordjs/builders": "^1.8.2",
         "@riskybot/error": "workspace:^",
         "@riskybot/tools": "workspace:^",
         "discord-api-parser": "workspace:^",
-        "discord-api-types": "^0.37.69",
-        "glob": "^10.3.10",
-        "undici": "^6.6.2"
+        "discord-api-types": "^0.37.93",
+        "glob": "^11.0.0",
+        "undici": "^6.19.5"
     },
     "devDependencies": {
-        "eslint": "^8.56.0",
-        "typescript": "^5.3.3"
+        "eslint": "^9.8.0",
+        "typescript": "^5.5.4"
     },
     "type": "module",
     "main": "./dist/index.js",
